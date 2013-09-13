@@ -1,0 +1,11 @@
+Source code
+===========
+
+This directory contains the source code of the simulator.
+It has two subdirectories:
+
+* **android**: source code of the Android version ([Eclipse][ec] project).
+* **pc**: source code of the PC version ([NetBeans][nb] project).
+
+[nb]: http://netbeans.org/ "NetBeans IDE"
+[ec]: http://www.eclipse.org/ "Eclipse IDE"
