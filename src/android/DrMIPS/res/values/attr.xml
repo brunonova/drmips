@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Icons -->
+    <attr name="fileIcon" format="reference" />
+    <attr name="newIcon" format="reference" />
+    <attr name="openIcon" format="reference" />
+    <attr name="saveIcon" format="reference" />
+    <attr name="saveAsIcon" format="reference" />
+    <attr name="deleteIcon" format="reference" />
+    <attr name="assembleIcon" format="reference" />
+    <attr name="stepIcon" format="reference" />
+    <attr name="backstepIcon" format="reference" />
+    <attr name="loadIcon" format="reference" />
+    <attr name="aboutIcon" format="reference" />
+    <attr name="prefsIcon" format="reference" />
+    <attr name="themeIcon" format="reference" />
+    <attr name="restartIcon" format="reference" />
+    <attr name="runIcon" format="reference" />
+    <attr name="helpIcon" format="reference" />
+    
+    <attr name="wireColor" format="color|reference" />
+    <attr name="aux_comp_back" format="reference" />
+</resources>

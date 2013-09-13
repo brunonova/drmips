@@ -1,0 +1,2432 @@
+/*
+    DrMIPS - Educational MIPS simulator
+    Copyright (C) 2013 Bruno Nova <ei08109@fe.up.pt>
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+package org.feup.brunonova.drmips.gui;
+import java.awt.BorderLayout;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.text.MessageFormat;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JInternalFrame;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import org.feup.brunonova.drmips.exceptions.InfiniteLoopException;
+import org.feup.brunonova.drmips.exceptions.InvalidCPUException;
+import org.feup.brunonova.drmips.exceptions.InvalidInstructionSetException;
+import org.feup.brunonova.drmips.exceptions.SyntaxErrorException;
+import org.feup.brunonova.drmips.mips.CPU;
+import org.fife.ui.rtextarea.SearchContext;
+import org.fife.ui.rtextarea.SearchEngine;
+import org.json.JSONException;
+
+/**
+ * Main simulator window.
+ * 
+ * @author Bruno Nova
+ */
+public class FrmSimulator extends javax.swing.JFrame {
+	/** The currently loaded CPU. */
+	public CPU cpu = null;
+	/** The file chooser to choose a CPU file. */
+	private JFileChooser cpuFileChooser = null;
+	/** The file chooser to open/save a code file. */
+	private JFileChooser codeFileChooser = null;
+	/** The file filter of the open/save file chooser. */
+	private FileNameExtensionFilter codeFileFilter = null;
+	/** The file currently open (if <tt>null</tt> no file is open). */
+	private File openFile = null;
+	/** The window icon (in different sizes). */
+	private List<Image> icons = null;
+	/** The code editor component. */
+	private CodeEditor txtCode = null;
+	/** The find/replace dialog. */
+	private DlgFindReplace dlgFindReplace = null;
+	/** The selected tab when it was right-clicked. */
+	private Tab selectedTab = null;
+	
+	/** Information of the code tab. */
+	private Tab tabCode;
+	/** Information of the datapath tab. */
+	private Tab tabDatapath;
+	/** Information of the registers tab. */
+	private Tab tabRegisters;
+	/** Information of the assembled code tab. */
+	private Tab tabAssembledCode;
+	/** Information of the data memory tab. */
+	private Tab tabDataMemory;
+	
+	/**
+	 * Creates new form FrmSimulator.
+	 */
+	public FrmSimulator() {
+		obtainIcons();
+		initComponents();
+		if(DrMIPS.prefs.getInt(DrMIPS.DIVIDER_LOCATION_PREF, -1) != -1)
+			pnlSplit.setDividerLocation(DrMIPS.prefs.getInt(DrMIPS.DIVIDER_LOCATION_PREF, -1));
+		pnlCode.add((txtCode = new CodeEditor(mnuEditP)).getScrollPane());
+		dlgFindReplace = new DlgFindReplace(this);
+		refreshTabSides();
+		updateRecentFiles();
+		loadFirstCPU();
+		translate();
+		fillLanguages();
+		txtCode.requestFocus();
+		txtCode.getDocument().addDocumentListener(new CodeEditorDocumentListener());
+		
+		frmCode.setFrameIcon(new ImageIcon(getClass().getResource("/res/icons/icon_xsmall.png")));
+		frmDatapath.setFrameIcon(new ImageIcon(getClass().getResource("/res/icons/icon_xsmall.png")));
+		frmRegisters.setFrameIcon(new ImageIcon(getClass().getResource("/res/icons/icon_xsmall.png")));
+		frmAssembledCode.setFrameIcon(new ImageIcon(getClass().getResource("/res/icons/icon_xsmall.png")));
+		frmDataMemory.setFrameIcon(new ImageIcon(getClass().getResource("/res/icons/icon_xsmall.png")));
+
+		mnuResetDataBeforeAssembling.setSelected(DrMIPS.prefs.getBoolean(DrMIPS.ASSEMBLE_RESET_PREF, DrMIPS.DEFAULT_ASSEMBLE_RESET));
+		mnuSwitchTheme.setSelected(DrMIPS.prefs.getBoolean(DrMIPS.DARK_THEME_PREF, DrMIPS.DEFAULT_DARK_THEME));
+		mnuInternalWindows.setSelected(DrMIPS.prefs.getBoolean(DrMIPS.INTERNAL_WINDOWS_PREF, DrMIPS.DEFAULT_INTERNAL_WINDOWS));
+		if(mnuInternalWindows.isSelected()) switchToInternalWindows();
+		mnuControlPath.setSelected(DrMIPS.prefs.getBoolean(DrMIPS.SHOW_CONTROL_PATH_PREF, DrMIPS.DEFAULT_SHOW_CONTROL_PATH));
+		datapath.setControlPathVisible(mnuControlPath.isSelected());
+		mnuArrowsInWires.setSelected(DrMIPS.prefs.getBoolean(DrMIPS.SHOW_ARROWS_PREF, DrMIPS.DEFAULT_SHOW_ARROWS));
+		datapath.setShowArrows(mnuArrowsInWires.isSelected());
+		mnuPerformanceMode.setSelected(DrMIPS.prefs.getBoolean(DrMIPS.PERFORMANCE_MODE_PREF, DrMIPS.DEFAULT_PERFORMANCE_MODE));
+		datapath.setPerformanceMode(mnuPerformanceMode.isSelected());
+		lblDatapathDataFormat.setEnabled(!mnuPerformanceMode.isSelected());
+		cmbDatapathDataFormat.setEnabled(!mnuPerformanceMode.isSelected());
+		mnuOverlayedData.setSelected(DrMIPS.prefs.getBoolean(DrMIPS.OVERLAYED_DATA_PREF, DrMIPS.DEFAULT_OVERLAYED_DATA));
+		datapath.setShowTips(mnuOverlayedData.isSelected());
+		mnuOverlayedData.setEnabled(!mnuPerformanceMode.isSelected());
+		refreshDatapathHelp();
+	}
+	
+	/**
+	 * Creates new form FrmSimulator and loads the code from the given file.
+	 * @param filename The path to the file.
+	 */
+	public FrmSimulator(String filename) {
+		this();
+		openFile(filename);
+	}
+	
+	/**
+	 * Obtains the icon (in different sizes) for the window.
+	 */
+	private void obtainIcons() {
+		icons = new LinkedList<Image>();
+		icons.add((new ImageIcon(getClass().getResource("/res/icons/icon_xsmall.png"))).getImage());
+		icons.add((new ImageIcon(getClass().getResource("/res/icons/icon_small.png"))).getImage());
+		icons.add((new ImageIcon(getClass().getResource("/res/icons/icon_medium.png"))).getImage());
+		icons.add((new ImageIcon(getClass().getResource("/res/icons/icon_large.png"))).getImage());
+		icons.add((new ImageIcon(getClass().getResource("/res/icons/icon_xlarge.png"))).getImage());
+	}
+
+	/**
+	 * This method is called from within the constructor to initialize the form.
+	 * WARNING: Do NOT modify this code. The content of this method is always
+	 * regenerated by the Form Editor.
+	 */
+	@SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        grpLanguages = new javax.swing.ButtonGroup();
+        mnuEditP = new javax.swing.JPopupMenu();
+        mnuUndoP = new javax.swing.JMenuItem();
+        mnuRedoP = new javax.swing.JMenuItem();
+        jSeparator7 = new javax.swing.JPopupMenu.Separator();
+        mnuCutP = new javax.swing.JMenuItem();
+        mnuCopyP = new javax.swing.JMenuItem();
+        mnuPasteP = new javax.swing.JMenuItem();
+        jSeparator8 = new javax.swing.JPopupMenu.Separator();
+        mnuSelectAllP = new javax.swing.JMenuItem();
+        mnuFindReplaceP = new javax.swing.JMenuItem();
+        mnuTabSide = new javax.swing.JPopupMenu();
+        mnuSwitchSide = new javax.swing.JMenuItem();
+        desktop = new javax.swing.JDesktopPane();
+        frmCode = new javax.swing.JInternalFrame();
+        frmAssembledCode = new javax.swing.JInternalFrame();
+        frmDatapath = new javax.swing.JInternalFrame();
+        frmRegisters = new javax.swing.JInternalFrame();
+        frmDataMemory = new javax.swing.JInternalFrame();
+        pnlToolBar = new javax.swing.JToolBar();
+        cmdNew = new javax.swing.JButton();
+        cmdOpen = new javax.swing.JButton();
+        cmdSave = new javax.swing.JButton();
+        cmdSaveAs = new javax.swing.JButton();
+        jSeparator4 = new javax.swing.JToolBar.Separator();
+        cmdAssemble = new javax.swing.JButton();
+        cmdRestart = new javax.swing.JButton();
+        cmdBackStep = new javax.swing.JButton();
+        cmdStep = new javax.swing.JButton();
+        cmdRun = new javax.swing.JButton();
+        pnlSplit = new javax.swing.JSplitPane();
+        pnlLeft = new javax.swing.JTabbedPane();
+        pnlCode = new javax.swing.JPanel();
+        pnlAssembledCode = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tblAssembledCode = new org.feup.brunonova.drmips.gui.AssembledCodeTable();
+        jPanel3 = new javax.swing.JPanel();
+        lblAssembledCodeFormat = new javax.swing.JLabel();
+        cmbAssembledCodeFormat = new javax.swing.JComboBox();
+        pnlDatapath = new javax.swing.JPanel();
+        tblExec = new org.feup.brunonova.drmips.gui.ExecTable();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        datapath = new org.feup.brunonova.drmips.gui.DatapathPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        lblDatapathDataFormat = new javax.swing.JLabel();
+        cmbDatapathDataFormat = new javax.swing.JComboBox();
+        lblFile = new javax.swing.JLabel();
+        lblFileName = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        lblDatapathHelp = new javax.swing.JLabel();
+        pnlDataMemory = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tblDataMemory = new org.feup.brunonova.drmips.gui.DataMemoryTable();
+        jPanel4 = new javax.swing.JPanel();
+        lblDataMemoryFormat = new javax.swing.JLabel();
+        cmbDataMemoryFormat = new javax.swing.JComboBox();
+        pnlRight = new javax.swing.JTabbedPane();
+        pnlRegisters = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        lblRegFormat = new javax.swing.JLabel();
+        cmbRegFormat = new javax.swing.JComboBox();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblRegisters = new org.feup.brunonova.drmips.gui.RegistersTable();
+        mnuBar = new javax.swing.JMenuBar();
+        mnuFile = new javax.swing.JMenu();
+        mnuNew = new javax.swing.JMenuItem();
+        mnuOpen = new javax.swing.JMenuItem();
+        mnuOpenRecent = new javax.swing.JMenu();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        mnuSave = new javax.swing.JMenuItem();
+        mnuSaveAs = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        mnuPrint = new javax.swing.JMenuItem();
+        jSeparator9 = new javax.swing.JPopupMenu.Separator();
+        mnuExit = new javax.swing.JMenuItem();
+        mnuView = new javax.swing.JMenu();
+        mnuSwitchTheme = new javax.swing.JCheckBoxMenuItem();
+        mnuInternalWindows = new javax.swing.JCheckBoxMenuItem();
+        jSeparator11 = new javax.swing.JPopupMenu.Separator();
+        mnuLanguage = new javax.swing.JMenu();
+        mnuEdit = new javax.swing.JMenu();
+        mnuUndo = new javax.swing.JMenuItem();
+        mnuRedo = new javax.swing.JMenuItem();
+        jSeparator5 = new javax.swing.JPopupMenu.Separator();
+        mnuCut = new javax.swing.JMenuItem();
+        mnuCopy = new javax.swing.JMenuItem();
+        mnuPaste = new javax.swing.JMenuItem();
+        jSeparator6 = new javax.swing.JPopupMenu.Separator();
+        mnuSelectAll = new javax.swing.JMenuItem();
+        mnuFindReplace = new javax.swing.JMenuItem();
+        mnuDatapath = new javax.swing.JMenu();
+        mnuPerformanceMode = new javax.swing.JCheckBoxMenuItem();
+        mnuControlPath = new javax.swing.JCheckBoxMenuItem();
+        mnuArrowsInWires = new javax.swing.JCheckBoxMenuItem();
+        mnuOverlayedData = new javax.swing.JCheckBoxMenuItem();
+        jSeparator14 = new javax.swing.JPopupMenu.Separator();
+        mnuResetLatencies = new javax.swing.JMenuItem();
+        mnuExecute = new javax.swing.JMenu();
+        mnuAssemble = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
+        mnuRestart = new javax.swing.JMenuItem();
+        mnuBackStep = new javax.swing.JMenuItem();
+        mnuStep = new javax.swing.JMenuItem();
+        mnuRun = new javax.swing.JMenuItem();
+        jSeparator10 = new javax.swing.JPopupMenu.Separator();
+        mnuResetDataBeforeAssembling = new javax.swing.JCheckBoxMenuItem();
+        mnuCPU = new javax.swing.JMenu();
+        mnuLoadCPU = new javax.swing.JMenuItem();
+        mnuLoadRecentCPU = new javax.swing.JMenu();
+        mnuHelp = new javax.swing.JMenu();
+        mnuAbout = new javax.swing.JMenuItem();
+
+        mnuEditP.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+                mnuEditPPopupMenuWillBecomeVisible(evt);
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+        });
+
+        mnuUndoP.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_MASK));
+        mnuUndoP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/edit-undo.png"))); // NOI18N
+        mnuUndoP.setText("undo");
+        mnuUndoP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuUndoPActionPerformed(evt);
+            }
+        });
+        mnuEditP.add(mnuUndoP);
+
+        mnuRedoP.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_MASK));
+        mnuRedoP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/edit-redo.png"))); // NOI18N
+        mnuRedoP.setText("redo");
+        mnuRedoP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuRedoPActionPerformed(evt);
+            }
+        });
+        mnuEditP.add(mnuRedoP);
+        mnuEditP.add(jSeparator7);
+
+        mnuCutP.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
+        mnuCutP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/edit-cut.png"))); // NOI18N
+        mnuCutP.setText("cut");
+        mnuCutP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuCutPActionPerformed(evt);
+            }
+        });
+        mnuEditP.add(mnuCutP);
+
+        mnuCopyP.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+        mnuCopyP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/edit-copy.png"))); // NOI18N
+        mnuCopyP.setText("copy");
+        mnuCopyP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuCopyPActionPerformed(evt);
+            }
+        });
+        mnuEditP.add(mnuCopyP);
+
+        mnuPasteP.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_MASK));
+        mnuPasteP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/edit-paste.png"))); // NOI18N
+        mnuPasteP.setText("paste");
+        mnuPasteP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuPastePActionPerformed(evt);
+            }
+        });
+        mnuEditP.add(mnuPasteP);
+        mnuEditP.add(jSeparator8);
+
+        mnuSelectAllP.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+        mnuSelectAllP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/edit-select-all.png"))); // NOI18N
+        mnuSelectAllP.setText("select_all");
+        mnuSelectAllP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuSelectAllPActionPerformed(evt);
+            }
+        });
+        mnuEditP.add(mnuSelectAllP);
+
+        mnuFindReplaceP.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
+        mnuFindReplaceP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/preview-file.png"))); // NOI18N
+        mnuFindReplaceP.setText("find_replace");
+        mnuFindReplaceP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuFindReplacePActionPerformed(evt);
+            }
+        });
+        mnuEditP.add(mnuFindReplaceP);
+
+        mnuSwitchSide.setText("jMenuItem1");
+        mnuSwitchSide.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuSwitchSideActionPerformed(evt);
+            }
+        });
+        mnuTabSide.add(mnuSwitchSide);
+
+        frmCode.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        frmCode.setIconifiable(true);
+        frmCode.setMaximizable(true);
+        frmCode.setResizable(true);
+        frmCode.setVisible(true);
+        frmCode.setBounds(0, 0, 68, 32);
+        desktop.add(frmCode, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        frmAssembledCode.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        frmAssembledCode.setIconifiable(true);
+        frmAssembledCode.setMaximizable(true);
+        frmAssembledCode.setResizable(true);
+        frmAssembledCode.setVisible(true);
+        frmAssembledCode.setBounds(0, 0, 68, 32);
+        desktop.add(frmAssembledCode, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        frmDatapath.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        frmDatapath.setIconifiable(true);
+        frmDatapath.setMaximizable(true);
+        frmDatapath.setResizable(true);
+        frmDatapath.setVisible(true);
+        frmDatapath.setBounds(0, 0, 68, 32);
+        desktop.add(frmDatapath, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        frmRegisters.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        frmRegisters.setIconifiable(true);
+        frmRegisters.setMaximizable(true);
+        frmRegisters.setResizable(true);
+        frmRegisters.setVisible(true);
+        frmRegisters.setBounds(0, 0, 68, 32);
+        desktop.add(frmRegisters, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        frmDataMemory.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        frmDataMemory.setIconifiable(true);
+        frmDataMemory.setMaximizable(true);
+        frmDataMemory.setResizable(true);
+        frmDataMemory.setVisible(true);
+        frmDataMemory.setBounds(0, 0, 68, 32);
+        desktop.add(frmDataMemory, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle(DrMIPS.PROGRAM_NAME);
+        setExtendedState(MAXIMIZED_BOTH);
+        setIconImages(icons);
+        setMinimumSize(new java.awt.Dimension(600, 400));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
+
+        pnlToolBar.setRollover(true);
+
+        cmdNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x24/document-new.png"))); // NOI18N
+        cmdNew.setFocusable(false);
+        cmdNew.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        cmdNew.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        cmdNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdNewActionPerformed(evt);
+            }
+        });
+        pnlToolBar.add(cmdNew);
+
+        cmdOpen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x24/document-open.png"))); // NOI18N
+        cmdOpen.setFocusable(false);
+        cmdOpen.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        cmdOpen.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        cmdOpen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdOpenActionPerformed(evt);
+            }
+        });
+        pnlToolBar.add(cmdOpen);
+
+        cmdSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x24/document-save.png"))); // NOI18N
+        cmdSave.setToolTipText("");
+        cmdSave.setFocusable(false);
+        cmdSave.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        cmdSave.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        cmdSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdSaveActionPerformed(evt);
+            }
+        });
+        pnlToolBar.add(cmdSave);
+
+        cmdSaveAs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x24/document-save-as.png"))); // NOI18N
+        cmdSaveAs.setFocusable(false);
+        cmdSaveAs.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        cmdSaveAs.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        cmdSaveAs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdSaveAsActionPerformed(evt);
+            }
+        });
+        pnlToolBar.add(cmdSaveAs);
+        pnlToolBar.add(jSeparator4);
+
+        cmdAssemble.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x24/document-properties.png"))); // NOI18N
+        cmdAssemble.setFocusable(false);
+        cmdAssemble.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        cmdAssemble.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        cmdAssemble.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdAssembleActionPerformed(evt);
+            }
+        });
+        pnlToolBar.add(cmdAssemble);
+
+        cmdRestart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x24/go-first.png"))); // NOI18N
+        cmdRestart.setEnabled(false);
+        cmdRestart.setFocusable(false);
+        cmdRestart.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        cmdRestart.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        cmdRestart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdRestartActionPerformed(evt);
+            }
+        });
+        pnlToolBar.add(cmdRestart);
+
+        cmdBackStep.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x24/go-previous.png"))); // NOI18N
+        cmdBackStep.setEnabled(false);
+        cmdBackStep.setFocusable(false);
+        cmdBackStep.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        cmdBackStep.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        cmdBackStep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdBackStepActionPerformed(evt);
+            }
+        });
+        pnlToolBar.add(cmdBackStep);
+
+        cmdStep.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x24/go-next.png"))); // NOI18N
+        cmdStep.setEnabled(false);
+        cmdStep.setFocusable(false);
+        cmdStep.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        cmdStep.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        cmdStep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdStepActionPerformed(evt);
+            }
+        });
+        pnlToolBar.add(cmdStep);
+
+        cmdRun.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x24/media-playback-start.png"))); // NOI18N
+        cmdRun.setEnabled(false);
+        cmdRun.setFocusable(false);
+        cmdRun.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        cmdRun.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        cmdRun.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdRunActionPerformed(evt);
+            }
+        });
+        pnlToolBar.add(cmdRun);
+
+        getContentPane().add(pnlToolBar, java.awt.BorderLayout.NORTH);
+
+        pnlSplit.setResizeWeight(1.0);
+        pnlSplit.setOneTouchExpandable(true);
+
+        pnlLeft.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
+        pnlLeft.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlLeftMouseClicked(evt);
+            }
+        });
+
+        pnlCode.setLayout(new java.awt.BorderLayout());
+        pnlLeft.addTab("code", pnlCode);
+
+        pnlAssembledCode.setLayout(new java.awt.BorderLayout());
+
+        jScrollPane4.setViewportView(tblAssembledCode);
+
+        pnlAssembledCode.add(jScrollPane4, java.awt.BorderLayout.CENTER);
+
+        jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        lblAssembledCodeFormat.setLabelFor(cmbAssembledCodeFormat);
+        lblAssembledCodeFormat.setText("format:");
+        jPanel3.add(lblAssembledCodeFormat);
+
+        cmbAssembledCodeFormat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbAssembledCodeFormatActionPerformed(evt);
+            }
+        });
+        jPanel3.add(cmbAssembledCodeFormat);
+
+        pnlAssembledCode.add(jPanel3, java.awt.BorderLayout.SOUTH);
+
+        pnlLeft.addTab("assembled_code", pnlAssembledCode);
+
+        pnlDatapath.setLayout(new java.awt.BorderLayout());
+        pnlDatapath.add(tblExec, java.awt.BorderLayout.NORTH);
+
+        jScrollPane1.setViewportView(datapath);
+
+        pnlDatapath.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        jPanel2.setLayout(new java.awt.BorderLayout());
+
+        jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        lblDatapathDataFormat.setLabelFor(cmbDatapathDataFormat);
+        lblDatapathDataFormat.setText("format:");
+        jPanel5.add(lblDatapathDataFormat);
+
+        cmbDatapathDataFormat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbDatapathDataFormatActionPerformed(evt);
+            }
+        });
+        jPanel5.add(cmbDatapathDataFormat);
+
+        lblFile.setText("file:");
+        jPanel5.add(lblFile);
+
+        lblFileName.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        lblFileName.setText("filename");
+        jPanel5.add(lblFileName);
+
+        jPanel2.add(jPanel5, java.awt.BorderLayout.WEST);
+
+        jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 0));
+
+        lblDatapathHelp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x24/help-contents.png"))); // NOI18N
+        jPanel6.add(lblDatapathHelp);
+
+        jPanel2.add(jPanel6, java.awt.BorderLayout.EAST);
+
+        pnlDatapath.add(jPanel2, java.awt.BorderLayout.SOUTH);
+
+        pnlLeft.addTab("datapath", pnlDatapath);
+
+        pnlDataMemory.setLayout(new java.awt.BorderLayout());
+
+        jScrollPane5.setViewportView(tblDataMemory);
+
+        pnlDataMemory.add(jScrollPane5, java.awt.BorderLayout.CENTER);
+
+        jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        lblDataMemoryFormat.setLabelFor(cmbDataMemoryFormat);
+        lblDataMemoryFormat.setText("format:");
+        jPanel4.add(lblDataMemoryFormat);
+
+        cmbDataMemoryFormat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbDataMemoryFormatActionPerformed(evt);
+            }
+        });
+        jPanel4.add(cmbDataMemoryFormat);
+
+        pnlDataMemory.add(jPanel4, java.awt.BorderLayout.SOUTH);
+
+        pnlLeft.addTab("data_memory", pnlDataMemory);
+
+        pnlSplit.setLeftComponent(pnlLeft);
+
+        pnlRight.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
+        pnlRight.setMinimumSize(new java.awt.Dimension(200, 71));
+        pnlRight.setPreferredSize(new java.awt.Dimension(200, 452));
+        pnlRight.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlRightMouseClicked(evt);
+            }
+        });
+
+        pnlRegisters.setMinimumSize(new java.awt.Dimension(200, 46));
+        pnlRegisters.setPreferredSize(new java.awt.Dimension(200, 427));
+        pnlRegisters.setLayout(new java.awt.BorderLayout());
+
+        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        lblRegFormat.setLabelFor(cmbRegFormat);
+        lblRegFormat.setText("format:");
+        jPanel1.add(lblRegFormat);
+
+        cmbRegFormat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbRegFormatActionPerformed(evt);
+            }
+        });
+        jPanel1.add(cmbRegFormat);
+
+        pnlRegisters.add(jPanel1, java.awt.BorderLayout.SOUTH);
+
+        jScrollPane3.setViewportView(tblRegisters);
+
+        pnlRegisters.add(jScrollPane3, java.awt.BorderLayout.CENTER);
+
+        pnlRight.addTab("registers", pnlRegisters);
+
+        pnlSplit.setRightComponent(pnlRight);
+
+        getContentPane().add(pnlSplit, java.awt.BorderLayout.CENTER);
+
+        mnuFile.setText("file");
+        mnuFile.setName(""); // NOI18N
+
+        mnuNew.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        mnuNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/document-new.png"))); // NOI18N
+        mnuNew.setText("new");
+        mnuNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuNewActionPerformed(evt);
+            }
+        });
+        mnuFile.add(mnuNew);
+
+        mnuOpen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        mnuOpen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/document-open.png"))); // NOI18N
+        mnuOpen.setText("open");
+        mnuOpen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuOpenActionPerformed(evt);
+            }
+        });
+        mnuFile.add(mnuOpen);
+
+        mnuOpenRecent.setText("open_recent");
+        mnuFile.add(mnuOpenRecent);
+        mnuFile.add(jSeparator1);
+
+        mnuSave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        mnuSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/document-save.png"))); // NOI18N
+        mnuSave.setText("save");
+        mnuSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuSaveActionPerformed(evt);
+            }
+        });
+        mnuFile.add(mnuSave);
+
+        mnuSaveAs.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mnuSaveAs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/document-save-as.png"))); // NOI18N
+        mnuSaveAs.setText("save_as");
+        mnuSaveAs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuSaveAsActionPerformed(evt);
+            }
+        });
+        mnuFile.add(mnuSaveAs);
+        mnuFile.add(jSeparator2);
+
+        mnuPrint.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
+        mnuPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/document-print.png"))); // NOI18N
+        mnuPrint.setText("print");
+        mnuPrint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuPrintActionPerformed(evt);
+            }
+        });
+        mnuFile.add(mnuPrint);
+        mnuFile.add(jSeparator9);
+
+        mnuExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
+        mnuExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/window-close.png"))); // NOI18N
+        mnuExit.setText("exit");
+        mnuExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuExitActionPerformed(evt);
+            }
+        });
+        mnuFile.add(mnuExit);
+
+        mnuBar.add(mnuFile);
+
+        mnuView.setText("view");
+
+        mnuSwitchTheme.setText("dark_theme");
+        mnuSwitchTheme.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuSwitchThemeActionPerformed(evt);
+            }
+        });
+        mnuView.add(mnuSwitchTheme);
+
+        mnuInternalWindows.setText("internal_windows");
+        mnuInternalWindows.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuInternalWindowsActionPerformed(evt);
+            }
+        });
+        mnuView.add(mnuInternalWindows);
+        mnuView.add(jSeparator11);
+
+        mnuLanguage.setText("language");
+        mnuView.add(mnuLanguage);
+
+        mnuBar.add(mnuView);
+
+        mnuEdit.setText("edit");
+        mnuEdit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                mnuEditMousePressed(evt);
+            }
+        });
+
+        mnuUndo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_MASK));
+        mnuUndo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/edit-undo.png"))); // NOI18N
+        mnuUndo.setText("undo");
+        mnuUndo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuUndoActionPerformed(evt);
+            }
+        });
+        mnuEdit.add(mnuUndo);
+
+        mnuRedo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_MASK));
+        mnuRedo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/edit-redo.png"))); // NOI18N
+        mnuRedo.setText("redo");
+        mnuRedo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuRedoActionPerformed(evt);
+            }
+        });
+        mnuEdit.add(mnuRedo);
+        mnuEdit.add(jSeparator5);
+
+        mnuCut.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
+        mnuCut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/edit-cut.png"))); // NOI18N
+        mnuCut.setText("cut");
+        mnuCut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuCutActionPerformed(evt);
+            }
+        });
+        mnuEdit.add(mnuCut);
+
+        mnuCopy.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+        mnuCopy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/edit-copy.png"))); // NOI18N
+        mnuCopy.setText("copy");
+        mnuCopy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuCopyActionPerformed(evt);
+            }
+        });
+        mnuEdit.add(mnuCopy);
+
+        mnuPaste.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_MASK));
+        mnuPaste.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/edit-paste.png"))); // NOI18N
+        mnuPaste.setText("paste");
+        mnuPaste.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuPasteActionPerformed(evt);
+            }
+        });
+        mnuEdit.add(mnuPaste);
+        mnuEdit.add(jSeparator6);
+
+        mnuSelectAll.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+        mnuSelectAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/edit-select-all.png"))); // NOI18N
+        mnuSelectAll.setText("select_all");
+        mnuSelectAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuSelectAllActionPerformed(evt);
+            }
+        });
+        mnuEdit.add(mnuSelectAll);
+
+        mnuFindReplace.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
+        mnuFindReplace.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/preview-file.png"))); // NOI18N
+        mnuFindReplace.setText("find_replace");
+        mnuFindReplace.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuFindReplaceActionPerformed(evt);
+            }
+        });
+        mnuEdit.add(mnuFindReplace);
+
+        mnuBar.add(mnuEdit);
+
+        mnuDatapath.setText("datapath");
+
+        mnuPerformanceMode.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mnuPerformanceMode.setText("performance_mode");
+        mnuPerformanceMode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuPerformanceModeActionPerformed(evt);
+            }
+        });
+        mnuDatapath.add(mnuPerformanceMode);
+
+        mnuControlPath.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mnuControlPath.setSelected(true);
+        mnuControlPath.setText("control_path");
+        mnuControlPath.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuControlPathActionPerformed(evt);
+            }
+        });
+        mnuDatapath.add(mnuControlPath);
+
+        mnuArrowsInWires.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mnuArrowsInWires.setSelected(true);
+        mnuArrowsInWires.setText("arrows_in_wires");
+        mnuArrowsInWires.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuArrowsInWiresActionPerformed(evt);
+            }
+        });
+        mnuDatapath.add(mnuArrowsInWires);
+
+        mnuOverlayedData.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mnuOverlayedData.setSelected(true);
+        mnuOverlayedData.setText("overlayed_data");
+        mnuOverlayedData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuOverlayedDataActionPerformed(evt);
+            }
+        });
+        mnuDatapath.add(mnuOverlayedData);
+        mnuDatapath.add(jSeparator14);
+
+        mnuResetLatencies.setText("reset_latencies");
+        mnuResetLatencies.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuResetLatenciesActionPerformed(evt);
+            }
+        });
+        mnuDatapath.add(mnuResetLatencies);
+
+        mnuBar.add(mnuDatapath);
+
+        mnuExecute.setText("execute");
+
+        mnuAssemble.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
+        mnuAssemble.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/document-properties.png"))); // NOI18N
+        mnuAssemble.setText("assemble");
+        mnuAssemble.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuAssembleActionPerformed(evt);
+            }
+        });
+        mnuExecute.add(mnuAssemble);
+        mnuExecute.add(jSeparator3);
+
+        mnuRestart.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F12, 0));
+        mnuRestart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/go-first.png"))); // NOI18N
+        mnuRestart.setText("restart");
+        mnuRestart.setEnabled(false);
+        mnuRestart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuRestartActionPerformed(evt);
+            }
+        });
+        mnuExecute.add(mnuRestart);
+
+        mnuBackStep.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F9, 0));
+        mnuBackStep.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/go-previous.png"))); // NOI18N
+        mnuBackStep.setText("back_step");
+        mnuBackStep.setEnabled(false);
+        mnuBackStep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuBackStepActionPerformed(evt);
+            }
+        });
+        mnuExecute.add(mnuBackStep);
+
+        mnuStep.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F7, 0));
+        mnuStep.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/go-next.png"))); // NOI18N
+        mnuStep.setText("step");
+        mnuStep.setEnabled(false);
+        mnuStep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuStepActionPerformed(evt);
+            }
+        });
+        mnuExecute.add(mnuStep);
+
+        mnuRun.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
+        mnuRun.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/media-playback-start.png"))); // NOI18N
+        mnuRun.setText("run");
+        mnuRun.setEnabled(false);
+        mnuRun.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuRunActionPerformed(evt);
+            }
+        });
+        mnuExecute.add(mnuRun);
+        mnuExecute.add(jSeparator10);
+
+        mnuResetDataBeforeAssembling.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
+        mnuResetDataBeforeAssembling.setSelected(true);
+        mnuResetDataBeforeAssembling.setText("reset_data_before_assembling");
+        mnuResetDataBeforeAssembling.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/view-refresh.png"))); // NOI18N
+        mnuExecute.add(mnuResetDataBeforeAssembling);
+
+        mnuBar.add(mnuExecute);
+
+        mnuCPU.setText("cpu");
+
+        mnuLoadCPU.setText("load");
+        mnuLoadCPU.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuLoadCPUActionPerformed(evt);
+            }
+        });
+        mnuCPU.add(mnuLoadCPU);
+
+        mnuLoadRecentCPU.setText("load_recent");
+        mnuCPU.add(mnuLoadRecentCPU);
+
+        mnuBar.add(mnuCPU);
+
+        mnuHelp.setText("help");
+
+        mnuAbout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/help-about.png"))); // NOI18N
+        mnuAbout.setText("about");
+        mnuAbout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuAboutActionPerformed(evt);
+            }
+        });
+        mnuHelp.add(mnuAbout);
+
+        mnuBar.add(mnuHelp);
+
+        setJMenuBar(mnuBar);
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+		exit();
+    }//GEN-LAST:event_formWindowClosing
+
+    private void mnuExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuExitActionPerformed
+		exit();
+    }//GEN-LAST:event_mnuExitActionPerformed
+
+    private void mnuAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAboutActionPerformed
+		(new DlgAbout(this)).setVisible(true);
+    }//GEN-LAST:event_mnuAboutActionPerformed
+
+    private void mnuLoadCPUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuLoadCPUActionPerformed
+		try {
+			if(cpuFileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+				loadCPU(cpuFileChooser.getSelectedFile().getPath());
+				if(!mnuInternalWindows.isSelected())
+					tabDatapath.select();
+			}
+		}
+		catch(Throwable ex) {
+			JOptionPane.showMessageDialog(this, Lang.t("invalid_file") + "\n" + ex.getClass().getName() + " (" + ex.getMessage() + ")", DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+			ex.printStackTrace();
+		}
+    }//GEN-LAST:event_mnuLoadCPUActionPerformed
+
+    private void cmbRegFormatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRegFormatActionPerformed
+		tblRegisters.refreshValues(cmbRegFormat.getSelectedIndex());
+    }//GEN-LAST:event_cmbRegFormatActionPerformed
+
+    private void mnuStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuStepActionPerformed
+		step();
+    }//GEN-LAST:event_mnuStepActionPerformed
+
+    private void cmdStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdStepActionPerformed
+		step();
+    }//GEN-LAST:event_cmdStepActionPerformed
+
+    private void cmbDatapathDataFormatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbDatapathDataFormatActionPerformed
+		datapath.translate(cmbDatapathDataFormat.getSelectedIndex());
+		tblExec.refresh(cmbDatapathDataFormat.getSelectedIndex());
+    }//GEN-LAST:event_cmbDatapathDataFormatActionPerformed
+
+    private void mnuAssembleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAssembleActionPerformed
+		assemble();
+    }//GEN-LAST:event_mnuAssembleActionPerformed
+
+    private void cmdAssembleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAssembleActionPerformed
+		assemble();
+    }//GEN-LAST:event_cmdAssembleActionPerformed
+
+    private void cmbAssembledCodeFormatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbAssembledCodeFormatActionPerformed
+		tblAssembledCode.refresh(cmbAssembledCodeFormat.getSelectedIndex());
+    }//GEN-LAST:event_cmbAssembledCodeFormatActionPerformed
+
+    private void mnuNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuNewActionPerformed
+		newFile();
+    }//GEN-LAST:event_mnuNewActionPerformed
+
+    private void mnuOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuOpenActionPerformed
+		openFile();
+    }//GEN-LAST:event_mnuOpenActionPerformed
+
+    private void mnuSaveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSaveAsActionPerformed
+		saveFileAs();
+    }//GEN-LAST:event_mnuSaveAsActionPerformed
+
+    private void mnuSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSaveActionPerformed
+		saveFile();
+    }//GEN-LAST:event_mnuSaveActionPerformed
+
+    private void cmdBackStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdBackStepActionPerformed
+		backStep();
+    }//GEN-LAST:event_cmdBackStepActionPerformed
+
+    private void mnuBackStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBackStepActionPerformed
+		backStep();
+    }//GEN-LAST:event_mnuBackStepActionPerformed
+
+    private void cmdNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdNewActionPerformed
+		newFile();
+    }//GEN-LAST:event_cmdNewActionPerformed
+
+    private void cmdOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdOpenActionPerformed
+        openFile();
+    }//GEN-LAST:event_cmdOpenActionPerformed
+
+    private void cmdSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdSaveActionPerformed
+        saveFile();
+    }//GEN-LAST:event_cmdSaveActionPerformed
+
+    private void cmdSaveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdSaveAsActionPerformed
+        saveFileAs();
+    }//GEN-LAST:event_cmdSaveAsActionPerformed
+
+    private void cmbDataMemoryFormatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbDataMemoryFormatActionPerformed
+		tblDataMemory.refreshValues(cmbDataMemoryFormat.getSelectedIndex());
+    }//GEN-LAST:event_cmbDataMemoryFormatActionPerformed
+
+    private void mnuEditMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnuEditMousePressed
+		mnuUndo.setEnabled(txtCode.canUndo());
+		mnuRedo.setEnabled(txtCode.canRedo());
+    }//GEN-LAST:event_mnuEditMousePressed
+
+    private void mnuUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuUndoActionPerformed
+		txtCode.undoLastAction();
+    }//GEN-LAST:event_mnuUndoActionPerformed
+
+    private void mnuRedoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRedoActionPerformed
+		txtCode.redoLastAction();
+    }//GEN-LAST:event_mnuRedoActionPerformed
+
+    private void mnuPasteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPasteActionPerformed
+		txtCode.paste();
+    }//GEN-LAST:event_mnuPasteActionPerformed
+
+    private void mnuSelectAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSelectAllActionPerformed
+		txtCode.selectAll();
+    }//GEN-LAST:event_mnuSelectAllActionPerformed
+
+    private void mnuCopyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCopyActionPerformed
+		txtCode.copy();
+    }//GEN-LAST:event_mnuCopyActionPerformed
+
+    private void mnuCutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCutActionPerformed
+		txtCode.cut();
+    }//GEN-LAST:event_mnuCutActionPerformed
+
+    private void mnuUndoPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuUndoPActionPerformed
+		txtCode.undoLastAction();
+    }//GEN-LAST:event_mnuUndoPActionPerformed
+
+    private void mnuRedoPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRedoPActionPerformed
+		txtCode.redoLastAction();
+    }//GEN-LAST:event_mnuRedoPActionPerformed
+
+    private void mnuCutPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCutPActionPerformed
+		txtCode.cut();
+    }//GEN-LAST:event_mnuCutPActionPerformed
+
+    private void mnuCopyPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCopyPActionPerformed
+		txtCode.copy();
+    }//GEN-LAST:event_mnuCopyPActionPerformed
+
+    private void mnuPastePActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPastePActionPerformed
+		txtCode.paste();
+    }//GEN-LAST:event_mnuPastePActionPerformed
+
+    private void mnuSelectAllPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSelectAllPActionPerformed
+		txtCode.selectAll();
+    }//GEN-LAST:event_mnuSelectAllPActionPerformed
+
+    private void mnuEditPPopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_mnuEditPPopupMenuWillBecomeVisible
+		mnuUndoP.setEnabled(txtCode.canUndo());
+		mnuRedoP.setEnabled(txtCode.canRedo());
+    }//GEN-LAST:event_mnuEditPPopupMenuWillBecomeVisible
+
+    private void mnuFindReplaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuFindReplaceActionPerformed
+		dlgFindReplace.setVisible(true);
+    }//GEN-LAST:event_mnuFindReplaceActionPerformed
+
+    private void mnuFindReplacePActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuFindReplacePActionPerformed
+		dlgFindReplace.setVisible(true);
+    }//GEN-LAST:event_mnuFindReplacePActionPerformed
+
+    private void mnuPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPrintActionPerformed
+		printFile();
+    }//GEN-LAST:event_mnuPrintActionPerformed
+
+    private void pnlLeftMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlLeftMouseClicked
+		if(evt.getButton() == MouseEvent.BUTTON3) {
+			selectedTab = getSelectedTab(Util.LEFT);
+			mnuTabSide.show(pnlLeft, evt.getX(), evt.getY());
+		}
+    }//GEN-LAST:event_pnlLeftMouseClicked
+
+    private void pnlRightMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlRightMouseClicked
+		if(evt.getButton() == MouseEvent.BUTTON3) {
+			selectedTab = getSelectedTab(Util.RIGHT);
+			mnuTabSide.show(pnlRight, evt.getX(), evt.getY());
+		}
+    }//GEN-LAST:event_pnlRightMouseClicked
+
+    private void mnuSwitchSideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSwitchSideActionPerformed
+		// Save side on preferences
+		int newSide = (selectedTab.getSide() == Util.LEFT) ? Util.RIGHT : Util.LEFT;
+		if(selectedTab == tabCode)
+			DrMIPS.prefs.putInt(DrMIPS.CODE_TAB_SIDE_PREF, newSide);
+		else if(selectedTab == tabDatapath)
+			DrMIPS.prefs.putInt(DrMIPS.DATAPATH_TAB_SIDE_PREF, newSide);
+		else if(selectedTab == tabRegisters)
+			DrMIPS.prefs.putInt(DrMIPS.REGISTERS_TAB_SIDE_PREF, newSide);
+		else if(selectedTab == tabAssembledCode)
+			DrMIPS.prefs.putInt(DrMIPS.ASSEMBLED_CODE_TAB_SIDE_PREF, newSide);
+		else if(selectedTab == tabDataMemory)
+			DrMIPS.prefs.putInt(DrMIPS.DATA_MEMORY_TAB_SIDE_PREF, newSide);
+		
+		refreshTabSides(); // refresh tabs
+    }//GEN-LAST:event_mnuSwitchSideActionPerformed
+
+    private void mnuSwitchThemeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSwitchThemeActionPerformed
+		switchTheme();
+    }//GEN-LAST:event_mnuSwitchThemeActionPerformed
+
+    private void mnuInternalWindowsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuInternalWindowsActionPerformed
+		switchUseInternalWindows();
+    }//GEN-LAST:event_mnuInternalWindowsActionPerformed
+
+    private void mnuControlPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuControlPathActionPerformed
+		datapath.setControlPathVisible(mnuControlPath.isSelected());
+		DrMIPS.prefs.putBoolean(DrMIPS.SHOW_CONTROL_PATH_PREF, mnuControlPath.isSelected());
+    }//GEN-LAST:event_mnuControlPathActionPerformed
+
+    private void mnuArrowsInWiresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuArrowsInWiresActionPerformed
+		datapath.setShowArrows(mnuArrowsInWires.isSelected());
+		DrMIPS.prefs.putBoolean(DrMIPS.SHOW_ARROWS_PREF, mnuArrowsInWires.isSelected());
+    }//GEN-LAST:event_mnuArrowsInWiresActionPerformed
+
+    private void mnuPerformanceModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPerformanceModeActionPerformed
+		datapath.setPerformanceMode(mnuPerformanceMode.isSelected());
+		lblDatapathDataFormat.setEnabled(!mnuPerformanceMode.isSelected());
+		cmbDatapathDataFormat.setEnabled(!mnuPerformanceMode.isSelected());
+		mnuOverlayedData.setEnabled(!mnuPerformanceMode.isSelected());
+		DrMIPS.prefs.putBoolean(DrMIPS.PERFORMANCE_MODE_PREF, mnuPerformanceMode.isSelected());
+		refreshDatapathHelp();
+    }//GEN-LAST:event_mnuPerformanceModeActionPerformed
+
+    private void mnuResetLatenciesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuResetLatenciesActionPerformed
+		cpu.resetLatencies();
+		datapath.refresh();
+    }//GEN-LAST:event_mnuResetLatenciesActionPerformed
+
+    private void mnuOverlayedDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuOverlayedDataActionPerformed
+		datapath.setShowTips(mnuOverlayedData.isSelected());
+		DrMIPS.prefs.putBoolean(DrMIPS.OVERLAYED_DATA_PREF, mnuOverlayedData.isSelected());
+    }//GEN-LAST:event_mnuOverlayedDataActionPerformed
+
+    private void cmdRestartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRestartActionPerformed
+		restart();
+    }//GEN-LAST:event_cmdRestartActionPerformed
+
+    private void mnuRestartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRestartActionPerformed
+		restart();
+    }//GEN-LAST:event_mnuRestartActionPerformed
+
+    private void cmdRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRunActionPerformed
+		run();
+    }//GEN-LAST:event_cmdRunActionPerformed
+
+    private void mnuRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRunActionPerformed
+		run();
+    }//GEN-LAST:event_mnuRunActionPerformed
+
+	/**
+	 * Sets the path of the opened file and updates the title bar and recent files.
+	 * @param path Path to the opened file.
+	 */
+	private void setOpenedFile(File file) {
+		openFile = file;
+		String title = DrMIPS.PROGRAM_NAME;
+		if(openFile != null) {
+			title = openFile.getName() + " (" + Util.getFilePath(openFile) + ") - " + title;
+			addRecentFile(file);
+		}
+		setTitle(title);
+	}
+	
+	/**
+	 * Adds a file to the "Open recent" menu and saves the recent files paths.
+	 * @param file The file to add.
+	 */
+	private void addRecentFile(File file) {
+		addRecentFileToPrefs(file, DrMIPS.RECENT_FILES_PREF, DrMIPS.MAX_RECENT_FILES);
+		updateRecentFiles();
+	}
+	
+	/**
+	 * Adds a file to the CPU's "Load recent" menu and saves the recent CPUs paths.
+	 * @param file The file to add.
+	 */
+	private void addRecentCPU(File file) {
+		addRecentFileToPrefs(file, DrMIPS.RECENT_CPUS_PREF, DrMIPS.MAX_RECENT_CPUS);
+		updateRecentCPUs();
+	}
+	
+	/**
+	 * Adds a file to the saved recent files.
+	 * @param file The file to add.
+	 * @param pref The prefix of the preference.
+	 * @param maxFiles The maximum number of files to save.
+	 */
+	private void addRecentFileToPrefs(File file, String pref, int maxFiles) {
+		List<File> files = new LinkedList<File>();
+		files.add(file);
+		File f;
+		String filename;
+		
+		// Read recent file names
+		for(int i = 0; i < maxFiles && files.size() < maxFiles; i++) {
+			filename = DrMIPS.prefs.get(pref + i, null);
+			if(filename != null) {
+				f = new File(filename);
+				if(f.exists() && !Util.getFilePath(file).equals(Util.getFilePath(f)))
+					files.add(f);
+				DrMIPS.prefs.remove(pref + i);
+			}
+		}
+		
+		// Save new and old filenames
+		for(int i = 0; i < files.size(); i++)
+			DrMIPS.prefs.put(pref + i, Util.getFilePath(files.get(i)));
+	}
+	
+	/**
+	 * Updates the "Open recent" menu with the recent files.
+	 */
+	private void updateRecentFiles() {
+		mnuOpenRecent.removeAll();
+		File file;
+		String filename;
+		JMenuItem menuItem;
+		
+		for(int i = 0; i < DrMIPS.MAX_RECENT_FILES; i++) {
+			filename = DrMIPS.prefs.get(DrMIPS.RECENT_FILES_PREF + i, null);
+			if(filename != null) {
+				file = new File(filename);
+				if(file.exists()) {
+					menuItem = new JMenuItem(Util.getFilePath(file));
+					menuItem.addActionListener(new RecentFileActionListener(file));
+					mnuOpenRecent.add(menuItem);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Updates the CPU's "Load recent" menu with the recent CPUs.
+	 */
+	private void updateRecentCPUs() {
+		mnuLoadRecentCPU.removeAll();
+		File file;
+		String filename;
+		JMenuItem menuItem;
+		
+		for(int i = 0; i < DrMIPS.MAX_RECENT_CPUS; i++) {
+			filename = DrMIPS.prefs.get(DrMIPS.RECENT_CPUS_PREF + i, null);
+			if(filename != null) {
+				file = new File(filename);
+				if(file.exists()) {
+					menuItem = new JMenuItem(Util.getFilePath(file));
+					menuItem.addActionListener(new RecentCPUActionListener(file));
+					mnuLoadRecentCPU.add(menuItem);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Clears the code editor.
+	 */
+	private void newFile() {
+		boolean create = true;
+		if(txtCode != null && txtCode.isDirty()) { // file changed?
+			int opt = JOptionPane.showConfirmDialog(this, Lang.t("code_changed"), DrMIPS.PROGRAM_NAME, JOptionPane.YES_NO_CANCEL_OPTION);
+			switch(opt) {
+				case JOptionPane.YES_OPTION: 
+					create = true;
+					saveFile();
+					break;
+				case JOptionPane.NO_OPTION: create = true; break;
+				case JOptionPane.CANCEL_OPTION: create = false; break;
+			}
+		}
+		
+		if(create) {
+			txtCode.setText("");
+			txtCode.setDirty(false);
+			txtCode.clearErrorIcons();
+			setOpenedFile(null);
+		}
+	}
+	
+	/**
+	 * Shows the file chooser to open a file.
+	 */
+	private void openFile() {
+		boolean open = true;
+		if(txtCode != null && txtCode.isDirty()) { // file changed?
+			int opt = JOptionPane.showConfirmDialog(this, Lang.t("code_changed"), DrMIPS.PROGRAM_NAME, JOptionPane.YES_NO_CANCEL_OPTION);
+			switch(opt) {
+				case JOptionPane.YES_OPTION: 
+					open = true;
+					saveFile();
+					break;
+				case JOptionPane.NO_OPTION: open = true; break;
+				case JOptionPane.CANCEL_OPTION: open = false; break;
+			}
+		}
+		
+		if(open) {
+			codeFileChooser.setDialogTitle(Lang.t("open"));
+			if(codeFileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
+				openFile(codeFileChooser.getSelectedFile());
+		}
+	}
+	
+	/**
+	 * Opens and loads the code from the given file.
+	 * @param path Path to the file.
+	 */
+	private void openFile(String path) {
+		openFile(new File(path));
+	}
+	
+	/**
+	 * Opens and loads the code from the given file.
+	 * @param path The file to open.
+	 */
+	private void openFile(File file) {
+		try {
+			String code = "", line;
+			
+			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF8"));
+			while((line = reader.readLine()) != null)
+				code += line + "\n";
+			reader.close();
+			
+			txtCode.setText(code);
+			txtCode.discardAllEdits();
+			txtCode.setDirty(false);
+			txtCode.clearErrorIcons();
+			setOpenedFile(file);
+			if(!mnuInternalWindows.isSelected()) tabCode.select();
+			txtCode.requestFocus();
+		}
+		catch(Exception ex) {
+			JOptionPane.showMessageDialog(this, Lang.t("error_opening_file", file.getName()) + "\n" + ex.getMessage(), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	/**
+	 * Saves the file to <tt>filename</tt> (if <tt>null</tt> asks the user for a file name).
+	 */
+	private void saveFile() {
+		if(openFile != null)
+			saveFile(openFile);
+		else
+			saveFileAs();
+	}
+	
+	/**
+	 * Shows the file chooser to save the code to a file.
+	 */
+	private void saveFileAs() {
+		codeFileChooser.setDialogTitle(Lang.t("save"));
+		if(codeFileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+			File f = codeFileChooser.getSelectedFile();
+			if(codeFileChooser.getFileFilter() == codeFileFilter && f.getAbsolutePath().lastIndexOf(".") == -1)
+				f = new File(f.getPath() + ".asm"); // append extension if missing
+			if(!f.exists() || JOptionPane.showConfirmDialog(this, Lang.t("confirm_replace", f.getName()), DrMIPS.PROGRAM_NAME, JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION)
+				saveFile(f);
+		}
+	}
+	
+	/**
+	 * Saves the code to the specified file.
+	 * @param path Path to the file to save.
+	 */
+	private void saveFile(String path) {
+		saveFile(new File(path));
+	}
+	
+	/**
+	 * Saves the code to the specified file.
+	 * @param file File to save to.
+	 */
+	private void saveFile(File file) {
+		try {
+			BufferedWriter writer;
+			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF8"));
+			writer.write(txtCode.getText());
+			writer.close();
+			setOpenedFile(file);
+			txtCode.setDirty(false);
+		} catch (IOException ex) {
+			JOptionPane.showMessageDialog(this, Lang.t("error_saving_file", file.getName()) + "\n" + ex.getMessage(), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+		}
+		
+	}
+	
+	/**
+	 * Shows the print dialog to send the current file to the printer.
+	 */
+	private void printFile() {
+		try {
+			MessageFormat header = (openFile != null) ? new MessageFormat(openFile.getName()) : null;
+			MessageFormat footer = new MessageFormat(Lang.t("page") + " {0}");
+			txtCode.print(header, footer);
+		}
+		catch(Exception ex) {
+			JOptionPane.showMessageDialog(this, Lang.t("error_printing_file") + ": " + ex.getMessage(), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	/**
+	 * Translates the form's strings.
+	 */
+	protected final void translate() {
+		Lang.tButton(mnuFile, "file");
+		Lang.tButton(mnuNew, "new");
+		Lang.tButton(mnuOpen, "open");
+		Lang.tButton(mnuOpenRecent, "open_recent");
+		Lang.tButton(mnuSave, "save");
+		Lang.tButton(mnuSaveAs, "save_as");
+		Lang.tButton(mnuPrint, "print");
+		Lang.tButton(mnuExit, "exit");
+		Lang.tButton(mnuEdit, "edit");
+		Lang.tButton(mnuUndo, "undo");
+		Lang.tButton(mnuRedo, "redo");
+		Lang.tButton(mnuCut, "cut");
+		Lang.tButton(mnuCopy, "copy");
+		Lang.tButton(mnuPaste, "paste");
+		Lang.tButton(mnuSelectAll, "select_all");
+		Lang.tButton(mnuFindReplace, "find_replace");
+		Lang.tButton(mnuView, "view");
+		Lang.tButton(mnuDatapath, "datapath");
+		Lang.tButton(mnuPerformanceMode, "performance_mode");
+		Lang.tButton(mnuControlPath, "control_path");
+		Lang.tButton(mnuArrowsInWires, "arrows_in_wires");
+		Lang.tButton(mnuOverlayedData, "overlayed_data");
+		Lang.tButton(mnuInternalWindows, "internal_windows");
+		Lang.tButton(mnuSwitchTheme, "dark_theme");
+		Lang.tButton(mnuExecute, "execute");
+		Lang.tButton(mnuAssemble, "assemble");
+		Lang.tButton(mnuRestart, "restart");
+		Lang.tButton(mnuBackStep, "back_step");
+		Lang.tButton(mnuStep, "step");
+		Lang.tButton(mnuRun, "run");
+		Lang.tButton(mnuResetDataBeforeAssembling, "reset_data_before_assembling");
+		Lang.tButton(mnuCPU, "cpu");
+		Lang.tButton(mnuLoadCPU, "load");
+		Lang.tButton(mnuLoadRecentCPU, "load_recent");
+		Lang.tButton(mnuResetLatencies, "reset_latencies");
+		Lang.tButton(mnuLanguage, "language");
+		Lang.tButton(mnuHelp, "help");
+		Lang.tButton(mnuAbout, "about");
+		
+		Lang.tButton(mnuUndoP, "undo");
+		Lang.tButton(mnuRedoP, "redo");
+		Lang.tButton(mnuCutP, "cut");
+		Lang.tButton(mnuCopyP, "copy");
+		Lang.tButton(mnuPasteP, "paste");
+		Lang.tButton(mnuSelectAllP, "select_all");
+		Lang.tButton(mnuFindReplaceP, "find_replace");
+		Lang.tButton(mnuSwitchSide, "switch_side");
+		
+		frmCode.setTitle(Lang.t("code"));
+		frmDatapath.setTitle(Lang.t("datapath"));
+		frmRegisters.setTitle(Lang.t("registers"));
+		frmAssembledCode.setTitle(Lang.t("assembled"));
+		frmDataMemory.setTitle(Lang.t("data_memory"));
+		if(!mnuInternalWindows.isSelected()) {
+			tabCode.setTitle(Lang.t("code"));
+			tabDatapath.setTitle(Lang.t("datapath"));
+			tabRegisters.setTitle(Lang.t("registers"));
+			tabAssembledCode.setTitle(Lang.t("assembled"));
+			tabDataMemory.setTitle(Lang.t("data_memory"));
+		}
+		cpuFileChooser = new JFileChooser(DrMIPS.path + File.separator + CPU.FILENAME_PATH);
+		cpuFileChooser.setDialogTitle(Lang.t("load_cpu_from_file"));
+		cpuFileChooser.setFileFilter(new FileNameExtensionFilter(Lang.t("cpu_files"), CPU.FILENAME_EXTENSION));
+		codeFileChooser = new JFileChooser();
+		codeFileChooser.setFileFilter(codeFileFilter = new FileNameExtensionFilter(Lang.t("assembly_files"), "asm", "s"));
+		dlgFindReplace.translate();
+		
+		cmdNew.setToolTipText(Lang.t("new"));
+		cmdOpen.setToolTipText(Lang.t("open"));
+		cmdSave.setToolTipText(Lang.t("save"));
+		cmdSaveAs.setToolTipText(Lang.t("save_as"));
+		cmdAssemble.setToolTipText(Lang.t("assemble"));
+		cmdRestart.setToolTipText(Lang.t("restart"));
+		cmdBackStep.setToolTipText(Lang.t("back_step"));
+		cmdStep.setToolTipText(Lang.t("step"));
+		cmdRun.setToolTipText(Lang.t("run"));
+
+		lblRegFormat.setText(Lang.t("format") + ":");
+		lblDatapathDataFormat.setText(Lang.t("format") + ":");
+		lblAssembledCodeFormat.setText(Lang.t("format") + ":");
+		lblDataMemoryFormat.setText(Lang.t("format") + ":");
+		lblFile.setText(Lang.t("file") + ":");
+		
+		initFormatComboBox(cmbRegFormat, DrMIPS.REGISTER_FORMAT_PREF, DrMIPS.DEFAULT_REGISTER_FORMAT);
+		initFormatComboBox(cmbDatapathDataFormat, DrMIPS.DATAPATH_DATA_FORMAT_PREF, DrMIPS.DEFAULT_DATAPATH_DATA_FORMAT);
+		initFormatComboBox(cmbAssembledCodeFormat, DrMIPS.ASSEMBLED_CODE_FORMAT_PREF, DrMIPS.DEFAULT_ASSEMBLED_CODE_FORMAT);
+		initFormatComboBox(cmbDataMemoryFormat, DrMIPS.DATA_MEMORY_FORMAT_PREF, DrMIPS.DEFAULT_DATA_MEMORY_FORMAT);
+		
+		datapath.translate(cmbDatapathDataFormat.getSelectedIndex());
+		tblAssembledCode.translate();
+		tblRegisters.translate();
+		tblDataMemory.translate();
+		txtCode.translate();
+		refreshDatapathHelp();
+		repaint();
+	}
+	
+	/**
+	 * Fills language menu with the available languages.
+	 */
+	private void fillLanguages() {
+		JRadioButtonMenuItem mnu;
+		
+		// Find all the language files
+		File langDir = new File(DrMIPS.path + File.separator + Lang.FILENAME_PATH);
+		if(langDir.isDirectory()) {
+			File[] files = langDir.listFiles();
+			Arrays.sort(files);
+			String name, lang;
+			for(File f: files) {
+				name = f.getName();
+				if(name.endsWith("." + Lang.FILENAME_EXTENSION)) {
+					// Add language
+					lang = name.substring(0, name.lastIndexOf("." + Lang.FILENAME_EXTENSION));
+					mnu = new JRadioButtonMenuItem(lang, lang.equals(Lang.getLanguage()));
+					mnu.addActionListener(new LanguageSelectedListener(lang));
+					grpLanguages.add(mnu);
+					mnuLanguage.add(mnu);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Initializes/translates the specified data format selection combo box.
+	 * @param cmb The combo box.
+	 * @param formatPref The name of the preference for the saved previous format.
+	 * @param defaultFormat The default data format.
+	 */
+	private void initFormatComboBox(JComboBox cmb, String formatPref, int defaultFormat) {
+		if(cmb.getSelectedIndex() >= 0)
+			DrMIPS.prefs.putInt(formatPref, cmb.getSelectedIndex());
+		cmb.removeAllItems();
+		cmb.addItem(Lang.t("binary"));
+		cmb.addItem(Lang.t("decimal"));
+		cmb.addItem(Lang.t("hexadecimal"));
+		cmb.setSelectedIndex(DrMIPS.prefs.getInt(formatPref, defaultFormat));
+	}
+	
+	/**
+	 * Terminates the program.
+	 */
+	private void exit() {
+		boolean exit = true;
+		if(txtCode != null && txtCode.isDirty()) { // file changed?
+			int opt = JOptionPane.showConfirmDialog(this, Lang.t("code_changed"), DrMIPS.PROGRAM_NAME, JOptionPane.YES_NO_CANCEL_OPTION);
+			switch(opt) {
+				case JOptionPane.YES_OPTION: 
+					exit = true;
+					saveFile();
+					break;
+				case JOptionPane.NO_OPTION: exit = true; break;
+				case JOptionPane.CANCEL_OPTION: exit = false; break;
+			}
+		}
+		
+		if(exit) {
+			// Save some preferences
+			DrMIPS.prefs.putInt(DrMIPS.REGISTER_FORMAT_PREF, cmbRegFormat.getSelectedIndex());
+			DrMIPS.prefs.putInt(DrMIPS.DATAPATH_DATA_FORMAT_PREF, cmbDatapathDataFormat.getSelectedIndex());
+			DrMIPS.prefs.putInt(DrMIPS.ASSEMBLED_CODE_FORMAT_PREF, cmbAssembledCodeFormat.getSelectedIndex());
+			DrMIPS.prefs.putInt(DrMIPS.DATA_MEMORY_FORMAT_PREF, cmbDataMemoryFormat.getSelectedIndex());
+			DrMIPS.prefs.putBoolean(DrMIPS.ASSEMBLE_RESET_PREF, mnuResetDataBeforeAssembling.isSelected());
+		
+			if(mnuInternalWindows.isSelected()) {
+				saveFrameBounds("code", frmCode);
+				saveFrameBounds("datapath", frmDatapath);
+				saveFrameBounds("registers", frmRegisters);
+				saveFrameBounds("assembled_code", frmAssembledCode);
+				saveFrameBounds("data_memory", frmDataMemory);
+			}
+			else
+				DrMIPS.prefs.putInt(DrMIPS.DIVIDER_LOCATION_PREF, pnlSplit.getDividerLocation());
+			
+			System.exit(0);
+		}
+	}
+	
+	/**
+	 * Enables of disables the simulation controls.
+	 * @param enabled Whether to enable or disable the controls.
+	 */
+	private void setSimulationControlsEnabled(boolean enabled) {
+		if(!enabled) {
+			mnuBackStep.setEnabled(false);
+			mnuRestart.setEnabled(false);
+			mnuStep.setEnabled(false);
+			mnuRun.setEnabled(false);
+			cmdBackStep.setEnabled(false);
+			cmdRestart.setEnabled(false);
+			cmdStep.setEnabled(false);
+			cmdRun.setEnabled(false);
+		}
+		else {
+			updateStepEnabled();
+			updateStepBackEnabled();
+		}
+	}
+	
+	/**
+	 * Sets the "step" controls enabled or disabled according to <tt>cpu.isProgramFinished()</tt>.
+	 */
+	private void updateStepEnabled() {
+		boolean enable = !cpu.isProgramFinished();
+		mnuStep.setEnabled(enable);
+		mnuRun.setEnabled(enable);
+		cmdStep.setEnabled(enable);
+		cmdRun.setEnabled(enable);
+	}
+	
+	/**
+	 * Sets the "step back" controls enabled or disabled according to <tt>cpu.hasPreviousCycle()</tt>.
+	 */
+	private void updateStepBackEnabled() {
+		boolean enable = cpu.hasPreviousCycle();
+		mnuBackStep.setEnabled(enable);
+		mnuRestart.setEnabled(enable);
+		cmdBackStep.setEnabled(enable);
+		cmdRestart.setEnabled(enable);
+	}
+	
+	/**
+	 * Loads the CPU from the specified file.
+	 * @param path Path to the CPU file.
+	 */
+	private void loadCPU(String path) throws IOException, JSONException, InvalidCPUException, ArrayIndexOutOfBoundsException, InvalidInstructionSetException, NumberFormatException {
+		setSimulationControlsEnabled(false);
+		cpu = CPU.createFromJSONFile(path); // load CPU from file
+		DrMIPS.prefs.put(DrMIPS.LAST_CPU_PREF, path); // save CPU path in preferences
+		tblRegisters.setCPU(cpu, datapath, tblExec, cmbRegFormat.getSelectedIndex()); // display the CPU's register table
+		datapath.setCPU(cpu); // display datapath in the respective tab
+		tblAssembledCode.setCPU(cpu, cmbAssembledCodeFormat.getSelectedIndex()); // display assembled code in the respective tab
+		tblDataMemory.setCPU(cpu, datapath, cmbDataMemoryFormat.getSelectedIndex()); // display data memory in the respective tab
+		tblExec.setCPU(cpu, cmbDatapathDataFormat.getSelectedIndex());
+		lblFileName.setText(cpu.getFile().getName());
+		lblFileName.setToolTipText(cpu.getFile().getAbsolutePath());
+		addRecentCPU(new File(path));
+		txtCode.setCPU(cpu);
+		datapath.setControlPathVisible(mnuControlPath.isSelected());
+		datapath.setShowArrows(mnuArrowsInWires.isSelected());
+		datapath.setPerformanceMode(mnuPerformanceMode.isSelected());
+		repaint();
+	}
+	
+	/**
+	 * Loads the last used CPU file or the default one.
+	 */
+	private void loadFirstCPU() {
+		try { // try to load the CPU in the preferences
+			loadCPU(DrMIPS.prefs.get(DrMIPS.LAST_CPU_PREF, DrMIPS.path + File.separator + DrMIPS.DEFAULT_CPU));
+		} catch (Throwable ex) {
+			try { // fallback to the default CPU on error
+				loadCPU(DrMIPS.path + File.separator + DrMIPS.DEFAULT_CPU);
+				DrMIPS.prefs.put(DrMIPS.LAST_CPU_PREF, DrMIPS.path + File.separator + DrMIPS.DEFAULT_CPU);
+			} catch (Throwable e) { // error on the default CPU too
+				JOptionPane.showMessageDialog(this, Lang.t("invalid_file") + "\n" + ex.getClass().getName() + " (" + ex.getMessage() + ")", DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+				e.printStackTrace();
+				System.exit(2);
+			}
+		}
+	}
+	
+	/**
+	 * Executes a clock cycle in the CPU and displays the results in the GUI.
+	 */
+	private void step() {
+		cpu.executeCycle();
+		updateStepBackEnabled();
+		updateStepEnabled();
+		tblRegisters.refreshValues(cmbRegFormat.getSelectedIndex());
+		tblDataMemory.refreshValues(cmbDataMemoryFormat.getSelectedIndex());
+		tblAssembledCode.refreshValues();
+		tblExec.refresh(cmbDatapathDataFormat.getSelectedIndex());
+		datapath.refresh();
+	}
+	
+	/**
+	 * Reverts the execution to the previous clock cycle.
+	 */
+	private void backStep() {
+		cpu.restorePreviousCycle();
+		updateStepBackEnabled();
+		updateStepEnabled();
+		tblRegisters.refreshValues(cmbRegFormat.getSelectedIndex());
+		tblDataMemory.refreshValues(cmbDataMemoryFormat.getSelectedIndex());
+		tblAssembledCode.refreshValues();
+		tblExec.refresh(cmbDatapathDataFormat.getSelectedIndex());
+		datapath.refresh();
+	}
+	
+	/**
+	 * Reverts the execution to the first clock cycle.
+	 */
+	private void restart() {
+		cpu.resetToFirstCycle();
+		updateStepBackEnabled();
+		updateStepEnabled();
+		tblRegisters.refreshValues(cmbRegFormat.getSelectedIndex());
+		tblDataMemory.refreshValues(cmbDataMemoryFormat.getSelectedIndex());
+		tblAssembledCode.refreshValues();
+		tblExec.refresh(cmbDatapathDataFormat.getSelectedIndex());
+		datapath.refresh();
+	}
+	
+	/**
+	 * Executes all the instructions at once.
+	 */
+	private void run() {
+		try {
+			cpu.executeAll();
+		}
+		catch(InfiniteLoopException e) {
+			JOptionPane.showMessageDialog(this, Lang.t("possible_infinite_loop", CPU.EXECUTE_ALL_LIMIT_CYCLES), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+		}
+		updateStepBackEnabled();
+		updateStepEnabled();
+		tblRegisters.refreshValues(cmbRegFormat.getSelectedIndex());
+		tblDataMemory.refreshValues(cmbDataMemoryFormat.getSelectedIndex());
+		tblAssembledCode.refreshValues();
+		tblExec.refresh(cmbDatapathDataFormat.getSelectedIndex());
+		datapath.refresh();
+	}
+	
+	/**
+	 * Assembles and loads the code from the Code tab.
+	 */
+	private void assemble() {
+		txtCode.clearErrorIcons();
+		if(mnuResetDataBeforeAssembling.isSelected()) cpu.resetData();
+		try {
+			cpu.getAssembler().assembleCode(txtCode.getText());
+			datapath.refresh();
+			tblRegisters.refreshValues(cmbRegFormat.getSelectedIndex());
+			tblAssembledCode.refresh(cmbAssembledCodeFormat.getSelectedIndex());
+			tblDataMemory.refreshValues(cmbDataMemoryFormat.getSelectedIndex());
+			tblExec.refresh(cmbDatapathDataFormat.getSelectedIndex());
+			
+			setSimulationControlsEnabled(true);
+			if(!mnuInternalWindows.isSelected())
+				tabAssembledCode.select();
+		}
+		catch(SyntaxErrorException ex) {
+			String message = getTranslatedSyntaxErrorMessage(ex);
+			
+			if(!ex.hasOtherErrors())
+				txtCode.addErrorIcon(ex.getLine(), message);
+			else {
+				for(SyntaxErrorException e: ex.getOtherErrors())
+					txtCode.addErrorIcon(e.getLine(), getTranslatedSyntaxErrorMessage(e));
+			}
+			
+			JOptionPane.showMessageDialog(this, message, DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	/**
+	 * Returns the translated message for the given syntax error exception.
+	 * @param ex The exception.
+	 * @return Translated error message.
+	 */
+	private String getTranslatedSyntaxErrorMessage(SyntaxErrorException ex) {
+		String message = Lang.t("line", ex.getLine()) + ": ";
+		switch(ex.getType()) {
+			case DUPLICATED_LABEL: message += Lang.t("duplicated_label", ex.getExtra()); break;
+			case INVALID_DATA_ARG: message += Lang.t("invalid_arg_data", ex.getExtra()); break;
+			case INVALID_INT_ARG: message += Lang.t("invalid_arg_int", ex.getExtra()); break;
+			case INVALID_LABEL: message += Lang.t("invalid_label", ex.getExtra()); break;
+			case INVALID_REG_ARG: message += Lang.t("invalid_arg_reg", ex.getExtra()); break;
+			case UNKNOWN_DATA_DIRECTIVE: message += Lang.t("unknown_data_directive", ex.getExtra()); break;
+			case UNKNOWN_INSTRUCTION: message += Lang.t("unknown_instruction", ex.getExtra()); break;
+			case UNKNOWN_LABEL: message += Lang.t("unknown_label", ex.getExtra()); break;
+			case WRONG_NUMBER_OF_ARGUMENTS: message += Lang.t("wrong_no_args", ex.getExtra(), ex.getExtra2()); break;
+			case INVALID_POSITIVE_INT_ARG: message += Lang.t("invalid_arg_positive_int", ex.getExtra()); break;
+			case DATA_SEGMENT_WITHOUT_DATA_MEMORY: message += Lang.t("data_segment_without_data_memory"); break;
+			default: message = ex.getMessage();
+		}
+		return message;
+	}
+	
+	/**
+	 * Finds the specified string in the code editor.
+	 * @param str The string to find.
+	 * @param matchCase If the search is case-sensitive.
+	 * @param forward Whether to search forwards or backwards.
+	 */
+	protected void find(String str, boolean matchCase, boolean forward) {
+		if(!str.isEmpty()) {
+			clearFind();
+			
+			SearchContext context = new SearchContext();
+			context.setSearchFor(str);
+			context.setMatchCase(matchCase);
+			context.setRegularExpression(false);
+			context.setSearchForward(forward);
+			context.setWholeWord(false);
+
+			SearchEngine.find(txtCode, context);
+			txtCode.markAll(str, matchCase, false, false);
+		}
+	}
+	
+	/**
+	 * Replaces the next occurrence of the given string by another string.
+	 * @param str The string to find.
+	 * @param by The string to replace with.
+	 * @param matchCase If the search is case-sensitive.
+	 * @param forward Whether to search forwards or backwards.
+	 */
+	protected void replace(String str, String by, boolean matchCase, boolean forward) {
+		if(!str.isEmpty()) {
+			clearFind();
+			
+			SearchContext context = new SearchContext();
+			context.setSearchFor(str);
+			context.setReplaceWith(by);
+			context.setMatchCase(matchCase);
+			context.setRegularExpression(false);
+			context.setSearchForward(forward);
+			context.setWholeWord(false);
+
+			SearchEngine.replace(txtCode, context);
+			txtCode.markAll(str, matchCase, false, false);
+		}
+	}
+	
+	/**
+	 * Replaces all occurrence of the given string by another string.
+	 * @param str The string to find.
+	 * @param by The string to replace with.
+	 * @param matchCase If the search is case-sensitive.
+	 * @param forward Whether to search forwards or backwards.
+	 */
+	protected void replaceAll(String str, String by, boolean matchCase, boolean forward) {
+		if(!str.isEmpty()) {
+			clearFind();
+			
+			SearchContext context = new SearchContext();
+			context.setSearchFor(str);
+			context.setReplaceWith(by);
+			context.setMatchCase(matchCase);
+			context.setRegularExpression(false);
+			context.setSearchForward(forward);
+			context.setWholeWord(false);
+
+			SearchEngine.replaceAll(txtCode, context);
+		}
+	}
+	
+	/**
+	 * Clears all highlights created by find.
+	 */
+	protected void clearFind() {
+		txtCode.clearMarkAllHighlights();
+	}
+	
+	/**
+	 * Puts each tab in the right side, based on the preferences.
+	 */
+	private void refreshTabSides() {
+		pnlLeft.removeAll();
+		pnlRight.removeAll();
+		
+		tabCode = new Tab(pnlCode, Lang.t("code"), DrMIPS.prefs.getInt(DrMIPS.CODE_TAB_SIDE_PREF, DrMIPS.DEFAULT_CODE_TAB_SIDE));
+		tabAssembledCode = new Tab(pnlAssembledCode, Lang.t("assembled"), DrMIPS.prefs.getInt(DrMIPS.ASSEMBLED_CODE_TAB_SIDE_PREF, DrMIPS.DEFAULT_ASSEMBLED_CODE_TAB_SIDE));
+		tabDatapath = new Tab(pnlDatapath, Lang.t("datapath"), DrMIPS.prefs.getInt(DrMIPS.DATAPATH_TAB_SIDE_PREF, DrMIPS.DEFAULT_DATAPATH_TAB_SIDE));
+		tabRegisters = new Tab(pnlRegisters, Lang.t("registers"), DrMIPS.prefs.getInt(DrMIPS.REGISTERS_TAB_SIDE_PREF, DrMIPS.DEFAULT_REGISTERS_TAB_SIDE));
+		tabDataMemory = new Tab(pnlDataMemory, Lang.t("data_memory"), DrMIPS.prefs.getInt(DrMIPS.DATA_MEMORY_TAB_SIDE_PREF, DrMIPS.DEFAULT_DATA_MEMORY_TAB_SIDE));
+		repaint();
+	}
+	
+	/**
+	 * Returns the selected tab in the specified side.
+	 * @param side The side of the tab.
+	 * @return The selected tab.
+	 */
+	private Tab getSelectedTab(int side) {
+		int index = (side == Util.LEFT) ? pnlLeft.getSelectedIndex() : pnlRight.getSelectedIndex();
+		return getTab(side, index);
+	}
+	
+	/**
+	 * Returns the tab in the given side and index.
+	 * @param side Side of the tab.
+	 * @param index Index of the tab.
+	 * @return The desired tab, or <tt>null</tt> if non-existant.
+	 */
+	private Tab getTab(int side, int index) {
+		Tab[] tabs = new Tab[] {tabCode, tabAssembledCode, tabDatapath, tabRegisters, tabDataMemory};
+		for(Tab t: tabs) {
+			if(t.getSide() == side && t.getIndex() == index)
+				return t;
+		}
+		return null;
+	}
+	
+	/**
+	 * Switches the current theme.
+	 */
+	private void switchTheme() {
+		boolean currentDark = DrMIPS.prefs.getBoolean(DrMIPS.DARK_THEME_PREF, DrMIPS.DEFAULT_DARK_THEME);
+		boolean dark = mnuSwitchTheme.isSelected();
+		if(dark && !currentDark)
+			Util.setDarkLookAndFeel();
+		else if(!dark && currentDark)
+			Util.setLightLookAndFeel();
+		
+		DrMIPS.prefs.putBoolean(DrMIPS.DARK_THEME_PREF, dark);
+		SwingUtilities.updateComponentTreeUI(this);
+		if(dlgFindReplace != null) SwingUtilities.updateComponentTreeUI(dlgFindReplace);
+		if(cpuFileChooser != null) cpuFileChooser.updateUI();
+		if(codeFileChooser != null) codeFileChooser.updateUI();
+		datapath.setCPU(cpu);
+		datapath.setControlPathVisible(mnuControlPath.isSelected());
+		datapath.setShowArrows(mnuArrowsInWires.isSelected());
+		datapath.setPerformanceMode(mnuPerformanceMode.isSelected());
+		txtCode.setColors();
+	}
+	
+	/**
+	 * If using tabs switch to use internal frames and vice-versa.
+	 */
+	private void switchUseInternalWindows() {
+		boolean currentWindows = DrMIPS.prefs.getBoolean(DrMIPS.INTERNAL_WINDOWS_PREF, DrMIPS.DEFAULT_INTERNAL_WINDOWS);
+		boolean windows = mnuInternalWindows.isSelected();
+		DrMIPS.prefs.putBoolean(DrMIPS.INTERNAL_WINDOWS_PREF, windows);
+		
+		if(windows && !currentWindows) // use internal frames
+			switchToInternalWindows();
+		else if(!windows && currentWindows) // use tabs
+			switchToTabs();
+	}
+	
+	/**
+	 * Switches to use internal windows.
+	 */
+	private void switchToInternalWindows() {
+		DrMIPS.prefs.putInt(DrMIPS.DIVIDER_LOCATION_PREF, pnlSplit.getDividerLocation());
+		
+		remove(pnlSplit);
+		add(desktop, BorderLayout.CENTER);
+		frmCode.add(pnlCode);
+		frmDatapath.add(pnlDatapath);
+		frmRegisters.add(pnlRegisters);
+		frmAssembledCode.add(pnlAssembledCode);
+		frmDataMemory.add(pnlDataMemory);
+
+		restoreFrameBounds("code", frmCode);
+		restoreFrameBounds("datapath", frmDatapath);
+		restoreFrameBounds("registers", frmRegisters);
+		restoreFrameBounds("assembled_code", frmAssembledCode);
+		restoreFrameBounds("data_memory", frmDataMemory);
+		
+		for(JInternalFrame frm: desktop.getAllFrames())
+			frm.setVisible(true);
+
+		SwingUtilities.updateComponentTreeUI(this);
+	}
+	
+	/**
+	 * Switches to use tabs.
+	 */
+	private void switchToTabs() {
+		saveFrameBounds("code", frmCode);
+		saveFrameBounds("datapath", frmDatapath);
+		saveFrameBounds("registers", frmRegisters);
+		saveFrameBounds("assembled_code", frmAssembledCode);
+		saveFrameBounds("data_memory", frmDataMemory);
+		
+		remove(desktop);
+		add(pnlSplit, BorderLayout.CENTER);
+		refreshTabSides();
+		SwingUtilities.updateComponentTreeUI(this);
+	}
+	
+	/**
+	 * Saves the specified frame's bounds to the preferences.
+	 * @param prefPrefix The prefix of the preference.
+	 * @param frame The frame.
+	 */
+	private void saveFrameBounds(String prefPrefix, JInternalFrame frame) {
+		DrMIPS.prefs.putInt(prefPrefix + "_x", frame.getX());
+		DrMIPS.prefs.putInt(prefPrefix + "_y", frame.getY());
+		DrMIPS.prefs.putInt(prefPrefix + "_w", frame.getWidth());
+		DrMIPS.prefs.putInt(prefPrefix + "_h", frame.getHeight());
+	}
+	
+	/**
+	 * Restores the specified frame's bounds from the preferences.
+	 * @param prefPrefix The prefix of the preference.
+	 * @param frame The frame.
+	 */
+	private void restoreFrameBounds(String prefPrefix, JInternalFrame frame) {
+		frame.setLocation(DrMIPS.prefs.getInt(prefPrefix + "_x", 0), DrMIPS.prefs.getInt(prefPrefix + "_y", 0));
+		int w = DrMIPS.prefs.getInt(prefPrefix + "_w", -1);
+		int h = DrMIPS.prefs.getInt(prefPrefix + "_h", -1);
+		if(w > 0 && h > 0) 
+			frame.setSize(w, h);
+		else
+			frame.pack();
+	}
+	
+	/**
+	 * Refreshes the datapath help tooltip.
+	 */
+	private void refreshDatapathHelp() {
+		String tip = "<html><b><u>";
+		
+		if(datapath.isInPerformanceMode()) {
+			tip += Lang.t("performance_mode") + "</u></b><br /><br />";
+			tip += "- " + Lang.t("normal_wire") + "<br />";
+			tip += "<span style='color: rgb(0, 130, 230)'>- " + Lang.t("control_path_wire") + "</span><br />";
+			tip += "<span style='color: red'>- " + Lang.t("wire_in_critical_path") + "</span><br /><br />";
+			tip += Lang.t("advised_to_display_control_path");
+			
+		}
+		else {
+			tip += Lang.t("data_mode") + "</u></b><br /><br />";
+			tip += "- " + Lang.t("normal_wire") + "<br />";
+			tip += "<span style='color: rgb(0, 130, 230)'>- " + Lang.t("relevant_control_path_wire") + "</span><br />";
+			tip += "<span style='color: gray'>- " + Lang.t("irrelevant_wire") + "</span>";
+		}
+		
+		tip += "</html>";
+		lblDatapathHelp.setToolTipText(tip);
+	}
+	
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox cmbAssembledCodeFormat;
+    private javax.swing.JComboBox cmbDataMemoryFormat;
+    private javax.swing.JComboBox cmbDatapathDataFormat;
+    private javax.swing.JComboBox cmbRegFormat;
+    private javax.swing.JButton cmdAssemble;
+    private javax.swing.JButton cmdBackStep;
+    private javax.swing.JButton cmdNew;
+    private javax.swing.JButton cmdOpen;
+    private javax.swing.JButton cmdRestart;
+    private javax.swing.JButton cmdRun;
+    private javax.swing.JButton cmdSave;
+    private javax.swing.JButton cmdSaveAs;
+    private javax.swing.JButton cmdStep;
+    private org.feup.brunonova.drmips.gui.DatapathPanel datapath;
+    private javax.swing.JDesktopPane desktop;
+    private javax.swing.JInternalFrame frmAssembledCode;
+    private javax.swing.JInternalFrame frmCode;
+    private javax.swing.JInternalFrame frmDataMemory;
+    private javax.swing.JInternalFrame frmDatapath;
+    private javax.swing.JInternalFrame frmRegisters;
+    private javax.swing.ButtonGroup grpLanguages;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator10;
+    private javax.swing.JPopupMenu.Separator jSeparator11;
+    private javax.swing.JPopupMenu.Separator jSeparator14;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
+    private javax.swing.JToolBar.Separator jSeparator4;
+    private javax.swing.JPopupMenu.Separator jSeparator5;
+    private javax.swing.JPopupMenu.Separator jSeparator6;
+    private javax.swing.JPopupMenu.Separator jSeparator7;
+    private javax.swing.JPopupMenu.Separator jSeparator8;
+    private javax.swing.JPopupMenu.Separator jSeparator9;
+    private javax.swing.JLabel lblAssembledCodeFormat;
+    private javax.swing.JLabel lblDataMemoryFormat;
+    private javax.swing.JLabel lblDatapathDataFormat;
+    private javax.swing.JLabel lblDatapathHelp;
+    private javax.swing.JLabel lblFile;
+    private javax.swing.JLabel lblFileName;
+    private javax.swing.JLabel lblRegFormat;
+    private javax.swing.JMenuItem mnuAbout;
+    private javax.swing.JCheckBoxMenuItem mnuArrowsInWires;
+    private javax.swing.JMenuItem mnuAssemble;
+    private javax.swing.JMenuItem mnuBackStep;
+    private javax.swing.JMenuBar mnuBar;
+    private javax.swing.JMenu mnuCPU;
+    private javax.swing.JCheckBoxMenuItem mnuControlPath;
+    private javax.swing.JMenuItem mnuCopy;
+    private javax.swing.JMenuItem mnuCopyP;
+    private javax.swing.JMenuItem mnuCut;
+    private javax.swing.JMenuItem mnuCutP;
+    private javax.swing.JMenu mnuDatapath;
+    private javax.swing.JMenu mnuEdit;
+    private javax.swing.JPopupMenu mnuEditP;
+    private javax.swing.JMenu mnuExecute;
+    private javax.swing.JMenuItem mnuExit;
+    private javax.swing.JMenu mnuFile;
+    private javax.swing.JMenuItem mnuFindReplace;
+    private javax.swing.JMenuItem mnuFindReplaceP;
+    private javax.swing.JMenu mnuHelp;
+    private javax.swing.JCheckBoxMenuItem mnuInternalWindows;
+    private javax.swing.JMenu mnuLanguage;
+    private javax.swing.JMenuItem mnuLoadCPU;
+    private javax.swing.JMenu mnuLoadRecentCPU;
+    private javax.swing.JMenuItem mnuNew;
+    private javax.swing.JMenuItem mnuOpen;
+    private javax.swing.JMenu mnuOpenRecent;
+    private javax.swing.JCheckBoxMenuItem mnuOverlayedData;
+    private javax.swing.JMenuItem mnuPaste;
+    private javax.swing.JMenuItem mnuPasteP;
+    private javax.swing.JCheckBoxMenuItem mnuPerformanceMode;
+    private javax.swing.JMenuItem mnuPrint;
+    private javax.swing.JMenuItem mnuRedo;
+    private javax.swing.JMenuItem mnuRedoP;
+    private javax.swing.JCheckBoxMenuItem mnuResetDataBeforeAssembling;
+    private javax.swing.JMenuItem mnuResetLatencies;
+    private javax.swing.JMenuItem mnuRestart;
+    private javax.swing.JMenuItem mnuRun;
+    private javax.swing.JMenuItem mnuSave;
+    private javax.swing.JMenuItem mnuSaveAs;
+    private javax.swing.JMenuItem mnuSelectAll;
+    private javax.swing.JMenuItem mnuSelectAllP;
+    private javax.swing.JMenuItem mnuStep;
+    private javax.swing.JMenuItem mnuSwitchSide;
+    private javax.swing.JCheckBoxMenuItem mnuSwitchTheme;
+    private javax.swing.JPopupMenu mnuTabSide;
+    private javax.swing.JMenuItem mnuUndo;
+    private javax.swing.JMenuItem mnuUndoP;
+    private javax.swing.JMenu mnuView;
+    private javax.swing.JPanel pnlAssembledCode;
+    private javax.swing.JPanel pnlCode;
+    private javax.swing.JPanel pnlDataMemory;
+    private javax.swing.JPanel pnlDatapath;
+    private javax.swing.JTabbedPane pnlLeft;
+    private javax.swing.JPanel pnlRegisters;
+    private javax.swing.JTabbedPane pnlRight;
+    private javax.swing.JSplitPane pnlSplit;
+    private javax.swing.JToolBar pnlToolBar;
+    private org.feup.brunonova.drmips.gui.AssembledCodeTable tblAssembledCode;
+    private org.feup.brunonova.drmips.gui.DataMemoryTable tblDataMemory;
+    private org.feup.brunonova.drmips.gui.ExecTable tblExec;
+    private org.feup.brunonova.drmips.gui.RegistersTable tblRegisters;
+    // End of variables declaration//GEN-END:variables
+
+	/**
+	 * Listener for the "Open recent" menu items.
+	 */
+	private class RecentFileActionListener implements ActionListener {
+		/** The file of the menu item. */
+		private File file;
+
+		/**
+		 * Creates the listener.
+		 * @param file The file of the menu item.
+		 */
+		public RecentFileActionListener(File file) {
+			this.file = file;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			boolean open = true;
+			if(txtCode != null && txtCode.isDirty()) { // file changed?
+				int opt = JOptionPane.showConfirmDialog(FrmSimulator.this, Lang.t("code_changed"), DrMIPS.PROGRAM_NAME, JOptionPane.YES_NO_CANCEL_OPTION);
+				switch(opt) {
+					case JOptionPane.YES_OPTION: 
+						open = true;
+						saveFile();
+						break;
+					case JOptionPane.NO_OPTION: open = true; break;
+					case JOptionPane.CANCEL_OPTION: open = false; break;
+				}
+			}
+			
+			if(open)
+				openFile(file);
+		}
+	}
+	
+	/**
+	 * Listener for the CPU's "Load recent" menu items.
+	 */
+	private class RecentCPUActionListener implements ActionListener {
+		/** The file of the menu item. */
+		private File file;
+
+		/**
+		 * Creates the listener.
+		 * @param file The file of the menu item.
+		 */
+		public RecentCPUActionListener(File file) {
+			this.file = file;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			try {
+				loadCPU(Util.getFilePath(file));
+				if(!mnuInternalWindows.isSelected())
+					tabDatapath.select();
+			}
+			catch(Exception ex) {
+				JOptionPane.showMessageDialog(FrmSimulator.this, Lang.t("invalid_file") + "\n" + ex.getMessage(), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+				ex.printStackTrace();
+			}
+		}
+	}
+	
+	/**
+	 * Event handler fired when the language is changes in the language menu.
+	 */
+	private class LanguageSelectedListener implements ActionListener {
+		/** The associated language. */
+		private String lang;
+
+		/**
+		 * Creates the handler.
+		 * @param lang The associated language.
+		 */
+		public LanguageSelectedListener(String lang) {
+			this.lang = lang;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(!lang.equals(Lang.getLanguage())) {
+				try {
+					Lang.load(lang);
+					DrMIPS.prefs.put(DrMIPS.LANG_PREF, lang);
+					translate();
+				}
+				catch(IOException ex) {
+					JOptionPane.showMessageDialog(null, "Error opening language file " + Lang.getFilename() + "!\n" + ex.getMessage(), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		}
+	}
+	
+	
+	/**
+	 * Contains the informations of a tab.
+	 */
+	private class Tab {
+		/** The panel in the tab. */
+		private JPanel panel;
+		/** The side of the tab (<tt>Util.LEFT</tt> or <tt>Util.RIGHT</tt>). */
+		private int side;
+		/** The tabbed pane in the side of the tab. */
+		private JTabbedPane tabbedPane;
+		/** The index of the tab in the corresponding tabbed pane. */
+		private int index;
+
+		/**
+		 * Creates the tab and adds it to the given side.
+		 * @param panel The panel in the tab. 
+		 * @param title The title of the tab.
+		 * @param side The side of the tab (<tt>Util.LEFT</tt> or <tt>Util.RIGHT</tt>).
+		 */
+		public Tab(JPanel panel, String title, int side) {
+			this.panel = panel;
+			this.side = (side == Util.LEFT || side == Util.RIGHT) ? side : Util.RIGHT;
+			tabbedPane = (side == Util.LEFT) ? pnlLeft : pnlRight;
+			this.index = tabbedPane.getTabCount();
+			tabbedPane.addTab(title, panel);
+		}
+		
+		/**
+		 * Updates the title of the tab.
+		 * @param title New title.
+		 */
+		public void setTitle(String title) {
+			tabbedPane.setTitleAt(index, title);
+		}
+
+		/**
+		 * Returns the panel in the tab.
+		 * @return The panel in the tab.
+		 */
+		public JPanel getPanel() {
+			return panel;
+		}
+		
+		/**
+		 * Returns the side of the tab.
+		 * @return The side of the tab (<tt>Util.LEFT</tt> or <tt>Util.RIGHT</tt>).
+		 */
+		public int getSide() {
+			return side;
+		}
+
+		/**
+		 * Returns the index of the tab in the corresponding tabbed pane.
+		 * @return The index of the tab in the corresponding tabbed pane.
+		 */
+		public int getIndex() {
+			return index;
+		}
+		
+		/**
+		 * Selects this tab.
+		 */
+		public void select() {
+			if(side == Util.LEFT)
+				pnlLeft.setSelectedIndex(index);
+			else
+				pnlRight.setSelectedIndex(index);
+		}
+	}
+	
+	/**
+	 * Listener that disables the simulation controls when the code is changed.
+	 */
+	private class CodeEditorDocumentListener implements DocumentListener {
+		@Override
+		public void insertUpdate(DocumentEvent e) {
+			setSimulationControlsEnabled(false);
+		}
+
+		@Override
+		public void removeUpdate(DocumentEvent e) {
+			setSimulationControlsEnabled(false);
+		}
+
+		@Override
+		public void changedUpdate(DocumentEvent e) {
+			setSimulationControlsEnabled(false);
+		}
+		
+	}
+}

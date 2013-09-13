@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+    <color name="gray">#808080</color>
+    <color name="control">#00AAE6</color>
+    <color name="red">#ff0000</color>
+    <color name="tip_border">#968f8f00</color>
+    <color name="tip_background">#96ffff8f</color>
+</resources>
