@@ -1,0 +1,11 @@
+UML class diagram
+=================
+
+This directory contains the simplified UML class diagram of the simulator.
+The class diagram is intended to provide a quick overview of how the simulator
+is structured.
+However, **it may not be up to date!**
+
+The diagram was created using [Dia][dia].
+
+[dia]: http://wiki.gnome.org/Apps/Dia
