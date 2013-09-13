@@ -1,0 +1,8 @@
+# Files generated for the PC version of the simulator
+src/pc/DrMIPS/nbproject/private
+src/pc/DrMIPS/build
+src/pc/DrMIPS/dist
+
+# Files generated for the Android version of the simulator
+src/android/DrMIPS/bin
+src/android/DrMIPS/gen

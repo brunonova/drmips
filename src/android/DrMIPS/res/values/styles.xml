@@ -1,0 +1,52 @@
+<resources>
+
+	<!--
+	    Base application theme, dependent on API level. This theme is replaced
+	    by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+	-->
+	<style name="DarkTheme" parent="android:Theme.Black">
+		<item name="fileIcon">@drawable/ic_action_file_dark</item>
+		<item name="newIcon">@drawable/ic_action_new_dark</item>
+		<item name="openIcon">@drawable/ic_action_open_dark</item>
+		<item name="saveIcon">@drawable/ic_action_save_dark</item>
+		<item name="saveAsIcon">@drawable/ic_action_save_as_dark</item>
+		<item name="deleteIcon">@drawable/ic_action_delete_dark</item>
+		<item name="assembleIcon">@drawable/ic_action_assemble_dark</item>
+		<item name="stepIcon">@drawable/ic_action_step_dark</item>
+		<item name="backstepIcon">@drawable/ic_action_backstep_dark</item>
+		<item name="loadIcon">@drawable/ic_action_load_dark</item>
+		<item name="aboutIcon">@drawable/ic_action_about_dark</item>
+		<item name="prefsIcon">@drawable/ic_action_prefs_dark</item>
+		<item name="themeIcon">@drawable/ic_action_theme_dark</item>
+		<item name="restartIcon">@drawable/ic_action_restart_dark</item>
+		<item name="runIcon">@drawable/ic_action_run_dark</item>
+		<item name="helpIcon">@drawable/ic_action_help_dark</item>
+		
+		<item name="wireColor">@color/white</item>
+		<item name="aux_comp_back">@drawable/aux_comp_back_white</item>
+	</style>
+	
+	<style parent="android:Theme.Light" name="LightTheme">
+		<item name="fileIcon">@drawable/ic_action_file_dark</item>
+		<item name="newIcon">@drawable/ic_action_new_dark</item>
+		<item name="openIcon">@drawable/ic_action_open_dark</item>
+		<item name="saveIcon">@drawable/ic_action_save_dark</item>
+		<item name="saveAsIcon">@drawable/ic_action_save_as_dark</item>
+		<item name="deleteIcon">@drawable/ic_action_delete_dark</item>
+		<item name="assembleIcon">@drawable/ic_action_assemble_dark</item>
+		<item name="stepIcon">@drawable/ic_action_step_dark</item>
+		<item name="backstepIcon">@drawable/ic_action_backstep_dark</item>
+		<item name="loadIcon">@drawable/ic_action_load_dark</item>
+		<item name="aboutIcon">@drawable/ic_action_about_dark</item>
+		<item name="prefsIcon">@drawable/ic_action_prefs_dark</item>
+		<item name="themeIcon">@drawable/ic_action_theme_dark</item>
+		<item name="restartIcon">@drawable/ic_action_restart_dark</item>
+		<item name="runIcon">@drawable/ic_action_run_dark</item>
+		<item name="helpIcon">@drawable/ic_action_help_dark</item>
+		
+		<item name="wireColor">@color/black</item>
+		<item name="aux_comp_back">@drawable/aux_comp_back_black</item>
+	</style>
+    
+
+</resources>

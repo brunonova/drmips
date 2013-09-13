@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tabDatapath"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/cmdStep"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:contentDescription="@string/step"
+            android:onClick="cmdStepOnClick"
+            android:src="?stepIcon"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/lblDatapathFormat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/format" />
+
+        <Spinner
+            android:id="@+id/cmbDatapathFormat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:entries="@array/formats" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="5dp"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:id="@+id/cmdDatapathHelp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/help"
+            android:onClick="cmdDatapathHelpOnClick"
+            android:src="?helpIcon" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/lblCPUFilename"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:clickable="true"
+        android:onClick="lblCPUFilenameOnClick"
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="italic" />
+
+    <TableLayout
+        android:id="@+id/tblExec"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TableRow
+            android:id="@+id/tblExecRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+        </TableRow>
+    </TableLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <HorizontalScrollView
+            android:id="@+id/datapathScroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+        </HorizontalScrollView>
+    </ScrollView>
+
+</LinearLayout>
