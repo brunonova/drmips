@@ -1,0 +1,8 @@
+Manuals
+=======
+
+This directory contains the manuals/documentation (or the sources to create 
+them) to be distributed with the simulator.
+
+The directory includes a _Makefile_ to compile all LaTeX files into PDFs.
+**Each manual should have only one _.tex_ file!**
