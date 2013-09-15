@@ -1,3 +1,8 @@
+# Files generated for distribution
+./DrMIPS
+./DrMIPS.zip
+./DrMIPS.apk
+
 # Files generated for the PC version of the simulator
 src/pc/DrMIPS/nbproject/private
 src/pc/DrMIPS/build
