@@ -4,7 +4,7 @@
 PDFLATEX=pdflatex -synctex=1 -interaction=nonstopmode
 RM=rm -f
 
-.PHONY: clean
+.PHONY: all clean
 
 all: *.pdf
 
