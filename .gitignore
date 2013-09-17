@@ -2,6 +2,7 @@
 /DrMIPS
 /DrMIPS.zip
 /DrMIPS.apk
+/DrMIPS-unsigned.apk
 
 # Files generated for the PC version of the simulator
 src/pc/DrMIPS/nbproject/private
