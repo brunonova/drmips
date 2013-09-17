@@ -1,13 +1,17 @@
 ANT=ant
 RM=rm -rf
 
-.PHONY: all drmips clean
+.PHONY: all debug release clean
 
-all: drmips
+all: debug
 
-drmips:
+debug:
 	android update project --path . || true # try to generate local.properties
 	$(ANT) debug
+
+release:
+	android update project --path . || true # try to generate local.properties
+	$(ANT) release
 
 clean:
 	$(RM) bin gen

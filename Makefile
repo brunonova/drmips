@@ -28,10 +28,11 @@ endif
 endif
 endif
 
-.PHONY: all doc manuals simulator pc android dist
+.PHONY: all doc manuals simulator release pc android android-release dist
 all: doc simulator
 doc: manuals
 simulator: pc android
+release: pc android-release
 dist: $(ZIP_FILE) $(APK_FILE)
 
 manuals:
@@ -46,6 +47,10 @@ android:
 	@echo ' * Compiling Android version of the simulator...'
 	@(cd $(ANDROID_DIR) && make $(EXTRA_ARGS))
 
+android-release:
+	@echo ' * Compiling Android (release) version of the simulator...'
+	@(cd $(ANDROID_DIR) && make release $(EXTRA_ARGS))
+
 $(ZIP_FILE): pc manuals
 	@echo ' * Creating $(ZIP_FILE)...'
 	@$(RM) $(TMP_DIR) $(ZIP_FILE)
@@ -56,9 +61,9 @@ $(ZIP_FILE): pc manuals
 	@$(ZIP) $(ZIP_FILE) $(TMP_DIR) $(EXTRA_ARGS)
 	@$(RM) $(TMP_DIR)
 
-$(APK_FILE): android
-	@echo ' * Creating $(APK_FILE)...'
-	@$(CP) $(ANDROID_DIR)/bin/$(APK_FILE) $(APK_FILE)
+$(APK_FILE): android-release
+	@echo ' * Creating $(APK_FILE) (the apk will not be signed)...'
+	@$(CP) $(ANDROID_DIR)/bin/$(PROG_NAME)-release-unsigned.apk $(APK_FILE)
 
 clean:
 	@echo ' * Removing compiled files...'
