@@ -15,6 +15,7 @@ TMP_DOC_DIR=$(TMP_DIR)/doc
 ZIP_FILE=$(PROG_NAME).zip
 APK_FILE=$(PROG_NAME).apk
 RM=rm -rf
+MV=mv
 MKDIR=mkdir
 CP=cp -r
 ZIP=zip -r9
@@ -28,7 +29,7 @@ endif
 endif
 endif
 
-.PHONY: all doc manuals simulator release pc android android-release dist
+.PHONY: all doc manuals simulator release pc android android-release dist sign-apk
 all: doc simulator
 doc: manuals
 simulator: pc android
@@ -63,7 +64,17 @@ $(ZIP_FILE): pc manuals
 
 $(APK_FILE): android-release
 	@echo ' * Creating $(APK_FILE) (the apk will not be signed)...'
-	@$(CP) $(ANDROID_DIR)/bin/$(PROG_NAME)-release-unsigned.apk $(APK_FILE)
+	@$(CP) $(ANDROID_DIR)/bin/$(PROG_NAME)-release-unsigned.apk \
+		$(PROG_NAME)-unsigned.apk
+
+## Generate key:
+# keytool -genkey -v -keystore my-release-key.keystore -alias alias_name\
+# -keyalg RSA -keysize 2048 -validity 10000
+sign-apk:
+	@echo ' * Signing apk (pass the KEYSTORE and ALIAS vars)...'
+	@jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $(KEYSTORE)\
+		$(PROG_NAME)-unsigned.apk $(ALIAS)
+	@zipalign -v 4 $(PROG_NAME)-unsigned.apk $(APK_FILE)
 
 clean:
 	@echo ' * Removing compiled files...'
