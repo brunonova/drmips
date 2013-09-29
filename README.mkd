@@ -12,6 +12,10 @@ DrMIPS was created under the Master's dissertation entitled
 
 Check the [Wiki][wiki] for information on how to use the simulator.
 
+DrMIPS is open-source and licensed under the GPLv3, so you are free to use and
+modify it.
+
+
 
 [DISS]: http://paginas.fe.up.pt/~ei08109/dissertation/ "Dissertation Wiki"
 [FEUP]: http://www.fe.up.pt/ "Faculty of Engineering of the University of Porto"
