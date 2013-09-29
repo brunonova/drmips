@@ -198,3 +198,5 @@ invalid_arg_positive_int=Invalid argument! Expected a positive integer, found #1
 data_segment_without_data_memory=Data segment not available when using a CPU without data memory!
 possible_infinite_loop=Possible infinite loop detected (more than #1 cycles executed)!
 license=License
+documentation=&Documentation
+error_opening_doc_folder=Error opening documentation folder!

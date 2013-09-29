@@ -45,6 +45,8 @@ public class DrMIPS {
 	public static final String DEFAULT_LANGUAGE = "en";
 	/** The CPU file loaded by default. */
 	public static final String DEFAULT_CPU = "cpu" + File.separator + "unicycle.cpu";
+	/** The name of the documentation directory. */
+	public static final String DOC_DIR = "doc";
 	/** The default format with which the registers are displayed. */
 	public static final int DEFAULT_REGISTER_FORMAT = Util.DECIMAL_FORMAT_INDEX;
 	/** The default format with which the datapath data is displayed. */
