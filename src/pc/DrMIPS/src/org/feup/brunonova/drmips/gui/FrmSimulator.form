@@ -520,12 +520,12 @@
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator14">
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mnuResetLatencies">
+            <MenuItem class="javax.swing.JMenuItem" name="mnuRestoreLatencies">
               <Properties>
-                <Property name="text" type="java.lang.String" value="reset_latencies"/>
+                <Property name="text" type="java.lang.String" value="restore_latencies"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuResetLatenciesActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuRestoreLatenciesActionPerformed"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuRemoveLatencies">

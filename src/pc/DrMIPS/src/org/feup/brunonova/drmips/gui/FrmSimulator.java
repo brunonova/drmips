@@ -262,7 +262,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuArrowsInWires = new javax.swing.JCheckBoxMenuItem();
         mnuOverlayedData = new javax.swing.JCheckBoxMenuItem();
         jSeparator14 = new javax.swing.JPopupMenu.Separator();
-        mnuResetLatencies = new javax.swing.JMenuItem();
+        mnuRestoreLatencies = new javax.swing.JMenuItem();
         mnuRemoveLatencies = new javax.swing.JMenuItem();
         mnuExecute = new javax.swing.JMenu();
         mnuAssemble = new javax.swing.JMenuItem();
@@ -889,13 +889,13 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuDatapath.add(mnuOverlayedData);
         mnuDatapath.add(jSeparator14);
 
-        mnuResetLatencies.setText("reset_latencies");
-        mnuResetLatencies.addActionListener(new java.awt.event.ActionListener() {
+        mnuRestoreLatencies.setText("restore_latencies");
+        mnuRestoreLatencies.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuResetLatenciesActionPerformed(evt);
+                mnuRestoreLatenciesActionPerformed(evt);
             }
         });
-        mnuDatapath.add(mnuResetLatencies);
+        mnuDatapath.add(mnuRestoreLatencies);
 
         mnuRemoveLatencies.setText("remove_latencies");
         mnuRemoveLatencies.addActionListener(new java.awt.event.ActionListener() {
@@ -1243,10 +1243,10 @@ public class FrmSimulator extends javax.swing.JFrame {
 		refreshDatapathHelp();
     }//GEN-LAST:event_mnuPerformanceModeActionPerformed
 
-    private void mnuResetLatenciesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuResetLatenciesActionPerformed
+    private void mnuRestoreLatenciesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRestoreLatenciesActionPerformed
 		cpu.resetLatencies();
 		datapath.refresh();
-    }//GEN-LAST:event_mnuResetLatenciesActionPerformed
+    }//GEN-LAST:event_mnuRestoreLatenciesActionPerformed
 
     private void mnuOverlayedDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuOverlayedDataActionPerformed
 		datapath.setShowTips(mnuOverlayedData.isSelected());
@@ -1575,7 +1575,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		Lang.tButton(mnuCPU, "cpu");
 		Lang.tButton(mnuLoadCPU, "load");
 		Lang.tButton(mnuLoadRecentCPU, "load_recent");
-		Lang.tButton(mnuResetLatencies, "reset_latencies");
+		Lang.tButton(mnuRestoreLatencies, "restore_latencies");
 		Lang.tButton(mnuRemoveLatencies, "remove_latencies");
 		Lang.tButton(mnuLanguage, "language");
 		Lang.tButton(mnuHelp, "help");
@@ -2257,8 +2257,8 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuRedoP;
     private javax.swing.JMenuItem mnuRemoveLatencies;
     private javax.swing.JCheckBoxMenuItem mnuResetDataBeforeAssembling;
-    private javax.swing.JMenuItem mnuResetLatencies;
     private javax.swing.JMenuItem mnuRestart;
+    private javax.swing.JMenuItem mnuRestoreLatencies;
     private javax.swing.JMenuItem mnuRun;
     private javax.swing.JMenuItem mnuSave;
     private javax.swing.JMenuItem mnuSaveAs;

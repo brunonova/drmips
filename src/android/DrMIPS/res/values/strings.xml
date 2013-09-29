@@ -117,7 +117,6 @@
     <string name="performance_mode">Performance mode</string>
     <string name="long_press_to_change">long-press to change</string>
     <string name="overlayed_data">Overlayed data</string>
-    <string name="reset_latencies">Reset latencies</string>
     <string name="restart">Restart</string>
     <string name="run">Run</string>
     <string name="possible_infinite_loop">Possible infinite loop detected (more than #1 cycles executed)!</string>
@@ -142,5 +141,6 @@
     <string name="for_dissertation">for the Master\'s Dissertation of MIEIC</string>
     <string name="license">License</string>
     <string name="remove_latencies">Remove latencies</string>
+    <string name="restore_latencies">Restore latencies</string>
 
 </resources>
