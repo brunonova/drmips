@@ -200,3 +200,4 @@ possible_infinite_loop=Possible infinite loop detected (more than #1 cycles exec
 license=License
 documentation=&Documentation
 error_opening_doc_folder=Error opening documentation folder!
+remove_latencies=&Remove latencies

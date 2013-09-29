@@ -139,6 +139,7 @@
 	<string name="filename">Nome do ficheiro</string>
 	<string name="confirm_exit">Tem a certeza que deseja sair da aplicação?</string>
 	<string name="for_dissertation">no âmbito da Dissertação de Mestrado do MIEIC</string>
-	<string name="license">Licença</string>    
+	<string name="license">Licença</string>
+	<string name="remove_latencies">Remover latências</string>
     
 </resources>

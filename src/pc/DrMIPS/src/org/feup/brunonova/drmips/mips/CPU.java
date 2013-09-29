@@ -205,7 +205,15 @@ public class CPU {
 	public final void resetLatencies() {
 		for(Component c: getComponents())
 			c.resetLatency();
-		
+		calculatePerformance();
+	}
+	
+	/**
+	 * Sets the latencies of all components to 0 (zero).
+	 */
+	public final void removeLatencies() {
+		for(Component c: getComponents())
+			c.setLatency(0);
 		calculatePerformance();
 	}
 	

@@ -200,3 +200,4 @@ possible_infinite_loop=Possível ciclo infinito detectado (mais de #1 ciclos exe
 license=Licença
 documentation=&Documentação
 error_opening_doc_folder=Erro a abrir a pasta da documentação!
+remove_latencies=&Remover latências
