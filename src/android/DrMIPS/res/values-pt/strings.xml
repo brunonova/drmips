@@ -116,7 +116,6 @@
     <string name="performance_mode">Modo de desempenho</string>
     <string name="long_press_to_change">mantenha premido para alterar</string>
     <string name="overlayed_data">Dados sobrepostos</string>
-    <string name="reset_latencies">Reiniciar latências</string>
     <string name="restart">Reiniciar</string>
     <string name="run">Executar</string>
     <string name="possible_infinite_loop">Possível ciclo infinito detectado (mais de #1 ciclos executados)!</string>
@@ -141,5 +140,6 @@
 	<string name="for_dissertation">no âmbito da Dissertação de Mestrado do MIEIC</string>
 	<string name="license">Licença</string>
 	<string name="remove_latencies">Remover latências</string>
+	<string name="restore_latencies">Restaurar latências</string>
     
 </resources>

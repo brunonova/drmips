@@ -20,7 +20,7 @@
             <item android:id="@+id/mnuControlPath" android:orderInCategory="100" android:title="@string/control_path" android:checkable="true" android:checked="true"/>
             <item android:id="@+id/mnuArrowsInWires" android:orderInCategory="100" android:checkable="true" android:checked="true" android:title="@string/arrows_in_wires"/>
             <item android:id="@+id/mnuOverlayedData" android:orderInCategory="100" android:checkable="true" android:checked="true" android:title="@string/overlayed_data"/>
-            <item android:id="@+id/mnuResetLatencies" android:title="@string/reset_latencies" android:orderInCategory="100"/>
+            <item android:id="@+id/mnuRestoreLatencies" android:title="@string/restore_latencies" android:orderInCategory="100"/>
             <item android:id="@+id/mnuRemoveLatencies" android:title="@string/remove_latencies" android:orderInCategory="100"/>
         </menu>
     </item>

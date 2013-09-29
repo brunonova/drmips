@@ -210,7 +210,7 @@ public class DrMIPSActivity extends Activity {
 			case R.id.mnuArrowsInWires: mnuArrowsInWiresOnClick(item); return true;
 			case R.id.mnuPerformanceMode: mnuPerformanceModeOnClick(item); return true;
 			case R.id.mnuOverlayedData: mnuOverlayedDataOnClick(item); return true;
-			case R.id.mnuResetLatencies: mnuResetLatenciesOnClick(item); return true;
+			case R.id.mnuRestoreLatencies: mnuRestoreLatenciesOnClick(item); return true;
 			case R.id.mnuRemoveLatencies: mnuRemoveLatenciesOnClick(item); return true;
 			case R.id.mnuRestart: mnuRestartOnClick(item); return true;
 			case R.id.mnuRun: mnuRunOnClick(item); return true;
@@ -704,7 +704,7 @@ public class DrMIPSActivity extends Activity {
 		datapath.setShowTips(mnuOverlayedData.isChecked());
 	}
 	
-	public void mnuResetLatenciesOnClick(MenuItem menu) {
+	public void mnuRestoreLatenciesOnClick(MenuItem menu) {
 		getCPU().resetLatencies();
 		datapath.refresh();
 	}
