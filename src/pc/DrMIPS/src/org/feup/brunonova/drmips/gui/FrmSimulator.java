@@ -263,6 +263,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuOverlayedData = new javax.swing.JCheckBoxMenuItem();
         jSeparator14 = new javax.swing.JPopupMenu.Separator();
         mnuResetLatencies = new javax.swing.JMenuItem();
+        mnuRemoveLatencies = new javax.swing.JMenuItem();
         mnuExecute = new javax.swing.JMenu();
         mnuAssemble = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
@@ -896,6 +897,14 @@ public class FrmSimulator extends javax.swing.JFrame {
         });
         mnuDatapath.add(mnuResetLatencies);
 
+        mnuRemoveLatencies.setText("remove_latencies");
+        mnuRemoveLatencies.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuRemoveLatenciesActionPerformed(evt);
+            }
+        });
+        mnuDatapath.add(mnuRemoveLatencies);
+
         mnuBar.add(mnuDatapath);
 
         mnuExecute.setText("execute");
@@ -1272,6 +1281,11 @@ public class FrmSimulator extends javax.swing.JFrame {
 		}
     }//GEN-LAST:event_mnuDocsActionPerformed
 
+    private void mnuRemoveLatenciesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRemoveLatenciesActionPerformed
+		cpu.removeLatencies();
+		datapath.refresh();
+    }//GEN-LAST:event_mnuRemoveLatenciesActionPerformed
+
 	/**
 	 * Sets the path of the opened file and updates the title bar and recent files.
 	 * @param path Path to the opened file.
@@ -1562,6 +1576,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		Lang.tButton(mnuLoadCPU, "load");
 		Lang.tButton(mnuLoadRecentCPU, "load_recent");
 		Lang.tButton(mnuResetLatencies, "reset_latencies");
+		Lang.tButton(mnuRemoveLatencies, "remove_latencies");
 		Lang.tButton(mnuLanguage, "language");
 		Lang.tButton(mnuHelp, "help");
 		Lang.tButton(mnuDocs, "documentation");
@@ -2240,6 +2255,7 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuPrint;
     private javax.swing.JMenuItem mnuRedo;
     private javax.swing.JMenuItem mnuRedoP;
+    private javax.swing.JMenuItem mnuRemoveLatencies;
     private javax.swing.JCheckBoxMenuItem mnuResetDataBeforeAssembling;
     private javax.swing.JMenuItem mnuResetLatencies;
     private javax.swing.JMenuItem mnuRestart;

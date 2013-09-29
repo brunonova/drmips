@@ -141,5 +141,6 @@
     <string name="confirm_exit">Are you sure you want to exit the application?</string>
     <string name="for_dissertation">for the Master\'s Dissertation of MIEIC</string>
     <string name="license">License</string>
+    <string name="remove_latencies">Remove latencies</string>
 
 </resources>

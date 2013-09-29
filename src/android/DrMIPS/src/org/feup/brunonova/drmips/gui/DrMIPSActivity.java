@@ -211,6 +211,7 @@ public class DrMIPSActivity extends Activity {
 			case R.id.mnuPerformanceMode: mnuPerformanceModeOnClick(item); return true;
 			case R.id.mnuOverlayedData: mnuOverlayedDataOnClick(item); return true;
 			case R.id.mnuResetLatencies: mnuResetLatenciesOnClick(item); return true;
+			case R.id.mnuRemoveLatencies: mnuRemoveLatenciesOnClick(item); return true;
 			case R.id.mnuRestart: mnuRestartOnClick(item); return true;
 			case R.id.mnuRun: mnuRunOnClick(item); return true;
 			default: return super.onOptionsItemSelected(item);
@@ -705,6 +706,11 @@ public class DrMIPSActivity extends Activity {
 	
 	public void mnuResetLatenciesOnClick(MenuItem menu) {
 		getCPU().resetLatencies();
+		datapath.refresh();
+	}
+	
+	public void mnuRemoveLatenciesOnClick(MenuItem menu) {
+		getCPU().removeLatencies();
 		datapath.refresh();
 	}
 	
