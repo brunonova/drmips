@@ -18,6 +18,7 @@
 
 package org.feup.brunonova.drmips.gui;
 import java.awt.BorderLayout;
+import java.awt.Desktop;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -275,6 +276,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuLoadCPU = new javax.swing.JMenuItem();
         mnuLoadRecentCPU = new javax.swing.JMenu();
         mnuHelp = new javax.swing.JMenu();
+        mnuDocs = new javax.swing.JMenuItem();
         mnuAbout = new javax.swing.JMenuItem();
 
         mnuEditP.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
@@ -372,7 +374,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         frmCode.setMaximizable(true);
         frmCode.setResizable(true);
         frmCode.setVisible(true);
-        frmCode.setBounds(0, 0, 68, 32);
+        frmCode.setBounds(0, 0, 50, 33);
         desktop.add(frmCode, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         frmAssembledCode.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -380,7 +382,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         frmAssembledCode.setMaximizable(true);
         frmAssembledCode.setResizable(true);
         frmAssembledCode.setVisible(true);
-        frmAssembledCode.setBounds(0, 0, 68, 32);
+        frmAssembledCode.setBounds(0, 0, 50, 33);
         desktop.add(frmAssembledCode, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         frmDatapath.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -388,7 +390,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         frmDatapath.setMaximizable(true);
         frmDatapath.setResizable(true);
         frmDatapath.setVisible(true);
-        frmDatapath.setBounds(0, 0, 68, 32);
+        frmDatapath.setBounds(0, 0, 50, 33);
         desktop.add(frmDatapath, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         frmRegisters.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -396,7 +398,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         frmRegisters.setMaximizable(true);
         frmRegisters.setResizable(true);
         frmRegisters.setVisible(true);
-        frmRegisters.setBounds(0, 0, 68, 32);
+        frmRegisters.setBounds(0, 0, 50, 33);
         desktop.add(frmRegisters, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         frmDataMemory.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -404,7 +406,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         frmDataMemory.setMaximizable(true);
         frmDataMemory.setResizable(true);
         frmDataMemory.setVisible(true);
-        frmDataMemory.setBounds(0, 0, 68, 32);
+        frmDataMemory.setBounds(0, 0, 50, 33);
         desktop.add(frmDataMemory, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -979,6 +981,16 @@ public class FrmSimulator extends javax.swing.JFrame {
 
         mnuHelp.setText("help");
 
+        mnuDocs.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
+        mnuDocs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/help-contents.png"))); // NOI18N
+        mnuDocs.setText("documentation");
+        mnuDocs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuDocsActionPerformed(evt);
+            }
+        });
+        mnuHelp.add(mnuDocs);
+
         mnuAbout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/help-about.png"))); // NOI18N
         mnuAbout.setText("about");
         mnuAbout.addActionListener(new java.awt.event.ActionListener() {
@@ -1247,6 +1259,18 @@ public class FrmSimulator extends javax.swing.JFrame {
     private void mnuRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRunActionPerformed
 		run();
     }//GEN-LAST:event_mnuRunActionPerformed
+
+    private void mnuDocsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDocsActionPerformed
+		File docDir = new File(DrMIPS.path + File.separator + DrMIPS.DOC_DIR);
+		try {
+			if(Desktop.isDesktopSupported() && docDir.exists() && docDir.isDirectory())
+				Desktop.getDesktop().open(docDir);
+			else
+				JOptionPane.showMessageDialog(this, Lang.t("error_opening_doc_folder"), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(this, Lang.t("error_opening_doc_folder"), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+		}
+    }//GEN-LAST:event_mnuDocsActionPerformed
 
 	/**
 	 * Sets the path of the opened file and updates the title bar and recent files.
@@ -1540,6 +1564,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		Lang.tButton(mnuResetLatencies, "reset_latencies");
 		Lang.tButton(mnuLanguage, "language");
 		Lang.tButton(mnuHelp, "help");
+		Lang.tButton(mnuDocs, "documentation");
 		Lang.tButton(mnuAbout, "about");
 		
 		Lang.tButton(mnuUndoP, "undo");
@@ -2192,6 +2217,7 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuCut;
     private javax.swing.JMenuItem mnuCutP;
     private javax.swing.JMenu mnuDatapath;
+    private javax.swing.JMenuItem mnuDocs;
     private javax.swing.JMenu mnuEdit;
     private javax.swing.JPopupMenu mnuEditP;
     private javax.swing.JMenu mnuExecute;
