@@ -5,6 +5,9 @@
 #
 # By default, the makefile will suppress the output of the commands executed by
 # it. To print that output, run make with the 'VERBOSE=yes' argument.
+#
+# Warning: the PC project must be opened in Netbeans at least once for the
+# makefile to work correctly!
 
 MANUALS_DIR=doc/manuals
 PC_DIR=src/pc/DrMIPS
