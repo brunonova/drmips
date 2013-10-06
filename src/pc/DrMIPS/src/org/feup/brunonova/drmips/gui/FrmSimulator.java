@@ -32,7 +32,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.text.MessageFormat;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.ImageIcon;
@@ -1038,7 +1037,6 @@ public class FrmSimulator extends javax.swing.JFrame {
 		}
 		catch(Throwable ex) {
 			JOptionPane.showMessageDialog(this, Lang.t("invalid_file") + "\n" + ex.getClass().getName() + " (" + ex.getMessage() + ")", DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
-			ex.printStackTrace();
 		}
     }//GEN-LAST:event_mnuLoadCPUActionPerformed
 
@@ -1787,7 +1785,6 @@ public class FrmSimulator extends javax.swing.JFrame {
 				DrMIPS.prefs.put(DrMIPS.LAST_CPU_PREF, DrMIPS.path + File.separator + DrMIPS.DEFAULT_CPU);
 			} catch (Throwable e) { // error on the default CPU too
 				JOptionPane.showMessageDialog(this, Lang.t("invalid_file") + "\n" + ex.getClass().getName() + " (" + ex.getMessage() + ")", DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
-				e.printStackTrace();
 				System.exit(2);
 			}
 		}
@@ -2333,7 +2330,6 @@ public class FrmSimulator extends javax.swing.JFrame {
 			}
 			catch(Exception ex) {
 				JOptionPane.showMessageDialog(FrmSimulator.this, Lang.t("invalid_file") + "\n" + ex.getMessage(), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
-				ex.printStackTrace();
 			}
 		}
 	}
@@ -2361,8 +2357,8 @@ public class FrmSimulator extends javax.swing.JFrame {
 					DrMIPS.prefs.put(DrMIPS.LANG_PREF, lang);
 					translate();
 				}
-				catch(IOException ex) {
-					JOptionPane.showMessageDialog(null, "Error opening language file " + Lang.getFilename() + "!\n" + ex.getMessage(), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+				catch(Exception ex) {
+					JOptionPane.showMessageDialog(null, "Error opening language file " + Lang.getLanguage() + "!\n" + ex.getMessage(), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		}

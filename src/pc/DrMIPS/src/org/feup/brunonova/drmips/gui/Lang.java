@@ -18,17 +18,13 @@
 
 package org.feup.brunonova.drmips.gui;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Locale;
-import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.TreeSet;
 import javax.swing.AbstractButton;
 import javax.swing.UIManager;
 
@@ -40,53 +36,61 @@ import javax.swing.UIManager;
  * A '&' indicates that the next character can be used as a button mnemonic (write
  * "&&" to display a '&').</p>
  * 
+ * <p>The default (en) language file has the name "lang.properties".<br />
+ * Translated language files should have a name of the kind "lang_LANGUAGE.properties",
+ * where LANGUAGE should be one of:
+ * <ul>
+ * <li>lang_language.properties (ex: lang_pt.properties)</li>
+ * <li>lang_language_COUNTRY.properties (ex: lang_pt_PT.properties)</li>
+ * <li>lang_language_COUNTRY_variation.properties (ex: lang_pt_PT_ao.properties)</li>
+ * </ul>
+ * </p>
+ * 
  * @author Bruno Nova
  */
 public class Lang {
 	/** The path to the language files, with the trailing slash. */
-	public static final String FILENAME_PATH = "lang" + File.separator;
+	public static final String FILENAME_PATH = "lang";
 	/** The file extension of the language files. */
-	public static final String FILENAME_EXTENSION = "lng";
+	public static final String FILENAME_EXTENSION = "properties";
+	/** The base name of the language files. */
+	public static final String FILENAME_BASE_NAME = "lang";
+	/** The file prefix of the language files. */
+	public static final String FILENAME_PREFIX = FILENAME_BASE_NAME + "_";
 	/** The default/fallback language. */
 	public static final String DEFAULT_LANGUAGE = "en";
 	/** The character that prepends the char to be considered the mnemonic char. */
 	public static final char MNEMONIC_CHAR = '&';
-	/** The character that indicates a comment in the file. */
-	public static final char COMMENT_CHAR = '#';
 	/** The character that can indicate a string argument, if followed by a number starting from 1. */
 	public static final char ARG_CHAR = '#';
 	
-	/** The loaded language (the name part of the file name). */
-	private static String language;
-	/** The path of the loaded language file. */
-	private static String filename;
-	/** The strings in the loaded language. */
-	private static Map<String, String> strings;
-	/** List of available languages (filled on the first call to <tt>getAvailableLanguages()</tt>). */
-	private static List<String> availableLanguages;
+	/** The loaded locale. */
+	private static Locale locale;
+	/** The locale of the sistem. */
+	private static Locale systemLocale;
+	/** Set of available languages (filled on the first call to <tt>getAvailableLanguages()</tt>). */
+	private static Set<String> availableLanguages;
+	/** Class loader to load the language files. */
+	private static ClassLoader loader;
+	/** The resource bundle that contains the translated strings. */
+	private static ResourceBundle strings;
 	
 	/**
 	 * Loads the strings of the specified language.
 	 * @param language Language (just the name part of the file name).
-	 * @throws IOException If an error occurred opening or reading the language file.
+	 * @throws Exception If an error occurred opening or reading the language file.
 	 */
-	public static void load(String language) throws IOException {
-		String line;
-		int index;
-		
-		Lang.language = language;
-		filename = DrMIPS.path + File.separator + FILENAME_PATH + language + "." + FILENAME_EXTENSION;
-		
-		// Load strings
-		strings = new HashMap<String, String>(500);
-		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filename), "UTF8"));
-		while((line = reader.readLine()) != null) {
-			line = line.trim();
-			index = line.indexOf('=');
-			if(index > 0 && !line.startsWith("" + COMMENT_CHAR))
-				strings.put(line.substring(0, index).trim(), line.substring(index + 1).trim());
+	public static void load(String language) throws Exception {
+		if(loader == null) {
+			File file = new File(DrMIPS.path + File.separator + FILENAME_PATH);
+			URL[] urls = new URL[] {file.toURI().toURL()};
+			loader = new URLClassLoader(urls);
+			setDefaultLanguage(DEFAULT_LANGUAGE); // set default language
 		}
-		reader.close(); 
+		
+		// Load the strings
+		locale = getLocaleForLanguage(language);
+		strings = ResourceBundle.getBundle(FILENAME_BASE_NAME, locale, loader);
 		
 		// Translate message box buttons and mnemonics
 		UIManager.put("OptionPane.okButtonText", Lang.t("ok"));
@@ -142,24 +146,32 @@ public class Lang {
 	public static boolean loadPreferredLanguage() {
 		try {
 			String prefLang = DrMIPS.prefs.get(DrMIPS.LANG_PREF, "");
-			Locale locale = getSystemLocale();
-			String systemLanguage = locale.getLanguage() + "_" + locale.getCountry();
+			Locale loc = getSystemLocale();
+			String sysLangLCV = loc.getLanguage() + "_" + loc.getCountry() + "_" + loc.getVariant();
+			String sysLangLC = loc.getLanguage() + "_" + loc.getCountry();
+			String sysLangL = loc.getLanguage();
 			
 			// try language selected in the preferences
 			if(isLanguageAvailable(prefLang)) {
 				load(prefLang);
 				return true;
 			}
-			// try system language with country
-			else if(!locale.getCountry().isEmpty() && isLanguageAvailable(systemLanguage)) {
-				load(systemLanguage);
-				DrMIPS.prefs.put(DrMIPS.LANG_PREF, systemLanguage);
+			// try system language with language, country and variant
+			else if(isLanguageAvailable(sysLangLCV)) {
+				load(sysLangLCV);
+				DrMIPS.prefs.put(DrMIPS.LANG_PREF, sysLangLCV);
 				return true;
 			}
-			// try system language without country
-			else if(isLanguageAvailable(locale.getLanguage())) {
-				load(locale.getLanguage());
-				DrMIPS.prefs.put(DrMIPS.LANG_PREF, locale.getLanguage());
+			// try system language with language and country
+			else if(isLanguageAvailable(sysLangLC)) {
+				load(sysLangLC);
+				DrMIPS.prefs.put(DrMIPS.LANG_PREF, sysLangLC);
+				return true;
+			}
+			// try system language with language only
+			else if(isLanguageAvailable(sysLangL)) {
+				load(sysLangL);
+				DrMIPS.prefs.put(DrMIPS.LANG_PREF, sysLangL);
 				return true;
 			}
 			// try default language
@@ -177,6 +189,24 @@ public class Lang {
 	}
 	
 	/**
+	 * Returns the translated string from the resource bundle.
+	 * If the string is not found, it returns the key converted to upper case
+	 * and prints a warning to stderr.
+	 * @param key Key of the string.
+	 * @return The translated string.
+	 */
+	private static String getString(String key) {
+		try {
+			String str = strings.getString(key);
+			return new String(str.getBytes("ISO-8859-1"), "UTF-8"); // convert to UTF-8 (strings are read in ISO-8859-1)
+		}
+		catch(Exception ex) { // translation not found
+			System.err.println("Warning: no translation for \"" + key + "\"");
+			return key.toUpperCase();
+		}
+	}
+	
+	/**
 	 * Returns the translated string for the specified key.
 	 * <p>Any mnemonic characters are removed (unless the char is doubled).</p>
 	 * @param key Key of the string to translate.
@@ -184,7 +214,7 @@ public class Lang {
 	 * @return String translated to the loaded language, or the key in upper case if not found.
 	 */
 	public static String t(String key, Object... args) {
-		String s = strings.get(key);
+		String s = getString(key);
 		int i = 0;
 		if(s != null) {
 			while((i = s.indexOf(MNEMONIC_CHAR, i)) != -1) { // remove mnemonic chars, if any
@@ -211,7 +241,7 @@ public class Lang {
 	 * @return Mnemonic character of the translated string, or '\0' if not found.
 	 */
 	public static char mnemonic(String key) {
-		String s = strings.get(key);
+		String s = getString(key);
 		if(s != null) {
 			int i = 0;
 			while(true) { // find the first '&' char that isn't followed by another '&'
@@ -276,19 +306,19 @@ public class Lang {
 	}
 	
 	/**
-	 * Returns the loaded language name.
-	 * @return The loaded language (the name part of the file name).
+	 * Returns the loaded locale.
+	 * @return The loaded locale.
 	 */
-	public static String getLanguage() {
-		return language;
+	public static Locale getLocale() {
+		return locale;
 	}
 	
 	/**
-	 * Returns the path to the loaded language.
-	 * @return The path of the loaded language file.
+	 * Returns the loaded language name.
+	 * @return The loaded language.
 	 */
-	public static String getFilename() {
-		return filename;
+	public static String getLanguage() {
+		return locale.toString();
 	}
 	
 	/**
@@ -296,14 +326,40 @@ public class Lang {
 	 * @return System locale.
 	 */
 	public static Locale getSystemLocale() {
-		return Locale.getDefault();
+		if(systemLocale == null)
+			systemLocale = Locale.getDefault();
+		return systemLocale;
 	}
 	
 	/**
-	 * Returns the list of available languages.
-	 * @return List of available languages.
+	 * Updates the default language.
+	 * @param language New default language.
 	 */
-	public static List<String> getAvailableLanguages() {
+	private static void setDefaultLanguage(String language) {
+		getSystemLocale(); // save system locale
+		Locale.setDefault(getLocaleForLanguage(language));
+	}
+	
+	/**
+	 * Returns the correct Locale for the specified language name.
+	 * @param language Desired language.
+	 * @return Correct Locale for the language.
+	 */
+	public static Locale getLocaleForLanguage(String language) {
+		String[] fields = language.split("_", 3);
+		switch(fields.length) {
+			case 0: return getSystemLocale(); // should not happen
+			case 1: return new Locale(fields[0]);
+			case 2: return new Locale(fields[0], fields[1]);
+			default: return new Locale(fields[0], fields[1], fields[2]);
+		}
+	}
+	
+	/**
+	 * Returns the set of available languages.
+	 * @return Set of available languages.
+	 */
+	public static Set<String> getAvailableLanguages() {
 		if(availableLanguages == null)
 			fillAvailableLanguages();
 		return availableLanguages;
@@ -315,10 +371,7 @@ public class Lang {
 	 * @return <tt>true</tt> if the language is available.
 	 */
 	public static boolean isLanguageAvailable(String language) {
-		for(String lang: getAvailableLanguages())
-			if(lang.equals(language))
-				return true;
-		return false;
+		return getAvailableLanguages().contains(language);
 	}
 	
 	/**
@@ -326,19 +379,19 @@ public class Lang {
 	 * This method is called automatically by <tt>getAvailableLanguages()</tt>.
 	 */
 	private static void fillAvailableLanguages() {
-		availableLanguages = new LinkedList<String>();
+		availableLanguages = new TreeSet<String>();
+		availableLanguages.add(DEFAULT_LANGUAGE); // add default language
 		
 		// Find all the language files
 		File langDir = new File(DrMIPS.path + File.separator + FILENAME_PATH);
 		if(langDir.isDirectory()) {
 			File[] files = langDir.listFiles();
-			Arrays.sort(files);
 			String name, lang;
 			for(File f: files) {
 				name = f.getName();
-				if(name.endsWith("." + FILENAME_EXTENSION)) {
+				if(name.startsWith(FILENAME_PREFIX) && name.endsWith("." + FILENAME_EXTENSION)) {
 					// Add language
-					lang = name.substring(0, name.lastIndexOf("." + FILENAME_EXTENSION));
+					lang = name.substring(FILENAME_PREFIX.length(), name.lastIndexOf("." + FILENAME_EXTENSION));
 					availableLanguages.add(lang);
 				}
 			}

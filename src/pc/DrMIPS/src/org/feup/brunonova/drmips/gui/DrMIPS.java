@@ -166,7 +166,7 @@ public class DrMIPS {
 		
 		// Load the strings
 		if(!Lang.loadPreferredLanguage()) {
-			JOptionPane.showMessageDialog(null, "Error opening language file " + Lang.getFilename() + "!", PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Error opening language file " + Lang.getLanguage() + "!", PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
 			System.exit(1);
 		}
 		
