@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import javax.swing.AbstractButton;
 import javax.swing.UIManager;
@@ -140,11 +141,28 @@ public class Lang {
 	 */
 	public static boolean loadPreferredLanguage() {
 		try {
-			String prefLang = DrMIPS.prefs.get(DrMIPS.LANG_PREF, DEFAULT_LANGUAGE);
+			String prefLang = DrMIPS.prefs.get(DrMIPS.LANG_PREF, "");
+			Locale locale = getSystemLocale();
+			String systemLanguage = locale.getLanguage() + "_" + locale.getCountry();
+			
+			// try language selected in the preferences
 			if(isLanguageAvailable(prefLang)) {
 				load(prefLang);
 				return true;
 			}
+			// try system language with country
+			else if(!locale.getCountry().isEmpty() && isLanguageAvailable(systemLanguage)) {
+				load(systemLanguage);
+				DrMIPS.prefs.put(DrMIPS.LANG_PREF, systemLanguage);
+				return true;
+			}
+			// try system language without country
+			else if(isLanguageAvailable(locale.getLanguage())) {
+				load(locale.getLanguage());
+				DrMIPS.prefs.put(DrMIPS.LANG_PREF, locale.getLanguage());
+				return true;
+			}
+			// try default language
 			else if(isLanguageAvailable(DEFAULT_LANGUAGE)) {
 				load(DEFAULT_LANGUAGE);
 				DrMIPS.prefs.put(DrMIPS.LANG_PREF, DEFAULT_LANGUAGE);
@@ -271,6 +289,14 @@ public class Lang {
 	 */
 	public static String getFilename() {
 		return filename;
+	}
+	
+	/**
+	 * Returns the system locale.
+	 * @return System locale.
+	 */
+	public static Locale getSystemLocale() {
+		return Locale.getDefault();
 	}
 	
 	/**
