@@ -23,7 +23,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import javax.swing.AbstractButton;
 import javax.swing.UIManager;
@@ -43,6 +46,8 @@ public class Lang {
 	public static final String FILENAME_PATH = "lang" + File.separator;
 	/** The file extension of the language files. */
 	public static final String FILENAME_EXTENSION = "lng";
+	/** The default/fallback language. */
+	public static final String DEFAULT_LANGUAGE = "en";
 	/** The character that prepends the char to be considered the mnemonic char. */
 	public static final char MNEMONIC_CHAR = '&';
 	/** The character that indicates a comment in the file. */
@@ -56,6 +61,8 @@ public class Lang {
 	private static String filename;
 	/** The strings in the loaded language. */
 	private static Map<String, String> strings;
+	/** List of available languages (filled on the first call to <tt>getAvailableLanguages()</tt>). */
+	private static List<String> availableLanguages;
 	
 	/**
 	 * Loads the strings of the specified language.
@@ -124,6 +131,31 @@ public class Lang {
 		UIManager.put("FileChooser.newFolderActionLabelText", Lang.t("new_folder"));
 		UIManager.put("FileChooser.upFolderActionLabelText", Lang.t("go_up"));
 		UIManager.put("FileChooser.homeFolderActionLabelText", Lang.t("go_home"));
+	}
+	
+	/**
+	 * Tries to load the user preferred language (defined in the preferences).
+	 * If it fails, tries to load the default language.
+	 * @return Whether the language was loaded successfully.
+	 */
+	public static boolean loadPreferredLanguage() {
+		try {
+			String prefLang = DrMIPS.prefs.get(DrMIPS.LANG_PREF, DEFAULT_LANGUAGE);
+			if(isLanguageAvailable(prefLang)) {
+				load(prefLang);
+				return true;
+			}
+			else if(isLanguageAvailable(DEFAULT_LANGUAGE)) {
+				load(DEFAULT_LANGUAGE);
+				DrMIPS.prefs.put(DrMIPS.LANG_PREF, DEFAULT_LANGUAGE);
+				return true;
+			}
+			else
+				return false;
+		}
+		catch(Exception ex) {
+			return false;
+		}
 	}
 	
 	/**
@@ -239,5 +271,51 @@ public class Lang {
 	 */
 	public static String getFilename() {
 		return filename;
+	}
+	
+	/**
+	 * Returns the list of available languages.
+	 * @return List of available languages.
+	 */
+	public static List<String> getAvailableLanguages() {
+		if(availableLanguages == null)
+			fillAvailableLanguages();
+		return availableLanguages;
+	}
+	
+	/**
+	 * Returns whether the specified language is available.
+	 * @param language Language to query.
+	 * @return <tt>true</tt> if the language is available.
+	 */
+	public static boolean isLanguageAvailable(String language) {
+		for(String lang: getAvailableLanguages())
+			if(lang.equals(language))
+				return true;
+		return false;
+	}
+	
+	/**
+	 * Fills <tt>availableLanguages</tt> with the list of available languages.
+	 * This method is called automatically by <tt>getAvailableLanguages()</tt>.
+	 */
+	private static void fillAvailableLanguages() {
+		availableLanguages = new LinkedList<String>();
+		
+		// Find all the language files
+		File langDir = new File(DrMIPS.path + File.separator + FILENAME_PATH);
+		if(langDir.isDirectory()) {
+			File[] files = langDir.listFiles();
+			Arrays.sort(files);
+			String name, lang;
+			for(File f: files) {
+				name = f.getName();
+				if(name.endsWith("." + FILENAME_EXTENSION)) {
+					// Add language
+					lang = name.substring(0, name.lastIndexOf("." + FILENAME_EXTENSION));
+					availableLanguages.add(lang);
+				}
+			}
+		}
 	}
 }
