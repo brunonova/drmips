@@ -41,8 +41,6 @@ public class DrMIPS {
 	public static Preferences prefs = Preferences.userNodeForPackage(DrMIPS.class);
 	/** The full path to the program's jar folder, or '.' if not running from a jar (when running from the IDE, for example). */
 	public static String path = ".";
-	/** The default GUI language. */
-	public static final String DEFAULT_LANGUAGE = "en";
 	/** The CPU file loaded by default. */
 	public static final String DEFAULT_CPU = "cpu" + File.separator + "unicycle.cpu";
 	/** The name of the documentation directory. */
@@ -167,17 +165,12 @@ public class DrMIPS {
 		});
 		
 		// Load the strings
-		try { // try to load the language in the preferences
-			Lang.load(prefs.get(LANG_PREF, DEFAULT_LANGUAGE));
-		} catch (Exception e) {
-			try { // fallback to the default language on error
-				Lang.load(DEFAULT_LANGUAGE);
-				prefs.put(LANG_PREF, DEFAULT_LANGUAGE);
-			} catch (Exception ex) { // error on the default language too
-				JOptionPane.showMessageDialog(null, "Error opening language file " + Lang.getFilename() + "!\n" + ex.getMessage(), PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
-				System.exit(1);
-			}
+		if(!Lang.loadPreferredLanguage()) {
+			JOptionPane.showMessageDialog(null, "Error opening language file " + Lang.getFilename() + "!", PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+			System.exit(1);
 		}
+		
+		// Translate the "loading" window
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {

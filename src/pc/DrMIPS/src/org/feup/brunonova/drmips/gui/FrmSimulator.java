@@ -1646,23 +1646,11 @@ public class FrmSimulator extends javax.swing.JFrame {
 	private void fillLanguages() {
 		JRadioButtonMenuItem mnu;
 		
-		// Find all the language files
-		File langDir = new File(DrMIPS.path + File.separator + Lang.FILENAME_PATH);
-		if(langDir.isDirectory()) {
-			File[] files = langDir.listFiles();
-			Arrays.sort(files);
-			String name, lang;
-			for(File f: files) {
-				name = f.getName();
-				if(name.endsWith("." + Lang.FILENAME_EXTENSION)) {
-					// Add language
-					lang = name.substring(0, name.lastIndexOf("." + Lang.FILENAME_EXTENSION));
-					mnu = new JRadioButtonMenuItem(lang, lang.equals(Lang.getLanguage()));
-					mnu.addActionListener(new LanguageSelectedListener(lang));
-					grpLanguages.add(mnu);
-					mnuLanguage.add(mnu);
-				}
-			}
+		for(String lang: Lang.getAvailableLanguages()) {
+			mnu = new JRadioButtonMenuItem(lang, lang.equals(Lang.getLanguage()));
+			mnu.addActionListener(new LanguageSelectedListener(lang));
+			grpLanguages.add(mnu);
+			mnuLanguage.add(mnu);
 		}
 	}
 	
