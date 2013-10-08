@@ -140,10 +140,17 @@ public abstract class Component {
 			String str;
 			if((str = customDescriptions.get(lang)) != null) // get the description in the given language
 				return str;
-			else if(language.contains("_") && (str = customDescriptions.get(lang.split("_")[0])) != null) // get description in the more general language designation (ex: pt for pt_PT)
-				return str;
-			else  // get the default description
+			else {
+				// get description in a more general language designation (ex: pt for pt_PT)
+				while(lang.contains("_")) {
+					lang = lang.substring(0, lang.lastIndexOf('_'));
+					if((str = customDescriptions.get(lang)) != null)
+						return str;
+				}
+				
+				// get the default description
 				return customDescriptions.get("default");
+			}
 		}
 	}
 	
