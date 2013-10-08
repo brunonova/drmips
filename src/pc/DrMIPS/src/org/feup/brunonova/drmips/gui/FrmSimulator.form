@@ -19,7 +19,7 @@
               <KeyStroke key="Ctrl+Z"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/res/icons/humanity/x16/edit-undo.png"/>
+              <Image iconType="3" name="/res/icons/x16/undo.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="undo"/>
           </Properties>
@@ -33,7 +33,7 @@
               <KeyStroke key="Ctrl+Y"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/res/icons/humanity/x16/edit-redo.png"/>
+              <Image iconType="3" name="/res/icons/x16/redo.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="redo"/>
           </Properties>
@@ -49,7 +49,7 @@
               <KeyStroke key="Ctrl+X"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/res/icons/humanity/x16/edit-cut.png"/>
+              <Image iconType="3" name="/res/icons/x16/cut.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="cut"/>
           </Properties>
@@ -63,7 +63,7 @@
               <KeyStroke key="Ctrl+C"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/res/icons/humanity/x16/edit-copy.png"/>
+              <Image iconType="3" name="/res/icons/x16/copy.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="copy"/>
           </Properties>
@@ -77,7 +77,7 @@
               <KeyStroke key="Ctrl+V"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/res/icons/humanity/x16/edit-paste.png"/>
+              <Image iconType="3" name="/res/icons/x16/paste.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="paste"/>
           </Properties>
@@ -93,7 +93,7 @@
               <KeyStroke key="Ctrl+A"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/res/icons/humanity/x16/edit-select-all.png"/>
+              <Image iconType="3" name="/res/icons/x16/select_all.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="select_all"/>
           </Properties>
@@ -107,7 +107,7 @@
               <KeyStroke key="Ctrl+F"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/res/icons/humanity/x16/preview-file.png"/>
+              <Image iconType="3" name="/res/icons/x16/search.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="find_replace"/>
           </Properties>
@@ -233,7 +233,7 @@
                   <KeyStroke key="Ctrl+N"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/res/icons/humanity/x16/document-new.png"/>
+                  <Image iconType="3" name="/res/icons/x16/new.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="new"/>
               </Properties>
@@ -247,7 +247,7 @@
                   <KeyStroke key="Ctrl+O"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/res/icons/humanity/x16/document-open.png"/>
+                  <Image iconType="3" name="/res/icons/x16/open.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="open"/>
               </Properties>
@@ -268,7 +268,7 @@
                   <KeyStroke key="Ctrl+S"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/res/icons/humanity/x16/document-save.png"/>
+                  <Image iconType="3" name="/res/icons/x16/save.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="save"/>
               </Properties>
@@ -282,7 +282,7 @@
                   <KeyStroke key="Shift+Ctrl+S"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/res/icons/humanity/x16/document-save-as.png"/>
+                  <Image iconType="3" name="/res/icons/x16/save_as.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="save_as"/>
               </Properties>
@@ -298,7 +298,7 @@
                   <KeyStroke key="Ctrl+P"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/res/icons/humanity/x16/document-print.png"/>
+                  <Image iconType="3" name="/res/icons/x16/print.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="print"/>
               </Properties>
@@ -314,7 +314,7 @@
                   <KeyStroke key="Ctrl+Q"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/res/icons/humanity/x16/window-close.png"/>
+                  <Image iconType="3" name="/res/icons/x16/exit.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="exit"/>
               </Properties>
@@ -368,7 +368,7 @@
                   <KeyStroke key="Ctrl+Z"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/res/icons/humanity/x16/edit-undo.png"/>
+                  <Image iconType="3" name="/res/icons/x16/undo.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="undo"/>
               </Properties>
@@ -382,7 +382,7 @@
                   <KeyStroke key="Ctrl+Y"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/res/icons/humanity/x16/edit-redo.png"/>
+                  <Image iconType="3" name="/res/icons/x16/redo.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="redo"/>
               </Properties>
@@ -398,7 +398,7 @@
                   <KeyStroke key="Ctrl+X"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/res/icons/humanity/x16/edit-cut.png"/>
+                  <Image iconType="3" name="/res/icons/x16/cut.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="cut"/>
               </Properties>
@@ -412,7 +412,7 @@
                   <KeyStroke key="Ctrl+C"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/res/icons/humanity/x16/edit-copy.png"/>
+                  <Image iconType="3" name="/res/icons/x16/copy.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="copy"/>
               </Properties>
@@ -426,7 +426,7 @@
                   <KeyStroke key="Ctrl+V"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/res/icons/humanity/x16/edit-paste.png"/>
+                  <Image iconType="3" name="/res/icons/x16/paste.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="paste"/>
               </Properties>
@@ -442,7 +442,7 @@
                   <KeyStroke key="Ctrl+A"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/res/icons/humanity/x16/edit-select-all.png"/>
+                  <Image iconType="3" name="/res/icons/x16/select_all.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="select_all"/>
               </Properties>
@@ -456,7 +456,7 @@
                   <KeyStroke key="Ctrl+F"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/res/icons/humanity/x16/preview-file.png"/>
+                  <Image iconType="3" name="/res/icons/x16/search.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="find_replace"/>
               </Properties>
@@ -549,7 +549,7 @@
                   <KeyStroke key="F3"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/res/icons/humanity/x16/document-properties.png"/>
+                  <Image iconType="3" name="/res/icons/x16/assemble.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="assemble"/>
               </Properties>
@@ -565,7 +565,7 @@
                   <KeyStroke key="F12"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/res/icons/humanity/x16/go-first.png"/>
+                  <Image iconType="3" name="/res/icons/x16/restart.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="restart"/>
                 <Property name="enabled" type="boolean" value="false"/>
@@ -580,7 +580,7 @@
                   <KeyStroke key="F9"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/res/icons/humanity/x16/go-previous.png"/>
+                  <Image iconType="3" name="/res/icons/x16/back_step.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="back_step"/>
                 <Property name="enabled" type="boolean" value="false"/>
@@ -595,7 +595,7 @@
                   <KeyStroke key="F7"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/res/icons/humanity/x16/go-next.png"/>
+                  <Image iconType="3" name="/res/icons/x16/step.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="step"/>
                 <Property name="enabled" type="boolean" value="false"/>
@@ -610,7 +610,7 @@
                   <KeyStroke key="F5"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/res/icons/humanity/x16/media-playback-start.png"/>
+                  <Image iconType="3" name="/res/icons/x16/run.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="run"/>
                 <Property name="enabled" type="boolean" value="false"/>
@@ -629,7 +629,7 @@
                 <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="reset_data_before_assembling"/>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/res/icons/humanity/x16/view-refresh.png"/>
+                  <Image iconType="3" name="/res/icons/x16/reset_data.png"/>
                 </Property>
               </Properties>
             </MenuItem>
@@ -666,7 +666,7 @@
                   <KeyStroke key="F1"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/res/icons/humanity/x16/help-contents.png"/>
+                  <Image iconType="3" name="/res/icons/x16/help.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="documentation"/>
               </Properties>
@@ -677,7 +677,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="mnuAbout">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/res/icons/humanity/x16/help-about.png"/>
+                  <Image iconType="3" name="/res/icons/x16/about.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="about"/>
               </Properties>
@@ -743,7 +743,7 @@
         <Component class="javax.swing.JButton" name="cmdNew">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/res/icons/humanity/x24/document-new.png"/>
+              <Image iconType="3" name="/res/icons/x24/new.png"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -756,7 +756,7 @@
         <Component class="javax.swing.JButton" name="cmdOpen">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/res/icons/humanity/x24/document-open.png"/>
+              <Image iconType="3" name="/res/icons/x24/open.png"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -769,7 +769,7 @@
         <Component class="javax.swing.JButton" name="cmdSave">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/res/icons/humanity/x24/document-save.png"/>
+              <Image iconType="3" name="/res/icons/x24/save.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value=""/>
             <Property name="focusable" type="boolean" value="false"/>
@@ -783,7 +783,7 @@
         <Component class="javax.swing.JButton" name="cmdSaveAs">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/res/icons/humanity/x24/document-save-as.png"/>
+              <Image iconType="3" name="/res/icons/x24/save_as.png"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -798,7 +798,7 @@
         <Component class="javax.swing.JButton" name="cmdAssemble">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/res/icons/humanity/x24/document-properties.png"/>
+              <Image iconType="3" name="/res/icons/x24/assemble.png"/>
             </Property>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -811,7 +811,7 @@
         <Component class="javax.swing.JButton" name="cmdRestart">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/res/icons/humanity/x24/go-first.png"/>
+              <Image iconType="3" name="/res/icons/x24/restart.png"/>
             </Property>
             <Property name="enabled" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
@@ -825,7 +825,7 @@
         <Component class="javax.swing.JButton" name="cmdBackStep">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/res/icons/humanity/x24/go-previous.png"/>
+              <Image iconType="3" name="/res/icons/x24/back_step.png"/>
             </Property>
             <Property name="enabled" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
@@ -839,7 +839,7 @@
         <Component class="javax.swing.JButton" name="cmdStep">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/res/icons/humanity/x24/go-next.png"/>
+              <Image iconType="3" name="/res/icons/x24/step.png"/>
             </Property>
             <Property name="enabled" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
@@ -853,7 +853,7 @@
         <Component class="javax.swing.JButton" name="cmdRun">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/res/icons/humanity/x24/media-playback-start.png"/>
+              <Image iconType="3" name="/res/icons/x24/run.png"/>
             </Property>
             <Property name="enabled" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
@@ -1054,7 +1054,7 @@
                         <Component class="javax.swing.JLabel" name="lblDatapathHelp">
                           <Properties>
                             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                              <Image iconType="3" name="/res/icons/humanity/x24/help-contents.png"/>
+                              <Image iconType="3" name="/res/icons/x24/help.png"/>
                             </Property>
                           </Properties>
                         </Component>

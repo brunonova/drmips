@@ -56,7 +56,7 @@ import org.fife.ui.rtextarea.RTextScrollPane;
  */
 public class CodeEditor extends TextEditorPane {
 	/** The icon used to display errors in the line numbers column. */
-	public static final Icon errorIcon = new ImageIcon(CodeEditor.class.getResource("/res/icons/humanity/x16/package-broken.png"));
+	public static final Icon errorIcon = new ImageIcon(CodeEditor.class.getResource("/res/icons/x16/error.png"));
 		
 	/** The editor's scroll pane. */
 	private RTextScrollPane scrollPane;
