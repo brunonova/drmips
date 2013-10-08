@@ -1636,6 +1636,12 @@ public class FrmSimulator extends javax.swing.JFrame {
 		txtCode.translate();
 		refreshDatapathHelp();
 		repaint();
+		
+		JMenuItem mnu;
+		for(int i = 0; i < mnuLanguage.getItemCount(); i++) {
+			mnu = mnuLanguage.getItem(i);
+			mnu.setText(Lang.getDisplayName(mnu.getToolTipText()));
+		}
 	}
 	
 	/**
@@ -1645,8 +1651,9 @@ public class FrmSimulator extends javax.swing.JFrame {
 		JRadioButtonMenuItem mnu;
 		
 		for(String lang: Lang.getAvailableLanguages()) {
-			mnu = new JRadioButtonMenuItem(lang, lang.equals(Lang.getLanguage()));
+			mnu = new JRadioButtonMenuItem(Lang.getDisplayName(lang), lang.equals(Lang.getLanguage()));
 			mnu.addActionListener(new LanguageSelectedListener(lang));
+			mnu.setToolTipText(lang); // used to identify the language in translate()
 			grpLanguages.add(mnu);
 			mnuLanguage.add(mnu);
 		}

@@ -322,6 +322,26 @@ public class Lang {
 	}
 	
 	/**
+	 * Returns the display name for the specified locale.
+	 * @param locale The desired locale.
+	 * @return Display name for the specified locale in the current locale.
+	 */
+	public static String getDisplayName(Locale locale) {
+		Locale currentLocale = (getLocale() != null) ? getLocale() : getSystemLocale();
+		String name = locale.getDisplayName(currentLocale);
+		return name.isEmpty() ? locale.toString() : name;
+	}
+	
+	/**
+	 * Returns the display name for the specified language.
+	 * @param language The desired language.
+	 * @return Display name for the specified language in the current locale.
+	 */
+	public static String getDisplayName(String language) {
+		return getDisplayName(getLocaleForLanguage(language));
+	}
+	
+	/**
 	 * Returns the system locale.
 	 * @return System locale.
 	 */
