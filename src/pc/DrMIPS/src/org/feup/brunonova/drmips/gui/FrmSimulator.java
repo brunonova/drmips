@@ -292,7 +292,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         });
 
         mnuUndoP.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_MASK));
-        mnuUndoP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/edit-undo.png"))); // NOI18N
+        mnuUndoP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/undo.png"))); // NOI18N
         mnuUndoP.setText("undo");
         mnuUndoP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -302,7 +302,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuEditP.add(mnuUndoP);
 
         mnuRedoP.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_MASK));
-        mnuRedoP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/edit-redo.png"))); // NOI18N
+        mnuRedoP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/redo.png"))); // NOI18N
         mnuRedoP.setText("redo");
         mnuRedoP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -313,7 +313,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuEditP.add(jSeparator7);
 
         mnuCutP.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
-        mnuCutP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/edit-cut.png"))); // NOI18N
+        mnuCutP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/cut.png"))); // NOI18N
         mnuCutP.setText("cut");
         mnuCutP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -323,7 +323,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuEditP.add(mnuCutP);
 
         mnuCopyP.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
-        mnuCopyP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/edit-copy.png"))); // NOI18N
+        mnuCopyP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/copy.png"))); // NOI18N
         mnuCopyP.setText("copy");
         mnuCopyP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -333,7 +333,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuEditP.add(mnuCopyP);
 
         mnuPasteP.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_MASK));
-        mnuPasteP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/edit-paste.png"))); // NOI18N
+        mnuPasteP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/paste.png"))); // NOI18N
         mnuPasteP.setText("paste");
         mnuPasteP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -344,7 +344,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuEditP.add(jSeparator8);
 
         mnuSelectAllP.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
-        mnuSelectAllP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/edit-select-all.png"))); // NOI18N
+        mnuSelectAllP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/select_all.png"))); // NOI18N
         mnuSelectAllP.setText("select_all");
         mnuSelectAllP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -354,7 +354,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuEditP.add(mnuSelectAllP);
 
         mnuFindReplaceP.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
-        mnuFindReplaceP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/preview-file.png"))); // NOI18N
+        mnuFindReplaceP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/search.png"))); // NOI18N
         mnuFindReplaceP.setText("find_replace");
         mnuFindReplaceP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -424,7 +424,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 
         pnlToolBar.setRollover(true);
 
-        cmdNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x24/document-new.png"))); // NOI18N
+        cmdNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x24/new.png"))); // NOI18N
         cmdNew.setFocusable(false);
         cmdNew.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         cmdNew.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -435,7 +435,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         });
         pnlToolBar.add(cmdNew);
 
-        cmdOpen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x24/document-open.png"))); // NOI18N
+        cmdOpen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x24/open.png"))); // NOI18N
         cmdOpen.setFocusable(false);
         cmdOpen.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         cmdOpen.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -446,7 +446,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         });
         pnlToolBar.add(cmdOpen);
 
-        cmdSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x24/document-save.png"))); // NOI18N
+        cmdSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x24/save.png"))); // NOI18N
         cmdSave.setToolTipText("");
         cmdSave.setFocusable(false);
         cmdSave.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -458,7 +458,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         });
         pnlToolBar.add(cmdSave);
 
-        cmdSaveAs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x24/document-save-as.png"))); // NOI18N
+        cmdSaveAs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x24/save_as.png"))); // NOI18N
         cmdSaveAs.setFocusable(false);
         cmdSaveAs.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         cmdSaveAs.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -470,7 +470,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         pnlToolBar.add(cmdSaveAs);
         pnlToolBar.add(jSeparator4);
 
-        cmdAssemble.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x24/document-properties.png"))); // NOI18N
+        cmdAssemble.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x24/assemble.png"))); // NOI18N
         cmdAssemble.setFocusable(false);
         cmdAssemble.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         cmdAssemble.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -481,7 +481,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         });
         pnlToolBar.add(cmdAssemble);
 
-        cmdRestart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x24/go-first.png"))); // NOI18N
+        cmdRestart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x24/restart.png"))); // NOI18N
         cmdRestart.setEnabled(false);
         cmdRestart.setFocusable(false);
         cmdRestart.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -493,7 +493,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         });
         pnlToolBar.add(cmdRestart);
 
-        cmdBackStep.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x24/go-previous.png"))); // NOI18N
+        cmdBackStep.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x24/back_step.png"))); // NOI18N
         cmdBackStep.setEnabled(false);
         cmdBackStep.setFocusable(false);
         cmdBackStep.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -505,7 +505,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         });
         pnlToolBar.add(cmdBackStep);
 
-        cmdStep.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x24/go-next.png"))); // NOI18N
+        cmdStep.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x24/step.png"))); // NOI18N
         cmdStep.setEnabled(false);
         cmdStep.setFocusable(false);
         cmdStep.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -517,7 +517,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         });
         pnlToolBar.add(cmdStep);
 
-        cmdRun.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x24/media-playback-start.png"))); // NOI18N
+        cmdRun.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x24/run.png"))); // NOI18N
         cmdRun.setEnabled(false);
         cmdRun.setFocusable(false);
         cmdRun.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -600,7 +600,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 
         jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 0));
 
-        lblDatapathHelp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x24/help-contents.png"))); // NOI18N
+        lblDatapathHelp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x24/help.png"))); // NOI18N
         jPanel6.add(lblDatapathHelp);
 
         jPanel2.add(jPanel6, java.awt.BorderLayout.EAST);
@@ -676,7 +676,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuFile.setName(""); // NOI18N
 
         mnuNew.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
-        mnuNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/document-new.png"))); // NOI18N
+        mnuNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/new.png"))); // NOI18N
         mnuNew.setText("new");
         mnuNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -686,7 +686,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuFile.add(mnuNew);
 
         mnuOpen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
-        mnuOpen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/document-open.png"))); // NOI18N
+        mnuOpen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/open.png"))); // NOI18N
         mnuOpen.setText("open");
         mnuOpen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -700,7 +700,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuFile.add(jSeparator1);
 
         mnuSave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
-        mnuSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/document-save.png"))); // NOI18N
+        mnuSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/save.png"))); // NOI18N
         mnuSave.setText("save");
         mnuSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -710,7 +710,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuFile.add(mnuSave);
 
         mnuSaveAs.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        mnuSaveAs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/document-save-as.png"))); // NOI18N
+        mnuSaveAs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/save_as.png"))); // NOI18N
         mnuSaveAs.setText("save_as");
         mnuSaveAs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -721,7 +721,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuFile.add(jSeparator2);
 
         mnuPrint.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
-        mnuPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/document-print.png"))); // NOI18N
+        mnuPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/print.png"))); // NOI18N
         mnuPrint.setText("print");
         mnuPrint.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -732,7 +732,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuFile.add(jSeparator9);
 
         mnuExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
-        mnuExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/window-close.png"))); // NOI18N
+        mnuExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/exit.png"))); // NOI18N
         mnuExit.setText("exit");
         mnuExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -775,7 +775,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         });
 
         mnuUndo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_MASK));
-        mnuUndo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/edit-undo.png"))); // NOI18N
+        mnuUndo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/undo.png"))); // NOI18N
         mnuUndo.setText("undo");
         mnuUndo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -785,7 +785,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuEdit.add(mnuUndo);
 
         mnuRedo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_MASK));
-        mnuRedo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/edit-redo.png"))); // NOI18N
+        mnuRedo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/redo.png"))); // NOI18N
         mnuRedo.setText("redo");
         mnuRedo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -796,7 +796,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuEdit.add(jSeparator5);
 
         mnuCut.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
-        mnuCut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/edit-cut.png"))); // NOI18N
+        mnuCut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/cut.png"))); // NOI18N
         mnuCut.setText("cut");
         mnuCut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -806,7 +806,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuEdit.add(mnuCut);
 
         mnuCopy.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
-        mnuCopy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/edit-copy.png"))); // NOI18N
+        mnuCopy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/copy.png"))); // NOI18N
         mnuCopy.setText("copy");
         mnuCopy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -816,7 +816,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuEdit.add(mnuCopy);
 
         mnuPaste.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_MASK));
-        mnuPaste.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/edit-paste.png"))); // NOI18N
+        mnuPaste.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/paste.png"))); // NOI18N
         mnuPaste.setText("paste");
         mnuPaste.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -827,7 +827,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuEdit.add(jSeparator6);
 
         mnuSelectAll.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
-        mnuSelectAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/edit-select-all.png"))); // NOI18N
+        mnuSelectAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/select_all.png"))); // NOI18N
         mnuSelectAll.setText("select_all");
         mnuSelectAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -837,7 +837,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuEdit.add(mnuSelectAll);
 
         mnuFindReplace.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
-        mnuFindReplace.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/preview-file.png"))); // NOI18N
+        mnuFindReplace.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/search.png"))); // NOI18N
         mnuFindReplace.setText("find_replace");
         mnuFindReplace.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -911,7 +911,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuExecute.setText("execute");
 
         mnuAssemble.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
-        mnuAssemble.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/document-properties.png"))); // NOI18N
+        mnuAssemble.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/assemble.png"))); // NOI18N
         mnuAssemble.setText("assemble");
         mnuAssemble.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -922,7 +922,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuExecute.add(jSeparator3);
 
         mnuRestart.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F12, 0));
-        mnuRestart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/go-first.png"))); // NOI18N
+        mnuRestart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/restart.png"))); // NOI18N
         mnuRestart.setText("restart");
         mnuRestart.setEnabled(false);
         mnuRestart.addActionListener(new java.awt.event.ActionListener() {
@@ -933,7 +933,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuExecute.add(mnuRestart);
 
         mnuBackStep.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F9, 0));
-        mnuBackStep.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/go-previous.png"))); // NOI18N
+        mnuBackStep.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/back_step.png"))); // NOI18N
         mnuBackStep.setText("back_step");
         mnuBackStep.setEnabled(false);
         mnuBackStep.addActionListener(new java.awt.event.ActionListener() {
@@ -944,7 +944,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuExecute.add(mnuBackStep);
 
         mnuStep.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F7, 0));
-        mnuStep.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/go-next.png"))); // NOI18N
+        mnuStep.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/step.png"))); // NOI18N
         mnuStep.setText("step");
         mnuStep.setEnabled(false);
         mnuStep.addActionListener(new java.awt.event.ActionListener() {
@@ -955,7 +955,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuExecute.add(mnuStep);
 
         mnuRun.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
-        mnuRun.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/media-playback-start.png"))); // NOI18N
+        mnuRun.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/run.png"))); // NOI18N
         mnuRun.setText("run");
         mnuRun.setEnabled(false);
         mnuRun.addActionListener(new java.awt.event.ActionListener() {
@@ -969,7 +969,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuResetDataBeforeAssembling.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
         mnuResetDataBeforeAssembling.setSelected(true);
         mnuResetDataBeforeAssembling.setText("reset_data_before_assembling");
-        mnuResetDataBeforeAssembling.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/view-refresh.png"))); // NOI18N
+        mnuResetDataBeforeAssembling.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/reset_data.png"))); // NOI18N
         mnuExecute.add(mnuResetDataBeforeAssembling);
 
         mnuBar.add(mnuExecute);
@@ -992,7 +992,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuHelp.setText("help");
 
         mnuDocs.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
-        mnuDocs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/help-contents.png"))); // NOI18N
+        mnuDocs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/help.png"))); // NOI18N
         mnuDocs.setText("documentation");
         mnuDocs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1001,7 +1001,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         });
         mnuHelp.add(mnuDocs);
 
-        mnuAbout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/humanity/x16/help-about.png"))); // NOI18N
+        mnuAbout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/about.png"))); // NOI18N
         mnuAbout.setText("about");
         mnuAbout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
