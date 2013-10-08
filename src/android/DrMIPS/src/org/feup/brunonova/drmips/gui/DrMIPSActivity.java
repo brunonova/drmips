@@ -134,7 +134,7 @@ public class DrMIPSActivity extends Activity {
 	private TabHost tabHost;
 	private EditText txtCode, txtFilename, txtRegisterValue, txtDataMemoryValue, txtLatency;
 	private TextView lblFilename, lblCPUFilename, lblDatapathFormat;
-	private MenuItem mnuDelete = null, mnuStep = null, mnuBackStep = null, mnuSwitchTheme = null, mnuControlPath = null, mnuArrowsInWires = null, mnuPerformanceMode = null, mnuOverlayedData = null, mnuRestart = null, mnuRun = null;
+	private MenuItem mnuDelete = null, mnuStep = null, mnuBackStep = null, mnuSwitchTheme = null, mnuControlPath = null, mnuArrowsInWires = null, mnuPerformanceMode = null, mnuOverlayedData = null, mnuRestart = null, mnuRun = null, mnuRestoreLatencies = null, mnuRemoveLatencies = null;
 	private ImageButton cmdStep;
 	private TableLayout tblAssembledCode, tblRegisters, tblDataMemory, tblExec;
 	private Spinner cmbAssembledCodeFormat, cmbRegistersFormat, cmbDataMemoryFormat, cmbDatapathFormat;
@@ -184,6 +184,10 @@ public class DrMIPSActivity extends Activity {
 		mnuOverlayedData = menu.findItem(R.id.mnuOverlayedData);
 		mnuOverlayedData.setChecked(DrMIPS.getApplication().getPreferences().getBoolean(DrMIPS.OVERLAYED_DATA_PREF, DrMIPS.DEFAULT_OVERLAYED_DATA));
 		mnuOverlayedData.setVisible(!mnuPerformanceMode.isChecked());
+		mnuRemoveLatencies = menu.findItem(R.id.mnuRemoveLatencies);
+		mnuRemoveLatencies.setVisible(mnuPerformanceMode.isChecked());
+		mnuRestoreLatencies = menu.findItem(R.id.mnuRestoreLatencies);
+		mnuRestoreLatencies.setVisible(mnuPerformanceMode.isChecked());
 		
 		mnuDelete.setVisible(openFile != null);
 		updateStepBackEnabled();
@@ -696,6 +700,8 @@ public class DrMIPSActivity extends Activity {
 		lblDatapathFormat.setEnabled(!mnuPerformanceMode.isChecked());
 		cmbDatapathFormat.setEnabled(!mnuPerformanceMode.isChecked());
 		if(mnuOverlayedData != null) mnuOverlayedData.setVisible(!mnuPerformanceMode.isChecked());
+		if(mnuRemoveLatencies != null) mnuRemoveLatencies.setVisible(mnuPerformanceMode.isChecked());
+		if(mnuRestoreLatencies != null) mnuRestoreLatencies.setVisible(mnuPerformanceMode.isChecked());
 	}
 	
 	public void mnuOverlayedDataOnClick(MenuItem menu) {
