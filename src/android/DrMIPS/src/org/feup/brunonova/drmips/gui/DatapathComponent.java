@@ -117,7 +117,7 @@ public class DatapathComponent extends TextView {
 		
 		// Description
 		TextView lblComponentDescription = (TextView)dialog.findViewById(R.id.lblComponentDescription);
-		String desc = component.getCustomDescription(getResources().getConfiguration().locale.getCountry().toLowerCase());
+		String desc = component.getCustomDescription(getResources().getConfiguration().locale.toString());
 		if(desc == null) {
 			int descId = getContext().getResources().getIdentifier(component.getDescriptionKey(), "string", getContext().getPackageName());
 			if(descId != 0)

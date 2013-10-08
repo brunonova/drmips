@@ -137,7 +137,7 @@ public final class DatapathComponent extends JPanel implements MouseListener {
 		tip += "</td></tr>";
 		
 		// Description
-		String desc = component.getCustomDescription(Lang.getLanguage().toLowerCase());
+		String desc = component.getCustomDescription(Lang.getLanguage());
 		if(desc != null) 
 			desc = desc.replace("\n", "<br />");
 		else
