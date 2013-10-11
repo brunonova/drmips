@@ -1825,6 +1825,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		tblExec.setCPU(cpu, cmbDatapathDataFormat.getSelectedIndex());
 		lblFileName.setText(cpu.getFile().getName());
 		lblFileName.setToolTipText(cpu.getFile().getAbsolutePath());
+		dlgSupportedInstructions.setCPU(cpu);
 		addRecentCPU(new File(path));
 		txtCode.setCPU(cpu);
 		datapath.setControlPathVisible(mnuControlPath.isSelected());
@@ -2097,6 +2098,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		DrMIPS.prefs.putBoolean(DrMIPS.DARK_THEME_PREF, dark);
 		SwingUtilities.updateComponentTreeUI(this);
 		if(dlgFindReplace != null) SwingUtilities.updateComponentTreeUI(dlgFindReplace);
+		if(dlgSupportedInstructions != null) SwingUtilities.updateComponentTreeUI(dlgSupportedInstructions);
 		if(cpuFileChooser != null) cpuFileChooser.updateUI();
 		if(codeFileChooser != null) codeFileChooser.updateUI();
 		datapath.setCPU(cpu);
