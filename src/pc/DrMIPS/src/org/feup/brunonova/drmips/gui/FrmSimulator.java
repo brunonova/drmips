@@ -196,6 +196,8 @@ public class FrmSimulator extends javax.swing.JFrame {
         cmdBackStep = new javax.swing.JButton();
         cmdStep = new javax.swing.JButton();
         cmdRun = new javax.swing.JButton();
+        jSeparator12 = new javax.swing.JToolBar.Separator();
+        cmdHelp = new javax.swing.JButton();
         pnlSplit = new javax.swing.JSplitPane();
         pnlLeft = new javax.swing.JTabbedPane();
         pnlCode = new javax.swing.JPanel();
@@ -528,6 +530,18 @@ public class FrmSimulator extends javax.swing.JFrame {
             }
         });
         pnlToolBar.add(cmdRun);
+        pnlToolBar.add(jSeparator12);
+
+        cmdHelp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x24/help.png"))); // NOI18N
+        cmdHelp.setFocusable(false);
+        cmdHelp.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        cmdHelp.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        cmdHelp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdHelpActionPerformed(evt);
+            }
+        });
+        pnlToolBar.add(cmdHelp);
 
         getContentPane().add(pnlToolBar, java.awt.BorderLayout.NORTH);
 
@@ -1272,21 +1286,17 @@ public class FrmSimulator extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuRunActionPerformed
 
     private void mnuDocsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDocsActionPerformed
-		File docDir = new File(DrMIPS.path + File.separator + DrMIPS.DOC_DIR);
-		try {
-			if(Desktop.isDesktopSupported() && docDir.exists() && docDir.isDirectory())
-				Desktop.getDesktop().open(docDir);
-			else
-				JOptionPane.showMessageDialog(this, Lang.t("error_opening_doc_folder"), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
-		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(this, Lang.t("error_opening_doc_folder"), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
-		}
+		openDocDir();
     }//GEN-LAST:event_mnuDocsActionPerformed
 
     private void mnuRemoveLatenciesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRemoveLatenciesActionPerformed
 		cpu.removeLatencies();
 		datapath.refresh();
     }//GEN-LAST:event_mnuRemoveLatenciesActionPerformed
+
+    private void cmdHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdHelpActionPerformed
+		openDocDir();
+    }//GEN-LAST:event_cmdHelpActionPerformed
 
 	/**
 	 * Sets the path of the opened file and updates the title bar and recent files.
@@ -1621,6 +1631,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		cmdBackStep.setToolTipText(Lang.t("back_step"));
 		cmdStep.setToolTipText(Lang.t("step"));
 		cmdRun.setToolTipText(Lang.t("run"));
+		cmdHelp.setToolTipText(Lang.t("help"));
 
 		lblRegFormat.setText(Lang.t("format") + ":");
 		lblDatapathDataFormat.setText(Lang.t("format") + ":");
@@ -2165,6 +2176,18 @@ public class FrmSimulator extends javax.swing.JFrame {
 		lblDatapathHelp.setToolTipText(tip);
 	}
 	
+	public void openDocDir() {
+		File docDir = new File(DrMIPS.path + File.separator + DrMIPS.DOC_DIR);
+		try {
+			if(Desktop.isDesktopSupported() && docDir.exists() && docDir.isDirectory())
+				Desktop.getDesktop().open(docDir);
+			else
+				JOptionPane.showMessageDialog(this, Lang.t("error_opening_doc_folder"), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(this, Lang.t("error_opening_doc_folder"), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cmbAssembledCodeFormat;
     private javax.swing.JComboBox cmbDataMemoryFormat;
@@ -2172,6 +2195,7 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JComboBox cmbRegFormat;
     private javax.swing.JButton cmdAssemble;
     private javax.swing.JButton cmdBackStep;
+    private javax.swing.JButton cmdHelp;
     private javax.swing.JButton cmdNew;
     private javax.swing.JButton cmdOpen;
     private javax.swing.JButton cmdRestart;
@@ -2200,6 +2224,7 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator10;
     private javax.swing.JPopupMenu.Separator jSeparator11;
+    private javax.swing.JToolBar.Separator jSeparator12;
     private javax.swing.JPopupMenu.Separator jSeparator14;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
