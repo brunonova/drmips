@@ -1,12 +1,31 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+    DrMIPS - Educational MIPS simulator
+    Copyright (C) 2013 Bruno Nova <ei08109@fe.up.pt>
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 package org.feup.brunonova.drmips.gui;
 
+import org.feup.brunonova.drmips.mips.CPU;
+import org.feup.brunonova.drmips.mips.Instruction;
+import org.feup.brunonova.drmips.mips.PseudoInstruction;
+
 /**
- *
- * @author bruno
+ * Supported instructions dialog.
+ * 
+ * @author Bruno Nova
  */
 public class DlgSupportedInstructions extends javax.swing.JDialog {
 	/** Index of the instructions tab. */
@@ -41,11 +60,15 @@ public class DlgSupportedInstructions extends javax.swing.JDialog {
         cmdClose = new javax.swing.JButton();
         pnlTabs = new javax.swing.JTabbedPane();
         pnlInstructions = new javax.swing.JScrollPane();
+        tblInstructions = new org.feup.brunonova.drmips.gui.SupportedInstructionsTable();
         pnlPseudoInstructions = new javax.swing.JScrollPane();
+        tblPseudoInstructions = new org.feup.brunonova.drmips.gui.SupportedInstructionsTable();
         pnlDirectives = new javax.swing.JScrollPane();
+        tblDirectives = new org.feup.brunonova.drmips.gui.SupportedInstructionsTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(450, 500));
+        setMinimumSize(new java.awt.Dimension(300, 200));
+        setPreferredSize(new java.awt.Dimension(500, 500));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -62,8 +85,16 @@ public class DlgSupportedInstructions extends javax.swing.JDialog {
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.SOUTH);
 
+        pnlInstructions.setViewportView(tblInstructions);
+
         pnlTabs.addTab("instructions", pnlInstructions);
+
+        pnlPseudoInstructions.setViewportView(tblPseudoInstructions);
+
         pnlTabs.addTab("pseudo_instructions", pnlPseudoInstructions);
+
+        pnlDirectives.setViewportView(tblDirectives);
+
         pnlTabs.addTab("directives", pnlDirectives);
 
         getContentPane().add(pnlTabs, java.awt.BorderLayout.CENTER);
@@ -88,6 +119,31 @@ public class DlgSupportedInstructions extends javax.swing.JDialog {
 		pnlTabs.setTitleAt(INSTRUCTIONS_INDEX, Lang.t("instructions"));
 		pnlTabs.setTitleAt(PSEUDO_INSTRUCTIONS_INDEX, Lang.t("pseudo_instructions"));
 		pnlTabs.setTitleAt(DIRECTIVES_INDEX, Lang.t("directives"));
+		
+		tblDirectives.clear();
+		tblDirectives.addInstruction(".data", Lang.t("data_directive"));
+		tblDirectives.addInstruction(".space", Lang.t("space_directive"));
+		tblDirectives.addInstruction(".text", Lang.t("text_directive"));
+		tblDirectives.addInstruction(".word", Lang.t("word_directive"));
+		tblDirectives.packFirstColumn();
+	}
+	
+	/**
+	 * Refreshes the contents of the tables for the specified CPU.
+	 * @param cpu The CPU to get the supported instructions from.
+	 */
+	protected final void setCPU(CPU cpu) {
+		// Instructions
+		tblInstructions.clear();
+		for(Instruction i: cpu.getInstructionSet().getInstructions())
+			tblInstructions.addInstruction(i.getUsage(), i.getDescription());
+		tblInstructions.packFirstColumn();
+		
+		// Pseudo-instructions
+		tblPseudoInstructions.clear();
+		for(PseudoInstruction i: cpu.getInstructionSet().getPseudoInstructions())
+			tblPseudoInstructions.addInstruction(i.getUsage(), i.getDescription());
+		tblPseudoInstructions.packFirstColumn();
 	}
 	
 	/**
@@ -104,5 +160,8 @@ public class DlgSupportedInstructions extends javax.swing.JDialog {
     private javax.swing.JScrollPane pnlInstructions;
     private javax.swing.JScrollPane pnlPseudoInstructions;
     private javax.swing.JTabbedPane pnlTabs;
+    private org.feup.brunonova.drmips.gui.SupportedInstructionsTable tblDirectives;
+    private org.feup.brunonova.drmips.gui.SupportedInstructionsTable tblInstructions;
+    private org.feup.brunonova.drmips.gui.SupportedInstructionsTable tblPseudoInstructions;
     // End of variables declaration//GEN-END:variables
 }
