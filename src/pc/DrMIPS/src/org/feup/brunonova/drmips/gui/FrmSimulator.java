@@ -78,6 +78,8 @@ public class FrmSimulator extends javax.swing.JFrame {
 	private CodeEditor txtCode = null;
 	/** The find/replace dialog. */
 	private DlgFindReplace dlgFindReplace = null;
+	/** The supported instructions dialog. */
+	private DlgSupportedInstructions dlgSupportedInstructions = null;
 	/** The selected tab when it was right-clicked. */
 	private Tab selectedTab = null;
 	
@@ -102,6 +104,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 			pnlSplit.setDividerLocation(DrMIPS.prefs.getInt(DrMIPS.DIVIDER_LOCATION_PREF, -1));
 		pnlCode.add((txtCode = new CodeEditor(mnuEditP)).getScrollPane());
 		dlgFindReplace = new DlgFindReplace(this);
+		dlgSupportedInstructions = new DlgSupportedInstructions(this);
 		refreshTabSides();
 		updateRecentFiles();
 		loadFirstCPU();
@@ -197,6 +200,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         cmdStep = new javax.swing.JButton();
         cmdRun = new javax.swing.JButton();
         jSeparator12 = new javax.swing.JToolBar.Separator();
+        cmdSupportedInstructions = new javax.swing.JButton();
         cmdHelp = new javax.swing.JButton();
         pnlSplit = new javax.swing.JSplitPane();
         pnlLeft = new javax.swing.JTabbedPane();
@@ -279,6 +283,8 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuCPU = new javax.swing.JMenu();
         mnuLoadCPU = new javax.swing.JMenuItem();
         mnuLoadRecentCPU = new javax.swing.JMenu();
+        jSeparator13 = new javax.swing.JPopupMenu.Separator();
+        mnuSupportedInstructions = new javax.swing.JMenuItem();
         mnuHelp = new javax.swing.JMenu();
         mnuDocs = new javax.swing.JMenuItem();
         mnuAbout = new javax.swing.JMenuItem();
@@ -531,6 +537,17 @@ public class FrmSimulator extends javax.swing.JFrame {
         });
         pnlToolBar.add(cmdRun);
         pnlToolBar.add(jSeparator12);
+
+        cmdSupportedInstructions.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x24/info.png"))); // NOI18N
+        cmdSupportedInstructions.setFocusable(false);
+        cmdSupportedInstructions.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        cmdSupportedInstructions.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        cmdSupportedInstructions.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdSupportedInstructionsActionPerformed(evt);
+            }
+        });
+        pnlToolBar.add(cmdSupportedInstructions);
 
         cmdHelp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x24/help.png"))); // NOI18N
         cmdHelp.setFocusable(false);
@@ -1000,6 +1017,16 @@ public class FrmSimulator extends javax.swing.JFrame {
 
         mnuLoadRecentCPU.setText("load_recent");
         mnuCPU.add(mnuLoadRecentCPU);
+        mnuCPU.add(jSeparator13);
+
+        mnuSupportedInstructions.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/info.png"))); // NOI18N
+        mnuSupportedInstructions.setText("supported_instructions");
+        mnuSupportedInstructions.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuSupportedInstructionsActionPerformed(evt);
+            }
+        });
+        mnuCPU.add(mnuSupportedInstructions);
 
         mnuBar.add(mnuCPU);
 
@@ -1298,6 +1325,14 @@ public class FrmSimulator extends javax.swing.JFrame {
 		openDocDir();
     }//GEN-LAST:event_cmdHelpActionPerformed
 
+    private void mnuSupportedInstructionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSupportedInstructionsActionPerformed
+		dlgSupportedInstructions.setVisible(true);
+    }//GEN-LAST:event_mnuSupportedInstructionsActionPerformed
+
+    private void cmdSupportedInstructionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdSupportedInstructionsActionPerformed
+		dlgSupportedInstructions.setVisible(true);
+    }//GEN-LAST:event_cmdSupportedInstructionsActionPerformed
+
 	/**
 	 * Sets the path of the opened file and updates the title bar and recent files.
 	 * @param path Path to the opened file.
@@ -1587,6 +1622,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		Lang.tButton(mnuCPU, "cpu");
 		Lang.tButton(mnuLoadCPU, "load");
 		Lang.tButton(mnuLoadRecentCPU, "load_recent");
+		Lang.tButton(mnuSupportedInstructions, "supported_instructions");
 		Lang.tButton(mnuRestoreLatencies, "restore_latencies");
 		Lang.tButton(mnuRemoveLatencies, "remove_latencies");
 		Lang.tButton(mnuLanguage, "language");
@@ -1621,6 +1657,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		codeFileChooser = new JFileChooser();
 		codeFileChooser.setFileFilter(codeFileFilter = new FileNameExtensionFilter(Lang.t("assembly_files"), "asm", "s"));
 		dlgFindReplace.translate();
+		dlgSupportedInstructions.translate();
 		
 		cmdNew.setToolTipText(Lang.t("new"));
 		cmdOpen.setToolTipText(Lang.t("open"));
@@ -1631,6 +1668,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		cmdBackStep.setToolTipText(Lang.t("back_step"));
 		cmdStep.setToolTipText(Lang.t("step"));
 		cmdRun.setToolTipText(Lang.t("run"));
+		cmdSupportedInstructions.setToolTipText(Lang.t("supported_instructions"));
 		cmdHelp.setToolTipText(Lang.t("help"));
 
 		lblRegFormat.setText(Lang.t("format") + ":");
@@ -2203,6 +2241,7 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JButton cmdSave;
     private javax.swing.JButton cmdSaveAs;
     private javax.swing.JButton cmdStep;
+    private javax.swing.JButton cmdSupportedInstructions;
     private org.feup.brunonova.drmips.gui.DatapathPanel datapath;
     private javax.swing.JDesktopPane desktop;
     private javax.swing.JInternalFrame frmAssembledCode;
@@ -2225,6 +2264,7 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator10;
     private javax.swing.JPopupMenu.Separator jSeparator11;
     private javax.swing.JToolBar.Separator jSeparator12;
+    private javax.swing.JPopupMenu.Separator jSeparator13;
     private javax.swing.JPopupMenu.Separator jSeparator14;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
@@ -2286,6 +2326,7 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuSelectAll;
     private javax.swing.JMenuItem mnuSelectAllP;
     private javax.swing.JMenuItem mnuStep;
+    private javax.swing.JMenuItem mnuSupportedInstructions;
     private javax.swing.JMenuItem mnuSwitchSide;
     private javax.swing.JCheckBoxMenuItem mnuSwitchTheme;
     private javax.swing.JPopupMenu mnuTabSide;
