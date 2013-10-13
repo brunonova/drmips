@@ -80,6 +80,8 @@ public class FrmSimulator extends javax.swing.JFrame {
 	private DlgFindReplace dlgFindReplace = null;
 	/** The supported instructions dialog. */
 	private DlgSupportedInstructions dlgSupportedInstructions = null;
+	/** The statistics dialog. */
+	private DlgStatistics dlgStatistics = null; // statistics refreshed in DatapathPanel.refresh()
 	/** The selected tab when it was right-clicked. */
 	private Tab selectedTab = null;
 	
@@ -100,11 +102,13 @@ public class FrmSimulator extends javax.swing.JFrame {
 	public FrmSimulator() {
 		obtainIcons();
 		initComponents();
+		datapath.setParent(this);
 		if(DrMIPS.prefs.getInt(DrMIPS.DIVIDER_LOCATION_PREF, -1) != -1)
 			pnlSplit.setDividerLocation(DrMIPS.prefs.getInt(DrMIPS.DIVIDER_LOCATION_PREF, -1));
 		pnlCode.add((txtCode = new CodeEditor(mnuEditP)).getScrollPane());
 		dlgFindReplace = new DlgFindReplace(this);
 		dlgSupportedInstructions = new DlgSupportedInstructions(this);
+		dlgStatistics = new DlgStatistics(this);
 		refreshTabSides();
 		updateRecentFiles();
 		loadFirstCPU();
@@ -200,6 +204,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         cmdStep = new javax.swing.JButton();
         cmdRun = new javax.swing.JButton();
         jSeparator12 = new javax.swing.JToolBar.Separator();
+        cmdStatistics = new javax.swing.JButton();
         cmdSupportedInstructions = new javax.swing.JButton();
         cmdHelp = new javax.swing.JButton();
         pnlSplit = new javax.swing.JSplitPane();
@@ -271,6 +276,8 @@ public class FrmSimulator extends javax.swing.JFrame {
         jSeparator14 = new javax.swing.JPopupMenu.Separator();
         mnuRestoreLatencies = new javax.swing.JMenuItem();
         mnuRemoveLatencies = new javax.swing.JMenuItem();
+        jSeparator15 = new javax.swing.JPopupMenu.Separator();
+        mnuStatistics = new javax.swing.JMenuItem();
         mnuExecute = new javax.swing.JMenu();
         mnuAssemble = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
@@ -537,6 +544,17 @@ public class FrmSimulator extends javax.swing.JFrame {
         });
         pnlToolBar.add(cmdRun);
         pnlToolBar.add(jSeparator12);
+
+        cmdStatistics.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x24/statistics.png"))); // NOI18N
+        cmdStatistics.setFocusable(false);
+        cmdStatistics.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        cmdStatistics.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        cmdStatistics.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdStatisticsActionPerformed(evt);
+            }
+        });
+        pnlToolBar.add(cmdStatistics);
 
         cmdSupportedInstructions.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x24/info.png"))); // NOI18N
         cmdSupportedInstructions.setFocusable(false);
@@ -938,6 +956,15 @@ public class FrmSimulator extends javax.swing.JFrame {
             }
         });
         mnuDatapath.add(mnuRemoveLatencies);
+        mnuDatapath.add(jSeparator15);
+
+        mnuStatistics.setText("statistics");
+        mnuStatistics.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuStatisticsActionPerformed(evt);
+            }
+        });
+        mnuDatapath.add(mnuStatistics);
 
         mnuBar.add(mnuDatapath);
 
@@ -1336,6 +1363,14 @@ public class FrmSimulator extends javax.swing.JFrame {
 		dlgSupportedInstructions.setVisible(true);
     }//GEN-LAST:event_cmdSupportedInstructionsActionPerformed
 
+    private void mnuStatisticsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuStatisticsActionPerformed
+		dlgStatistics.setVisible(true);
+    }//GEN-LAST:event_mnuStatisticsActionPerformed
+
+    private void cmdStatisticsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdStatisticsActionPerformed
+		dlgStatistics.setVisible(true);
+    }//GEN-LAST:event_cmdStatisticsActionPerformed
+
 	/**
 	 * Sets the path of the opened file and updates the title bar and recent files.
 	 * @param path Path to the opened file.
@@ -1628,6 +1663,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		Lang.tButton(mnuSupportedInstructions, "supported_instructions");
 		Lang.tButton(mnuRestoreLatencies, "restore_latencies");
 		Lang.tButton(mnuRemoveLatencies, "remove_latencies");
+		Lang.tButton(mnuStatistics, "statistics");
 		Lang.tButton(mnuLanguage, "language");
 		Lang.tButton(mnuHelp, "help");
 		Lang.tButton(mnuDocs, "documentation");
@@ -1661,6 +1697,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		codeFileChooser.setFileFilter(codeFileFilter = new FileNameExtensionFilter(Lang.t("assembly_files"), "asm", "s"));
 		dlgFindReplace.translate();
 		dlgSupportedInstructions.translate();
+		dlgStatistics.translate();
 		
 		cmdNew.setToolTipText(Lang.t("new"));
 		cmdOpen.setToolTipText(Lang.t("open"));
@@ -1671,6 +1708,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		cmdBackStep.setToolTipText(Lang.t("back_step"));
 		cmdStep.setToolTipText(Lang.t("step"));
 		cmdRun.setToolTipText(Lang.t("run"));
+		cmdStatistics.setToolTipText(Lang.t("statistics"));
 		cmdSupportedInstructions.setToolTipText(Lang.t("supported_instructions"));
 		cmdHelp.setToolTipText(Lang.t("help"));
 
@@ -2102,6 +2140,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		SwingUtilities.updateComponentTreeUI(this);
 		if(dlgFindReplace != null) SwingUtilities.updateComponentTreeUI(dlgFindReplace);
 		if(dlgSupportedInstructions != null) SwingUtilities.updateComponentTreeUI(dlgSupportedInstructions);
+		if(dlgStatistics != null) SwingUtilities.updateComponentTreeUI(dlgStatistics);
 		if(cpuFileChooser != null) cpuFileChooser.updateUI();
 		if(codeFileChooser != null) codeFileChooser.updateUI();
 		datapath.setCPU(cpu);
@@ -2219,6 +2258,9 @@ public class FrmSimulator extends javax.swing.JFrame {
 		lblDatapathHelp.setToolTipText(tip);
 	}
 	
+	/**
+	 * Opens the documentation directory.
+	 */
 	public void openDocDir() {
 		File docDir = new File(DrMIPS.path + File.separator + DrMIPS.DOC_DIR);
 		try {
@@ -2229,6 +2271,13 @@ public class FrmSimulator extends javax.swing.JFrame {
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(this, Lang.t("error_opening_doc_folder"), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
 		}
+	}
+	
+	/**
+	 * Refreshes the statistics dialog.
+	 */
+	public void refreshStatistics() {
+		dlgStatistics.refresh(cpu);
 	}
 	
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -2245,6 +2294,7 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JButton cmdRun;
     private javax.swing.JButton cmdSave;
     private javax.swing.JButton cmdSaveAs;
+    private javax.swing.JButton cmdStatistics;
     private javax.swing.JButton cmdStep;
     private javax.swing.JButton cmdSupportedInstructions;
     private org.feup.brunonova.drmips.gui.DatapathPanel datapath;
@@ -2271,6 +2321,7 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator12;
     private javax.swing.JPopupMenu.Separator jSeparator13;
     private javax.swing.JPopupMenu.Separator jSeparator14;
+    private javax.swing.JPopupMenu.Separator jSeparator15;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;
@@ -2330,6 +2381,7 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuSaveAs;
     private javax.swing.JMenuItem mnuSelectAll;
     private javax.swing.JMenuItem mnuSelectAllP;
+    private javax.swing.JMenuItem mnuStatistics;
     private javax.swing.JMenuItem mnuStep;
     private javax.swing.JMenuItem mnuSupportedInstructions;
     private javax.swing.JMenuItem mnuSwitchSide;
