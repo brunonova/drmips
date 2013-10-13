@@ -777,6 +777,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuView.setText("view");
 
         mnuSwitchTheme.setText("dark_theme");
+        mnuSwitchTheme.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/dark_theme.png"))); // NOI18N
         mnuSwitchTheme.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuSwitchThemeActionPerformed(evt);
@@ -785,6 +786,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuView.add(mnuSwitchTheme);
 
         mnuInternalWindows.setText("internal_windows");
+        mnuInternalWindows.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/windows.png"))); // NOI18N
         mnuInternalWindows.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuInternalWindowsActionPerformed(evt);
@@ -1007,6 +1009,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 
         mnuCPU.setText("cpu");
 
+        mnuLoadCPU.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/load_cpu.png"))); // NOI18N
         mnuLoadCPU.setText("load");
         mnuLoadCPU.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

@@ -332,6 +332,9 @@
             <MenuItem class="javax.swing.JCheckBoxMenuItem" name="mnuSwitchTheme">
               <Properties>
                 <Property name="text" type="java.lang.String" value="dark_theme"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/res/icons/x16/dark_theme.png"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuSwitchThemeActionPerformed"/>
@@ -340,6 +343,9 @@
             <MenuItem class="javax.swing.JCheckBoxMenuItem" name="mnuInternalWindows">
               <Properties>
                 <Property name="text" type="java.lang.String" value="internal_windows"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/res/icons/x16/windows.png"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuInternalWindowsActionPerformed"/>
@@ -642,6 +648,9 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mnuLoadCPU">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/res/icons/x16/load_cpu.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="load"/>
               </Properties>
               <Events>
