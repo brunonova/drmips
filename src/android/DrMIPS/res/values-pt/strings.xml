@@ -141,5 +141,13 @@
 	<string name="license">Licença</string>
 	<string name="remove_latencies">Remover latências</string>
 	<string name="restore_latencies">Restaurar latências</string>
+	<string name="statistics">Estatísticas</string>
+	<string name="clock_period">Período de relógio:</string>
+	<string name="clock_frequency">Frequência de relógio:</string>
+	<string name="executed_cycles">Ciclos executados:</string>
+	<string name="execution_time">Tempo de execução:</string>
+	<string name="executed_instructions">Instruções executadas:</string>
+	<string name="forwards">Atalhos:</string>
+	<string name="stalls">Protelamentos:</string>
     
 </resources>

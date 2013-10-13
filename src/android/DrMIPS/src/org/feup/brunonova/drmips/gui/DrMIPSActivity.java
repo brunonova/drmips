@@ -107,6 +107,7 @@ public class DrMIPSActivity extends Activity {
 	public static final int CHANGE_LATENCY_DIALOG = 10;
 	public static final int CONFIRM_EXIT_DIALOG = 11;
 	public static final int LICENSE_DIALOG = 12;
+	public static final int STATISTICS_DIALOG = 13;
 	
 	/** The file currently open (if <tt>null</tt> no file is open). */
 	private File openFile = null;
@@ -218,6 +219,7 @@ public class DrMIPSActivity extends Activity {
 			case R.id.mnuRemoveLatencies: mnuRemoveLatenciesOnClick(item); return true;
 			case R.id.mnuRestart: mnuRestartOnClick(item); return true;
 			case R.id.mnuRun: mnuRunOnClick(item); return true;
+			case R.id.mnuStatistics: mnuStatisticsOnClick(item); return true;
 			default: return super.onOptionsItemSelected(item);
 		}
 	}
@@ -547,6 +549,18 @@ public class DrMIPSActivity extends Activity {
 					})
 					.create();
 				
+			case STATISTICS_DIALOG:
+				return new AlertDialog.Builder(this)
+					.setTitle(R.string.statistics)
+					.setView(getLayoutInflater().inflate(R.layout.statistics_dialog, null))
+					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.dismiss();
+						}
+					})
+					.create();
+				
 			default: return null;
 		}
 	}
@@ -593,6 +607,16 @@ public class DrMIPSActivity extends Activity {
 					dialog.setTitle(getResources().getString(R.string.latency_of_x).replace("#1", datapath.getLatencyComponent().getId()));
 					txtLatency.setText("" + datapath.getLatencyComponent().getLatency());
 				}
+				break;
+			case STATISTICS_DIALOG:
+				((TextView)dialog.findViewById(R.id.lblClockPeriodVal)).setText(getCPU().getClockPeriod() + " " + CPU.LATENCY_UNIT);
+				((TextView)dialog.findViewById(R.id.lblClockFrequencyVal)).setText(getCPU().getClockFrequencyInAdequateUnit());
+				((TextView)dialog.findViewById(R.id.lblExecutedCyclesVal)).setText(getCPU().getNumberOfExecutedCycles() + "");
+				((TextView)dialog.findViewById(R.id.lblExecutionTimeVal)).setText(getCPU().getExecutionTime() + " " + CPU.LATENCY_UNIT);
+				((TextView)dialog.findViewById(R.id.lblExecutedInstructionsVal)).setText(getCPU().getNumberOfExecutedInstructions() + "");
+				((TextView)dialog.findViewById(R.id.lblCPIVal)).setText(getCPU().getCPI() + "");
+				((TextView)dialog.findViewById(R.id.lblForwardsVal)).setText(getCPU().getNumberOfForwards() + "");
+				((TextView)dialog.findViewById(R.id.lblStallsVal)).setText(getCPU().getNumberOfStalls() + "");
 				break;
 		}
 	}
@@ -718,6 +742,11 @@ public class DrMIPSActivity extends Activity {
 	public void mnuRemoveLatenciesOnClick(MenuItem menu) {
 		getCPU().removeLatencies();
 		datapath.refresh();
+	}
+	
+	@SuppressWarnings("deprecation")
+	public void mnuStatisticsOnClick(MenuItem menu) {
+		showDialog(STATISTICS_DIALOG);
 	}
 	
 	public void mnuRestartOnClick(MenuItem menu) {
