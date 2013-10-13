@@ -190,6 +190,7 @@ public class Assembler {
 			cpu.getExMemReg().setCurrentInstructionIndex(-1);
 			cpu.getMemWbReg().setCurrentInstructionIndex(-1);
 		}
+		cpu.resetStatistics();
 	}
 	
 	/**

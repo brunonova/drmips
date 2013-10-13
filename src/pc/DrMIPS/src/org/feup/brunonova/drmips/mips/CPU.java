@@ -107,6 +107,14 @@ public class CPU {
 	private int clockPeriod;
 	/** Clock frequency in Hz. */
 	private double clockFrequency;
+	/** Number of executed cycles. */
+	private int executedCycles = 0;
+	/** Number of executed instructions. */
+	private int executedInstructions = 0;
+	/** Number of forwards. */
+	private int forwards = 0;
+	/** Number of stalls. */
+	private int stalls = 0;
 	
 	/**
 	 * Constructor that should by called by other constructors.
@@ -294,6 +302,75 @@ public class CPU {
 	}
 	
 	/**
+	 * Returns the number of executed clock cycles.
+	 * @return Number of executed cycles.
+	 */
+	public int getNumberOfExecutedCycles() {
+		return executedCycles;
+	}
+	
+	/**
+	 * Returns the number of executed instructions.
+	 * @return Number of executed instructions.
+	 */
+	public int getNumberOfExecutedInstructions() {
+		return executedInstructions;
+	}
+	
+	/**
+	 * Returns the CPI.
+	 * @return Cycles Per Instruction.
+	 */
+	public double getCPI() {
+		if(getNumberOfExecutedInstructions() > 0)
+			return (double)getNumberOfExecutedCycles() / (double)getNumberOfExecutedInstructions();
+		else
+			return 0.0;
+	}
+	
+	/**
+	 * Returns the CPI as a formatted string.
+	 * @return CPI as string.
+	 */
+	public String getCPIAsString() {
+		return String.format("%.2f", getCPI());
+	}
+	
+	/**
+	 * Returns the ammount of time spent executing the program.
+	 * @return Execution time (in LATENCY_UNIT unit).
+	 */
+	public long getExecutionTime() {
+		return (long)getNumberOfExecutedCycles() * (long)getClockPeriod();
+	}
+	
+	/**
+	 * Returns the number of forwards.
+	 * @return Number of forwards.
+	 */
+	public int getNumberOfForwards() {
+		return forwards;
+	}
+	
+	/**
+	 * Returns the number of stalls.
+	 * @return Number of stalls.
+	 */
+	public int getNumberOfStalls() {
+		return stalls;
+	}
+	
+	/**
+	 * Resets the statistics to zero.
+	 */
+	protected void resetStatistics() {
+		executedCycles = 0;
+		executedInstructions = 0;
+		forwards = 0;
+		stalls = 0;
+	}
+	
+	/**
 	 * Determines the CPU's critical path
 	 */
 	private void determineCriticalPath() {
@@ -438,6 +515,16 @@ public class CPU {
 	 * "Executes" a clock cycle (a step).
 	 */
 	public void executeCycle() {
+		executedCycles++;
+		if(!isPipeline() || memWbReg.getCurrentInstructionIndex() >= 0)
+			executedInstructions++;
+		if(hasForwardingUnit()) {
+			if(getForwardingUnit().getForwardA().getValue() != 0) forwards++;
+			if(getForwardingUnit().getForwardB().getValue() != 0) forwards++;
+		}
+		if(hasHazardDetectionUnit() && getHazardDetectionUnit().getStall().getValue() != 0)
+			stalls++;
+		
 		saveCycleState();
 		for(Component c: synchronousComponents) // execute synchronous actions without propagating output changes
 			((IsSynchronous)c).executeSynchronous();
@@ -506,6 +593,16 @@ public class CPU {
 				c.execute();
 			for(Component c: getComponents()) // "execute" all components
 				c.execute();
+			
+			executedCycles--;
+			if(!isPipeline() || memWbReg.getCurrentInstructionIndex() >= 0)
+				executedInstructions--;
+			if(hasForwardingUnit()) {
+				if(getForwardingUnit().getForwardA().getValue() != 0) forwards--;
+				if(getForwardingUnit().getForwardB().getValue() != 0) forwards--;
+			}
+			if(hasHazardDetectionUnit() && getHazardDetectionUnit().getStall().getValue() != 0)
+				stalls--;
 		}
 	}
 	
@@ -539,6 +636,7 @@ public class CPU {
 				c.execute();
 			for(Component c: getComponents()) // "execute" all components
 				c.execute();
+			resetStatistics();
 		}
 	}
 	
