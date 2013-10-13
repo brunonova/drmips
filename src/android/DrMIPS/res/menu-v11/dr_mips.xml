@@ -22,6 +22,7 @@
             <item android:id="@+id/mnuOverlayedData" android:orderInCategory="100" android:checkable="true" android:checked="true" android:title="@string/overlayed_data" android:onClick="mnuOverlayedDataOnClick" android:showAsAction="never"/>
             <item android:id="@+id/mnuRestoreLatencies" android:onClick="mnuRestoreLatenciesOnClick" android:title="@string/restore_latencies" android:orderInCategory="100" android:showAsAction="never"/>
             <item android:id="@+id/mnuRemoveLatencies" android:onClick="mnuRemoveLatenciesOnClick" android:title="@string/remove_latencies" android:orderInCategory="100" android:showAsAction="never"/>
+            <item android:id="@+id/mnuStatistics" android:onClick="mnuStatisticsOnClick" android:title="@string/statistics" android:orderInCategory="100" android:showAsAction="never"/>
         </menu>
     </item>
     <item android:id="@+id/mnuLoadCPU" android:icon="?loadIcon" android:orderInCategory="100" android:title="@string/load_cpu" android:showAsAction="never" android:onClick="mnuLoadCPUOnClick"></item>

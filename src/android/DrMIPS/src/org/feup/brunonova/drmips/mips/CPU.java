@@ -59,6 +59,8 @@ public class CPU {
 	public static final int BOTTOM_MARGIN = 10;
 	/** The unit used in latencies. */
 	public static final String LATENCY_UNIT = "ps";
+	/** The exponent (e), that multiplied by 10 and the latency gives the real latency in seconds (ps * 10 ^ e). */
+	public static final int LATENCY_EXPONENT = -12;
 	/** The number of clock cycles executed in <tt>executeAll()</tt> after which it throws an exception. */
 	public static final int EXECUTE_ALL_LIMIT_CYCLES = 1000;
 	
@@ -100,6 +102,19 @@ public class CPU {
 	private PipelineRegister exMemReg = null;
 	/** The MEM/WB register, if the CPU is pipelined. */
 	private PipelineRegister memWbReg = null;
+	
+	/** Clock period in LATENCY_UNIT unit. */
+	private int clockPeriod;
+	/** Clock frequency in Hz. */
+	private double clockFrequency;
+	/** Number of executed cycles. */
+	private int executedCycles = 0;
+	/** Number of executed instructions. */
+	private int executedInstructions = 0;
+	/** Number of forwards. */
+	private int forwards = 0;
+	/** Number of stalls. */
+	private int stalls = 0;
 	
 	/**
 	 * Constructor that should by called by other constructors.
@@ -196,6 +211,7 @@ public class CPU {
 		for(Component c: synchronousComponents) // calculate latencies
 			c.updateAccumulatedLatency();
 		
+		determineClockPeriodAndFrequency();
 		determineCriticalPath();
 	}
 	
@@ -218,9 +234,9 @@ public class CPU {
 	}
 	
 	/**
-	 * Determines the CPU's critical path
+	 * Determines the clock period and frequency, setting the respective variables.
 	 */
-	private void determineCriticalPath() {
+	private void determineClockPeriodAndFrequency() {
 		// Find the highest accumulated latency
 		int maxLatency = 0;
 		for(Component c: getComponents()) {
@@ -231,6 +247,135 @@ public class CPU {
 					maxLatency = i.getAccumulatedLatency();
 			}
 		}
+		
+		clockPeriod = maxLatency;
+		if(clockPeriod > 0)
+			clockFrequency = 1.0 / (clockPeriod * Math.pow(10, LATENCY_EXPONENT));
+		else
+			clockFrequency = 0;
+	}
+	
+	/**
+	 * Returns the clock period in the LATENCY_UNIT unit.
+	 * @return Clock period of the CPU.
+	 */
+	public int getClockPeriod() {
+		return clockPeriod;
+	}
+	
+	/**
+	 * Returns the clock frequency in Hz.
+	 * @return Clock frequency in Hz.
+	 */
+	public double getClockFrequencyInHz() {
+		return clockFrequency;
+	}
+	
+	/**
+	 * Returns the clock frequency in MHz.
+	 * @return Clock frequency in MHz.
+	 */
+	public double getClockFrequencyInMHz() {
+		return clockFrequency / Math.pow(10, 6);
+	}
+	
+	/**
+	 * Returns the clock frequency in GHz.
+	 * @return Clock frequency in GHz.
+	 */
+	public double getClockFrequencyInGHz() {
+		return clockFrequency / Math.pow(10, 9);
+	}
+	
+	/**
+	 * Returns the clock frequency as string in an adequate unit.
+	 * @return Clock frequency as string with adequate unit.
+	 */
+	public String getClockFrequencyInAdequateUnit() {
+		double mhz, ghz;
+		if((ghz = getClockFrequencyInGHz()) >= 1.0)
+			return String.format("%.2f", ghz) + " GHz";
+		else if((mhz = getClockFrequencyInMHz()) >= 1.0)
+			return String.format("%.2f", mhz) + " MHz";
+		else
+			return String.format("%.2f", getClockFrequencyInHz()) + " Hz";
+	}
+	
+	/**
+	 * Returns the number of executed clock cycles.
+	 * @return Number of executed cycles.
+	 */
+	public int getNumberOfExecutedCycles() {
+		return executedCycles;
+	}
+	
+	/**
+	 * Returns the number of executed instructions.
+	 * @return Number of executed instructions.
+	 */
+	public int getNumberOfExecutedInstructions() {
+		return executedInstructions;
+	}
+	
+	/**
+	 * Returns the CPI.
+	 * @return Cycles Per Instruction.
+	 */
+	public double getCPI() {
+		if(getNumberOfExecutedInstructions() > 0)
+			return (double)getNumberOfExecutedCycles() / (double)getNumberOfExecutedInstructions();
+		else
+			return 0.0;
+	}
+	
+	/**
+	 * Returns the CPI as a formatted string.
+	 * @return CPI as string.
+	 */
+	public String getCPIAsString() {
+		return String.format("%.2f", getCPI());
+	}
+	
+	/**
+	 * Returns the ammount of time spent executing the program.
+	 * @return Execution time (in LATENCY_UNIT unit).
+	 */
+	public long getExecutionTime() {
+		return (long)getNumberOfExecutedCycles() * (long)getClockPeriod();
+	}
+	
+	/**
+	 * Returns the number of forwards.
+	 * @return Number of forwards.
+	 */
+	public int getNumberOfForwards() {
+		return forwards;
+	}
+	
+	/**
+	 * Returns the number of stalls.
+	 * @return Number of stalls.
+	 */
+	public int getNumberOfStalls() {
+		return stalls;
+	}
+	
+	/**
+	 * Resets the statistics to zero.
+	 */
+	protected void resetStatistics() {
+		executedCycles = 0;
+		executedInstructions = 0;
+		forwards = 0;
+		stalls = 0;
+	}
+	
+	/**
+	 * Determines the CPU's critical path
+	 */
+	private void determineCriticalPath() {
+		// Find the highest accumulated latency
+		int maxLatency = getClockPeriod();
 		
 		// Calculate critical path, starting in the components/inputs with maxLatency and going backwards
 		for(Component c: getComponents()) {
@@ -370,6 +515,16 @@ public class CPU {
 	 * "Executes" a clock cycle (a step).
 	 */
 	public void executeCycle() {
+		executedCycles++;
+		if(!isPipeline() || memWbReg.getCurrentInstructionIndex() >= 0)
+			executedInstructions++;
+		if(hasForwardingUnit()) {
+			if(getForwardingUnit().getForwardA().getValue() != 0) forwards++;
+			if(getForwardingUnit().getForwardB().getValue() != 0) forwards++;
+		}
+		if(hasHazardDetectionUnit() && getHazardDetectionUnit().getStall().getValue() != 0)
+			stalls++;
+		
 		saveCycleState();
 		for(Component c: synchronousComponents) // execute synchronous actions without propagating output changes
 			((IsSynchronous)c).executeSynchronous();
@@ -438,6 +593,16 @@ public class CPU {
 				c.execute();
 			for(Component c: getComponents()) // "execute" all components
 				c.execute();
+			
+			executedCycles--;
+			if(!isPipeline() || memWbReg.getCurrentInstructionIndex() >= 0)
+				executedInstructions--;
+			if(hasForwardingUnit()) {
+				if(getForwardingUnit().getForwardA().getValue() != 0) forwards--;
+				if(getForwardingUnit().getForwardB().getValue() != 0) forwards--;
+			}
+			if(hasHazardDetectionUnit() && getHazardDetectionUnit().getStall().getValue() != 0)
+				stalls--;
 		}
 	}
 	
@@ -471,6 +636,7 @@ public class CPU {
 				c.execute();
 			for(Component c: getComponents()) // "execute" all components
 				c.execute();
+			resetStatistics();
 		}
 	}
 	

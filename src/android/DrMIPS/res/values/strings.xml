@@ -142,5 +142,14 @@
     <string name="license">License</string>
     <string name="remove_latencies">Remove latencies</string>
     <string name="restore_latencies">Restore latencies</string>
+    <string name="statistics">Statistics</string>
+    <string name="clock_period">Clock period:</string>
+    <string name="clock_frequency">Clock frequency:</string>
+    <string name="executed_cycles">Executed cycles:</string>
+    <string name="execution_time">Execution time:</string>
+    <string name="executed_instructions">Executed instructions:</string>
+    <string name="cpi">CPI:</string>
+    <string name="forwards">Forwards:</string>
+    <string name="stalls">Stalls:</string>
 
 </resources>
