@@ -37,6 +37,18 @@ public class DlgStatistics extends javax.swing.JDialog {
         lblClockPeriodVal = new javax.swing.JLabel();
         lblClockFrequency = new javax.swing.JLabel();
         lblClockFrequencyVal = new javax.swing.JLabel();
+        lblExecutedCycles = new javax.swing.JLabel();
+        lblExecutedCyclesVal = new javax.swing.JLabel();
+        lblExecutionTime = new javax.swing.JLabel();
+        lblExecutionTimeVal = new javax.swing.JLabel();
+        lblExecutedInstructions = new javax.swing.JLabel();
+        lblExecutedInstructionsVal = new javax.swing.JLabel();
+        lblCPI = new javax.swing.JLabel();
+        lblCPIVal = new javax.swing.JLabel();
+        lblForwards = new javax.swing.JLabel();
+        lblForwardsVal = new javax.swing.JLabel();
+        lblStalls = new javax.swing.JLabel();
+        lblStallsVal = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         cmdClose = new javax.swing.JButton();
 
@@ -58,19 +70,63 @@ public class DlgStatistics extends javax.swing.JDialog {
         lblClockFrequencyVal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblClockFrequencyVal.setText("0");
 
+        lblExecutedCycles.setText("executed_cycles:");
+
+        lblExecutedCyclesVal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblExecutedCyclesVal.setText("0");
+
+        lblExecutionTime.setText("execution_time:");
+
+        lblExecutionTimeVal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblExecutionTimeVal.setText("0");
+
+        lblExecutedInstructions.setText("executed_instructions:");
+
+        lblExecutedInstructionsVal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblExecutedInstructionsVal.setText("0");
+
+        lblCPI.setText("cpi:");
+
+        lblCPIVal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblCPIVal.setText("0");
+
+        lblForwards.setText("forwards:");
+
+        lblForwardsVal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblForwardsVal.setText("0");
+
+        lblStalls.setText("stalls:");
+
+        lblStallsVal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblStallsVal.setText("0");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblClockPeriod, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblClockFrequency, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblStalls, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblForwards, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblCPI, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblExecutedInstructions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblExecutionTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblExecutedCycles, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblClockFrequency, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(lblClockPeriod, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblClockFrequencyVal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblClockPeriodVal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblClockFrequencyVal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE))
+                    .addComponent(lblExecutionTimeVal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+                    .addComponent(lblExecutedCyclesVal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblExecutedInstructionsVal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+                    .addComponent(lblCPIVal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+                    .addComponent(lblForwardsVal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+                    .addComponent(lblStallsVal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -84,6 +140,30 @@ public class DlgStatistics extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblClockFrequency)
                     .addComponent(lblClockFrequencyVal))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblExecutedCycles)
+                    .addComponent(lblExecutedCyclesVal))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblExecutionTime)
+                    .addComponent(lblExecutionTimeVal))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblExecutedInstructions)
+                    .addComponent(lblExecutedInstructionsVal))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCPI)
+                    .addComponent(lblCPIVal))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblForwards)
+                    .addComponent(lblForwardsVal))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblStalls)
+                    .addComponent(lblStallsVal))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -125,6 +205,12 @@ public class DlgStatistics extends javax.swing.JDialog {
 		Lang.tButton(cmdClose, "close");
 		lblClockPeriod.setText(Lang.t("clock_period") + ":");
 		lblClockFrequency.setText(Lang.t("clock_frequency") + ":");
+		lblExecutedCycles.setText(Lang.t("executed_cycles") + ":");
+		lblExecutionTime.setText(Lang.t("execution_time") + ":");
+		lblExecutedInstructions.setText(Lang.t("executed_instructions") + ":");
+		lblCPI.setText(Lang.t("cpi") + ":");
+		lblForwards.setText(Lang.t("forwards") + ":");
+		lblStalls.setText(Lang.t("stalls") + ":");
 	}
 	
 	/**
@@ -134,15 +220,33 @@ public class DlgStatistics extends javax.swing.JDialog {
 	protected void refresh(CPU cpu) {
 		lblClockPeriodVal.setText(cpu.getClockPeriod() + " " + CPU.LATENCY_UNIT);
 		lblClockFrequencyVal.setText(cpu.getClockFrequencyInAdequateUnit());
+		lblExecutedCyclesVal.setText(cpu.getNumberOfExecutedCycles() + "");
+		lblExecutionTimeVal.setText(cpu.getExecutionTime() + " " + CPU.LATENCY_UNIT);
+		lblExecutedInstructionsVal.setText(cpu.getNumberOfExecutedInstructions() + "");
+		lblCPIVal.setText(cpu.getCPIAsString());
+		lblForwardsVal.setText(cpu.getNumberOfForwards() + "");
+		lblStallsVal.setText(cpu.getNumberOfStalls() + "");
 	}
 	
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cmdClose;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lblCPI;
+    private javax.swing.JLabel lblCPIVal;
     private javax.swing.JLabel lblClockFrequency;
     private javax.swing.JLabel lblClockFrequencyVal;
     private javax.swing.JLabel lblClockPeriod;
     private javax.swing.JLabel lblClockPeriodVal;
+    private javax.swing.JLabel lblExecutedCycles;
+    private javax.swing.JLabel lblExecutedCyclesVal;
+    private javax.swing.JLabel lblExecutedInstructions;
+    private javax.swing.JLabel lblExecutedInstructionsVal;
+    private javax.swing.JLabel lblExecutionTime;
+    private javax.swing.JLabel lblExecutionTimeVal;
+    private javax.swing.JLabel lblForwards;
+    private javax.swing.JLabel lblForwardsVal;
+    private javax.swing.JLabel lblStalls;
+    private javax.swing.JLabel lblStallsVal;
     // End of variables declaration//GEN-END:variables
 }
