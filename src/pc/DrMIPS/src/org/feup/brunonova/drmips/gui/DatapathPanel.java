@@ -45,6 +45,8 @@ public class DatapathPanel extends JLayeredPane {
 	/** The color of the control path. */
 	public static Color CONTROL_COLOR = new Color(0, 170, 230);
 	
+	/** The main window where the datapath is. */
+	private FrmSimulator parent = null;
 	/** The CPU being displayed. */
 	private CPU cpu = null;
 	/** The graphical components. */
@@ -67,6 +69,14 @@ public class DatapathPanel extends JLayeredPane {
 	 */
 	public DatapathPanel() {
 		super();
+	}
+	
+	/**
+	 * Defins the main window where the datapath is.
+	 * @param parent The main FrmSimulator window.
+	 */
+	public void setParent(FrmSimulator parent) {
+		this.parent = parent;
 	}
 	
 	/**
@@ -118,6 +128,7 @@ public class DatapathPanel extends JLayeredPane {
 		for(Wire w: wires)
 			w.refreshTips();
 		repaint();
+		parent.refreshStatistics(); // refresh the statistics dialog
 	}
 	
 	/**
