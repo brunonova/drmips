@@ -614,7 +614,7 @@ public class DrMIPSActivity extends Activity {
 				((TextView)dialog.findViewById(R.id.lblExecutedCyclesVal)).setText(getCPU().getNumberOfExecutedCycles() + "");
 				((TextView)dialog.findViewById(R.id.lblExecutionTimeVal)).setText(getCPU().getExecutionTime() + " " + CPU.LATENCY_UNIT);
 				((TextView)dialog.findViewById(R.id.lblExecutedInstructionsVal)).setText(getCPU().getNumberOfExecutedInstructions() + "");
-				((TextView)dialog.findViewById(R.id.lblCPIVal)).setText(getCPU().getCPI() + "");
+				((TextView)dialog.findViewById(R.id.lblCPIVal)).setText(getCPU().getCPIAsString());
 				((TextView)dialog.findViewById(R.id.lblForwardsVal)).setText(getCPU().getNumberOfForwards() + "");
 				((TextView)dialog.findViewById(R.id.lblStallsVal)).setText(getCPU().getNumberOfStalls() + "");
 				break;
