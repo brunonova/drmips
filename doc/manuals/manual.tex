@@ -1,0 +1,73 @@
+% Short manual that explains the end user how to use the simulator.
+
+\documentclass[11pt,a4paper,twoside,titlepage]{article}
+
+\usepackage[utf8x]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage{siunitx}
+
+\newcommand{\Author}{Bruno Nova}
+\newcommand{\Title}{DrMIPS -- Usage Manual}
+
+\author{Bruno Nova}
+\title{\Title}
+\hypersetup{pdfauthor={Bruno Nova},pdftitle={\Title}}
+\definecolor{cloudwhite}{cmyk}{0,0,0,0.025}
+\graphicspath{{figures/}}
+
+\lstset{
+	extendedchars=\true,
+	inputencoding=utf8x,
+	literate={ç}{{\c{c}}}1,
+	basicstyle=\footnotesize\ttfamily,
+	keywordstyle=\bfseries,
+	numbers=left,
+	numberstyle=\scriptsize\texttt,
+	stepnumber=1,
+	numbersep=8pt,
+	frame=tblr,
+	float=htb,
+	aboveskip=8mm,
+	belowskip=4mm,
+	backgroundcolor=\color{cloudwhite},
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+	tabsize=2,	
+	captionpos=b,
+	breaklines=true,
+	breakatwhitespace=false,
+	escapeinside={\%*}{*)},
+	morekeywords={*,var,template,new}
+}
+
+
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{User Interface}
+
+\section{Code Editor}
+
+\section{Assembled Code Table}
+
+\section{Registers Table}
+
+\section{Data Memory Table}
+
+\section{Datapath}
+
+
+\end{document}
