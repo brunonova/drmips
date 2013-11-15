@@ -1710,7 +1710,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		cmdRun.setToolTipText(Lang.t("run"));
 		cmdStatistics.setToolTipText(Lang.t("statistics"));
 		cmdSupportedInstructions.setToolTipText(Lang.t("supported_instructions"));
-		cmdHelp.setToolTipText(Lang.t("help"));
+		cmdHelp.setToolTipText(Lang.t("documentation"));
 
 		lblRegFormat.setText(Lang.t("format") + ":");
 		lblDatapathDataFormat.setText(Lang.t("format") + ":");
