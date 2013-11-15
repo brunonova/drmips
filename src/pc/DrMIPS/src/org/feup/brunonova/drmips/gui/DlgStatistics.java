@@ -215,7 +215,7 @@ public class DlgStatistics extends javax.swing.JDialog {
 	 * Translates the dialog's strings.
 	 */
 	protected final void translate() {
-		setTitle(Lang.t("statistics"));
+		setTitle(Lang.t("simulation_statistics"));
 		Lang.tButton(cmdClose, "close");
 		lblClockPeriod.setText(Lang.t("clock_period") + ":");
 		lblClockFrequency.setText(Lang.t("clock_frequency") + ":");
