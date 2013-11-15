@@ -15,7 +15,7 @@
 \usepackage{siunitx}
 
 \newcommand{\Author}{Bruno Nova}
-\newcommand{\Title}{DrMIPS -- Usage Manual}
+\newcommand{\Title}{DrMIPS -- User Manual}
 
 \author{Bruno Nova}
 \title{\Title}
@@ -49,6 +49,8 @@
 	morekeywords={*,var,template,new}
 }
 
+\newcommand{\menupath}[1]{\textbf{\emph{#1}}}
+
 
 
 \begin{document}
@@ -57,17 +59,49 @@
 \tableofcontents
 \newpage
 
-\section{User Interface}
+\section{General User Interface}
 
-\section{Code Editor}
+The graphical user interface of the DrMIPS simulator is composed by the menu 
+bar, the toolbar and the main area where the main contents of the simulator 
+are displayed.
 
-\section{Assembled Code Table}
+The interface is displayed with a light theme by default. But you can switch
+to the dark theme by selecting \menupath{View > Dark theme} in the menu.
+DrMIPS supports multiple languages, so these names may be different.
+You can choose another language in the \menupath{View > Language} menu.
 
-\section{Registers Table}
+The main contents of the simulator are split in tabs by default. Each tab can
+be positioned on the left side of the window or on the right side. 
+You can move a tab to the other side by right-clicking on it and selecting 
+\menupath{Switch side} in the menu that appears.
+If you would prefer to see the contents split in windows instead, you can do
+that by selecting \menupath{View > Internal windows} in the menu.
+The position and size of the tabs/windows are remembered on exit.
 
-\section{Data Memory Table}
+The tabs or windows displayed are:
+\begin{itemize}
+	\item \textbf{Code}: the code editor, where you can create and edit an
+		assembly program to be executed by the simulator.
+	\item \textbf{Assembled}: after the code is assembled successfully, this
+		displays the resulting machine instructions.
+	\item \textbf{Datapath}: the graphical representation of the datapath,
+		and its state, is displayed here.
+	\item \textbf{Registers}: lists all the registers and their values.
+	\item \textbf{Data memory}: displays all the values in the data memory.
+\end{itemize}
 
-\section{Datapath}
+
+\section{Code Tab/Window}
+
+\section{Assembled Tab/Window}
+
+\section{Registers Tab/Window}
+
+\section{Data Memory Tab/Window}
+
+\section{Datapath Tab/Window}
+
+\section{Menus and Toolbar}
 
 
 \end{document}
