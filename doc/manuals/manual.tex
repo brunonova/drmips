@@ -93,6 +93,33 @@ The tabs or windows displayed are:
 
 \section{Code Tab/Window}
 
+This is the code editor, where you can write an assembly program.
+The editor displays the numbers of the lines and highlights the valid syntax.
+
+You can press \emph{Ctrl+Space} to auto-complete the keyword you are writing.
+Doing so displays a list of instructions, pseudo-instructions, directives and
+labels that can complete that keyword.
+It also displays a window that shows what the selected keyword in the list does
+and how it is used.
+Pressing \emph{Ctrl+Space} on an empty space will list all available
+instructions, pseudo-instructions, directives and labels.
+
+You can undo/redo changes, cut/copy/paste text and find/replace words in the
+code. These actions can be accessed through the \menupath{Edit} menu or by
+right-clicking in the code editor.
+The code can be saved to or read from a file. These actions are available in
+the \menupath{File} menu.
+
+After writing your assembly program, you must assemble it.
+This is done by selecting \menupath{Execute > Assemble} from the menu or by
+pressing the respective button in the toolbar.
+If the program has errors, a message box will indicate the first error and an
+exclamation icon will appear next to the numbers of the lines that have an
+error.
+You can hover the mouse cursor over those icons to discover what is the error.
+If the program is correct, no error message is displayed and you can then
+proceed to execute it.
+
 \section{Assembled Tab/Window}
 
 \section{Registers Tab/Window}
@@ -101,7 +128,7 @@ The tabs or windows displayed are:
 
 \section{Datapath Tab/Window}
 
-\section{Menus and Toolbar}
+%TODO Usage example?
 
 
 \end{document}
