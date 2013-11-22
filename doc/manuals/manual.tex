@@ -50,6 +50,7 @@
 }
 
 \definecolor{orange}{RGB}{255,128,0}
+\definecolor{cyan2}{RGB}{0,170,230}
 
 \newcommand{\menupath}[1]{\textbf{\emph{#1}}}
 
@@ -135,9 +136,23 @@ instructions will be displayed here in a table.
 Each line in the table corresponds to an ``assembled'' instruction, and it
 contains its address, machine code and original instruction.
 The instruction currently being executed is highlighted.
+
 If simulating a pipeline processor, all the instructions that are in the
 pipeline are highlighted in different colors, each one representing a
 different stage.
+The different colors mean:
+\begin{itemize}
+	\item \textbf{\textcolor{cyan2}{Blue}}: \textbf{I}nstruction 
+		\textbf{F}etch (\textbf{IF}) stage.
+	\item \textbf{\textcolor{green}{Green}}: \textbf{I}nstruction 
+		\textbf{D}ecode (\textbf{ID}) stage.
+	\item \textbf{\textcolor{magenta}{Magenta}}: \textbf{Ex}ecute 
+		(\textbf{EX}) stage.
+	\item \textbf{\textcolor{orange}{Orange}}: \textbf{Mem}ory access
+		(\textbf{MEM}) stage.
+	\item \textbf{\textcolor{red}{Red}}: \textbf{W}rite \textbf{B}ack 
+		(\textbf{WB}) stage.
+\end{itemize}
 
 Hovering the mouse cursor over an instruction in the table will present a
 tooltip. This tooltip displays the type of the instruction and the values
@@ -164,12 +179,12 @@ memory.
 The values that are currently being accessed are highlighted in different 
 colors. The colors mean:
 \begin{itemize}
-	\item \textcolor{green}{Green}: the register/address is being read by 
-		the register bank/data memory.
-	\item \textcolor{red}{Red}: the register/address is being written to the 
-		register bank/data memory.
-	\item \textcolor{orange}{Orange}: the register/address is being read and 
-		written at the same time in the register bank/data memory.
+	\item \textbf{\textcolor{green}{Green}}: the register/address is being 
+		read by the register bank/data memory.
+	\item \textbf{\textcolor{red}{Red}}: the register/address is being written 
+		to the register bank/data memory.
+	\item \textbf{\textcolor{orange}{Orange}}: the register/address is being 
+		read and written at the same time in the register bank/data memory.
 \end{itemize}
 
 You can edit the value of any register or memory address by double-clicking
