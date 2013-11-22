@@ -130,7 +130,7 @@ If the program is correct, no error message is displayed and you can then
 proceed to execute it.
 
 
-\subsection{Assembled}
+\subsection{Assembled} \label{sec:assembled}
 
 After the code is successfully assembled, the resulting machine code 
 instructions will be displayed here in a table.
@@ -243,6 +243,63 @@ The datapaths provided by default are:
 			additional instructions, like \emph{unicycle-extended.cpu}.
 	\end{itemize}
 \end{itemize}
+
+On the top of the tab/window, the instruction or instructions currently 
+being executed are displayed. They are highlighted with the same colors
+explained in subsection~\ref{sec:assembled}.
+
+The datapath is displayed below of the instruction.
+The components are represented by rectangles or squares and the wires by
+lines that end with arrows.
+Relevant wires that are in the control path are shown in blue.
+Wires that are considered irrelevant in the current clock cycle are shown
+in gray.
+A wire is considered irrelevant if it's a control signal set to \verb+0+,
+if its value is ignored by a component, if it's the output of the
+\emph{hazard detection unit} and a stall isn't occurring, etc.
+
+The values at some inputs and outputs of some important components are
+show in the datapath as small ``data tips'' with yellow background.
+You can hover the mouse cursor over these ``data tips'' to find out what
+is the identifier of the input/output.
+
+By hovering the mouse cursor over a component, a tooltip with some details
+about it will be displayed \footnote{In the Android version, press the 
+component to see its tooltip.}.
+The tooltip presents the name of the component, a description of what it
+does and the values at all the inputs and outputs.
+
+You can hide the control path by unchecking 
+\menupath{Datapath > Control path} in the menu.
+You can hide the arrows in the end of the wires by unchecking
+\menupath{Datapath > Arrows in wires}.
+And you can hide the ``data tips'' by unchecking
+\menupath{Datapath > Overlayed data} in the menu.
+
+\bigskip
+
+The datapath can also be displayed in a ``performance mode''. You can
+switch to this mode by selecting \menupath{Datapath > Performance mode}
+in the menu.
+In this mode, the performance of the processor is simulated, and its
+critical path is displayed in red.
+
+Each component has a latency, which can be consulted in its tooltip.
+The tooltip also shows the accumulated latencies at the inputs (the time it
+takes for that input to receive the correct value after the clock transition)
+and at the outputs (the time it takes for the component to generate the
+correct value for the output).
+
+The latencies of the components can be edited by double-clicking them while
+in performance mode \footnote{In the Android version, long-press the 
+component while in performance mode to edit its latency.}.
+Additionally, you can select \menupath{Datapath > Restore latencies} in the
+menu to restore the latencies of all components to their original values,
+and \menupath{Datapath > Remove latencies} to set all latencies to \verb+0+.
+
+You can also view some statistics about the simulation, like clock frequency
+and CPI (\emph{Cycles Per Instruction}), by selecting 
+\menupath{Datapath > Statistics} in the menu.
 
 
 \end{document}
