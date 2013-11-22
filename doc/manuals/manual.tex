@@ -201,5 +201,46 @@ If you don't want that to happen, uncheck
 
 \section{Datapath Tab/Window}
 
+The graphical representation of the processor's datapath is displayed here.
+This is where you can see how the CPU works internally.
+
+DrMIPS can simulate several different unicycle and pipeline datapaths.
+The name of the datapath currently being used is shown in the bottom of this
+tab/window, and you can choose another datapath by selecting 
+\menupath{CPU > Load} from the menu.
+Note that different datapaths may support different instructions.
+
+The datapaths provided by default are:
+\begin{itemize}
+	\item \textbf{Unicycle datapaths}
+	\begin{itemize}
+		\item \textbf{unicycle.cpu}: The default unicycle datapath.
+		\item \textbf{unicycle-no-jump.cpu}: Simpler variant of the unicycle 
+			datapath that doesn't support the \verb+j+~(\emph{jump}) 
+			instruction.
+		\item \textbf{unicycle-no-jump-branch.cpu}: An even simpler variant 
+			of the unicycle datapath that doesn't support \emph{jumps} nor
+			\emph{branches}.
+		\item \textbf{unicycle-extended.cpu}: A variant of the unicycle 
+			datapath that supports some additional instructions, like 
+			multiplications and divisions.
+	\end{itemize}
+	
+	\item \textbf{Pipeline datapaths}
+	\begin{itemize}
+		\item \textbf{pipeline.cpu}: The default pipeline datapath, which
+			implements hazard detection. The pipeline datapath doesn't
+			support the \verb+j+~(\emph{jump}) instruction.
+		\item \textbf{pipeline-only-forwarding.cpu}: Variant of the pipeline
+			datapath that, in terms of hazard detection, only implements
+			data forwarding (giving wrong results).
+		\item \textbf{pipeline-no-hazard-detection.cpu}: A variant of the
+			pipeline datapath that doesn't implement any form of hazard 
+			detection at all (giving wrong results).
+		\item \textbf{pipeline-extended.cpu}: A variant that supports some
+			additional instructions, like \emph{unicycle-extended.cpu}.
+	\end{itemize}
+\end{itemize}
+
 
 \end{document}
