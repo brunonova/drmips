@@ -49,6 +49,8 @@
 	morekeywords={*,var,template,new}
 }
 
+\definecolor{orange}{RGB}{255,128,0}
+
 \newcommand{\menupath}[1]{\textbf{\emph{#1}}}
 
 
@@ -152,9 +154,33 @@ to revert one instruction, \menupath{Run} to execute the entire program and
 \menupath{Restart} to revert to the first instruction.
 
 
-\section{Registers Tab/Window}
+\section{Registers and Data Memory Tabs/Windows}
 
-\section{Data Memory Tab/Window}
+These two tabs/windows are very similar.
+The registers tab/window displays the values of the registers and the program
+counter, while the data memory tab/window displays the values in the data
+memory.
+
+The values that are currently being accessed are highlighted in different 
+colors. The colors mean:
+\begin{itemize}
+	\item \textcolor{green}{Green}: the register/address is being read by 
+		the register bank/data memory.
+	\item \textcolor{red}{Red}: the register/address is being written to the 
+		register bank/data memory.
+	\item \textcolor{orange}{Orange}: the register/address is being read and 
+		written at the same time in the register bank/data memory.
+\end{itemize}
+
+You can edit the value of any register or memory address by double-clicking
+it in the respective table. This includes the program counter.
+Constant registers (like the register \verb+$zero+) cannot be edited.
+
+By default, the values of the registers and data memory are reset every time
+the code is assembled.
+If you don't want that to happen, uncheck 
+\menupath{Execute > Reset data before assembling} in the menu.
+
 
 \section{Datapath Tab/Window}
 
