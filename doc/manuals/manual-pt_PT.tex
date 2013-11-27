@@ -90,7 +90,7 @@ Os separadores ou janelas mostrados são:
 	\item \textbf{Código}: o editor de código, onde pode criar ou editar um
 		programa em \emph{assembly} para ser executado pelo simulador.
 	\item \textbf{Assemblado}: após o código ser assemblado com sucesso, 
-		isto mostra as instruções máquina resultantes.
+		este mostra as instruções máquina resultantes.
 	\item \textbf{Registos}: lista todos os registos e seus valores.
 	\item \textbf{Memória de dados}: mostra todos os valores na memória de 
 		dados.
@@ -99,38 +99,36 @@ Os separadores ou janelas mostrados são:
 \end{itemize}
 
 
-\section{Tabs/Windows}
+\section{Separadores/Janelas}
 
-\subsection{Code}
+\subsection{Código}
 
-This is the code editor, where you can write an assembly program.
-The editor displays the numbers of the lines and highlights the valid syntax.
+Este é o editor de código, onde pode escrever um programa em \emph{assembly}.
+O editor mostra os números das linhas e realça a sintaxe válida.
 
-You can press \emph{Ctrl+Space} to auto-complete the keyword you are writing.
-Doing so displays a list of instructions, pseudo-instructions, directives and
-labels that can complete that keyword.
-It also displays a window that shows what the selected keyword in the list does
-and how it is used.
-Pressing \emph{Ctrl+Space} on an empty space will list all available
-instructions, pseudo-instructions, directives and labels.
-You can also view this information in the 
-\menupath{CPU > Supported instructions} menu.
+Pode desfazer/refazer alterações, cortar/copiar/colar texto e 
+procurar/substituir palavras no código. Estas acções podem ser acedidas pelo
+menu \menupath{Editar} ou pelo clique com o botão direito do rato no editor.
+O código pode ser gravado para ou lido de um ficheiro. Estas acções estão
+disponíveis no menu \menupath{Ficheiro}.
 
-You can undo/redo changes, cut/copy/paste text and find/replace words in the
-code. These actions can be accessed through the \menupath{Edit} menu or by
-right-clicking in the code editor.
-The code can be saved to or read from a file. These actions are available in
-the \menupath{File} menu.
+Pode premir \emph{Ctrl+Espaço} para auto-completar a palavra que está a escrever.
+Ao fazer isso será mostrada uma lista de instruções, pseudo-instruções,
+directivas e etiquetas que podem completar essa palavra.
+Também será mostrada uma janela que explica o que a palavra seleccionada na lista
+faz e como é usada.
+Ao premir \emph{Ctrl+Espaço} num espaço vazio serão listadas todas as instruções,
+pseudo-instruções, directivas e etiquetas disponíveis.
+Também pode ver esta informação no menu \menupath{CPU > Instruções suportadas}.
 
-After writing your assembly program, you must assemble it.
-This is done by selecting \menupath{Execute > Assemble} from the menu or by
-pressing the respective button in the toolbar.
-If the program has errors, a message box will indicate the first error and an
-exclamation icon will appear next to the numbers of the lines that have an
-error.
-You can hover the mouse cursor over those icons to discover what is the error.
-If the program is correct, no error message is displayed and you can then
-proceed to execute it.
+Após escrever um programa em \emph{assembly}, terá de o assemblar.
+Isto feito seleccionando \menupath{Executar > Assemblar} no menu or pressionando
+o respectivo botão na barra de ferramentas.
+Se o programa tiver erros, uma mensagem irá indicar o primeiro erro e um ícone de
+exclamação irá aparecer ao lado dos números das linhas que têm um erro.
+Pode pairar o cursor do rato sobre estes ícones para descobrir qual é o erro.
+Se o programa estiver correcto, nenhuma mensagem será mostrada e pode prosseguir
+para o executar.
 
 
 \subsection{Assembled} \label{sec:assembled}
