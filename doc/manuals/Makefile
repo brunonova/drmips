@@ -7,7 +7,7 @@ RM=rm -f
 
 .PHONY: all clean
 
-all: configuration.pdf manual.pdf
+all: configuration.pdf manual.pdf manual-pt_PT.pdf
 
 %.pdf: %.tex
 	$(PDFLATEX) $*.tex
