@@ -208,7 +208,7 @@ This is where you can see how the CPU works internally.
 
 DrMIPS can simulate several different unicycle and pipeline datapaths.
 The name of the datapath currently being used is shown in the bottom of this
-tab/window, and you can choose another datapath by selecting 
+tab/window. You can choose another datapath by selecting 
 \menupath{CPU > Load} from the menu.
 Note that different datapaths may support different instructions.
 
@@ -231,7 +231,7 @@ The datapaths provided by default are:
 	\item \textbf{Pipeline datapaths}
 	\begin{itemize}
 		\item \textbf{pipeline.cpu}: The default pipeline datapath, which
-			implements hazard detection. The pipeline datapath doesn't
+			implements hazard detection. The pipeline datapaths doen't
 			support the \verb+j+~(\emph{jump}) instruction.
 		\item \textbf{pipeline-only-forwarding.cpu}: Variant of the pipeline
 			datapath that, in terms of hazard detection, only implements
@@ -248,7 +248,7 @@ On the top of the tab/window, the instruction or instructions currently
 being executed are displayed. They are highlighted with the same colors
 explained in subsection~\ref{sec:assembled}.
 
-The datapath is displayed below of the instruction.
+The datapath is displayed below the instructions.
 The components are represented by rectangles or squares and the wires by
 lines that end with arrows.
 Relevant wires that are in the control path are shown in blue.
@@ -258,8 +258,8 @@ A wire is considered irrelevant if it's a control signal set to \verb+0+,
 if its value is ignored by a component, if it's the output of the
 \emph{hazard detection unit} and a stall isn't occurring, etc.
 
-The values at some inputs and outputs of some important components are
-show in the datapath as small ``data tips'' with yellow background.
+The values at some important inputs and outputs of some components are
+shown in the datapath as small ``data tips'' with yellow background.
 You can hover the mouse cursor over these ``data tips'' to find out what
 is the identifier of the input/output.
 
@@ -273,7 +273,7 @@ You can hide the control path by unchecking
 \menupath{Datapath > Control path} in the menu.
 You can hide the arrows in the end of the wires by unchecking
 \menupath{Datapath > Arrows in wires}.
-And you can hide the ``data tips'' by unchecking
+And you can hide the input/output ``data tips'' by unchecking
 \menupath{Datapath > Overlayed data} in the menu.
 
 \bigskip
