@@ -174,33 +174,34 @@ executar o programa inteiro e \menupath{Reiniciar} para reverter para a primeira
 instrução.
 
 
-\subsection{Registers and Data Memory}
+\subsection{Registos e Memória de Dados}
 
-These two tabs/windows are very similar.
-The registers tab/window displays the values of the registers and the program
-counter, while the data memory tab/window displays the values in the data
-memory.
+Estes dois separadores/janelas são bastante semelhantes.
+O separador/janela dos registos mostra os valores dos registos e do contador do
+programa, enquanto que o separador/janela da memória de dados mostra os valores
+na memória de dados.
 
-The values that are currently being accessed are highlighted in different 
-colors. The colors mean:
+Os valores que estão actualmente a ser acedidos são realçados em diferentes 
+cores. As cores significam:
 \begin{itemize}
-	\item \textbf{\textcolor{green}{Green}}: the register/address is being 
-		read by the register bank/data memory.
-	\item \textbf{\textcolor{red}{Red}}: the register/address is being written 
-		to the register bank/data memory.
-	\item \textbf{\textcolor{orange}{Orange}}: the register/address is being 
-		read and written at the same time in the register bank/data memory.
+	\item \textbf{\textcolor{green}{Verde}}: o registo/endereço está a ser lido
+		no banco de registos/memória de dados.
+	\item \textbf{\textcolor{red}{Vermelho}}: o registo/endereço está a ser
+		escrito no bando de registos/memória de dados.
+	\item \textbf{\textcolor{orange}{Laranja}}: o registo/endereço está a ser
+		lido e escrito no mesmo ciclo no banco de registos/memória de dados.
 \end{itemize}
 
-You can edit the value of any register or memory address by double-clicking
-it in the respective table. This includes the program counter.
-Constant registers (like the register \verb+$zero+) cannot be edited.
-\footnote{In the Android version, long-press the register/address to edit it.}
+Pode editar o valor de qualquer registo ou endereço de memória fazendo 
+duplo-clique nele na respectiva tabela. Isto inclui o contador do programa.
+Registos constantes (como o registo \verb+$zero+) não podem ser editador.
+\footnote{Na versão para Android, toque durante alguns segundos no
+registo/endereço para o editar.}
 
-By default, the values of the registers and data memory are reset every time
-the code is assembled.
-If you don't want that to happen, uncheck 
-\menupath{Execute > Reset data before assembling} in the menu.
+Por omissão, os valoers dos registos e da memória de dados são reiniciados
+sempre que o código é assemblado.
+Se não quiser que isto aconteça, desmarque 
+\menupath{Executar > Reiniciar dados antes de assemblar} no menu.
 
 
 \subsection{Datapath}
