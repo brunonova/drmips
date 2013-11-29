@@ -24,6 +24,7 @@ import org.feup.brunonova.drmips.mips.Component;
 import org.feup.brunonova.drmips.mips.Input;
 import org.feup.brunonova.drmips.mips.IsSynchronous;
 import org.feup.brunonova.drmips.mips.Output;
+import org.feup.brunonova.drmips.mips.components.ALU;
 import org.feup.brunonova.drmips.mips.components.Concatenator;
 import org.feup.brunonova.drmips.mips.components.Constant;
 import org.feup.brunonova.drmips.mips.components.Distributor;
@@ -126,13 +127,20 @@ public class DatapathComponent extends TextView {
 				desc = "";
 		}
 		
-		// HI and LO registers if extended ALU
-		if(!activity.getDatapath().isInPerformanceMode() && component instanceof ExtendedALU) {
-			ExtendedALU alu = (ExtendedALU)component;
-			desc += "\nHI: " + Util.formatDataAccordingToFormat(alu.getHI(), activity.getDatapathFormat());
-			desc += "\nLO: " + Util.formatDataAccordingToFormat(alu.getLO(), activity.getDatapathFormat());
+		// ALU operation if ALU
+		if(!activity.getDatapath().isInPerformanceMode() && component instanceof ALU) {
+			ALU alu = (ALU)component;
+			desc += "\n" + getResources().getString(R.string.operation) + ": "+ alu.getOperationName();
+			
+			// HI and LO registers if extended ALU
+			if(!activity.getDatapath().isInPerformanceMode() && component instanceof ExtendedALU) {
+				ExtendedALU ext_alu = (ExtendedALU)alu;
+				desc += "\nHI: " + Util.formatDataAccordingToFormat(ext_alu.getHI(), activity.getDatapathFormat());
+				desc += "\nLO: " + Util.formatDataAccordingToFormat(ext_alu.getLO(), activity.getDatapathFormat());
+			}
 		}
 		lblComponentDescription.setText(desc);
+		
 		
 		// Latency
 		TextView lblLatency = (TextView)dialog.findViewById(R.id.lblComponentLatency);

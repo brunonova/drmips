@@ -151,5 +151,6 @@
     <string name="cpi">CPI:</string>
     <string name="forwards">Forwards:</string>
     <string name="stalls">Stalls:</string>
+    <string name="operation">Operation</string>
 
 </resources>

@@ -33,6 +33,7 @@ import org.feup.brunonova.drmips.mips.Component;
 import org.feup.brunonova.drmips.mips.Input;
 import org.feup.brunonova.drmips.mips.IsSynchronous;
 import org.feup.brunonova.drmips.mips.Output;
+import org.feup.brunonova.drmips.mips.components.ALU;
 import org.feup.brunonova.drmips.mips.components.Concatenator;
 import org.feup.brunonova.drmips.mips.components.Constant;
 import org.feup.brunonova.drmips.mips.components.Distributor;
@@ -142,16 +143,24 @@ public final class DatapathComponent extends JPanel implements MouseListener {
 			desc = desc.replace("\n", "<br />");
 		else
 			desc = Lang.t(component.getDescriptionKey()).replace("\n", "<br />");
-		tip += "<tr><td align='center'>" + desc + "</td></tr>";
+		tip += "<tr><td align='center'><br />" + desc + "</td></tr>";
 		
-		// HI and LO registers if extended ALU
-		if(!datapath.isInPerformanceMode() && component instanceof ExtendedALU) {
-			ExtendedALU alu = (ExtendedALU)component;
+		// ALU operation if ALU
+		if(!datapath.isInPerformanceMode() && component instanceof ALU) {
+			ALU alu = (ALU)component;
 			tip += "<tr><td align='center'><table>";
-			tip += "<tr><td><tt>HI:</tt></td><td><tt>" + Util.formatDataAccordingToFormat(alu.getHI(), datapath.getDataFormat()) + "</tt></td></tr>";
-			tip += "<tr><td><tt>LO:</tt></td><td><tt>" + Util.formatDataAccordingToFormat(alu.getLO(), datapath.getDataFormat()) + "</tt></td></tr>";
+			tip += "<tr><td><tt>" + Lang.t("operation") + ":</tt></td><td align='right'><tt>"+ alu.getOperationName() + "</tt></td></tr>";
+			
+			// HI and LO registers if extended ALU
+			if(component instanceof ExtendedALU) {
+				ExtendedALU ext_alu = (ExtendedALU)alu;
+				tip += "<tr><td><tt>HI:</tt></td><td align='right'><tt>" + Util.formatDataAccordingToFormat(ext_alu.getHI(), datapath.getDataFormat()) + "</tt></td></tr>";
+				tip += "<tr><td><tt>LO:</tt></td><td align='right'><tt>" + Util.formatDataAccordingToFormat(ext_alu.getLO(), datapath.getDataFormat()) + "</tt></td></tr>";
+			}
+			
 			tip += "</table></td></tr>";
 		}
+		
 		
 		// Latency
 		if(datapath.isInPerformanceMode()) {
@@ -160,8 +169,8 @@ public final class DatapathComponent extends JPanel implements MouseListener {
 		}
 		
 		// Inputs
-		tip += "<tr><td align='center'><table>";
-		tip += "<tr><th colspan=2>" + Lang.t("inputs") + "</th></tr>";
+		tip += "<tr><td align='center'><table cellspacing=0>";
+		tip += "<tr><th colspan=2><br />" + Lang.t("inputs") + "</th></tr>";
 		for(Input in: component.getInputs()) {
 			if(in.isConnected()) {
 				tip += in.isInControlPath() ? ("<tr " + controlStyle + ">") : "<tr>";
@@ -173,7 +182,7 @@ public final class DatapathComponent extends JPanel implements MouseListener {
 			}
 		}
 		// Outputs
-		tip += "<tr><th colspan=2>" + Lang.t("outputs") + "</th></tr>";
+		tip += "<tr><th colspan=2><br />" + Lang.t("outputs") + "</th></tr>";
 		for(Output out: component.getOutputs()) {
 			if(out.isConnected()) {
 				tip += out.isInControlPath() ? ("<tr " + controlStyle + ">") : "<tr>";

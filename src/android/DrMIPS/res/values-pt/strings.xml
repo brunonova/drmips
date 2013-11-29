@@ -149,5 +149,6 @@
 	<string name="executed_instructions">Instruções executadas:</string>
 	<string name="forwards">Atalhos:</string>
 	<string name="stalls">Protelamentos:</string>
+	<string name="operation">Operação</string>
     
 </resources>

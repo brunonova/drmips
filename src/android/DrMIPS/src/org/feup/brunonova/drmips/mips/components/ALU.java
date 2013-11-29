@@ -90,6 +90,22 @@ public class ALU extends Component {
 		getOutput().setValue(res);
 		getZero().setValue(res == 0 ? 1 : 0);
 	}
+	
+	/**
+	 * Returns the operation that the ALU is permorming.
+	 * @return Current operation of the ALU.
+	 */
+	public ControlALU.Operation getOperation() {
+		return control.getOperation(getControl().getValue());
+	}
+	
+	/**
+	 * Returns the name of the operation that the ALU is performing.
+	 * @return Name of the current operation of the ALU.
+	 */
+	public String getOperationName() {
+		return getOperation().toString();
+	}
 
 	/**
 	 * Returns the identifier of the first input.
