@@ -1,30 +1,29 @@
 {
-	"comment": "The pipeline version of the MIPS CPU, based on the reference book. This version ignores all hazards.",
 	"components": {
-		"PC":         {"type": "PC", "latency": 5, "x": 40, "y": 250, "in": "IN", "out": "OUT"},
+		"PC":         {"type": "PC", "x": 40, "y": 250, "in": "IN", "out": "OUT"},
 		"FORK_PC":    {"type": "fork", "x": 80, "y": 265, "size": 32, "in": "IN", "out": ["OUT1", "OUT2"]},
 		"PC_ADDER":   {"type": "add", "latency": 50, "x": 110, "y": 158, "in1": "IN1", "in2": "IN2", "out": "OUT"},
 		"PC_4":       {"type": "const", "x": 85, "y": 173, "out": "OUT", "val": 4, "size": 32},
 		"FORK_PC_ADD":{"type": "fork", "x": 155, "y": 175, "size": 32, "in": "IN", "out": ["OUT1", "OUT2"]},
-		"MUX_PC":     {"type": "mux", "x": 15, "y": 248, "size": 32, "sel": "PCSrc", "in": ["0", "1"], "out": "OUT"},
-		"INST_MEM":   {"type": "imem", "latency": 100, "x": 90, "y": 215, "in": "IN", "out": "OUT"},
+		"MUX_PC":     {"type": "mux", "latency": 15, "x": 15, "y": 248, "size": 32, "sel": "PCSrc", "in": ["0", "1"], "out": "OUT"},
+		"INST_MEM":   {"type": "imem", "latency": 300, "x": 90, "y": 215, "in": "IN", "out": "OUT"},
 		
 		"IF/ID":      {"type": "pipereg", "x": 180, "y": 110, "regs": {"nPC": 32, "INST": 32}},
 		
 		"DIST_INST":  {"type": "dist", "x": 200, "y": 250, "in": {"id": "IN", "size": 32}, "out": [{"msb": 31, "lsb": 26}, {"msb": 25, "lsb": 21}, {"msb": 20, "lsb": 16},   {"msb": 15, "lsb": 11}, {"msb": 15, "lsb": 0}]},
 		"FORK_RT":    {"type": "fork", "x": 220, "y": 265, "size": 5, "in": "IN", "out": ["OUT1", "OUT2"]},
-		"REG":        {"type": "regbank", "latency": 20, "x": 260, "y": 215, "num_regs": 32, "read_reg1": "ReadReg1", "read_reg2": "ReadReg2", "read_data1": "ReadData1", "read_data2": "ReadData2", "write_reg": "WriteReg", "write_data": "WriteData", "reg_write": "RegWrite", "const_regs": [{"reg": 0, "val": 0}]},
-		"CONTROL":    {"type": "control", "latency": 20, "x": 230, "y": 70, "in": "Opcode"},
+		"REG":        {"type": "regbank", "latency": 100, "x": 260, "y": 215, "num_regs": 32, "read_reg1": "ReadReg1", "read_reg2": "ReadReg2", "read_data1": "ReadData1", "read_data2": "ReadData2", "write_reg": "WriteReg", "write_data": "WriteData", "reg_write": "RegWrite", "const_regs": [{"reg": 0, "val": 0}]},
+		"CONTROL":    {"type": "control", "latency": 50, "x": 230, "y": 70, "in": "Opcode"},
 		"SEXT_IMM":   {"type": "sext", "x": 280, "y": 330, "in": {"id": "IN", "size": 16}, "out": {"id": "OUT", "size": 32}},
 		
 		"ID/EX":      {"type": "pipereg", "x": 390, "y": 110, "regs": {"REG1": 32, "REG2": 32, "nPC": 32, "IMM": 32, "RT": 5, "RD": 5, "RegDst": 1, "ALUOp": 2, "ALUSrc": 1, "Branch": 1, "MemRead": 1, "MemWrite": 1, "MemToReg": 1, "RegWrite": 1}},
 		
 		"FORK_REG":   {"type": "fork", "x": 410, "y": 281, "size": 32, "in": "IN", "out": ["OUT1", "OUT2"]},
-		"MUX_REG":    {"type": "mux", "x": 425, "y": 270, "size": 32, "sel": "ALUSrc", "out": "OUT", "in": ["0", "1"]},
+		"MUX_REG":    {"type": "mux", "latency": 15, "x": 425, "y": 270, "size": 32, "sel": "ALUSrc", "out": "OUT", "in": ["0", "1"]},
 		"DIST_IMM":   {"type": "dist", "x": 413, "y": 330, "in": {"id": "IN", "size": 32}, "out": [{"msb": 31, "lsb": 0}, {"msb": 5, "lsb": 0}]},
-		"ALU_CONTROL":{"type": "alu_control", "latency": 20, "x": 426, "y": 330, "aluop": "ALUOp", "func": "func"},
-		"ALU":        {"type": "alu", "latency": 50, "x": 450, "y": 237, "in1": "IN1", "in2": "IN2", "control": "control", "out": "OUT", "zero": "ZERO"},
-		"MUX_DST":    {"type": "mux", "x": 413, "y": 370, "size": 5, "sel": "RegDst", "in": ["0", "1"], "out": "OUT"},
+		"ALU_CONTROL":{"type": "alu_control", "latency": 50, "x": 426, "y": 330, "aluop": "ALUOp", "func": "func"},
+		"ALU":        {"type": "alu", "latency": 100, "x": 450, "y": 237, "in1": "IN1", "in2": "IN2", "control": "control", "out": "OUT", "zero": "ZERO"},
+		"MUX_DST":    {"type": "mux", "latency": 15, "x": 413, "y": 370, "size": 5, "sel": "RegDst", "in": ["0", "1"], "out": "OUT"},
 		"SLL_IMM":    {"type": "sll", "x": 450, "y": 190, "in": {"id": "IN", "size": 32}, "out": {"id": "OUT", "size": 32}, "amount": 2},
 		"ADD_BRANCH": {"type": "add", "latency": 50, "x": 505, "y": 164, "in1": "IN1", "in2": "IN2", "out": "OUT"},
 		"FORK_IMM":   {"type": "fork", "x": 415, "y": 292, "size": 32, "in": "IN", "out": ["OUT1", "OUT2"]},
@@ -32,12 +31,12 @@
 		"EX/MEM":     {"type": "pipereg", "x": 550, "y": 110, "regs": {"RES": 32, "REG2": 32, "ZERO": 1, "REG_DST": 5, "TARGET": 32, "Branch": 1, "MemRead": 1, "MemWrite": 1, "MemToReg": 1, "RegWrite": 1}},
 		
 		"FORK_MEM":   {"type": "fork", "x": 572, "y": 275, "size": 32, "in": "IN", "out": ["OUT1", "OUT2"]},
-		"DATA_MEM":   {"type": "dmem", "latency": 100, "x": 580, "y": 242, "size": 100, "address": "ADDR", "write_data": "WRITE_DATA", "out": "OUT", "mem_read": "MemRead", "mem_write": "MemWrite"},
+		"DATA_MEM":   {"type": "dmem", "latency": 400, "x": 580, "y": 242, "size": 100, "address": "ADDR", "write_data": "WRITE_DATA", "out": "OUT", "mem_read": "MemRead", "mem_write": "MemWrite"},
 		"AND_BRANCH": {"type": "and", "x": 600, "y": 180, "in1": "IN1", "in2": "IN2", "out": "OUT"},
 		
 		"MEM/WB":     {"type": "pipereg", "x": 680, "y": 110, "regs": {"RES": 32, "MEM": 32, "REG_DST": 5, "MemToReg": 1, "RegWrite": 1}},
 		
-		"MUX_MEM":    {"type": "mux", "x": 710, "y": 270, "size": 32, "sel": "MemToReg", "in": ["0", "1"], "out": "OUT"}
+		"MUX_MEM":    {"type": "mux", "latency": 15, "x": 710, "y": 270, "size": 32, "sel": "MemToReg", "in": ["0", "1"], "out": "OUT"}
 	},
 	"wires": [
 		{"from": "PC", "out": "OUT", "to": "FORK_PC", "in": "IN"},
