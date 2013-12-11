@@ -1,8 +1,9 @@
 DrMIPS
 ======
 
-DrMIPS is graphical simulator of the [MIPS][MIPS] processor to support computer 
-architecture teaching and learning. It is intuitive, versatile and configurable.
+DrMIPS is a graphical simulator of the [MIPS][MIPS] processor to support
+computer architecture teaching and learning. It is intuitive, versatile and
+configurable.
 The simulator is available not only for personal computers but also for Android 
 devices, especially tablets.
 
