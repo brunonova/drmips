@@ -35,7 +35,7 @@ public class DrMIPS {
 	/** The name of this program. */
 	public static final String PROGRAM_NAME = "DrMIPS";
 	/** The version of the program, as a string. */
-	public static String VERSION = "1.0.3";
+	public static String VERSION = "1.0.4";
 	
 	/** Reference to the user preferences. */
 	public static Preferences prefs = Preferences.userNodeForPackage(DrMIPS.class);
