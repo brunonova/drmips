@@ -123,9 +123,9 @@ public class RegBank extends Component implements IsSynchronous {
 		addInput(readReg2Id, new Data(requiredBits), IOPort.Direction.WEST, true, true);
 		addOutput(readData1Id, new Data(), IOPort.Direction.EAST, true);
 		addOutput(readData2Id, new Data(), IOPort.Direction.EAST, true);
-		addInput(writeRegId, new Data(requiredBits), IOPort.Direction.WEST, true, true);
+		addInput(writeRegId, new Data(requiredBits), IOPort.Direction.WEST, false, true);
 		addInput(writeDataId, new Data(), IOPort.Direction.WEST, false, true);
-		addInput(regWriteId, new Data(1), Input.Direction.NORTH);
+		addInput(regWriteId, new Data(1), Input.Direction.NORTH, false);
 	}
 
 	@Override
