@@ -363,7 +363,7 @@ public abstract class Component {
 	 * @param id Input identifier.
 	 * @param data Data of the input (size and initial value).
 	 * @param direction The direction/side of the input on the component.
-	 * @param changesComponentAccumulatedLatency Whether this input changes the respective component's accumulated latency.
+	 * @param changesComponentAccumulatedLatency Whether this input changes the respective component's accumulated latency (should be <b>false</b> if the value of the input is only used at the end of the clock cycle).
 	 * @throws InvalidCPUException If <tt>id</tt> is empty or duplicated.
 	 */
 	protected final void addInput(String id, Data data, Input.Direction direction, boolean changesComponentAccumulatedLatency) throws InvalidCPUException {
@@ -375,7 +375,7 @@ public abstract class Component {
 	 * @param id Input identifier.
 	 * @param data Data of the input (size and initial value).
 	 * @param direction The direction/side of the input on the component.
-	 * @param changesComponentAccumulatedLatency Whether this input changes the respective component's accumulated latency.
+	 * @param changesComponentAccumulatedLatency Whether this input changes the respective component's accumulated latency (should be <b>false</b> if the value of the input is only used at the end of the clock cycle).
 	 * @param showTip Whether a balloon tip with the value of the input/output should be displayed.
 	 * @throws InvalidCPUException If <tt>id</tt> is empty or duplicated.
 	 */
