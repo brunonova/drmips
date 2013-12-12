@@ -83,7 +83,7 @@ public class DataMemory extends Component implements IsSynchronous {
 		addInput(addressId, new Data(), IOPort.Direction.WEST, true, true);
 		addInput(writeDataId, new Data(), IOPort.Direction.WEST, false, true);
 		addInput(memReadId, new Data(1), IOPort.Direction.NORTH);
-		addInput(memWriteId, new Data(1), IOPort.Direction.NORTH);
+		addInput(memWriteId, new Data(1), IOPort.Direction.NORTH, false);
 		addOutput(outId, new Data(), IOPort.Direction.EAST, true);
 	}
 
