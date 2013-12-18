@@ -19,6 +19,7 @@
 package org.feup.brunonova.drmips.gui;
 
 import java.io.File;
+import java.net.URI;
 import java.util.prefs.Preferences;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -145,7 +146,9 @@ public class DrMIPS {
 		
 		// Find the path to the program
 		try {
-			String p = DrMIPS.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath(); // get the path to the jar (if running from a jar)
+			URI uri = DrMIPS.class.getProtectionDomain().getCodeSource().getLocation().toURI(); // get the path to the jar (if running from a jar)
+			String p = uri.toString();
+			p = p.startsWith("file://") ? p.substring(5) : uri.getPath(); // uri to String (careful with Windows network (UNC) paths)
 			if(p.toLowerCase().endsWith(".jar")) { // if running from a jar, get the path of the parent dir
 				File f = (new File(p)).getParentFile();
 				if(f != null) path = f.getCanonicalPath();
