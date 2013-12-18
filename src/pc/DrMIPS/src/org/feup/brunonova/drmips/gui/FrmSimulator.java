@@ -1575,7 +1575,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		codeFileChooser.setDialogTitle(Lang.t("save"));
 		if(codeFileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
 			File f = codeFileChooser.getSelectedFile();
-			if(codeFileChooser.getFileFilter() == codeFileFilter && f.getAbsolutePath().lastIndexOf(".") == -1)
+			if(codeFileChooser.getFileFilter() == codeFileFilter && f.getName().lastIndexOf(".") == -1)
 				f = new File(f.getPath() + ".asm"); // append extension if missing
 			if(!f.exists() || JOptionPane.showConfirmDialog(this, Lang.t("confirm_replace", f.getName()), DrMIPS.PROGRAM_NAME, JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION)
 				saveFile(f);
