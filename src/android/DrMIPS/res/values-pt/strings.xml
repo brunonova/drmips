@@ -150,5 +150,6 @@
 	<string name="forwards">Atalhos:</string>
 	<string name="stalls">Protelamentos:</string>
 	<string name="operation">Operação</string>
+	<string name="register_not_editable">O registo #1 não é editável!</string>
     
 </resources>

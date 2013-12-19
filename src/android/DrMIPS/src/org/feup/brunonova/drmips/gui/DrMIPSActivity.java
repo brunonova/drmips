@@ -1699,15 +1699,19 @@ public class DrMIPSActivity extends Activity {
 		@Override
 		public boolean onLongClick(View v) {
 			int index = tblRegisters.indexOfChild(v) - 1;
-			if(index >= 0 && index <= getCPU().getRegBank().getNumberOfRegisters() && isRegisterEditable(index)) {
+			if(index >= 0 && index <= getCPU().getRegBank().getNumberOfRegisters()) {
 				String name = getRegisterName(index);
-				Data data = getRegisterData(index);
-				
-				editIndex = index;
-				Bundle args = new Bundle();
-				args.putString("name", name);
-				args.putInt("value", data.getValue());
-				showDialog(EDIT_REGISTER_DIALOG, args);
+				if(isRegisterEditable(index)) {
+					Data data = getRegisterData(index);
+					
+					editIndex = index;
+					Bundle args = new Bundle();
+					args.putString("name", name);
+					args.putInt("value", data.getValue());
+					showDialog(EDIT_REGISTER_DIALOG, args);
+				}
+				else
+					Toast.makeText(DrMIPSActivity.this, getString(R.string.register_not_editable).replace("#1", name), Toast.LENGTH_SHORT).show();
 			}
 			return true;
 		}
