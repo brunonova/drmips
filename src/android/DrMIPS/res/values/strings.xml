@@ -152,5 +152,6 @@
     <string name="forwards">Forwards:</string>
     <string name="stalls">Stalls:</string>
     <string name="operation">Operation</string>
+    <string name="register_not_editable">Register #1 is not editable!</string>
 
 </resources>

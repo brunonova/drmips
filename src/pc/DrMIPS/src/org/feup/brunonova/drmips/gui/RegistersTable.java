@@ -222,6 +222,8 @@ public class RegistersTable extends JTable implements MouseListener {
 					}
 				}
 			}
+			else
+				JOptionPane.showMessageDialog(this.getParent(), Lang.t("register_not_editable", getRegisterName(row)), DrMIPS.PROGRAM_NAME, JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
