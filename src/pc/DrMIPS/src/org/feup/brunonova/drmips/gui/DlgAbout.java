@@ -29,6 +29,7 @@ public class DlgAbout extends javax.swing.JDialog {
 
 	/**
 	 * Creates new form DlgAbout
+	 * @param parent The simulator's main window.
 	 */
 	public DlgAbout(FrmSimulator parent) {
 		super(parent, true);

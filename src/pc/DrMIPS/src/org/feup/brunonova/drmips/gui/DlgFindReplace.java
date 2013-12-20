@@ -25,10 +25,11 @@ package org.feup.brunonova.drmips.gui;
  */
 public class DlgFindReplace extends javax.swing.JDialog {
 	/** The parent window of this dialog. */
-	private FrmSimulator parent;
+	private final FrmSimulator parent;
 	
 	/**
 	 * Creates new form DlgFindReplace
+	 * @param parent The simulator's main window.
 	 */
 	public DlgFindReplace(FrmSimulator parent) {
 		super(parent, false);

@@ -28,6 +28,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JComponent;
@@ -54,6 +56,9 @@ public class Util {
 	/** The constant that represents the right side of the split pane. */
 	public static final int RIGHT = 1;
 	
+	/** Class logger. */
+	private static final Logger LOG = Logger.getLogger(Util.class.getName());
+	
 	/**
 	 * Centers the given window on the screen.
 	 * @param window Window to center.
@@ -65,6 +70,7 @@ public class Util {
 	
 	/**
 	 * Configures the given window to be closed when the Escape button is pressed.
+	 * @param <W> A window (JFrame, JDialog, etc.).
 	 * @param window Window to configure.
 	 */
 	public static <W extends Window & RootPaneContainer> void enableCloseWindowWithEscape(final W window) {
@@ -108,6 +114,7 @@ public class Util {
 			return file.getCanonicalPath();
 		}
 		catch(Exception e) {
+			LOG.log(Level.WARNING, "error getting canonical path for file " + file, e);
 			return file.getAbsolutePath();
 		}
 	}
@@ -123,7 +130,9 @@ public class Util {
 			props.put("windowDecoration", "off");
 			MintLookAndFeel.setCurrentTheme(props);
 			UIManager.setLookAndFeel("com.jtattoo.plaf.mint.MintLookAndFeel");
-		} catch (Exception ex) { }
+		} catch (Exception ex) {
+			LOG.log(Level.WARNING, "error setting light LookAndFeel", ex);
+		}
 	}
 	
 	/**
@@ -137,6 +146,8 @@ public class Util {
 			props.put("windowDecoration", "off");
 			HiFiLookAndFeel.setCurrentTheme(props);
 			UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
-		} catch (Exception ex) { }
+		} catch (Exception ex) {
+			LOG.log(Level.WARNING, "error setting dark LookAndFeel", ex);
+		}
 	}
 }

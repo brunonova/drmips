@@ -41,11 +41,11 @@ public class RegistersTable extends JTable implements MouseListener {
 	/** The index of the value column. */
 	private static final int VALUE_COLUMN_INDEX = 1;
 	/** Color used to highlight data being read in the table. */
-	private static Color READ_COLOR = new Color(0, 255, 0);
+	private static final Color READ_COLOR = new Color(0, 255, 0);
 	/** Color used to highlight data being written in the table. */
-	private static Color WRITE_COLOR = new Color(255, 0, 0);
+	private static final Color WRITE_COLOR = new Color(255, 0, 0);
 	/** Color used to highlight data being both read and written in the table. */
-	private static Color RW_COLOR = new Color(255, 128, 0);
+	private static final Color RW_COLOR = new Color(255, 128, 0);
 	
 	/** The model of the table. */
 	private DefaultTableModel model = null;
@@ -83,7 +83,8 @@ public class RegistersTable extends JTable implements MouseListener {
 	 * Defines the CPU that has the registers to be displayed.
 	 * @param cpu The CPU.
 	 * @param datapath The datapath panel.
-	 * @param format The data format (<tt>Util.BINARYL_FORMAT_INDEX/v.DECIMAL_FORMAT_INDEX/Util.HEXADECIMAL_FORMAT_INDEX</tt>).
+	 * @param tblExec The table with the instructions being executed (above the datapath).
+	 * @param format The data format (<tt>Util.BINARY_FORMAT_INDEX/Util.DECIMAL_FORMAT_INDEX/Util.HEXADECIMAL_FORMAT_INDEX</tt>).
 	 */
 	public void setCPU(CPU cpu, DatapathPanel datapath, ExecTable tblExec, int format) {
 		if(model == null) return;

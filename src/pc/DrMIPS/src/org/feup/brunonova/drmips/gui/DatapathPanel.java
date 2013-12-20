@@ -232,13 +232,13 @@ public class DatapathPanel extends JLayeredPane {
 	 */
 	public class Wire {
 		/** The respective output of a component. */
-		private Output out;
+		private final Output out;
 		/** The starting point of the wire. */
-		private Point start;
+		private final Point start;
 		/** The ending point of the wire. */
-		private Point end;
+		private final Point end;
 		/** The intermediate points of the wire. */
-		private List<Point> points;
+		private final List<Point> points;
 		/** The tip for the output of the wire (if any). */
 		private IOPortTip outTip = null;
 		/** The tip for the input of the wire (if any). */

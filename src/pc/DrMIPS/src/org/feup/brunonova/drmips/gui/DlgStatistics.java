@@ -27,8 +27,9 @@ import org.feup.brunonova.drmips.mips.CPU;
 public class DlgStatistics extends javax.swing.JDialog {
 	/**
 	 * Creates new form DlgStatistics
+	 * @param parent The simulator's main window.
 	 */
-	public DlgStatistics(java.awt.Frame parent) {
+	public DlgStatistics(FrmSimulator parent) {
 		super(parent, false);
 		initComponents();
 		translate();

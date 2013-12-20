@@ -34,6 +34,8 @@ import java.io.OutputStreamWriter;
 import java.text.MessageFormat;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -95,6 +97,9 @@ public class FrmSimulator extends javax.swing.JFrame {
 	private Tab tabAssembledCode;
 	/** Information of the data memory tab. */
 	private Tab tabDataMemory;
+	
+	/** Class logger. */
+	private static final Logger LOG = Logger.getLogger(DrMIPS.class.getName());
 	
 	/**
 	 * Creates new form FrmSimulator.
@@ -1110,6 +1115,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		}
 		catch(Throwable ex) {
 			JOptionPane.showMessageDialog(this, Lang.t("invalid_file") + "\n" + ex.getClass().getName() + " (" + ex.getMessage() + ")", DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+			LOG.log(Level.WARNING, "error loading CPU", ex);
 		}
     }//GEN-LAST:event_mnuLoadCPUActionPerformed
 
@@ -1555,6 +1561,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		}
 		catch(Exception ex) {
 			JOptionPane.showMessageDialog(this, Lang.t("error_opening_file", file.getName()) + "\n" + ex.getMessage(), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+			LOG.log(Level.WARNING, "error opening file \"" + file.getName() + "\"", ex);
 		}
 	}
 	
@@ -1604,6 +1611,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 			txtCode.setDirty(false);
 		} catch (IOException ex) {
 			JOptionPane.showMessageDialog(this, Lang.t("error_saving_file", file.getName()) + "\n" + ex.getMessage(), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+			LOG.log(Level.WARNING, "error saving file \"" + file.getName() + "\"", ex);
 		}
 		
 	}
@@ -1619,6 +1627,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		}
 		catch(Exception ex) {
 			JOptionPane.showMessageDialog(this, Lang.t("error_printing_file") + ": " + ex.getMessage(), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+			LOG.log(Level.WARNING, "error printing file", ex);
 		}
 	}
 	
@@ -1887,6 +1896,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 				DrMIPS.prefs.put(DrMIPS.LAST_CPU_PREF, DrMIPS.path + File.separator + DrMIPS.DEFAULT_CPU);
 			} catch (Throwable e) { // error on the default CPU too
 				JOptionPane.showMessageDialog(this, Lang.t("invalid_file") + "\n" + ex.getClass().getName() + " (" + ex.getMessage() + ")", DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+				LOG.log(Level.SEVERE, "error loading CPU", e);
 				System.exit(2);
 			}
 		}
@@ -2270,6 +2280,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 				JOptionPane.showMessageDialog(this, Lang.t("error_opening_doc_folder"), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(this, Lang.t("error_opening_doc_folder"), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+			LOG.log(Level.WARNING, "error opening doc folder", ex);
 		}
 	}
 	
@@ -2410,7 +2421,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 	 */
 	private class RecentFileActionListener implements ActionListener {
 		/** The file of the menu item. */
-		private File file;
+		private final File file;
 
 		/**
 		 * Creates the listener.
@@ -2445,7 +2456,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 	 */
 	private class RecentCPUActionListener implements ActionListener {
 		/** The file of the menu item. */
-		private File file;
+		private final File file;
 
 		/**
 		 * Creates the listener.
@@ -2464,6 +2475,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 			}
 			catch(Exception ex) {
 				JOptionPane.showMessageDialog(FrmSimulator.this, Lang.t("invalid_file") + "\n" + ex.getMessage(), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+				LOG.log(Level.WARNING, "error loading CPU \"" + file.getName() + "\"", ex);
 			}
 		}
 	}
@@ -2473,7 +2485,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 	 */
 	private class LanguageSelectedListener implements ActionListener {
 		/** The associated language. */
-		private String lang;
+		private final String lang;
 
 		/**
 		 * Creates the handler.
@@ -2493,6 +2505,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 				}
 				catch(Exception ex) {
 					JOptionPane.showMessageDialog(null, "Error opening language file " + Lang.getLanguage() + "!\n" + ex.getMessage(), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+					LOG.log(Level.WARNING, "error opening language file \"" + lang + "\"", ex);
 				}
 			}
 		}
@@ -2504,13 +2517,13 @@ public class FrmSimulator extends javax.swing.JFrame {
 	 */
 	private class Tab {
 		/** The panel in the tab. */
-		private JPanel panel;
+		private final JPanel panel;
 		/** The side of the tab (<tt>Util.LEFT</tt> or <tt>Util.RIGHT</tt>). */
-		private int side;
+		private final int side;
 		/** The tabbed pane in the side of the tab. */
-		private JTabbedPane tabbedPane;
+		private final JTabbedPane tabbedPane;
 		/** The index of the tab in the corresponding tabbed pane. */
-		private int index;
+		private final int index;
 
 		/**
 		 * Creates the tab and adds it to the given side.

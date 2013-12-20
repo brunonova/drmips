@@ -41,11 +41,11 @@ public class DataMemoryTable extends JTable implements MouseListener {
 	/** The index of the value column. */
 	private static final int VALUE_COLUMN_INDEX = 1;
 	/** Color used to highlight data being read in the table. */
-	private static Color READ_COLOR = new Color(0, 255, 0);
+	private static final Color READ_COLOR = new Color(0, 255, 0);
 	/** Color used to highlight data being written in the table. */
-	private static Color WRITE_COLOR = new Color(255, 0, 0);
+	private static final Color WRITE_COLOR = new Color(255, 0, 0);
 	/** Color used to highlight data being both read and written in the table. */
-	private static Color RW_COLOR = new Color(255, 128, 0);
+	private static final Color RW_COLOR = new Color(255, 128, 0);
 	
 	/** The model of the table. */
 	private DefaultTableModel model = null;
