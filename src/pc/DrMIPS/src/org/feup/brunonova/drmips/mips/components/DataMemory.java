@@ -43,17 +43,17 @@ public class DataMemory extends Component implements IsSynchronous {
 	/** The saved data. */
 	private int[] memory;
 	/** The identifier of the address input. */
-	private String addressId;
+	private final String addressId;
 	/** The identifier of the write data input. */
-	private String writeDataId;
+	private final String writeDataId;
 	/** The identifier of the output. */
-	private String outId;
+	private final String outId;
 	/** The identifier of the MemRead input. */
-	private String memReadId
+	private final String memReadId
 		/** The identifier of the MemWrite input. */;
-	private String memWriteId;
+	private final String memWriteId;
 	/** The previous values of the memory. */
-	private Stack<int[]> states = new Stack<int[]>();
+	private final Stack<int[]> states = new Stack<int[]>();
 	
 	/**
 	 * Data memory contructor.

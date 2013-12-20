@@ -34,11 +34,11 @@ import org.feup.brunonova.drmips.util.Point;
  */
 public abstract class SimpleBinaryOperationComponent extends Component {
 	/** The identifier of first the input. */
-	private String in1Id;
+	private final String in1Id;
 	/** The identifier of second the input. */
-	private String in2Id;
+	private final String in2Id;
 	/** The identifier of the output. */
-	private String outId;
+	private final String outId;
 
 	/**
 	 * Component constructor.

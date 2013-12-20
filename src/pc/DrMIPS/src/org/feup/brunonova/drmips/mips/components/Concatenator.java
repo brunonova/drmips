@@ -36,11 +36,11 @@ import org.feup.brunonova.drmips.util.Point;
  */
 public class Concatenator extends Component {
 	/** The identifier of the first input (concatenated to the "left"). */
-	private String in1Id;
+	private final String in1Id;
 	/** The identifier of the second input (concatenated to the "right"). */
-	private String in2Id;
+	private final String in2Id;
 	/** The identifier of the output. */
-	private String outId;
+	private final String outId;
 	
 	/**
 	 * Fork constructor.

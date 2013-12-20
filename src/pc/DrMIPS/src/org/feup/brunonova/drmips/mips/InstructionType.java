@@ -34,12 +34,13 @@ public class InstructionType {
 	/** The identifier of the instruction type. */
 	private String id;
 	/** The fields that compose the instruction type. */
-	private List<Field> fields;
+	private final List<Field> fields;
 	/** The total size of the instruction type (should be equal to <tt>Data.DATA_SIZE</tt> after all fields are added. */
 	private int totalSize = 0;
 	
 	/**
 	 * Creates an instruction type.
+	 * @param id The identifier of the instruction type.
 	 * @throws InvalidInstructionSetException If <tt>id</tt> is empty.
 	 */
 	public InstructionType(String id) throws InvalidInstructionSetException {
@@ -158,16 +159,16 @@ public class InstructionType {
 		/** The totalSize of the field. */
 		private int size;
 		/** The most significant bit position of the field on the instruction type. */
-		private int msb;
+		private final int msb;
 		/** The less significant bit position of the field on the instruction type. */
 		private int lsb;
 		/** The mask for the bits MSB-LSB. */
-		private int mask;
+		private final int mask;
 
 		/**
 		 * Creates a new instruction type field.
 		 * @param id The identifier of the field.
-		 * @param totalSize The totalSize of the field.
+		 * @param size The size of the field.
 		 * @param msb The most significant bit of the field on the instruction type.
 		 * @throws InvalidInstructionSetException If <tt>id</tt> is empty.
 		 */

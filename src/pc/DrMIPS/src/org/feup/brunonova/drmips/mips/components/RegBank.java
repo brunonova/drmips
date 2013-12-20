@@ -58,7 +58,7 @@ public class RegBank extends Component implements IsSynchronous {
 	/** Whether the data in the WriteData input should be forwarded to and output if reading and writing to the same register. */
 	private boolean forwarding;
 	/** The previous values of the registers. */
-	private Stack<int[]> states = new Stack<int[]>();
+	private final Stack<int[]> states = new Stack<int[]>();
 
 	/**
 	 * Register bank constructor.
@@ -204,8 +204,8 @@ public class RegBank extends Component implements IsSynchronous {
 	 * Resets the register bank to zeros.
 	 */
 	public void reset() {
-		for(int i = 0; i < registers.length; i++)
-			registers[i].setValue(0);
+		for (Data register: registers)
+			register.setValue(0);
 		execute();
 	}
 	

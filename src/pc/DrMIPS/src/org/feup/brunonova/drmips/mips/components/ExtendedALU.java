@@ -31,11 +31,11 @@ import org.feup.brunonova.drmips.util.Point;
  */
 public class ExtendedALU extends ALU implements IsSynchronous {
 	/** The <tt>HI</tt> "register". */
-	private Data hi;
+	private final Data hi;
 	/** The <tt>LO</tt> "register". */
-	private Data lo;
+	private final Data lo;
 	/** The previous values of the hi and lo registers. */
-	private Stack<int[]> states = new Stack<int[]>();
+	private final Stack<int[]> states = new Stack<int[]>();
 	
 	/**
 	 * ALU constructor.

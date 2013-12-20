@@ -70,7 +70,7 @@ public class CodeEditor extends TextEditorPane {
 	private CPU cpu = null;
 	
 	/** Class logger. */
-	private static final Logger LOG = Logger.getLogger(DrMIPS.class.getName());
+	private static final Logger LOG = Logger.getLogger(CodeEditor.class.getName());
 	
 	/**
 	 * Creates the code editor.

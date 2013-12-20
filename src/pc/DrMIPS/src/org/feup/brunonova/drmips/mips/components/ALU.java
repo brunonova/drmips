@@ -35,15 +35,15 @@ import org.feup.brunonova.drmips.util.Point;
  */
 public class ALU extends Component {
 	/** The identifier of the first input. */
-	private String in1Id;
+	private final String in1Id;
 	/** The identifier of the second input. */
-	private String in2Id;
+	private final String in2Id;
 	/** The identifier of the control input. */
-	private String controlId;
+	private final String controlId;
 	/** The identifier of the result output. */
-	private String outId;
+	private final String outId;
 	/** The identifier of the zero output. */
-	private String zeroId;
+	private final String zeroId;
 	/** How the ALU should work. */
 	protected ControlALU control = null;
 	

@@ -133,7 +133,7 @@ public abstract class IOPort {
 	
 	/**
 	 * Updates the graphical position of the input/output.
-	 * @param point The new position.
+	 * @param position The new position.
 	 */
 	public void setPosition(Point position) {
 		this.position = position;

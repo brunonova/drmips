@@ -30,9 +30,9 @@ import org.feup.brunonova.drmips.exceptions.InvalidInstructionSetException;
  */
 public class Control {
 	/** Mapping from each opcode to their respective output values (another map). */
-	private Map<Integer, Map<String, Integer>> map;
+	private final Map<Integer, Map<String, Integer>> map;
 	/** The sizes of each output. */
-	private Map<String, Integer> out;
+	private final Map<String, Integer> out;
 	
 	/**
 	 * Creates a new control object.

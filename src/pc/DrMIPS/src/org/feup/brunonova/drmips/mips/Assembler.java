@@ -41,7 +41,7 @@ public class Assembler {
 	private enum Segment {TEXT, DATA}
 	
 	/** The CPU this assembler is assembling to. */
-	private CPU cpu;
+	private final CPU cpu;
 	/** The text segment labels in the code and their lines. */
 	private Map<String, Integer> textLabels;
 	/** The data segment labels in the code and their addresses. */

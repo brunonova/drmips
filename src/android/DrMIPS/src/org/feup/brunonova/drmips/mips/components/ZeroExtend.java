@@ -34,9 +34,9 @@ import org.feup.brunonova.drmips.util.Point;
  */
 public class ZeroExtend extends Component {
 	/** The identifier of the input. */
-	private String inId;
+	private final String inId;
 	/** The identifier of the output. */
-	private String outId;
+	private final String outId;
 	
 	/**
 	 * Zero extend constructor.

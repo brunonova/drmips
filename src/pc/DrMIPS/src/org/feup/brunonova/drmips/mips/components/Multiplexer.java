@@ -35,11 +35,11 @@ import org.feup.brunonova.drmips.util.Point;
  */
 public class Multiplexer extends Component {
 	/** The identifier of the selector. */
-	private String selId;
+	private final String selId;
 	/** The identifier of the output. */
-	private String outId;
+	private final String outId;
 	/** The identifiers of the inputs. */
-	private List<String> inIds;
+	private final List<String> inIds;
 	
 	/**
 	 * Multiplexer constructor.

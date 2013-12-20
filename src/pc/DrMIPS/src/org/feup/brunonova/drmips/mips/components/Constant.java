@@ -32,9 +32,9 @@ import org.feup.brunonova.drmips.util.Point;
  */
 public class Constant extends Component {
 	/** The identifier of the input. */
-	private String outId;
+	private final String outId;
 	/** The constant value. */
-	private int value;
+	private final int value;
 	
 	/**
 	 * Constant constructor.
