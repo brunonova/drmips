@@ -25,6 +25,8 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractButton;
 import javax.swing.UIManager;
 
@@ -75,6 +77,9 @@ public class Lang {
 	/** The resource bundle that contains the translated strings. */
 	private static ResourceBundle strings;
 	
+	/** Class logger. */
+	private static final Logger LOG = Logger.getLogger(Lang.class.getName());
+	
 	/**
 	 * Loads the strings of the specified language.
 	 * @param language Language (just the name part of the file name).
@@ -86,6 +91,7 @@ public class Lang {
 			URL[] urls = new URL[] {file.toURI().toURL()};
 			loader = new URLClassLoader(urls);
 			setDefaultLanguage(DEFAULT_LANGUAGE); // set default language
+			LOG.log(Level.INFO, "language files are in: {0}", file);
 		}
 		
 		// Load the strings
@@ -184,6 +190,7 @@ public class Lang {
 				return false;
 		}
 		catch(Exception ex) {
+			LOG.log(Level.SEVERE, "error loading preferred language", ex);
 			return false;
 		}
 	}
@@ -201,7 +208,7 @@ public class Lang {
 			return new String(str.getBytes("ISO-8859-1"), "UTF-8"); // convert to UTF-8 (strings are read in ISO-8859-1)
 		}
 		catch(Exception ex) { // translation not found
-			System.err.println("Warning: no translation for \"" + key + "\"");
+			LOG.log(Level.WARNING, "no translation for key \"" + key + "\"", ex);
 			return key.toUpperCase();
 		}
 	}

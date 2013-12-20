@@ -22,6 +22,8 @@ import java.awt.Color;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JPopupMenu;
@@ -66,6 +68,9 @@ public class CodeEditor extends TextEditorPane {
 	private AutoCompletion complete;
 	/** The cpu with the supported instructions. */
 	private CPU cpu = null;
+	
+	/** Class logger. */
+	private static final Logger LOG = Logger.getLogger(DrMIPS.class.getName());
 	
 	/**
 	 * Creates the code editor.
@@ -121,7 +126,9 @@ public class CodeEditor extends TextEditorPane {
 	public void addErrorIcon(int line) {
 		try {
 			scrollPane.getGutter().addLineTrackingIcon(line - 1, errorIcon);
-		} catch (BadLocationException ex) { }
+		} catch (BadLocationException ex) {
+			LOG.log(Level.WARNING, "error adding error icon to line " + line, ex);
+		}
 	}
 	
 	/**
@@ -132,7 +139,9 @@ public class CodeEditor extends TextEditorPane {
 	public void addErrorIcon(int line, String tip) {
 		try {
 			scrollPane.getGutter().addLineTrackingIcon(line - 1, errorIcon, tip);
-		} catch (BadLocationException ex) { }
+		} catch (BadLocationException ex) {
+			LOG.log(Level.WARNING, "error adding error icon to line " + line, ex);
+		}
 	}
 	
 	/**

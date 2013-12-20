@@ -50,11 +50,11 @@ public final class DatapathComponent extends JPanel implements MouseListener {
 	private static final Font FONT = new Font(Font.MONOSPACED, Font.PLAIN, 8);
 	
 	/** The graphical datapath this component is in. */
-	private DatapathPanel datapath;
+	private final DatapathPanel datapath;
 	/** The respective CPU component. */
-	private Component component;
+	private final Component component;
 	/** The label that displays the component name. */
-	private JLabel lblName;
+	private final JLabel lblName;
 	
 	/**
 	 * Creates a graphical CPU component.

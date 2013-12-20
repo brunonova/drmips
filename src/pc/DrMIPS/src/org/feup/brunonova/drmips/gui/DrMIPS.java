@@ -20,6 +20,8 @@ package org.feup.brunonova.drmips.gui;
 
 import java.io.File;
 import java.net.URI;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -129,10 +131,13 @@ public class DrMIPS {
 	/** The number of milliseconds tooltips are shown before disappearing. */
 	public static final int TOOLTIP_DISMISS_DELAY = 30000;
 	
+	/** "Loading" dialog. */
 	private static DlgLoading dlgLoading = null;
+	/** Class logger. */
+	private static final Logger LOG = Logger.getLogger(DrMIPS.class.getName());
 	
 	public static void main(String[] args) {
-		try { // Display a "loading" window
+		try { // Display a "loading" dialog
 			SwingUtilities.invokeAndWait(new Runnable() {
 				@Override
 				public void run() {
@@ -141,8 +146,9 @@ public class DrMIPS {
 					Util.centerWindow(dlgLoading);
 				}
 			});		
-		} catch (Exception ex) { }
-		
+		} catch (Exception ex) {
+			LOG.log(Level.WARNING, "error displaying \"loading\" dialog", ex);
+		}
 		
 		// Find the path to the program
 		try {
@@ -152,8 +158,13 @@ public class DrMIPS {
 			if(p.toLowerCase().endsWith(".jar")) { // if running from a jar, get the path of the parent dir
 				File f = (new File(p)).getParentFile();
 				if(f != null) path = f.getCanonicalPath();
+				LOG.log(Level.INFO, "running from jar file; path to jar folder: {0}", path);
 			}
-		} catch (Exception ex) { }
+			else
+				LOG.info("not running from jar file");
+		} catch (Exception ex) {
+			LOG.log(Level.WARNING, "error finding the path of the program", ex);
+		}
 		
 		// Set the theme
 		if(prefs.getBoolean(DARK_THEME_PREF, DEFAULT_DARK_THEME))

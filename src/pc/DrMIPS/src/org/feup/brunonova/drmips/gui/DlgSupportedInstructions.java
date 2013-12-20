@@ -37,8 +37,9 @@ public class DlgSupportedInstructions extends javax.swing.JDialog {
 	
 	/**
 	 * Creates new form DlgSupportedInstructions
+	 * @param parent The simulator's main window.
 	 */
-	public DlgSupportedInstructions(java.awt.Frame parent) {
+	public DlgSupportedInstructions(FrmSimulator parent) {
 		super(parent, false);
 		initComponents();
 		translate();
