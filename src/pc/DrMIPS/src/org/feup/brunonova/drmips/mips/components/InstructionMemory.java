@@ -38,9 +38,9 @@ public class InstructionMemory extends Component {
 	/** All the assembled instructions. */
 	private List<AssembledInstruction> instructions;
 	/** The identifier of the input. */
-	private String inId;
+	private final String inId;
 	/** The identifier of the output. */
-	private String outId;
+	private final String outId;
 
 	/**
 	 * Instruction memory constructor.

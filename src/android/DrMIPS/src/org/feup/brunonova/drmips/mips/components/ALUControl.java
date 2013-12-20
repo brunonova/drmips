@@ -24,7 +24,6 @@ import org.feup.brunonova.drmips.mips.ControlALU;
 import org.feup.brunonova.drmips.mips.Data;
 import org.feup.brunonova.drmips.mips.IOPort;
 import org.feup.brunonova.drmips.mips.Input;
-import org.feup.brunonova.drmips.mips.Output;
 import org.feup.brunonova.drmips.util.Dimension;
 import org.feup.brunonova.drmips.util.Point;
 
@@ -35,9 +34,9 @@ import org.feup.brunonova.drmips.util.Point;
  */
 public class ALUControl extends Component {
 	/** The identifier of the ALUOp input. */
-	private String aluOpId;
+	private final String aluOpId;
 	/** The identifier of the func input. */
-	private String funcId;
+	private final String funcId;
 	/** How the ALU control should work. */
 	private ControlALU control = null;
 	

@@ -21,6 +21,8 @@ package org.feup.brunonova.drmips.mips;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.feup.brunonova.drmips.mips.components.ALU;
 import org.feup.brunonova.drmips.mips.components.ExtendedALU;
 
@@ -46,6 +48,8 @@ public class ControlALU {
 	private Map<String, Integer> out;
 	/** Mapping of ALU control input options and their respective operations. */
 	private Map<Integer, Operation> operations;
+	/** Class logger. */
+	private static final Logger LOG = Logger.getLogger(ControlALU.class.getName());
 	
 	/**
 	 * Creates a new control object.
@@ -125,6 +129,7 @@ public class ControlALU {
 		}
 		catch(IllegalArgumentException e) { // unknonw operation?
 			addOperation(control, Operation.ADD);
+			LOG.log(Level.WARNING, "error adding operation \"" + operation + "\"", e);
 		}
 	}
 	
@@ -202,7 +207,6 @@ public class ControlALU {
 	 * @param val2 The second value.
 	 * @param alu The extended ALU.
 	 * @param operation The operation to execute, as the value of the ALU control signal.
-	 * @return The result.
 	 */
 	public void doSynchronousOperation(int val1, int val2, ExtendedALU alu, int operation) {
 		doSynchronousOperation(val1, val2, alu, getOperation(operation));
@@ -215,7 +219,6 @@ public class ControlALU {
 	 * @param val2 The second value.
 	 * @param alu The extended ALU.
 	 * @param operation The operation to execute.
-	 * @return The result.
 	 */
 	public void doSynchronousOperation(int val1, int val2, ExtendedALU alu, Operation operation) {
 		switch(operation) {
@@ -308,7 +311,7 @@ public class ControlALU {
 		/** The function field input value. */
 		private int func = 0;
 		/** Whether the function input is ignored (outputs decided only by ALUOp). */
-		private boolean funcIgnored;
+		private final boolean funcIgnored;
 
 		/**
 		 * Constructor with only the ALUOp input (func input ignored).

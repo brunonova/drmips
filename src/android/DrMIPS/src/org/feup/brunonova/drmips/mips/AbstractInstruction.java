@@ -38,7 +38,7 @@ public abstract class AbstractInstruction {
 	/** The instruction's mnemonic. */
 	private String mnemonic;
 	/** The argument types of the instruction. */
-	private List<ArgumentType> arguments;
+	private final List<ArgumentType> arguments;
 	/** The short description of the instruction. */
 	private String description = null;
 	

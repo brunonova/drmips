@@ -44,11 +44,11 @@ public class PC extends Component implements IsSynchronous {
 	/** Current address of the Program Counter (the <tt>$pc</tt> register) */
 	private Data address;
 	/** The previous saved addresses. */
-	private Stack<Integer> states = new Stack<Integer>();
+	private final Stack<Integer> states = new Stack<Integer>();
 	/** The index of the current instruction being executed (-1 if none). */
 	private int currentInstructionIndex = -1;
 	/** The indexes of the previous instructions. */
-	private Stack<Integer> instructions = new Stack<Integer>();
+	private final Stack<Integer> instructions = new Stack<Integer>();
 	
 	/**
 	 * Program Counter constructor.

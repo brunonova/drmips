@@ -36,21 +36,21 @@ public class ForwardingUnit extends Component {
 	/** The CPU's register bank. */
 	private RegBank regbank = null;
 	/** The identifier of the EX/MEM.RegWrite input. */
-	private String exMemRegWriteId;
+	private final String exMemRegWriteId;
 	/** The identifier of the MEM/WB.RegWrite input. */
-	private String memWbRegWriteId;
+	private final String memWbRegWriteId;
 	/** The identifier of the EX/MEM.Rd input. */
-	private String exMemRdId;
+	private final String exMemRdId;
 	/** The identifier of the MEM/WB.Rd input. */
-	private String memWbRdId;
+	private final String memWbRdId;
 	/** The identifier of the ID/EX.Rs input. */
-	private String idExRsId;
+	private final String idExRsId;
 	/** The identifier of the ID/EX.Rt input. */
-	private String idExRtId;
+	private final String idExRtId;
 	/** The identifier of the ForwardA output. */
-	private String forwardAId;
+	private final String forwardAId;
 	/** The identifier of the ForwardA output. */
-	private String forwardBId;
+	private final String forwardBId;
 	
 	/**
 	 * Forwarding unit constructor.

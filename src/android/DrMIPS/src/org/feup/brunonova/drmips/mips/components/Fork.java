@@ -34,7 +34,7 @@ import org.feup.brunonova.drmips.util.Point;
  */
 public class Fork extends Component {
 	/** The identifier of the input. */
-	private String inId;
+	private final String inId;
 	
 	/**
 	 * Fork constructor.

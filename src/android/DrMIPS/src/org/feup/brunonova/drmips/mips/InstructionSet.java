@@ -42,11 +42,11 @@ public class InstructionSet {
 	public static final char ARGUMENT_CHAR = '#';
 	
 	/** The instruction types. */
-	private List<InstructionType> types;
+	private final List<InstructionType> types;
 	/** The available instructions. */
-	private Map<String, Instruction> instructions;
+	private final Map<String, Instruction> instructions;
 	/** The available pseudo-instructions. */
-	private Map<String, PseudoInstruction> pseudoInstructions;
+	private final Map<String, PseudoInstruction> pseudoInstructions;
 	/** How the control unit should work. */
 	private Control control = null;
 	/** How the ALU Control and ALU should work. */
@@ -73,7 +73,7 @@ public class InstructionSet {
 	 * Adds an instruction type.
 	 * <p>All the type's fields should be defined before adding it.</p>.
 	 * @param type Instruction type to add.
-	 * @throws DuplicateIdException If an instruction type with the same identifier already exists or is invalid.
+	 * @throws InvalidInstructionSetException If an instruction type with the same identifier already exists or is invalid.
 	 */
 	public void addType(InstructionType type) throws InvalidInstructionSetException {
 		if(hasType(type.getId())) 
@@ -423,7 +423,7 @@ public class InstructionSet {
 		
 		// Parse control
 		JSONArray c = ctrl.getJSONArray("control");
-		int aluOp = 0, func = 0;
+		int aluOp, func = 0;
 		boolean hasFunc;
 		for(int x = 0; x < c.length(); x++) {
 			obj = c.getJSONObject(x);

@@ -34,9 +34,9 @@ import org.feup.brunonova.drmips.util.Point;
  */
 public class Distributor extends Component {
 	/** The identifier of the input. */
-	private String inId;
+	private final String inId;
 	/** The parameters of the outputs. */
-	private List<OutputParameters> outParameters;
+	private final List<OutputParameters> outParameters;
 	
 	/**
 	 * Distributor's constructor.

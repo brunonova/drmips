@@ -31,7 +31,7 @@ public class Instruction extends AbstractInstruction {
 	/** The instruction's type. */
 	private InstructionType type;
 	/** The values each field should have. */
-	private Map<InstructionType.Field, FieldValue> fields;
+	private final Map<InstructionType.Field, FieldValue> fields;
 	
 	/**
 	 * Creates a new instruction.
@@ -158,7 +158,7 @@ public class Instruction extends AbstractInstruction {
 	/** Class that indicates a field as having a constant value. */
 	public static class FieldConstant extends FieldValue {
 		/** Constant value. */
-		private int value;
+		private final int value;
 
 		/**
 		 * Creates the value of a constant field.
@@ -180,9 +180,9 @@ public class Instruction extends AbstractInstruction {
 	/** Class that indicates a field as having its value from an instruction argument. */
 	public static class FieldFromArgument extends FieldValue {
 		/** Index of the argument. */
-		private int argIndex;
+		private final int argIndex;
 		/** Type of the argument. */
-		private ArgumentType type;
+		private final ArgumentType type;
 
 		/**
 		 * Creates the value of a field from an argument.
@@ -217,9 +217,9 @@ public class Instruction extends AbstractInstruction {
 		public enum Type {BASE, OFFSET}
 		
 		/** Index of the argument. */
-		private int argIndex;
+		private final int argIndex;
 		/** Type of the argument component. */
-		private Type type;
+		private final Type type;
 		
 		/**
 		 * Creates the value of a field in the form <tt>address</tt> or <tt>base($offset)</tt> and from an argument.

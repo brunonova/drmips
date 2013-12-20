@@ -28,15 +28,15 @@ import java.util.List;
  */
 public class AssembledInstruction {
 	/** The respective MIPS instruction. */
-	private Instruction instruction;
+	private final Instruction instruction;
 	/** The instruction in machine code. */
-	private Data data;
+	private final Data data;
 	/** The respective line in the code. */
 	private String codeLine;
 	/** The number of the line in the code. */
-	private int line;
+	private final int line;
 	/** The labels for the instruction */
-	private List<String> labels;
+	private final List<String> labels;
 	
 	/**
 	 * Creates an assembled instruction.

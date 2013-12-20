@@ -99,7 +99,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 	private Tab tabDataMemory;
 	
 	/** Class logger. */
-	private static final Logger LOG = Logger.getLogger(DrMIPS.class.getName());
+	private static final Logger LOG = Logger.getLogger(FrmSimulator.class.getName());
 	
 	/**
 	 * Creates new form FrmSimulator.

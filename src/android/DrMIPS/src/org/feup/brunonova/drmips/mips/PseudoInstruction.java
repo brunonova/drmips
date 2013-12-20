@@ -29,7 +29,7 @@ import org.feup.brunonova.drmips.exceptions.InvalidInstructionSetException;
  */
 public class PseudoInstruction extends AbstractInstruction {
 	/** The real instructions this pseudo-instruction should be converted to. */
-	private List<String> instructions;
+	private final List<String> instructions;
 	
 	/**
 	 * Creates a new pseudo-instruction.

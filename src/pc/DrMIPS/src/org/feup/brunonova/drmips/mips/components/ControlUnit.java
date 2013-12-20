@@ -23,7 +23,6 @@ import org.feup.brunonova.drmips.mips.Component;
 import org.feup.brunonova.drmips.mips.Control;
 import org.feup.brunonova.drmips.mips.Data;
 import org.feup.brunonova.drmips.mips.Input;
-import org.feup.brunonova.drmips.mips.Output;
 import org.feup.brunonova.drmips.util.Dimension;
 import org.feup.brunonova.drmips.util.Point;
 
@@ -34,7 +33,7 @@ import org.feup.brunonova.drmips.util.Point;
  */
 public class ControlUnit extends Component {
 	/** The identifier of the input. */
-	private String inId;
+	private final String inId;
 	/** How the control unit should work. */
 	private Control control = null;
 	

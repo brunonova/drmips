@@ -44,11 +44,11 @@ public class PipelineRegister extends Component implements IsSynchronous {
 	/** The stored registers (mapped by their ids). */
 	private Map<String, Data> registers;
 	/** The previous saved registers. */
-	private Stack<Map<String, Data>> states = new Stack<Map<String, Data>>();
+	private final Stack<Map<String, Data>> states = new Stack<Map<String, Data>>();
 	/** The index of the current instruction being executed (-1 if none). */
 	private int currentInstructionIndex = -1;
 	/** The indexes of the previous instructions. */
-	private Stack<Integer> instructions = new Stack<Integer>();
+	private final Stack<Integer> instructions = new Stack<Integer>();
 	
 	/**
 	 * Pipeline register constructor.

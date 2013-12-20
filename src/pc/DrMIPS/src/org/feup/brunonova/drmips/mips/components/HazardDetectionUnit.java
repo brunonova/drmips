@@ -36,15 +36,15 @@ public class HazardDetectionUnit extends Component {
 	/** The CPU's register bank. */
 	private RegBank regbank = null;
 	/** The identifier of the ID/EX.MemRead input. */
-	private String idExMemReadId;
+	private final String idExMemReadId;
 	/** The identifier of the ID/EX.Rs input. */
-	private String idExRtId;
+	private final String idExRtId;
 	/** The identifier of the IF/ID.Rs input. */
-	private String ifIdRsId;
+	private final String ifIdRsId;
 	/** The identifier of the IF/ID.Rt input. */
-	private String ifIdRtId;
+	private final String ifIdRtId;
 	/** The identifier of the stall output. */
-	private String stallId;
+	private final String stallId;
 
 	/**
 	 * Hazard detection unit constructor.
