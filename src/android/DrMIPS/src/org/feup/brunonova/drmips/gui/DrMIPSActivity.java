@@ -57,6 +57,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils.TruncateAt;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -962,6 +963,7 @@ public class DrMIPSActivity extends Activity {
 							}
 							catch(Throwable ex) {
 								Toast.makeText(DrMIPSActivity.this, getString(R.string.invalid_file) + "\n" + ex.getClass().getName() + " (" + ex.getMessage() + ")", Toast.LENGTH_LONG).show();
+								Log.e(DrMIPSActivity.class.getName(), "error loading CPU \"" + file.getName() + "\"", ex);
 							}
 						}
 						dialog.dismiss();
@@ -992,6 +994,7 @@ public class DrMIPSActivity extends Activity {
 			String msg = getString(R.string.error_opening_file).replace("#1", file.getName());
 			msg += "\n" + ex.getMessage();
 			Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+			Log.e(getClass().getName(), "error opening file \"" + file.getName() + "\"", ex);
 		}
 	}
 	
@@ -1011,6 +1014,7 @@ public class DrMIPSActivity extends Activity {
 			String msg = getString(R.string.error_saving_file).replace("#1", file.getName());
 			msg += "\n" + ex.getMessage();
 			Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+			Log.e(getClass().getName(), "error saving file \"" + file.getName() + "\"", ex);
 		}
 	}
 	
@@ -1050,6 +1054,7 @@ public class DrMIPSActivity extends Activity {
 				loadCPU(new File(DrMIPS.getApplication().getCPUDir() + File.separator + DrMIPS.DEFAULT_CPU));
 			} catch (Throwable e) { // error on the default CPU too
 				Toast.makeText(DrMIPSActivity.this, getString(R.string.invalid_file) + "\n" + ex.getClass().getName() + " (" + ex.getMessage() + ")", Toast.LENGTH_LONG).show();
+				Log.e(getClass().getName(), "error loading CPU", e);
 				finish();
 			}
 		}
