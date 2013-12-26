@@ -18,7 +18,10 @@
 
 package org.feup.brunonova.drmips.mips.components;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.feup.brunonova.drmips.exceptions.InvalidCPUException;
+import org.feup.brunonova.drmips.mips.Input;
 import org.feup.brunonova.drmips.util.Dimension;
 import org.feup.brunonova.drmips.util.Point;
 
@@ -46,4 +49,29 @@ public class And extends SimpleBinaryOperationComponent {
 	protected int operation(int in1, int in2) {
 		return in1 & in2;
 	}
+        
+        @Override
+        protected List<Input> getLatencyInputs() {
+            ArrayList<Input> inList = new ArrayList<Input>();
+            int val1 = getInput1().getValue();
+            int val2 = getInput2().getValue();
+            if (val1 == val2) {  // inputs have identical logic values
+                if (val1 == 1) {  // both 1; use both
+                    inList.add(getInput1());
+                    inList.add(getInput2());
+                } else { // both 0; use just the earliest input
+                    int lat1 = getInput1().getAccumulatedLatency();
+                    int lat2 = getInput2().getAccumulatedLatency();
+                    if (lat1 <= lat2)
+                        inList.add(getInput1());
+                    else
+                        inList.add(getInput2());
+                }
+            } else if (val1 == 1) { // only val2 == 0
+                inList.add(getInput2());
+            } else { // only val1 == 0
+                inList.add(getInput1());
+            }   
+           return inList;
+        }
 }

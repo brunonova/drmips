@@ -18,6 +18,7 @@
 
 package org.feup.brunonova.drmips.mips.components;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.feup.brunonova.drmips.exceptions.InvalidCPUException;
 import org.feup.brunonova.drmips.mips.Component;
@@ -74,6 +75,17 @@ public class Multiplexer extends Component {
 			input.setRelevant(i == sel);
 		}
 	}
+        
+        @Override
+        protected List<Input> getLatencyInputs() {
+            ArrayList<Input> inList = new ArrayList<Input>();
+            // always add control input
+            inList.add(getSelector());
+            // add the selected input to the list of inputs that
+            // influence latency
+            inList.add(getInput(getSelector().getValue()));
+            return inList;
+        }
 	
 	/**
 	 * Returns the identifier of the output.

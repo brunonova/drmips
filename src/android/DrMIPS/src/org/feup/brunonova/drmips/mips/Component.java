@@ -317,7 +317,7 @@ public abstract class Component {
 	 */
 	protected void updateAccumulatedLatency() {
 		accumulatedLatency = 0;
-		for(Input i: getInputs()) // get highest accumulated latency from inputs
+		for(Input i: getLatencyInputs()) // get highest accumulated latency from inputs
 			if(i.canChangeComponentAccumulatedLatency() && i.getAccumulatedLatency() > accumulatedLatency)
 				accumulatedLatency = i.getAccumulatedLatency();
 		accumulatedLatency += latency; // add the component's own latency
@@ -410,6 +410,14 @@ public abstract class Component {
 		return new ArrayList<Input>(in.values());
 	}
 	
+        /**
+	 * Returns the list of inputs for latency calculations.
+         * By default, does the same as getInputs()
+	 * @return List of inputs.
+	 */
+        protected List<Input> getLatencyInputs() {
+            return new ArrayList<Input>(in.values());
+        }
 	/**
 	 * Adds an output with an initial value.
 	 * @param id Output identifier.
