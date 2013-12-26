@@ -217,7 +217,7 @@ public class DatapathComponent extends TextView {
 	public void refresh() {
 		// Set fork gray if irrelevant
 		if(getComponent() instanceof Fork) {
-			if(!activity.getDatapath().isInPerformanceMode() && !((Fork)component).getInput().isRelevant())
+			if(!((Fork)component).getInput().isRelevant())
 				setBackgroundResource(R.drawable.aux_comp_back_gray);
 			else if(component.isInControlPath())
 				setBackgroundResource(R.drawable.aux_control_comp_back);

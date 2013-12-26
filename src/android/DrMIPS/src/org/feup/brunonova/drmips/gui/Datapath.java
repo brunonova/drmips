@@ -307,9 +307,9 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 				if(performanceMode && out.isInCriticalPath())
 					paint.setColor(Color.RED);
 				else if(out.isInControlPath())
-					paint.setColor((out.isRelevant() || performanceMode) ? controlColor : Color.GRAY);
+					paint.setColor(out.isRelevant() ? controlColor : Color.GRAY);
 				else
-					paint.setColor((out.isRelevant() || performanceMode) ? wireColor : Color.GRAY);
+					paint.setColor(out.isRelevant() ? wireColor : Color.GRAY);
 				Point s = start;
 				DrMIPS app = DrMIPS.getApplication();
 				for(Point e: points) {
