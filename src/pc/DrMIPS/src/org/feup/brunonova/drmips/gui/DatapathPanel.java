@@ -297,9 +297,9 @@ public class DatapathPanel extends JLayeredPane {
 				if(performanceMode && out.isInCriticalPath())
 					g.setColor(Color.RED);
 				else if(out.isInControlPath())
-					g.setColor((out.isRelevant() || performanceMode) ? CONTROL_COLOR : Color.GRAY);
+					g.setColor(out.isRelevant() ? CONTROL_COLOR : Color.GRAY);
 				else
-					g.setColor((out.isRelevant() || performanceMode) ? (dark ? Color.WHITE : Color.BLACK) : Color.GRAY);
+					g.setColor(out.isRelevant() ? (dark ? Color.WHITE : Color.BLACK) : Color.GRAY);
 				
 				Point s = start;
 				for(Point e: points) {

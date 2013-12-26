@@ -115,7 +115,7 @@ public final class DatapathComponent extends JPanel implements MouseListener {
 		if(getComponent() instanceof Fork) {
 			boolean dark = DrMIPS.prefs.getBoolean(DrMIPS.DARK_THEME_PREF, DrMIPS.DEFAULT_DARK_THEME);
 			Color color;
-			if(!datapath.isInPerformanceMode() && !((Fork)component).getInput().isRelevant())
+			if(!((Fork)component).getInput().isRelevant())
 				color = Color.GRAY;
 			else
 				color = component.isInControlPath() ? DatapathPanel.CONTROL_COLOR : (dark ? Color.WHITE : Color.BLACK);
