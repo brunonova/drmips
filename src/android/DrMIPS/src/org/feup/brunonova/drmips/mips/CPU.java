@@ -178,11 +178,12 @@ public class CPU {
 		if(cpu.hasALUControl()) cpu.aluControl.setControl(cpu.getInstructionSet().getControlALU());
 		if(cpu.hasALU()) cpu.alu.setControl(cpu.getInstructionSet().getControlALU());
 		parseJSONWires(cpu, json.getJSONArray("wires"));
-		cpu.calculatePerformance();
-		cpu.determineControlPath();
 		
 		for(Component c: cpu.getComponents()) // "execute" all components (initialize all outputs/inputs)
 			c.execute();
+		
+		cpu.calculatePerformance();
+		cpu.determineControlPath();
 		
 		return cpu;
 	}
@@ -545,6 +546,10 @@ public class CPU {
 			c.execute();
 		for(Component c: getComponents()) // "execute" all components, just to be safe
 			c.execute();
+		
+		// Refresh critical path
+		calculatePerformance();
+		determineControlPath();
 	}
 	
 	/**
@@ -603,6 +608,10 @@ public class CPU {
 			}
 			if(hasHazardDetectionUnit() && getHazardDetectionUnit().getStall().getValue() != 0)
 				stalls--;
+			
+			// Refresh critical path
+			calculatePerformance();
+			determineControlPath();
 		}
 	}
 	
@@ -637,6 +646,10 @@ public class CPU {
 			for(Component c: getComponents()) // "execute" all components
 				c.execute();
 			resetStatistics();
+			
+			// Refresh critical path
+			calculatePerformance();
+			determineControlPath();
 		}
 	}
 	
