@@ -75,17 +75,19 @@ public class Multiplexer extends Component {
 			input.setRelevant(i == sel);
 		}
 	}
-        
-        @Override
-        protected List<Input> getLatencyInputs() {
-            ArrayList<Input> inList = new ArrayList<Input>();
-            // always add control input
-            inList.add(getSelector());
-            // add the selected input to the list of inputs that
-            // influence latency
-            inList.add(getInput(getSelector().getValue()));
-            return inList;
-        }
+
+	@Override
+	protected List<Input> getLatencyInputs() {
+		ArrayList<Input> inList = new ArrayList<Input>();
+		// always add control input
+		inList.add(getSelector());
+		// add the selected input to the list of inputs that
+		// influence latency
+		Input selInput = getInput(getSelector().getValue());
+		if (selInput != null)
+			inList.add(selInput);
+		return inList;
+	}
 	
 	/**
 	 * Returns the identifier of the output.
