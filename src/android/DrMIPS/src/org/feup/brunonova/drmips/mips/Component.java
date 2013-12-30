@@ -314,16 +314,25 @@ public abstract class Component {
 	
 	/**
 	 * Updates the component's accumulated latency, based on its inputs' accumulated latencies.
+	 * @param instructionDependent Whether the performance should depend on the current instruction or not.
 	 */
-	protected void updateAccumulatedLatency() {
+	protected void updateAccumulatedLatency(boolean instructionDependent) {
 		accumulatedLatency = 0;
-		for(Input i: getLatencyInputs()) // get highest accumulated latency from inputs
+		List<Input> inputs = instructionDependent ? getLatencyInputs() : getInputs();
+		for(Input i: inputs) // get highest accumulated latency from inputs
 			if(i.canChangeComponentAccumulatedLatency() && i.getAccumulatedLatency() > accumulatedLatency)
 				accumulatedLatency = i.getAccumulatedLatency();
 		accumulatedLatency += latency; // add the component's own latency
 		for(Output o: getOutputs()) // propagate accumulated latency
 			if(o.isConnected())
-				o.getConnectedInput().setAccumulatedLatency(accumulatedLatency);
+				o.getConnectedInput().setAccumulatedLatency(accumulatedLatency, instructionDependent);
+	}
+	
+	/**
+	 * Updates the component's accumulated latency, based on its inputs' accumulated latencies.
+	 */
+	protected void updateAccumulatedLatency() {
+		updateAccumulatedLatency(true);
 	}
 	
 	/**
