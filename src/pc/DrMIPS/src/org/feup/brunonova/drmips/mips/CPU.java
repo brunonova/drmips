@@ -486,6 +486,24 @@ public class CPU {
 	}
 	
 	/**
+	 * Loads the given assembled instructions into the instruction memory and
+	 * starts the simulation.
+	 * @param instructions Program's list of assembled instructions.
+	 */
+	protected void loadProgram(List<AssembledInstruction> instructions) {
+		getInstructionMemory().setInstructions(instructions); // load instructions to memory
+		clearPreviousCycles(); // clear all components' saved states
+		setPCAddress(0); // reset PC
+		if(isPipeline()) { // clears the current instruction index in the pipeline registers
+			getIfIdReg().setCurrentInstructionIndex(-1);
+			getIdExReg().setCurrentInstructionIndex(-1);
+			getExMemReg().setCurrentInstructionIndex(-1);
+			getMemWbReg().setCurrentInstructionIndex(-1);
+		}
+		resetStatistics();
+	}
+	
+	/**
 	 * Returns whether the currently loaded program has finished executing.
 	 * @return <tt>True</tt> it the program has finished.
 	 */

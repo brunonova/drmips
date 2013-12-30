@@ -181,16 +181,7 @@ public class Assembler {
 			throw first;
 		}
 		
-		cpu.getInstructionMemory().setInstructions(instructions); // load instructions to memory
-		cpu.clearPreviousCycles(); // clear all components' saved states
-		cpu.setPCAddress(0); // reset PC
-		if(cpu.isPipeline()) { // clears the current instruction index in the pipeline registers
-			cpu.getIfIdReg().setCurrentInstructionIndex(-1);
-			cpu.getIdExReg().setCurrentInstructionIndex(-1);
-			cpu.getExMemReg().setCurrentInstructionIndex(-1);
-			cpu.getMemWbReg().setCurrentInstructionIndex(-1);
-		}
-		cpu.resetStatistics();
+		cpu.loadProgram(instructions);
 	}
 	
 	/**
