@@ -178,13 +178,12 @@ public class CPU {
 		if(cpu.hasALUControl()) cpu.aluControl.setControl(cpu.getInstructionSet().getControlALU());
 		if(cpu.hasALU()) cpu.alu.setControl(cpu.getInstructionSet().getControlALU());
 		parseJSONWires(cpu, json.getJSONArray("wires"));
+		cpu.determineControlPath();
 		
 		for(Component c: cpu.getComponents()) // "execute" all components (initialize all outputs/inputs)
 			c.execute();
 		
 		cpu.calculatePerformance();
-		cpu.determineControlPath();
-		//TODO determine processor static (instruction independent) performance (to use in the statistics)
 		
 		return cpu;
 	}
@@ -204,17 +203,36 @@ public class CPU {
 	}
 	
 	/**
-	 * Calculates the latency in each component and input and determines the critical path.
+	 * Calculates the latency in each component and input and determines the critical path of the CPU and of the instruction.
+	 * @param instructionDependent If <tt>true</tt> only the instruction's performance is calculated.
 	 */
-	public final void calculatePerformance() {
+	public final void calculatePerformance(boolean instructionDependent) {
 		for(Component c: getComponents()) // reset latencies and critical path
 			c.resetPerformance();
 		
 		for(Component c: synchronousComponents) // calculate latencies
-			c.updateAccumulatedLatency();
+			c.updateAccumulatedLatency(instructionDependent);
 		
-		determineClockPeriodAndFrequency();
-		determineCriticalPath();
+		if(instructionDependent)
+			determineCriticalPath();
+		else {
+			determineClockPeriodAndFrequency();
+			calculateInstructionPerformance();
+		}
+	}
+	
+	/**
+	 * Calculates the latency in each component and input and determines the critical path of the CPU and of the instruction.
+	 */
+	public final void calculatePerformance() {
+		calculatePerformance(false);
+	}
+	
+	/**
+	 * Calculates the latency in each component and input and determines the critical path of the instruction.
+	 */
+	protected final void calculateInstructionPerformance() {
+		calculatePerformance(true);
 	}
 	
 	/**
@@ -236,10 +254,10 @@ public class CPU {
 	}
 	
 	/**
-	 * Determines the clock period and frequency, setting the respective variables.
+	 * Returns the highest accumulated latency.
+	 * @return Highest accumulated latency.
 	 */
-	private void determineClockPeriodAndFrequency() {
-		// Find the highest accumulated latency
+	private int findHighestAccumulatedLatency() {
 		int maxLatency = 0;
 		for(Component c: getComponents()) {
 			if(c.getAccumulatedLatency() > maxLatency)
@@ -249,8 +267,14 @@ public class CPU {
 					maxLatency = i.getAccumulatedLatency();
 			}
 		}
-		
-		clockPeriod = maxLatency;
+		return maxLatency;
+	}
+	
+	/**
+	 * Determines the clock period and frequency, setting the respective variables.
+	 */
+	private void determineClockPeriodAndFrequency() {
+		clockPeriod = findHighestAccumulatedLatency();
 		if(clockPeriod > 0)
 			clockFrequency = 1.0 / (clockPeriod * Math.pow(10, LATENCY_EXPONENT));
 		else
@@ -377,7 +401,7 @@ public class CPU {
 	 */
 	private void determineCriticalPath() {
 		// Find the highest accumulated latency
-		int maxLatency = getClockPeriod();
+		int maxLatency = findHighestAccumulatedLatency();
 		
 		// Calculate critical path, starting in the components/inputs with maxLatency and going backwards
 		for(Component c: getComponents()) {
@@ -503,10 +527,8 @@ public class CPU {
 			getMemWbReg().setCurrentInstructionIndex(-1);
 		}
 		resetStatistics();
-
-		// Refresh critical path
-		calculatePerformance();
-		determineControlPath();
+		
+		calculateInstructionPerformance(); // Refresh critical path
 	}
 	
 	/**
@@ -570,9 +592,7 @@ public class CPU {
 		for(Component c: getComponents()) // "execute" all components, just to be safe
 			c.execute();
 		
-		// Refresh critical path
-		calculatePerformance();
-		determineControlPath();
+		calculateInstructionPerformance(); // Refresh critical path
 	}
 	
 	/**
@@ -632,9 +652,7 @@ public class CPU {
 			if(hasHazardDetectionUnit() && getHazardDetectionUnit().getStall().getValue() != 0)
 				stalls--;
 			
-			// Refresh critical path
-			calculatePerformance();
-			determineControlPath();
+			calculateInstructionPerformance(); // Refresh critical path
 		}
 	}
 	
@@ -670,9 +688,7 @@ public class CPU {
 				c.execute();
 			resetStatistics();
 			
-			// Refresh critical path
-			calculatePerformance();
-			determineControlPath();
+			calculateInstructionPerformance(); // Refresh critical path
 		}
 	}
 	

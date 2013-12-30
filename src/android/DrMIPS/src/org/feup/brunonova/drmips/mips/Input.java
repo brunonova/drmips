@@ -150,11 +150,20 @@ public final class Input extends IOPort {
 	/**
 	 * Updates the input's accumulated latency.
 	 * @param latency New accumulated latency.
+	 * @param instructionDependent Whether the performance should depend on the current instruction or not.
 	 */
-	protected void setAccumulatedLatency(int latency) {
+	protected void setAccumulatedLatency(int latency, boolean instructionDependent) {
 		this.accumulatedLatency = (latency >= 0) ? latency : 0;
 		if(changesComponentAccumulatedLatency)
-			getComponent().updateAccumulatedLatency();
+			getComponent().updateAccumulatedLatency(instructionDependent);
+	}
+	
+	/**
+	 * Updates the input's accumulated latency.
+	 * @param latency New accumulated latency.
+	 */
+	protected void setAccumulatedLatency(int latency) {
+		setAccumulatedLatency(latency, true);
 	}
 	
 	/**
