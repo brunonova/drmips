@@ -191,6 +191,10 @@ public class Assembler {
 			cpu.getMemWbReg().setCurrentInstructionIndex(-1);
 		}
 		cpu.resetStatistics();
+		
+		// Refresh critical path
+		cpu.calculatePerformance();
+		cpu.determineControlPath();
 	}
 	
 	/**
