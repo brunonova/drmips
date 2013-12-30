@@ -184,6 +184,7 @@ public class CPU {
 		
 		cpu.calculatePerformance();
 		cpu.determineControlPath();
+		//TODO determine processor static (instruction independent) performance (to use in the statistics)
 		
 		return cpu;
 	}
