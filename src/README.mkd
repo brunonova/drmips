@@ -7,5 +7,14 @@ It has two subdirectories:
 * **android**: source code of the Android version ([Eclipse][ec] project).
 * **pc**: source code of the PC version ([NetBeans][nb] project).
 
+Some important notes:
+
+* The source code was indented with tabs (1 tab = 1 level of indentation).
+* The code of the **mips**, **util** and **exceptions** packages (inside the
+  **org.feup.brunonova.drmips** package) is *platform independent*.
+  It should be exactly the same for both PC and Android versions (changes made
+  in one version should be copied to the other) and it shouldn't call any
+  platform dependent methods (like methods in the **gui** package).
+
 [nb]: http://netbeans.org/ "NetBeans IDE"
 [ec]: http://www.eclipse.org/ "Eclipse IDE"
