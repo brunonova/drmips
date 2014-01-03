@@ -93,6 +93,11 @@ public class ExtendedALU extends ALU implements IsSynchronous {
 			popState();
 	}
 	
+	@Override
+	public boolean isWritingState() {
+		return control.isWritingState(getControl().getValue());
+	}
+	
 	/**
 	 * Returns the <tt>HI</tt> "register".
 	 * @return The <tt>HI</tt> "register".

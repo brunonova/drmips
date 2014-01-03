@@ -157,6 +157,11 @@ public class PipelineRegister extends Component implements IsSynchronous {
 			popState();
 	}
 	
+	@Override
+	public boolean isWritingState() {
+		return getWrite().getValue() == 1 && getFlush().getValue() == 0;
+	}
+	
 	/**
 	 * Sets the pipeline register's display name.
 	 * <p>The name corresponds to the component's identifier, 1 letter per line.</p>
