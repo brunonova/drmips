@@ -73,4 +73,13 @@ public interface IsSynchronous {
 	 * allow the "restart" function to work.</p>
 	 */
 	public void resetFirstState();
+	
+	/**
+	 * Returns whether the component's internal state will be changed in the next
+	 * clock transition.
+	 * <p>Derived classes that have an internal state must implement this method to
+	 * allow the critical path of the instruction to be determined.</p>
+	 * @return <tt>true</tt> if the internal state is to be changed in this clock cycle.
+	 */
+	public boolean isWritingState();
 }

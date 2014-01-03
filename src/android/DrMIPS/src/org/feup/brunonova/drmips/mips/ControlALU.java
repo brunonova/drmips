@@ -241,6 +241,17 @@ public class ControlALU {
 	}
 	
 	/**
+	 * Returns whether the extended ALU's internal registers will be written in
+	 * this clock cycle.
+	 * @param operation The operation that will be executed, as the value of the ALU control signal.
+	 * @return <tt>true</tt> if the internal state is to be changed in this clock cycle.
+	 */
+	public boolean isWritingState(int operation) {
+		Operation op = getOperation(operation);
+		return op == Operation.MULT || op == Operation.DIV;
+	}
+	
+	/**
 	 * Updates the size of the output with the specified identifier, if bigger.
 	 * @param id Identifier of the output.
 	 * @param size New size, updated if bigger than before.

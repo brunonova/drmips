@@ -192,6 +192,11 @@ public class RegBank extends Component implements IsSynchronous {
 		}
 	}
 	
+	@Override
+	public boolean isWritingState() {
+		return getRegWrite().getValue() == 1;
+	}
+	
 	/**
 	 * Returns whether the data in the WriteData input should be forwarded to and output if reading and writing to the same register.
 	 * @return <tt>True</tt> if internal forwarding is enabled.

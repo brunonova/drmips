@@ -127,6 +127,11 @@ public class PC extends Component implements IsSynchronous {
 			popState();
 	}
 	
+	@Override
+	public boolean isWritingState() {
+		return getWrite().getValue() == 1;
+	}
+	
 	/**
 	 * Returns the current address of the Program Counter (the <tt>$pc</tt> register).
 	 * @return Current address.

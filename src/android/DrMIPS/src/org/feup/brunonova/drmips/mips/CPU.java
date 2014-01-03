@@ -400,21 +400,43 @@ public class CPU {
 	 * Determines the CPU's critical path
 	 */
 	private void determineCriticalPath() {
-		// Find the highest accumulated latency
+		/*// Find the highest accumulated latency
 		int maxLatency = findHighestAccumulatedLatency();
 		
 		// Calculate critical path, starting in the components/inputs with maxLatency and going backwards
 		for(Component c: getComponents()) {
-			if(c.getAccumulatedLatency() == maxLatency) { // component with maxLatency?
-				determineCriticalPath(c);
-			}
-			
 			for(Input i: c.getInputs()) {
 				if(i.getAccumulatedLatency() == maxLatency && i.isConnected() && !i.getConnectedOutput().isInCriticalPath()) { // input with maxLatency?
 					i.getConnectedOutput().setInCriticalPath();
 					determineCriticalPath(i.getConnectedOutput().getComponent());
 				}
 			}
+		}*/
+		
+		List<Input> maxIns = new LinkedList<Input>();
+		int maxLatency = -1;
+		for(Component c: synchronousComponents) {
+			if(((IsSynchronous)c).isWritingState()) {
+				for(Input in: c.getInputs()) {
+					if(in.getAccumulatedLatency() > maxLatency) {
+						maxIns.clear();
+						maxIns.add(in);
+						maxLatency = in.getAccumulatedLatency();
+					}
+					else if(in.getAccumulatedLatency() == maxLatency)
+						maxIns.add(in);
+				}
+			}
+		}
+		
+		if(!maxIns.isEmpty()) {
+			for(Input in: maxIns) {
+				in.getConnectedOutput().setInCriticalPath();
+				determineCriticalPath(in.getConnectedOutput().getComponent());
+			}
+		}
+		else {
+			// TODO fallback (use all inputs, or "latencyInputs")
 		}
 	}
 	

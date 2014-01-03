@@ -135,6 +135,11 @@ public class DataMemory extends Component implements IsSynchronous {
 			popState();
 	}
 	
+	@Override
+	public boolean isWritingState() {
+		return getMemWrite().getValue() == 1;
+	}
+	
 	/**
 	 * Resets the memory to zeros.
 	 */
