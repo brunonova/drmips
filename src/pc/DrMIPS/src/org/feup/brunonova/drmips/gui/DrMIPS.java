@@ -56,6 +56,8 @@ public class DrMIPS {
 	public static final int DEFAULT_ASSEMBLED_CODE_FORMAT = Util.DECIMAL_FORMAT_INDEX;
 	/** The default format with which the data memory values are displayed. */
 	public static final int DEFAULT_DATA_MEMORY_FORMAT = Util.DECIMAL_FORMAT_INDEX;
+	/** The default performance mode type. */
+	public static final int DEFAULT_PERFORMANCE_TYPE = Util.INSTRUCTION_PERFORMANCE_TYPE_INDEX;
 	/** The default side of the code tab. */
 	public static final int DEFAULT_CODE_TAB_SIDE = Util.LEFT;
 	/** The default side of the datapath tab. */
@@ -124,6 +126,8 @@ public class DrMIPS {
 	public static final String SHOW_ARROWS_PREF = "show_arrows";
 	/** The key of the performance mode preference. */
 	public static final String PERFORMANCE_MODE_PREF = "performance_mode";
+	/** The key of the performance mode type preference. */
+	public static final String PERFORMANCE_TYPE_PREF = "performance_type";
 	/** The key of the overlayed data preference. */
 	public static final String OVERLAYED_DATA_PREF = "overlayed_data";
 	/** The number of milliseconds before tooltips are displayed. */

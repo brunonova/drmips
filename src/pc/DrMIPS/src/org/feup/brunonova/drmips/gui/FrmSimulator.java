@@ -138,8 +138,10 @@ public class FrmSimulator extends javax.swing.JFrame {
 		datapath.setShowArrows(mnuArrowsInWires.isSelected());
 		mnuPerformanceMode.setSelected(DrMIPS.prefs.getBoolean(DrMIPS.PERFORMANCE_MODE_PREF, DrMIPS.DEFAULT_PERFORMANCE_MODE));
 		datapath.setPerformanceMode(mnuPerformanceMode.isSelected());
-		lblDatapathDataFormat.setEnabled(!mnuPerformanceMode.isSelected());
-		cmbDatapathDataFormat.setEnabled(!mnuPerformanceMode.isSelected());
+		lblDatapathDataFormat.setVisible(!mnuPerformanceMode.isSelected());
+		cmbDatapathDataFormat.setVisible(!mnuPerformanceMode.isSelected());
+		lblDatapathPerformance.setVisible(mnuPerformanceMode.isSelected());
+		cmbDatapathPerformance.setVisible(mnuPerformanceMode.isSelected());
 		mnuOverlayedData.setSelected(DrMIPS.prefs.getBoolean(DrMIPS.OVERLAYED_DATA_PREF, DrMIPS.DEFAULT_OVERLAYED_DATA));
 		datapath.setShowTips(mnuOverlayedData.isSelected());
 		mnuOverlayedData.setEnabled(!mnuPerformanceMode.isSelected());
@@ -229,6 +231,8 @@ public class FrmSimulator extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         lblDatapathDataFormat = new javax.swing.JLabel();
         cmbDatapathDataFormat = new javax.swing.JComboBox();
+        lblDatapathPerformance = new javax.swing.JLabel();
+        cmbDatapathPerformance = new javax.swing.JComboBox();
         lblFile = new javax.swing.JLabel();
         lblFileName = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
@@ -396,40 +400,40 @@ public class FrmSimulator extends javax.swing.JFrame {
         frmCode.setMaximizable(true);
         frmCode.setResizable(true);
         frmCode.setVisible(true);
+        desktop.add(frmCode);
         frmCode.setBounds(0, 0, 50, 33);
-        desktop.add(frmCode, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         frmAssembledCode.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         frmAssembledCode.setIconifiable(true);
         frmAssembledCode.setMaximizable(true);
         frmAssembledCode.setResizable(true);
         frmAssembledCode.setVisible(true);
+        desktop.add(frmAssembledCode);
         frmAssembledCode.setBounds(0, 0, 50, 33);
-        desktop.add(frmAssembledCode, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         frmDatapath.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         frmDatapath.setIconifiable(true);
         frmDatapath.setMaximizable(true);
         frmDatapath.setResizable(true);
         frmDatapath.setVisible(true);
+        desktop.add(frmDatapath);
         frmDatapath.setBounds(0, 0, 50, 33);
-        desktop.add(frmDatapath, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         frmRegisters.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         frmRegisters.setIconifiable(true);
         frmRegisters.setMaximizable(true);
         frmRegisters.setResizable(true);
         frmRegisters.setVisible(true);
+        desktop.add(frmRegisters);
         frmRegisters.setBounds(0, 0, 50, 33);
-        desktop.add(frmRegisters, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         frmDataMemory.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         frmDataMemory.setIconifiable(true);
         frmDataMemory.setMaximizable(true);
         frmDataMemory.setResizable(true);
         frmDataMemory.setVisible(true);
+        desktop.add(frmDataMemory);
         frmDataMemory.setBounds(0, 0, 50, 33);
-        desktop.add(frmDataMemory, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle(DrMIPS.PROGRAM_NAME);
@@ -642,6 +646,17 @@ public class FrmSimulator extends javax.swing.JFrame {
             }
         });
         jPanel5.add(cmbDatapathDataFormat);
+
+        lblDatapathPerformance.setLabelFor(cmbDatapathDataFormat);
+        lblDatapathPerformance.setText("performance:");
+        jPanel5.add(lblDatapathPerformance);
+
+        cmbDatapathPerformance.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbDatapathPerformanceActionPerformed(evt);
+            }
+        });
+        jPanel5.add(cmbDatapathPerformance);
 
         lblFile.setText("file:");
         jPanel5.add(lblFile);
@@ -1313,8 +1328,10 @@ public class FrmSimulator extends javax.swing.JFrame {
 
     private void mnuPerformanceModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPerformanceModeActionPerformed
 		datapath.setPerformanceMode(mnuPerformanceMode.isSelected());
-		lblDatapathDataFormat.setEnabled(!mnuPerformanceMode.isSelected());
-		cmbDatapathDataFormat.setEnabled(!mnuPerformanceMode.isSelected());
+		lblDatapathDataFormat.setVisible(!mnuPerformanceMode.isSelected());
+		cmbDatapathDataFormat.setVisible(!mnuPerformanceMode.isSelected());
+		lblDatapathPerformance.setVisible(mnuPerformanceMode.isSelected());
+		cmbDatapathPerformance.setVisible(mnuPerformanceMode.isSelected());
 		mnuOverlayedData.setEnabled(!mnuPerformanceMode.isSelected());
 		mnuRemoveLatencies.setEnabled(mnuPerformanceMode.isSelected());
 		mnuRestoreLatencies.setEnabled(mnuPerformanceMode.isSelected());
@@ -1376,6 +1393,11 @@ public class FrmSimulator extends javax.swing.JFrame {
     private void cmdStatisticsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdStatisticsActionPerformed
 		dlgStatistics.setVisible(true);
     }//GEN-LAST:event_cmdStatisticsActionPerformed
+
+    private void cmbDatapathPerformanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbDatapathPerformanceActionPerformed
+		cpu.setPerformanceInstructionDependent(cmbDatapathPerformance.getSelectedIndex() == Util.INSTRUCTION_PERFORMANCE_TYPE_INDEX);
+		datapath.refresh();
+    }//GEN-LAST:event_cmbDatapathPerformanceActionPerformed
 
 	/**
 	 * Sets the path of the opened file and updates the title bar and recent files.
@@ -1723,6 +1745,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 
 		lblRegFormat.setText(Lang.t("format") + ":");
 		lblDatapathDataFormat.setText(Lang.t("format") + ":");
+		lblDatapathPerformance.setText(Lang.t("performance") + ":");
 		lblAssembledCodeFormat.setText(Lang.t("format") + ":");
 		lblDataMemoryFormat.setText(Lang.t("format") + ":");
 		lblFile.setText(Lang.t("file") + ":");
@@ -1731,6 +1754,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		initFormatComboBox(cmbDatapathDataFormat, DrMIPS.DATAPATH_DATA_FORMAT_PREF, DrMIPS.DEFAULT_DATAPATH_DATA_FORMAT);
 		initFormatComboBox(cmbAssembledCodeFormat, DrMIPS.ASSEMBLED_CODE_FORMAT_PREF, DrMIPS.DEFAULT_ASSEMBLED_CODE_FORMAT);
 		initFormatComboBox(cmbDataMemoryFormat, DrMIPS.DATA_MEMORY_FORMAT_PREF, DrMIPS.DEFAULT_DATA_MEMORY_FORMAT);
+		initPerformanceComboBox();
 		
 		datapath.translate(cmbDatapathDataFormat.getSelectedIndex());
 		tblAssembledCode.translate();
@@ -1779,6 +1803,18 @@ public class FrmSimulator extends javax.swing.JFrame {
 	}
 	
 	/**
+	 * Initializes/translates the performance mode type selection combo box.
+	 */
+	private void initPerformanceComboBox() {
+		if(cmbDatapathPerformance.getSelectedIndex() >= 0)
+			DrMIPS.prefs.putInt(DrMIPS.PERFORMANCE_TYPE_PREF, cmbDatapathPerformance.getSelectedIndex());
+		cmbDatapathPerformance.removeAllItems();
+		cmbDatapathPerformance.addItem(Lang.t("instruction"));
+		cmbDatapathPerformance.addItem(Lang.t("cpu"));
+		cmbDatapathPerformance.setSelectedIndex(DrMIPS.prefs.getInt(DrMIPS.PERFORMANCE_TYPE_PREF, DrMIPS.DEFAULT_PERFORMANCE_TYPE));
+	}
+	
+	/**
 	 * Terminates the program.
 	 */
 	private void exit() {
@@ -1801,6 +1837,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 			DrMIPS.prefs.putInt(DrMIPS.DATAPATH_DATA_FORMAT_PREF, cmbDatapathDataFormat.getSelectedIndex());
 			DrMIPS.prefs.putInt(DrMIPS.ASSEMBLED_CODE_FORMAT_PREF, cmbAssembledCodeFormat.getSelectedIndex());
 			DrMIPS.prefs.putInt(DrMIPS.DATA_MEMORY_FORMAT_PREF, cmbDataMemoryFormat.getSelectedIndex());
+			DrMIPS.prefs.putInt(DrMIPS.PERFORMANCE_TYPE_PREF, cmbDatapathPerformance.getSelectedIndex());
 			DrMIPS.prefs.putBoolean(DrMIPS.ASSEMBLE_RESET_PREF, mnuResetDataBeforeAssembling.isSelected());
 		
 			if(mnuInternalWindows.isSelected()) {
@@ -1867,6 +1904,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 	private void loadCPU(String path) throws IOException, JSONException, InvalidCPUException, ArrayIndexOutOfBoundsException, InvalidInstructionSetException, NumberFormatException {
 		setSimulationControlsEnabled(false);
 		cpu = CPU.createFromJSONFile(path); // load CPU from file
+		cpu.setPerformanceInstructionDependent(cmbDatapathPerformance.getSelectedIndex() == Util.INSTRUCTION_PERFORMANCE_TYPE_INDEX);
 		DrMIPS.prefs.put(DrMIPS.LAST_CPU_PREF, path); // save CPU path in preferences
 		tblRegisters.setCPU(cpu, datapath, tblExec, cmbRegFormat.getSelectedIndex()); // display the CPU's register table
 		datapath.setCPU(cpu); // display datapath in the respective tab
@@ -2295,6 +2333,7 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JComboBox cmbAssembledCodeFormat;
     private javax.swing.JComboBox cmbDataMemoryFormat;
     private javax.swing.JComboBox cmbDatapathDataFormat;
+    private javax.swing.JComboBox cmbDatapathPerformance;
     private javax.swing.JComboBox cmbRegFormat;
     private javax.swing.JButton cmdAssemble;
     private javax.swing.JButton cmdBackStep;
@@ -2345,6 +2384,7 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JLabel lblDataMemoryFormat;
     private javax.swing.JLabel lblDatapathDataFormat;
     private javax.swing.JLabel lblDatapathHelp;
+    private javax.swing.JLabel lblDatapathPerformance;
     private javax.swing.JLabel lblFile;
     private javax.swing.JLabel lblFileName;
     private javax.swing.JLabel lblRegFormat;
