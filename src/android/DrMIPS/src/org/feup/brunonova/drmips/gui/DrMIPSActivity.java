@@ -135,11 +135,11 @@ public class DrMIPSActivity extends Activity {
 	
 	private TabHost tabHost;
 	private EditText txtCode, txtFilename, txtRegisterValue, txtDataMemoryValue, txtLatency;
-	private TextView lblFilename, lblCPUFilename, lblDatapathFormat;
+	private TextView lblFilename, lblCPUFilename, lblDatapathFormat, lblDatapathPerformance;
 	private MenuItem mnuDelete = null, mnuStep = null, mnuBackStep = null, mnuSwitchTheme = null, mnuControlPath = null, mnuArrowsInWires = null, mnuPerformanceMode = null, mnuOverlayedData = null, mnuRestart = null, mnuRun = null, mnuRestoreLatencies = null, mnuRemoveLatencies = null;
 	private ImageButton cmdStep;
 	private TableLayout tblAssembledCode, tblRegisters, tblDataMemory, tblExec;
-	private Spinner cmbAssembledCodeFormat, cmbRegistersFormat, cmbDataMemoryFormat, cmbDatapathFormat;
+	private Spinner cmbAssembledCodeFormat, cmbRegistersFormat, cmbDataMemoryFormat, cmbDatapathFormat, cmbDatapathPerformance;
 	private HorizontalScrollView datapathScroll;
 	private TableRow tblExecRow;
 
@@ -722,8 +722,10 @@ public class DrMIPSActivity extends Activity {
 		mnuPerformanceMode.setChecked(!mnuPerformanceMode.isChecked());
 		DrMIPS.getApplication().getPreferences().edit().putBoolean(DrMIPS.PERFORMANCE_MODE_PREF, mnuPerformanceMode.isChecked()).commit();
 		datapath.setPerformanceMode(mnuPerformanceMode.isChecked());
-		lblDatapathFormat.setEnabled(!mnuPerformanceMode.isChecked());
-		cmbDatapathFormat.setEnabled(!mnuPerformanceMode.isChecked());
+		lblDatapathFormat.setVisibility(mnuPerformanceMode.isChecked() ? View.GONE : View.VISIBLE);
+		cmbDatapathFormat.setVisibility(mnuPerformanceMode.isChecked() ? View.GONE : View.VISIBLE);
+		lblDatapathPerformance.setVisibility(!mnuPerformanceMode.isChecked() ? View.GONE : View.VISIBLE);
+		cmbDatapathPerformance.setVisibility(!mnuPerformanceMode.isChecked() ? View.GONE : View.VISIBLE);
 		if(mnuOverlayedData != null) mnuOverlayedData.setVisible(!mnuPerformanceMode.isChecked());
 		if(mnuRemoveLatencies != null) mnuRemoveLatencies.setVisible(mnuPerformanceMode.isChecked());
 		if(mnuRestoreLatencies != null) mnuRestoreLatencies.setVisible(mnuPerformanceMode.isChecked());
@@ -806,14 +808,21 @@ public class DrMIPSActivity extends Activity {
 		tabDatapath.setContent(R.id.tabDatapath);
 		tabHost.addTab(tabDatapath);
 		lblCPUFilename = (TextView)findViewById(R.id.lblCPUFilename);
-		lblDatapathFormat = (TextView)findViewById(R.id.lblDatapathFormat);
 		cmdStep = (ImageButton)findViewById(R.id.cmdStep);
 		datapathScroll = (HorizontalScrollView)findViewById(R.id.datapathScroll);
+		boolean performanceMode = DrMIPS.getApplication().getPreferences().getBoolean(DrMIPS.PERFORMANCE_MODE_PREF, DrMIPS.DEFAULT_PERFORMANCE_MODE);
+		lblDatapathFormat = (TextView)findViewById(R.id.lblDatapathFormat);
 		cmbDatapathFormat = (Spinner)findViewById(R.id.cmbDatapathFormat);
 		cmbDatapathFormat.setOnItemSelectedListener(spinnersListener);
 		cmbDatapathFormat.setSelection(DrMIPS.getApplication().getPreferences().getInt(DrMIPS.DATAPATH_DATA_FORMAT_PREF, DrMIPS.DEFAULT_DATAPATH_DATA_FORMAT));
-		lblDatapathFormat.setEnabled(!DrMIPS.getApplication().getPreferences().getBoolean(DrMIPS.PERFORMANCE_MODE_PREF, DrMIPS.DEFAULT_PERFORMANCE_MODE));
-		cmbDatapathFormat.setEnabled(!DrMIPS.getApplication().getPreferences().getBoolean(DrMIPS.PERFORMANCE_MODE_PREF, DrMIPS.DEFAULT_PERFORMANCE_MODE));
+		lblDatapathFormat.setVisibility(performanceMode ? View.GONE : View.VISIBLE);
+		cmbDatapathFormat.setVisibility(performanceMode ? View.GONE : View.VISIBLE);
+		lblDatapathPerformance = (TextView)findViewById(R.id.lblDatapathPerformance);
+		cmbDatapathPerformance = (Spinner)findViewById(R.id.cmbDatapathPerformance);
+		cmbDatapathPerformance.setOnItemSelectedListener(spinnersListener);
+		cmbDatapathPerformance.setSelection(DrMIPS.getApplication().getPreferences().getInt(DrMIPS.PERFORMANCE_TYPE_PREF, DrMIPS.DEFAULT_PERFORMANCE_TYPE));
+		lblDatapathPerformance.setVisibility(!performanceMode ? View.GONE : View.VISIBLE);
+		cmbDatapathPerformance.setVisibility(!performanceMode ? View.GONE : View.VISIBLE);
 		tblExec = (TableLayout)findViewById(R.id.tblExec);
 		tblExecRow = (TableRow)findViewById(R.id.tblExecRow);
 		
@@ -1025,6 +1034,7 @@ public class DrMIPSActivity extends Activity {
 	private void loadCPU(File file) throws ArrayIndexOutOfBoundsException, NumberFormatException, IOException, JSONException, InvalidCPUException, InvalidInstructionSetException {
 		setSimulationControlsEnabled(false);
 		CPU cpu = CPU.createFromJSONFile(file.getAbsolutePath()); // load CPU from file
+		cpu.setPerformanceInstructionDependent(cmbDatapathPerformance.getSelectedItemPosition() == Util.INSTRUCTION_PERFORMANCE_TYPE_INDEX);
 		DrMIPS.getApplication().setCPU(cpu);
 		
 		refreshRegistersTable(); // display the CPU's register table
@@ -1764,6 +1774,12 @@ public class DrMIPSActivity extends Activity {
 			else if(parent == cmbDatapathFormat) {
 				if(datapath != null) datapath.refresh();
 				editor.putInt(DrMIPS.DATAPATH_DATA_FORMAT_PREF, cmbDatapathFormat.getSelectedItemPosition());
+				editor.commit();
+			}
+			else if(parent == cmbDatapathPerformance) {
+				getCPU().setPerformanceInstructionDependent(cmbDatapathPerformance.getSelectedItemPosition() == Util.INSTRUCTION_PERFORMANCE_TYPE_INDEX);
+				if(datapath != null) datapath.refresh();
+				editor.putInt(DrMIPS.PERFORMANCE_TYPE_PREF, cmbDatapathPerformance.getSelectedItemPosition());
 				editor.commit();
 			}
 		}

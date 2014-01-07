@@ -7,6 +7,12 @@
         <item >Hexadecimal</item>
     </string-array>
     
+        
+    <string-array name="performance_types">
+        <item >Instrução</item>
+        <item >CPU</item>
+    </string-array>
+    
     <string name="pc">Contador do Programa</string>
     <string name="pc_description">Contém o endereço da instrução a ser executada.\nO endereço é actualizado quando a transição do relógio ocorre.</string>
     <string name="regbank">Banco de registos</string>
@@ -151,5 +157,6 @@
 	<string name="stalls">Protelamentos:</string>
 	<string name="operation">Operação</string>
 	<string name="register_not_editable">O registo #1 não é editável!</string>
+	<string name="performance">Desempenho:</string>
     
 </resources>

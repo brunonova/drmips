@@ -61,6 +61,8 @@ public class DrMIPS extends Application {
 	public static final String ASSEMBLED_CODE_FORMAT_PREF = "assembled_code_format";
 	/** The key of the data memory display data format preference. */
 	public static final String DATA_MEMORY_FORMAT_PREF = "data_memory_format";
+	/** The default performance mode type. */
+	public static final int DEFAULT_PERFORMANCE_TYPE = Util.INSTRUCTION_PERFORMANCE_TYPE_INDEX;
 	/** The key of the show control path preference. */
 	public static final String THEME_PREF = "theme";
 	/** The key of the show arrows preference. */
@@ -69,6 +71,8 @@ public class DrMIPS extends Application {
 	public static final String SHOW_ARROWS_PREF = "show_arrows";
 	/** The key of the performance mode preference. */
 	public static final String PERFORMANCE_MODE_PREF = "performance_mode";
+	/** The key of the performance mode type preference. */
+	public static final String PERFORMANCE_TYPE_PREF = "performance_type";
 	/** The key of the overlayed data preference. */
 	public static final String OVERLAYED_DATA_PREF = "overlayed_data";
 	/** The default format with which the registers are displayed. */
