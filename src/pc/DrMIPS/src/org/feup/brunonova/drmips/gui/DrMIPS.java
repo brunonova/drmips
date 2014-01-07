@@ -57,7 +57,7 @@ public class DrMIPS {
 	/** The default format with which the data memory values are displayed. */
 	public static final int DEFAULT_DATA_MEMORY_FORMAT = Util.DECIMAL_FORMAT_INDEX;
 	/** The default performance mode type. */
-	public static final int DEFAULT_PERFORMANCE_TYPE = Util.INSTRUCTION_PERFORMANCE_TYPE_INDEX;
+	public static final int DEFAULT_PERFORMANCE_TYPE = Util.CPU_PERFORMANCE_TYPE_INDEX;
 	/** The default side of the code tab. */
 	public static final int DEFAULT_CODE_TAB_SIDE = Util.LEFT;
 	/** The default side of the datapath tab. */
