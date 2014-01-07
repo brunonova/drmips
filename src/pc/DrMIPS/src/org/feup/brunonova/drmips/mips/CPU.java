@@ -24,6 +24,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -115,6 +116,8 @@ public class CPU {
 	private int forwards = 0;
 	/** Number of stalls. */
 	private int stalls = 0;
+	/** Whether the latencies and critical path should depend on the current instruction. */
+	private boolean performanceInstructionDependent = false;
 	
 	/**
 	 * Constructor that should by called by other constructors.
@@ -136,6 +139,7 @@ public class CPU {
 	
 	/**
 	 * Creates a CPU from a JSON file.
+	 * <p><b>Don't forget to call <tt>setPerformanceInstructionDependent()</tt> on the CPU!</b></p>.
 	 * @param path Path to the JSON file.
 	 * @return CPU created from the file.
 	 * @throws IOException If the file doesn't exist or an I/O error occurs.
@@ -203,36 +207,37 @@ public class CPU {
 	}
 	
 	/**
-	 * Calculates the latency in each component and input and determines the critical path of the CPU and of the instruction.
-	 * @param instructionDependent If <tt>true</tt> only the instruction's performance is calculated.
-	 */
-	public final void calculatePerformance(boolean instructionDependent) {
-		for(Component c: getComponents()) // reset latencies and critical path
-			c.resetPerformance();
-		
-		for(Component c: synchronousComponents) // calculate latencies
-			c.updateAccumulatedLatency(instructionDependent);
-		
-		if(instructionDependent)
-			determineCriticalPath();
-		else {
-			determineClockPeriodAndFrequency();
-			calculateInstructionPerformance();
-		}
-	}
-	
-	/**
-	 * Calculates the latency in each component and input and determines the critical path of the CPU and of the instruction.
+	 * Calculates the latency in each component and input and determines the critical path of the CPU and of the instruction (if instruction dependent).
 	 */
 	public final void calculatePerformance() {
-		calculatePerformance(false);
+		// CPU performance
+		calculateAccumulatedLatencies(false);
+		determineClockPeriodAndFrequency();
+		if(isPerformanceInstructionDependent()) // instruction performance?
+			calculateAccumulatedLatencies(true);
+		determineCriticalPath();
 	}
 	
 	/**
 	 * Calculates the latency in each component and input and determines the critical path of the instruction.
 	 */
 	protected final void calculateInstructionPerformance() {
-		calculatePerformance(true);
+		if(isPerformanceInstructionDependent()) {
+			calculateAccumulatedLatencies(true);
+			determineCriticalPath();
+		}
+	}
+	
+	/**
+	 * Calculates the accumulated latencies of all components.
+	 * @param instructionDependent If <tt>true</tt>, the latencies will depend on the current instruction.
+	 */
+	protected final void calculateAccumulatedLatencies(boolean instructionDependent) {
+		for(Component c: getComponents()) // reset latencies and critical path
+			c.resetPerformance();
+		
+		for(Component c: synchronousComponents) // calculate latencies
+			c.updateAccumulatedLatency(instructionDependent);
 	}
 	
 	/**
@@ -268,6 +273,34 @@ public class CPU {
 			}
 		}
 		return maxLatency;
+	}
+	
+	/**
+	 * Returns the input(s) with the highest accumulated latency.
+	 * @param instructionDependent Whether the result should depend on the current instruction-
+	 * @return Input(s) with the highest accumulated latency.
+	 */
+	private List<Input> findHighetsAccumulatedLatencyInputs(boolean instructionDependent) {
+		List<Input> maxIns = new LinkedList<Input>();
+		int maxLatency = -1;
+		Collection<Component> comps = isPerformanceInstructionDependent() ? synchronousComponents : components.values();
+		for(Component c: comps) {
+			if(!isPerformanceInstructionDependent() || ((IsSynchronous)c).isWritingState()) {
+				for(Input in: c.getInputs()) {
+					if(in.getAccumulatedLatency() > maxLatency) {
+						maxIns.clear();
+						maxIns.add(in);
+						maxLatency = in.getAccumulatedLatency();
+					}
+					else if(in.getAccumulatedLatency() == maxLatency)
+						maxIns.add(in);
+				}
+			}
+		}
+		if(maxIns.isEmpty() && instructionDependent) // no inputs for instruction? Fallback to use all inputs
+			return findHighetsAccumulatedLatencyInputs(false);
+		else
+			return maxIns;
 	}
 	
 	/**
@@ -387,6 +420,14 @@ public class CPU {
 	}
 	
 	/**
+	 * Returns whether the latencies and critical path depend on the current instruction.
+	 * @return <tt>true</tt> if the performance depends on the current instruction.
+	 */
+	public boolean isPerformanceInstructionDependent() {
+		return performanceInstructionDependent;
+	}
+	
+	/**
 	 * Resets the statistics to zero.
 	 */
 	protected void resetStatistics() {
@@ -400,43 +441,19 @@ public class CPU {
 	 * Determines the CPU's critical path
 	 */
 	private void determineCriticalPath() {
-		/*// Find the highest accumulated latency
-		int maxLatency = findHighestAccumulatedLatency();
-		
-		// Calculate critical path, starting in the components/inputs with maxLatency and going backwards
-		for(Component c: getComponents()) {
-			for(Input i: c.getInputs()) {
-				if(i.getAccumulatedLatency() == maxLatency && i.isConnected() && !i.getConnectedOutput().isInCriticalPath()) { // input with maxLatency?
-					i.getConnectedOutput().setInCriticalPath();
-					determineCriticalPath(i.getConnectedOutput().getComponent());
-				}
-			}
-		}*/
-		
-		List<Input> maxIns = new LinkedList<Input>();
-		int maxLatency = -1;
-		for(Component c: synchronousComponents) {
-			if(((IsSynchronous)c).isWritingState()) {
-				for(Input in: c.getInputs()) {
-					if(in.getAccumulatedLatency() > maxLatency) {
-						maxIns.clear();
-						maxIns.add(in);
-						maxLatency = in.getAccumulatedLatency();
-					}
-					else if(in.getAccumulatedLatency() == maxLatency)
-						maxIns.add(in);
-				}
-			}
+		if(isPerformanceInstructionDependent()) {
+			
 		}
+		else {
+			
+		}		
+		List<Input> maxIns = findHighetsAccumulatedLatencyInputs(isPerformanceInstructionDependent());
 		
 		if(!maxIns.isEmpty()) {
 			for(Input in: maxIns) {
 				in.getConnectedOutput().setInCriticalPath();
 				determineCriticalPath(in.getConnectedOutput().getComponent());
 			}
-		}
-		else {
-			// TODO fallback (use all inputs, or "latencyInputs")
 		}
 	}
 	
@@ -452,6 +469,19 @@ public class CPU {
 				i.getConnectedOutput().setInCriticalPath();
 				determineCriticalPath(i.getConnectedOutput().getComponent());
 			}
+		}
+	}
+	
+	/**
+	 * Sets whether the latencies and critical path should depend on the current instruction.
+	 * <p><b>This method should be called after loading a CPU.</b></p>
+	 * @param instructionDependent Whether the performance should depend on the current instruction.
+	 */
+	public void setPerformanceInstructionDependent(boolean instructionDependent) {
+		if(performanceInstructionDependent != instructionDependent) {
+			performanceInstructionDependent = instructionDependent;
+			calculateAccumulatedLatencies(performanceInstructionDependent);
+			determineCriticalPath();
 		}
 	}
 	
