@@ -32,6 +32,10 @@ public class Util {
 	public static final int DECIMAL_FORMAT_INDEX = 1;
 	/** The index of the hexadecimal format in spinners. */
 	public static final int HEXADECIMAL_FORMAT_INDEX = 2;
+	/** The index of the instruction performance mode type in combo boxes. */
+	public static final int INSTRUCTION_PERFORMANCE_TYPE_INDEX = 0;
+	/** The index of the CPU performance mode type in combo boxes. */
+	public static final int CPU_PERFORMANCE_TYPE_INDEX = 1;
 	
 	/**
 	 * Returns a string the the given data formated in bin/dec/hex according to the selected format in the given combo box.

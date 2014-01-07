@@ -7,6 +7,11 @@
         <item >Hexadecimal</item>
     </string-array>
     
+    <string-array name="performance_types">
+        <item >Instruction</item>
+        <item >CPU</item>
+    </string-array>
+    
     <string name="pc">Program Counter</string>
     <string name="pc_description">Contains the address of the instruction being executed.\nThe address is updated when the clock transition occurs.</string>
     <string name="regbank">Register bank</string>
@@ -153,5 +158,7 @@
     <string name="stalls">Stalls:</string>
     <string name="operation">Operation</string>
     <string name="register_not_editable">Register #1 is not editable!</string>
+    <string name="performance">Performance:</string>
+    
 
 </resources>

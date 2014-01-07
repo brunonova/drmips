@@ -35,6 +35,20 @@
             android:entries="@array/formats" />
 
         <TextView
+            android:id="@+id/lblDatapathPerformance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/performance" />
+
+        <Spinner
+            android:id="@+id/cmbDatapathPerformance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:entries="@array/performance_types" />
+
+        <TextView
             android:id="@+id/lblCPUFilename"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
