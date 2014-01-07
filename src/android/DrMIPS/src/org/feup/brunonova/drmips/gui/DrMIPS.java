@@ -62,7 +62,7 @@ public class DrMIPS extends Application {
 	/** The key of the data memory display data format preference. */
 	public static final String DATA_MEMORY_FORMAT_PREF = "data_memory_format";
 	/** The default performance mode type. */
-	public static final int DEFAULT_PERFORMANCE_TYPE = Util.INSTRUCTION_PERFORMANCE_TYPE_INDEX;
+	public static final int DEFAULT_PERFORMANCE_TYPE = Util.CPU_PERFORMANCE_TYPE_INDEX;
 	/** The key of the show control path preference. */
 	public static final String THEME_PREF = "theme";
 	/** The key of the show arrows preference. */
