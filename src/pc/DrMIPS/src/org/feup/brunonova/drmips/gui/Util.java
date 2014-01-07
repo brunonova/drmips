@@ -50,6 +50,10 @@ public class Util {
 	public static final int DECIMAL_FORMAT_INDEX = 1;
 	/** The index of the hexadecimal format in combo boxes. */
 	public static final int HEXADECIMAL_FORMAT_INDEX = 2;
+	/** The index of the instruction performance mode type in combo boxes. */
+	public static final int INSTRUCTION_PERFORMANCE_TYPE_INDEX = 0;
+	/** The index of the CPU performance mode type in combo boxes. */
+	public static final int CPU_PERFORMANCE_TYPE_INDEX = 1;
 	
 	/** The constant that represents the left side of the split pane. */
 	public static final int LEFT = 0;
