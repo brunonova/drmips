@@ -16,23 +16,16 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/Modules")
 find_package(Java REQUIRED)
 include(UseJava) # requires the version of the module and dependencies from CMake 3.0 (not yet released)
 
-# config
-#configure_file(config.h.in config.h)
+# Configurations
+set(DRMIPS_SHARE_DIR "${CMAKE_INSTALL_PREFIX}/share/drmips")
 
 # Subdirectories
 add_subdirectory(src/pc/DrMIPS)
 
-# targets
-#add_executable(prog in)
-#target_link_libraries(prog lib)
-#add_definitions(-Wall)
-
-# make install
-#install(TARGETS prog DESTINATION bin)
-
-# make uninstall
-#configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in" "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake" IMMEDIATE @ONLY)
-#add_custom_target(uninstall COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
+# Uninstall target
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
+               "${CMAKE_CURRENT_BINARY_DIR}/cmake/cmake_uninstall.cmake" IMMEDIATE @ONLY)
+add_custom_target(uninstall COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake/cmake_uninstall.cmake)
 
 # make package
 #include(InstallRequiredSystemLibraries)
@@ -42,8 +35,3 @@ add_subdirectory(src/pc/DrMIPS)
 #set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/description.txt")
 #set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/license.txt")
 #include(CPack)
-
-# make test
-#enable_testing()
-#add_test(test1 prog arg)
-#set_tests_properties(test1 PROPERTIES PASS_REGULAR_EXPRESSION "res")

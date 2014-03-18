@@ -144,4 +144,4 @@ message(STATUS "Copying PC version resources to build directory -- done")
 add_jar(${PROJECT_NAME} ${SRC} ${RES} INCLUDE_JARS ${LIBS} MANIFEST ${MANIFEST})
 
 # Install target
-install_jar(${PROJECT_NAME} share/${PROJECT_NAME})
+install_jar(${PROJECT_NAME} "${DRMIPS_SHARE_DIR}")
