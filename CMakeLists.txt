@@ -15,12 +15,15 @@ project(DrMIPS NONE)
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/Modules")
 find_package(Java REQUIRED)
 include(UseJava) # requires the version of the module and dependencies from CMake 3.0 (not yet released)
+include(UseLATEX)
 
 # Configurations
 set(DRMIPS_SHARE_DIR "${CMAKE_INSTALL_PREFIX}/share/drmips")
+#TODO Allow to choose whether to build PC version, Android version and Manuals
 
 # Subdirectories
 add_subdirectory(src/pc/DrMIPS)
+add_subdirectory(doc/manuals)
 
 # Uninstall target
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
