@@ -11,19 +11,29 @@ project(DrMIPS NONE)
 #	message(STATUS "Compiling on Linux")
 #endif()
 
-# Include required CMake modules
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/Modules")
-find_package(Java REQUIRED)
-include(UseJava) # requires the version of the module and dependencies from CMake 3.0 (not yet released)
-include(UseLATEX)
-
 # Configurations
 set(DRMIPS_SHARE_DIR "${CMAKE_INSTALL_PREFIX}/share/drmips")
-#TODO Allow to choose whether to build PC version, Android version and Manuals
+set(DRMIPS_BUILD_DOCUMENTATION ON CACHE BOOL "Build and install ${PROJECT_NAME} documentation?")
+set(DRMIPS_BUILD_PC_VERSION ON CACHE BOOL "Build and install the PC version of the ${PROJECT_NAME} simulator?")
+set(DRMIPS_BUILD_ANDROID_VERSION OFF CACHE BOOL "Build and install the Android version of the ${PROJECT_NAME} simulator?")
+
+# Include required CMake modules
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/Modules")
+if(${DRMIPS_BUILD_PC_VERSION})
+	find_package(Java REQUIRED)
+	include(UseJava) # requires the version of the module and dependencies from CMake 3.0 (not yet released)
+endif()
+if(${DRMIPS_BUILD_DOCUMENTATION})
+	include(UseLATEX)
+endif()
 
 # Subdirectories
-add_subdirectory(src/pc/DrMIPS)
-add_subdirectory(doc/manuals)
+if(${DRMIPS_BUILD_PC_VERSION})
+	add_subdirectory(src/pc/DrMIPS)
+endif()
+if(${DRMIPS_BUILD_DOCUMENTATION})
+	add_subdirectory(doc/manuals)
+endif()
 
 # Uninstall target
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
