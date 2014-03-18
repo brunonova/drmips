@@ -1,0 +1,2 @@
+#!/bin/sh
+java -jar @DRMIPS_SHARE_DIR@/@PROJECT_NAME@.jar "$@"
