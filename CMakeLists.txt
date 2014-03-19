@@ -3,8 +3,10 @@ project(DrMIPS NONE)
 
 # Configurations
 set(DRMIPS_SHARE_DIR "${CMAKE_INSTALL_PREFIX}/share/drmips")
+set(DRMIPS_DOC_DIR "${CMAKE_INSTALL_PREFIX}/share/doc/drmips")
 option(DRMIPS_BUILD_MANUALS "Build and install ${PROJECT_NAME} manuals?" ON)
 option(DRMIPS_BUILD_PC_VERSION "Build and install the PC version of the ${PROJECT_NAME} simulator?" ON)
+option(DRMIPS_BUILD_PC_VERSION_JAVADOC "Build and install the Java API documentation of the PC version of the ${PROJECT_NAME} simulator? (DRMIPS_BUILD_PC_VERSION must be ON too)" OFF)
 option(DRMIPS_BUILD_ANDROID_VERSION "Build and install the Android version of the ${PROJECT_NAME} simulator?" OFF)
 
 # Include required CMake modules

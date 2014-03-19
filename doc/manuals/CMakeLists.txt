@@ -25,8 +25,10 @@ set(RES listings/alu.txt
         listings/wire.txt)
 
 # Manuals targets
+add_custom_target(manuals) # add meta-target "manuals"
 foreach(TEX ${SRC})
 	add_latex_document("${TEX}.tex" INPUTS ${RES} DEFAULT_PDF MANGLE_TARGET_NAMES)
+	add_dependencies(manuals "${TEX}_pdf")
 endforeach()
 
 # Install targets
@@ -34,8 +36,4 @@ foreach(TEX ${SRC})
 	install(FILES "${LATEX_OUTPUT_PATH}/${TEX}.pdf" DESTINATION "${DRMIPS_SHARE_DIR}/doc")
 endforeach()
 
-# Add meta-target "manuals"
-add_custom_target(manuals)
-foreach(TEX ${SRC})
-	add_dependencies(manuals "${TEX}_pdf")
-endforeach()
+

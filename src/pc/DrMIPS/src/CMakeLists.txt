@@ -129,24 +129,34 @@ set(LIBS autocomplete.jar      # v2.5.0
          JTattoo.jar           # v1.6.9
          rsyntaxtextarea.jar)  # v2.5.0
 
-# Generate Class-Path for Manifest.mf and list of paths to the libraries
-set(CLASS_PATH "Class-Path:")
+# Generate list of paths to the libraries for add_jar(), class-Path for Manifest.mf and class-Path for javadoc
 set(LIBS_PATHS)
+set(CLASS_PATH "Class-Path:")
+set(CLASS_PATH_JAVADOC "")
 foreach(LIB ${LIBS})
-	set(CLASS_PATH "${CLASS_PATH} lib/${LIB}")
 	list(APPEND LIBS_PATHS "../lib/${LIB}")
+	set(CLASS_PATH "${CLASS_PATH} lib/${LIB}")
+	if(CLASS_PATH_JAVADOC)
+		set(CLASS_PATH_JAVADOC "${CLASS_PATH_JAVADOC}:")
+	endif()
+	set(CLASS_PATH_JAVADOC "${CLASS_PATH_JAVADOC}../lib/${LIB}")
 endforeach()
-
-#TODO Javadoc?
 
 # Generate Manifest file with the Class-Path
 file(WRITE "${MANIFEST}" "${CLASS_PATH}\n")
 
 # Jar compilation target
-add_jar(${PROJECT_NAME} ${SRC} ${RES} INCLUDE_JARS ${LIBS_PATHS} MANIFEST ${MANIFEST} ENTRY_POINT org.feup.brunonova.drmips.gui.DrMIPS)
+add_jar(${PROJECT_NAME} ${SRC} ${RES} INCLUDE_JARS ${LIBS_PATHS} MANIFEST ${MANIFEST}
+                        ENTRY_POINT org.feup.brunonova.drmips.gui.DrMIPS)
+add_custom_target(pc_version DEPENDS ${PROJECT_NAME}) # add meta-target "pc_version"
+
+# Javadoc target
+if(DRMIPS_BUILD_PC_VERSION_JAVADOC)
+	create_javadoc(${PROJECT_NAME} FILES ${SRC} CLASSPATH ${CLASS_PATH_JAVADOC}
+	                               WINDOWTITLE "${PROJECT_NAME}" DOCTITLE "${PROJECT_NAME}"
+	                               INSTALLPATH "${DRMIPS_DOC_DIR}/javadoc")
+	add_custom_target(pc_version_javadoc DEPENDS "${PROJECT_NAME}_javadoc") # add meta-target "pc_version_javadoc"
+endif()
 
 # Install target
 install_jar(${PROJECT_NAME} "${DRMIPS_SHARE_DIR}")
-
-# Add meta-target "pc_version"
-add_custom_target(pc_version DEPENDS ${PROJECT_NAME})
