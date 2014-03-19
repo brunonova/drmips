@@ -2,7 +2,7 @@
 set(CLASS_DIR "${CMAKE_CURRENT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}.dir")
 
 # The manifest file (specifying the Main class and the libraries)
-set(MANIFEST Manifest.mf)
+set(MANIFEST "${CMAKE_CURRENT_SOURCE_DIR}/Manifest.mf")
 
 # List of Java source files
 #file(GLOB_RECURSE SRC RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "*.java")
@@ -132,18 +132,16 @@ set(LIBS ../lib/autocomplete.jar      # v2.5.0
          ../lib/JTattoo.jar           # v1.6.9
          ../lib/rsyntaxtextarea.jar)  # v2.5.0
 
-# Copy the manifest and resources to the build directory
-message(STATUS "Copying PC version resources to build directory")
-file(COPY res DESTINATION "${CLASS_DIR}")
-file(COPY ${MANIFEST} DESTINATION "${CLASS_DIR}")
-message(STATUS "Copying PC version resources to build directory -- done")
-
-#FIXME "make" after "make clean" doesn't work
-#TODO customize "clean" target? (ADDITIONAL_MAKE_CLEAN_FILES)
 #TODO configure Manifest.mf
+#TODO Javadoc?
 
 # Jar compilation target
 add_jar(${PROJECT_NAME} ${SRC} ${RES} INCLUDE_JARS ${LIBS} MANIFEST ${MANIFEST})
+# ... OUTPUT_NAME name.jar)
+# ... ENTRY_POINT org/pack/Class)
 
 # Install target
 install_jar(${PROJECT_NAME} "${DRMIPS_SHARE_DIR}")
+
+# Add meta-target "pc_version"
+add_custom_target(pc_version DEPENDS ${PROJECT_NAME})
