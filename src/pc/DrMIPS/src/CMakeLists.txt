@@ -128,17 +128,19 @@ set(RES res/icons/icon_large.png
 
 # List of libraries
 #file(GLOB_RECURSE LIBS "../lib/*.jar")
-set(LIBS ../lib/autocomplete.jar
-         ../lib/JTattoo.jar
-         ../lib/rsyntaxtextarea.jar)
+set(LIBS ../lib/autocomplete.jar      # v2.5.0
+         ../lib/JTattoo.jar           # v1.6.9
+         ../lib/rsyntaxtextarea.jar)  # v2.5.0
 
 # Copy the manifest and resources to the build directory
 message(STATUS "Copying PC version resources to build directory")
 file(COPY res DESTINATION "${CLASS_DIR}")
 file(COPY ${MANIFEST} DESTINATION "${CLASS_DIR}")
 message(STATUS "Copying PC version resources to build directory -- done")
+
 #FIXME "make" after "make clean" doesn't work
 #TODO customize "clean" target? (ADDITIONAL_MAKE_CLEAN_FILES)
+#TODO configure Manifest.mf
 
 # Jar compilation target
 add_jar(${PROJECT_NAME} ${SRC} ${RES} INCLUDE_JARS ${LIBS} MANIFEST ${MANIFEST})
