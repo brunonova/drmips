@@ -12,7 +12,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/Modules")
 
 if(${DRMIPS_BUILD_PC_VERSION})
 	find_package(Java REQUIRED)
-	include(UseJava) # requires the version of the module and dependencies from CMake 3.0 (not yet released)
+	include(UseJava)
 endif()
 
 if(${DRMIPS_BUILD_MANUALS})
