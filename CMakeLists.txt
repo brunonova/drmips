@@ -53,3 +53,6 @@ add_custom_target(uninstall COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_D
 #set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/description.txt")
 #set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/license.txt")
 #include(CPack)
+
+# Mark first CMake run as finished
+set(DONE_FIRST_RUN ON CACHE INTERNAL "Has CMake been executed at least once already?")
