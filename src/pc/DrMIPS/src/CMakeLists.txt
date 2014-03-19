@@ -2,10 +2,9 @@
 set(CLASS_DIR "${CMAKE_CURRENT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}.dir")
 
 # The manifest file (specifying the Main class and the libraries)
-set(MANIFEST "${CMAKE_CURRENT_SOURCE_DIR}/Manifest.mf")
+set(MANIFEST "${CMAKE_CURRENT_BINARY_DIR}/Manifest.mf")
 
 # List of Java source files
-#file(GLOB_RECURSE SRC RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "*.java")
 set(SRC org/feup/brunonova/drmips/exceptions/InfiniteLoopException.java
         org/feup/brunonova/drmips/exceptions/InvalidCPUException.java
         org/feup/brunonova/drmips/exceptions/InvalidInstructionSetException.java
@@ -80,7 +79,6 @@ set(SRC org/feup/brunonova/drmips/exceptions/InfiniteLoopException.java
         org/json/JSONWriter.java)
 
 # List of resource files
-#file(GLOB_RECURSE RES RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "res/*")
 set(RES res/icons/icon_large.png
         res/icons/icon_medium.png
         res/icons/icon_small.png
@@ -126,19 +124,26 @@ set(RES res/icons/icon_large.png
         res/icons/x24/statistics.png
         res/icons/x24/step.png)
 
-# List of libraries
-#file(GLOB_RECURSE LIBS "../lib/*.jar")
-set(LIBS ../lib/autocomplete.jar      # v2.5.0
-         ../lib/JTattoo.jar           # v1.6.9
-         ../lib/rsyntaxtextarea.jar)  # v2.5.0
+# List of libraries (without the path)
+set(LIBS autocomplete.jar      # v2.5.0
+         JTattoo.jar           # v1.6.9
+         rsyntaxtextarea.jar)  # v2.5.0
 
-#TODO configure Manifest.mf
+# Generate Class-Path for Manifest.mf and list of paths to the libraries
+set(CLASS_PATH "Class-Path:")
+set(LIBS_PATHS)
+foreach(LIB ${LIBS})
+	set(CLASS_PATH "${CLASS_PATH} lib/${LIB}")
+	list(APPEND LIBS_PATHS "../lib/${LIB}")
+endforeach()
+
 #TODO Javadoc?
 
+# Generate Manifest file with the Class-Path
+file(WRITE "${MANIFEST}" "${CLASS_PATH}\n")
+
 # Jar compilation target
-add_jar(${PROJECT_NAME} ${SRC} ${RES} INCLUDE_JARS ${LIBS} MANIFEST ${MANIFEST})
-# ... OUTPUT_NAME name.jar)
-# ... ENTRY_POINT org/pack/Class)
+add_jar(${PROJECT_NAME} ${SRC} ${RES} INCLUDE_JARS ${LIBS_PATHS} MANIFEST ${MANIFEST} ENTRY_POINT org.feup.brunonova.drmips.gui.DrMIPS)
 
 # Install target
 install_jar(${PROJECT_NAME} "${DRMIPS_SHARE_DIR}")

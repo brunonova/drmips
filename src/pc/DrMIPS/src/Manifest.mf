@@ -1,4 +1,0 @@
-Manifest-Version: 1.0
-Class-Path: lib/JTattoo.jar lib/autocomplete.jar lib/rsyntaxtextarea.jar
-Main-Class: org.feup.brunonova.drmips.gui.DrMIPS
-
