@@ -1,5 +1,0 @@
-Version of each library used:
-
-autocomplete - 2.5.0
-JTattoo - 1.6.9
-rsyntaxtextarea - 2.5.0
