@@ -24,16 +24,15 @@ set(RES listings/alu.txt
         listings/type.txt
         listings/wire.txt)
 
-# Manuals targets
+# Build and install targets
 add_custom_target(manuals) # add meta-target "manuals"
 foreach(TEX ${SRC})
-	add_latex_document("${TEX}.tex" INPUTS ${RES} DEFAULT_PDF MANGLE_TARGET_NAMES)
-	add_dependencies(manuals "${TEX}_pdf")
+	add_latex_document("${TEX}.tex" INPUTS ${RES} DEFAULT_PDF MANGLE_TARGET_NAMES) # build target
+	add_dependencies(manuals "${TEX}_pdf") # add this document to "manuals" meta-target
+	install(FILES "${LATEX_OUTPUT_PATH}/${TEX}.pdf" DESTINATION "${DRMIPS_SHARE_DIR}/doc") # install target
+	add_custom_command(TARGET "${TEX}_pdf" POST_BUILD
+	                   COMMAND ${CMAKE_COMMAND} -E copy_if_different
+	                           "${LATEX_OUTPUT_PATH}/${TEX}.pdf" "${DRMIPS_ZIP_BUILD_DIR}/doc/${TEX}.pdf"
+	                   COMMENT "Copying ${TEX}.pdf to the ZIP build directory"
+	                   VERBATIM) # copy PDF to DRMIPS_ZIP_BUILD_DIRECTORY/doc
 endforeach()
-
-# Install targets
-foreach(TEX ${SRC})
-	install(FILES "${LATEX_OUTPUT_PATH}/${TEX}.pdf" DESTINATION "${DRMIPS_SHARE_DIR}/doc")
-endforeach()
-
-
