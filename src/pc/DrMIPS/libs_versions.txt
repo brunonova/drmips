@@ -1,0 +1,5 @@
+Versions os the libraries:
+
+* autocomplete.jar    - 2.5.0
+* JTattoo.jar         - 1.6.9
+* rsyntaxtextarea.jar - 2.5.0
