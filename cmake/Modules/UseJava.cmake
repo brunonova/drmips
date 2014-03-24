@@ -308,7 +308,6 @@
 # if you don't set the INSTALLPATH.
 
 #=============================================================================
-# Copyright 2014 Bruno Nova <brunomb.nova@gmail.com>
 # Copyright 2013 OpenGamma Ltd. <graham@opengamma.com>
 # Copyright 2010-2011 Andreas schneider <asn@redhat.com>
 # Copyright 2010-2013 Kitware, Inc.

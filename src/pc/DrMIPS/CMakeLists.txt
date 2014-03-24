@@ -2,6 +2,7 @@
 add_subdirectory(src)
 
 # Configurations
+set(DRMIPS_JAR_PATH "${CMAKE_INSTALL_PREFIX}/${DRMIPS_SHARE_DIR}/${PROJECT_NAME}.jar")
 configure_file(drmips.in drmips)
 
 # Copy distributable static files to DRMIPS_ZIP_BUILD_DIR
