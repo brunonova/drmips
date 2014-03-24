@@ -52,4 +52,4 @@ add_custom_command(TARGET "${PROJECT_NAME}" POST_BUILD
                   COMMAND ${CMAKE_COMMAND} -E copy_if_different
                           "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.jar" "${DRMIPS_ZIP_BUILD_DIR}/${PROJECT_NAME}.jar"
                   COMMENT "Copying ${PROJECT_NAME}.jar to the ZIP build directory"
-                  VERBATIM) # copy PDF to DRMIPS_ZIP_BUILD_DIRECTORY/doc
+                  VERBATIM)
