@@ -4,8 +4,9 @@ Source code
 This directory contains the source code of the simulator.
 It has two subdirectories:
 
-* **android**: source code of the Android version ([Eclipse][ec] project).
-* **pc**: source code of the PC version ([NetBeans][nb] project).
+* **android**: source code of the Android version ([Eclipse][ec] project with
+  the [ADT plugin][adt]).
+* **pc**: source code of the PC version ([NetBeans][nb] project in [Java][java]).
 
 Some important notes:
 
@@ -18,3 +19,5 @@ Some important notes:
 
 [nb]: http://netbeans.org/ "NetBeans IDE"
 [ec]: http://www.eclipse.org/ "Eclipse IDE"
+[adt]: http://developer.android.com/tools/sdk/eclipse-adt.html "ADT Plugin | Android Developers"
+[java]: http://www.java.com/ "java.com: Java + You"

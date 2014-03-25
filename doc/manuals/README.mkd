@@ -4,5 +4,12 @@ Manuals
 This directory contains the manuals/documentation (or the sources to create 
 them) to be distributed with the simulator.
 
-The directory includes a _Makefile_ to compile all LaTeX files into PDFs.
-**Each manual should have only one _.tex_ file!**
+The manuals were created using [LaTeX][latex].
+
+Each manual should have only one *.tex* file.
+The names of the *.tex* files must be listed in the `set(SRC ...)` line of the
+*CMakeLists.txt* file to be compiled.
+
+
+
+[latex]: http://www.latex-project.org/ "LaTeX – A document preparation system"
