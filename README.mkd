@@ -17,9 +17,34 @@ DrMIPS is open-source and licensed under the GPLv3, so you are free to use and
 modify it.
 
 
+Compiling DrMIPS
+----------------
+
+[CMake][cmake] is used to compile the simulator.
+
+To compile it:
+
+1. Run `cmake .`, `ccmake .` or `cmake-gui .` from the root directory of the
+   repository to generate the makefiles.
+   
+   You may also (and it's recommended to) run one of the above commands from a
+   separate build-directory.
+   To do that, create a new folder (named *build*, for example) in the root
+   directory of the repository and run `cmake ..`, `ccmake ..` or `cmake-gui ..`
+   from that folder.
+
+2. Configure the compilation options with `ccmake` or `cmake-gui`.
+
+3. Compile the simulator by running `make` from the directory where CMake was
+   executed.
+
+4. Run `make dist` from that directory to create a ZIP file for distribution of
+   the PC version of the simulator.
+
+
 
 [DISS]: http://paginas.fe.up.pt/~ei08109/dissertation/ "Dissertation Wiki"
 [FEUP]: http://www.fe.up.pt/ "Faculty of Engineering of the University of Porto"
 [MIPS]: http://en.wikipedia.org/wiki/MIPS_architecture "MIPS architecture"
 [wiki]: https://bitbucket.org/brunonova/drmips/wiki/ "DrMIPS Wiki"
-
+[cmake]: http://www.cmake.org/ "CMake - Cross Platform Make"
