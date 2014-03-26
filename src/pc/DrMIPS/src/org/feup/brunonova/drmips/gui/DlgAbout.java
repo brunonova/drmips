@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013 Bruno Nova <ei08109@fe.up.pt>
+    Copyright (C) 2013-2014 Bruno Nova <ei08109@fe.up.pt>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -55,14 +55,10 @@ public class DlgAbout extends javax.swing.JDialog {
         lblAuthor = new javax.swing.JLabel();
         lblDissertation = new javax.swing.JLabel();
         lblFaculty = new javax.swing.JLabel();
-        lblExternalResources = new javax.swing.JLabel();
-        lblHumanity = new javax.swing.JLabel();
-        lblRSyntaxTextArea = new javax.swing.JLabel();
-        lblAutoComplete = new javax.swing.JLabel();
-        lblJTattoo = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         cmdOk = new javax.swing.JButton();
         cmdLicense = new javax.swing.JButton();
+        cmdCredits = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("about_program");
@@ -86,25 +82,6 @@ public class DlgAbout extends javax.swing.JDialog {
         lblFaculty.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblFaculty.setText("Faculdade de Engenharia da Universidade do Porto");
 
-        lblExternalResources.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblExternalResources.setText("external_resources:");
-
-        lblHumanity.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        lblHumanity.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblHumanity.setText("Humanity Icons (https://launchpad.net/humanity/)");
-
-        lblRSyntaxTextArea.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        lblRSyntaxTextArea.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblRSyntaxTextArea.setText("RSyntaxTextArea (http://fifesoft.com/rsyntaxtextarea/)");
-
-        lblAutoComplete.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        lblAutoComplete.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblAutoComplete.setText("AutoComplete (http://fifesoft.com/autocomplete/)");
-
-        lblJTattoo.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        lblJTattoo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblJTattoo.setText("JTattoo (http://www.jtattoo.net/)");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -112,15 +89,10 @@ public class DlgAbout extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblRSyntaxTextArea, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblIcon, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblHumanity, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblExternalResources, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblFaculty, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblFaculty, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
                     .addComponent(lblAuthor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblVersion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblAutoComplete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblJTattoo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblDissertation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -137,16 +109,6 @@ public class DlgAbout extends javax.swing.JDialog {
                 .addComponent(lblDissertation)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblFaculty)
-                .addGap(24, 24, 24)
-                .addComponent(lblExternalResources)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblHumanity)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblRSyntaxTextArea)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblAutoComplete)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblJTattoo)
                 .addContainerGap())
         );
 
@@ -168,6 +130,14 @@ public class DlgAbout extends javax.swing.JDialog {
         });
         jPanel2.add(cmdLicense);
 
+        cmdCredits.setText("credits");
+        cmdCredits.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdCreditsActionPerformed(evt);
+            }
+        });
+        jPanel2.add(cmdCredits);
+
         getContentPane().add(jPanel2, java.awt.BorderLayout.SOUTH);
 
         pack();
@@ -179,7 +149,7 @@ public class DlgAbout extends javax.swing.JDialog {
 
     private void cmdLicenseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLicenseActionPerformed
 		String license = "DrMIPS - Educational MIPS simulator\n" +
-			"Copyright (C) 2013 Bruno Nova <ei08109@fe.up.pt>\n" +
+			"Copyright (C) 2013-2014 Bruno Nova <ei08109@fe.up.pt>\n" +
 			"\n" +
 			"This program is free software: you can redistribute it and/or modify\n" +
 			"it under the terms of the GNU General Public License as published by\n" +
@@ -196,6 +166,20 @@ public class DlgAbout extends javax.swing.JDialog {
 		JOptionPane.showMessageDialog(this, license, Lang.t("license"), JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_cmdLicenseActionPerformed
 
+    private void cmdCreditsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdCreditsActionPerformed
+        String credits = Lang.t("contributors") + ":\n"
+			+ "  António Araújo\n"
+			+ "  Bruno Nova\n"
+			+ "  João Canas Ferreira\n"
+			+ "\n"
+			+ Lang.t("external_resources") + ":\n"
+			+ "  AutoComplete (http://fifesoft.com/autocomplete/)\n"
+			+ "  Humanity Icons (https://launchpad.net/humanity/)\n"
+			+ "  JTattoo (http://www.jtattoo.net/)\n"
+			+ "  RSyntaxTextArea (http://fifesoft.com/rsyntaxtextarea/)";
+		JOptionPane.showMessageDialog(this, credits, Lang.t("credits"), JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_cmdCreditsActionPerformed
+
 	/**
 	 * Translates the form's strings.
 	 */
@@ -203,25 +187,21 @@ public class DlgAbout extends javax.swing.JDialog {
 		setTitle(Lang.t("about_program", DrMIPS.PROGRAM_NAME));
 		Lang.tButton(cmdOk, "ok");
 		Lang.tButton(cmdLicense, "license");
+		Lang.tButton(cmdCredits, "credits");
 		lblAuthor.setText(Lang.t("by_author", "Bruno Nova <ei08109@fe.up.pt>"));
-		lblExternalResources.setText(Lang.t("external_resources") + ":");
 		lblDissertation.setText(Lang.t("for_dissertation"));
 	}
 	
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cmdCredits;
     private javax.swing.JButton cmdLicense;
     private javax.swing.JButton cmdOk;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblAuthor;
-    private javax.swing.JLabel lblAutoComplete;
     private javax.swing.JLabel lblDissertation;
-    private javax.swing.JLabel lblExternalResources;
     private javax.swing.JLabel lblFaculty;
-    private javax.swing.JLabel lblHumanity;
     private javax.swing.JLabel lblIcon;
-    private javax.swing.JLabel lblJTattoo;
-    private javax.swing.JLabel lblRSyntaxTextArea;
     private javax.swing.JLabel lblVersion;
     // End of variables declaration//GEN-END:variables
 }

@@ -159,6 +159,8 @@
     <string name="operation">Operation</string>
     <string name="register_not_editable">Register #1 is not editable!</string>
     <string name="performance">Performance:</string>
+    <string name="credits">Credits</string>
+    <string name="contributors">Contributors</string>
     
 
 </resources>

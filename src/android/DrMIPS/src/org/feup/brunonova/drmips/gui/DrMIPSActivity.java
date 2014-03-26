@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013 Bruno Nova <ei08109@fe.up.pt>
+    Copyright (C) 2013-2014 Bruno Nova <ei08109@fe.up.pt>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -109,6 +109,7 @@ public class DrMIPSActivity extends Activity {
 	public static final int CONFIRM_EXIT_DIALOG = 11;
 	public static final int LICENSE_DIALOG = 12;
 	public static final int STATISTICS_DIALOG = 13;
+	public static final int CREDITS_DIALOG = 14;
 	
 	/** The file currently open (if <tt>null</tt> no file is open). */
 	private File openFile = null;
@@ -289,6 +290,13 @@ public class DrMIPSActivity extends Activity {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							showDialog(LICENSE_DIALOG);
+						}
+					})
+					.setNegativeButton(R.string.credits, new DialogInterface.OnClickListener() {
+						@SuppressWarnings("deprecation")
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							showDialog(CREDITS_DIALOG);
 						}
 					})
 					.create();
@@ -525,7 +533,7 @@ public class DrMIPSActivity extends Activity {
 				
 			case LICENSE_DIALOG: 
 				String license = "DrMIPS - Educational MIPS simulator\n" +
-					"Copyright (C) 2013 Bruno Nova <ei08109@fe.up.pt>\n" +
+					"Copyright (C) 2013-2014 Bruno Nova <ei08109@fe.up.pt>\n" +
 					"\n" +
 					"This program is free software: you can redistribute it and/or modify\n" +
 					"it under the terms of the GNU General Public License as published by\n" +
@@ -554,6 +562,22 @@ public class DrMIPSActivity extends Activity {
 				return new AlertDialog.Builder(this)
 					.setTitle(R.string.statistics)
 					.setView(getLayoutInflater().inflate(R.layout.statistics_dialog, null))
+					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.dismiss();
+						}
+					})
+					.create();
+			
+			case CREDITS_DIALOG:
+				String credits = getString(R.string.contributors) + ":\n" +
+					"  António Araújo\n" +
+					"  Bruno Nova\n" +
+					"  João Canas Ferreira";
+				return new AlertDialog.Builder(this)
+					.setTitle(R.string.credits)
+					.setMessage(credits)
 					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
