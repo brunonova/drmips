@@ -148,7 +148,7 @@ public class DlgAbout extends javax.swing.JDialog {
     }//GEN-LAST:event_cmdOkActionPerformed
 
     private void cmdLicenseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLicenseActionPerformed
-		String license = "DrMIPS - Educational MIPS simulator\n" +
+		String license = DrMIPS.PROGRAM_NAME + " - " + DrMIPS.PROGRAM_DESCRIPTION + "\n" +
 			"Copyright (C) 2013-2014 Bruno Nova <ei08109@fe.up.pt>\n" +
 			"\n" +
 			"This program is free software: you can redistribute it and/or modify\n" +

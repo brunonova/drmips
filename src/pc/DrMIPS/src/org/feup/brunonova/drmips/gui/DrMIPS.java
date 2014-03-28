@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013 Bruno Nova <ei08109@fe.up.pt>
+    Copyright (C) 2013-2014 Bruno Nova <ei08109@fe.up.pt>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -37,8 +37,10 @@ import javax.swing.ToolTipManager;
 public class DrMIPS {
 	/** The name of this program. */
 	public static final String PROGRAM_NAME = "DrMIPS";
+	/** Short description of the program. */
+	public static final String PROGRAM_DESCRIPTION = "Educational MIPS simulator";
 	/** The version of the program, as a string. */
-	public static String VERSION = "1.1.0";
+	public static final String VERSION = "1.1.0";
 	
 	/** Reference to the user preferences. */
 	public static Preferences prefs = Preferences.userNodeForPackage(DrMIPS.class);
@@ -140,7 +142,40 @@ public class DrMIPS {
 	/** Class logger. */
 	private static final Logger LOG = Logger.getLogger(DrMIPS.class.getName());
 	
+	private static void displayHelpAndExit() {
+		System.out.println(PROGRAM_NAME + " - " + PROGRAM_DESCRIPTION + "\n"
+			+ "Usage: java -jar " + PROGRAM_NAME + ".jar [options] [file]\n"
+			+ "\n"
+			+ "Options:\n"
+			+ "  -h, --help   display this help and exit\n"
+			+ "  --version    display version information and exit");
+		System.exit(0);
+	}
+	
+	private static void displayVersionAndExit() {
+		System.out.println("DrMIPS " + VERSION + "\n"
+			+ "Copyright (C) 2013-2014 Bruno Nova <ei08109@fe.up.pt>\n"
+			+ "License: GPLv3 <http://www.gnu.org/licenses/gpl-3.0.html>");
+		System.exit(0);
+	}
+	
 	public static void main(String[] args) {
+		String filename = null;
+		
+		// Parse command-line arguments
+		for(String arg: args) {
+			if(arg.equals("-h") || arg.equals("--help"))
+				displayHelpAndExit();
+			else if(arg.equals("--version"))
+				displayVersionAndExit();
+			else if(arg.startsWith("-")) {
+				System.err.println("Invalid argument " + arg + "!");
+				System.exit(1);
+			}
+			else
+				filename = arg;
+		}
+		
 		try { // Display a "loading" dialog
 			SwingUtilities.invokeAndWait(new Runnable() {
 				@Override
@@ -202,10 +237,7 @@ public class DrMIPS {
 		
 		// Start the GUI
 		FrmSimulator frmSim;
-		if(args.length == 1)
-			frmSim = new FrmSimulator(args[0]);
-		else
-			frmSim = new FrmSimulator();
+		frmSim = filename == null ? new FrmSimulator() : new FrmSimulator(filename);
 		frmSim.setVisible(true);
 		dlgLoading.dispose();
 	}
