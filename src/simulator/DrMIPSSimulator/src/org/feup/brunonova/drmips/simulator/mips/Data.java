@@ -23,7 +23,7 @@ package org.feup.brunonova.drmips.simulator.mips;
  * <p>The maximum size of the value is <tt>MSB + 1</tt>.</p>
  * @author Bruno Nova
  */
-public final class Data {
+public final class Data implements Cloneable {
 	/** 
 	 * The size, in bits, of memory addresses, registers, etc (32 or 64 bit).
 	 * <p>Changing this value to 64 is not enough for 64 bit, as several <tt>int</tt>
@@ -242,7 +242,29 @@ public final class Data {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Data) {
+			Data d = (Data)obj;
+			return d.getSize() == getSize() && d.getValue() == d.getValue();
+		}
+		else
+			return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return getValue();
+	}
+
+	@Override
 	public Data clone() {
-		return new Data(size, value);
+		try {
+			Data c = (Data)super.clone();
+			c.setSize(getSize());
+			c.setValue(getValue());
+			return c;
+		} catch (CloneNotSupportedException ex) {
+			throw new Error("Error cloning a Data object!", ex);
+		}
 	}
 }
