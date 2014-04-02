@@ -9,15 +9,12 @@ add_jar("${PROJECT_NAME}Simulator" ${SRC})
 add_custom_target(simulator DEPENDS "${PROJECT_NAME}Simulator") # add meta-target "simulator"
 
 # Javadoc target
-#if(DRMIPS_BUILD_PC_VERSION_JAVADOC)
-#	create_javadoc(${PROJECT_NAME} FILES ${SRC} CLASSPATH ${CLASS_PATH_JAVADOC}
-#	                               WINDOWTITLE "${PROJECT_NAME}" DOCTITLE "${PROJECT_NAME}"
-#	                               INSTALLPATH "${DRMIPS_DOC_DIR}/javadoc")
-#	add_custom_target(pc_version_javadoc DEPENDS "${PROJECT_NAME}_javadoc") # add meta-target "pc_version_javadoc"
-#endif()
-
-# Install target
-#install_jar("${PROJECT_NAME}Simulator" "${DRMIPS_SHARE_DIR}/lib")
+if(DRMIPS_BUILD_SIMULATOR_JAVADOC)
+	create_javadoc(${PROJECT_NAME} FILES ${SRC}
+	                               WINDOWTITLE "${PROJECT_NAME}" DOCTITLE "${PROJECT_NAME}"
+	                               INSTALLPATH "${DRMIPS_DOC_DIR}/javadoc")
+	add_custom_target(simulator_javadoc DEPENDS "${PROJECT_NAME}_javadoc") # add meta-target "simulator_javadoc"
+endif()
 
 # Copy jar to the lib/ directory of the PC version project
 add_custom_command(TARGET "${PROJECT_NAME}Simulator" POST_BUILD

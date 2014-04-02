@@ -37,14 +37,6 @@ add_jar(${PROJECT_NAME} ${SRC} ${RES} INCLUDE_JARS ${LIBS_PATHS} MANIFEST ${MANI
 add_custom_target(pc_version DEPENDS ${PROJECT_NAME}) # add meta-target "pc_version"
 add_dependencies(${PROJECT_NAME} "${PROJECT_NAME}Simulator") # depend on the simulator project
 
-# Javadoc target
-if(DRMIPS_BUILD_PC_VERSION_JAVADOC)
-	create_javadoc(${PROJECT_NAME} FILES ${SRC} CLASSPATH ${CLASS_PATH_JAVADOC}
-	                               WINDOWTITLE "${PROJECT_NAME}" DOCTITLE "${PROJECT_NAME}"
-	                               INSTALLPATH "${DRMIPS_DOC_DIR}/javadoc/gui")
-	add_custom_target(pc_version_javadoc DEPENDS "${PROJECT_NAME}_javadoc") # add meta-target "pc_version_javadoc"
-endif()
-
 # Install target
 install_jar(${PROJECT_NAME} "${DRMIPS_SHARE_DIR}")
 
