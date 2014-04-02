@@ -18,7 +18,7 @@
 
 package org.feup.brunonova.drmips.gui;
 
-import org.feup.brunonova.drmips.mips.Data;
+import org.feup.brunonova.drmips.simulator.mips.Data;
 
 /**
  * Utility functions.

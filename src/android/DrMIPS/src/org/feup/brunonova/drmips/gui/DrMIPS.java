@@ -25,7 +25,7 @@ import java.io.FileWriter;
 import java.io.InputStreamReader;
 
 import org.feup.brunonova.drmips.R;
-import org.feup.brunonova.drmips.mips.CPU;
+import org.feup.brunonova.drmips.simulator.mips.CPU;
 
 import android.app.Application;
 import android.content.Context;
