@@ -11,7 +11,7 @@ file(GLOB_RECURSE SRC RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "org/*.java")
 file(GLOB_RECURSE RES RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "res/*")
 
 # List of libraries (without the path)
-file(GLOB LIBS RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}/../lib" "../lib/*.jar")
+set(LIBS autocomplete.jar DrMIPSSimulator.jar JTattoo.jar rsyntaxtextarea.jar)
 
 # Generate list of paths to the libraries for add_jar(), class-Path for Manifest.mf and class-Path for javadoc
 set(LIBS_PATHS)
@@ -35,12 +35,13 @@ message(STATUS "PC version: generating Manifest.mf -- done")
 add_jar(${PROJECT_NAME} ${SRC} ${RES} INCLUDE_JARS ${LIBS_PATHS} MANIFEST ${MANIFEST}
                         ENTRY_POINT org.feup.brunonova.drmips.gui.DrMIPS)
 add_custom_target(pc_version DEPENDS ${PROJECT_NAME}) # add meta-target "pc_version"
+add_dependencies(${PROJECT_NAME} "${PROJECT_NAME}Simulator") # depend on the simulator project
 
 # Javadoc target
 if(DRMIPS_BUILD_PC_VERSION_JAVADOC)
 	create_javadoc(${PROJECT_NAME} FILES ${SRC} CLASSPATH ${CLASS_PATH_JAVADOC}
 	                               WINDOWTITLE "${PROJECT_NAME}" DOCTITLE "${PROJECT_NAME}"
-	                               INSTALLPATH "${DRMIPS_DOC_DIR}/javadoc")
+	                               INSTALLPATH "${DRMIPS_DOC_DIR}/javadoc/gui")
 	add_custom_target(pc_version_javadoc DEPENDS "${PROJECT_NAME}_javadoc") # add meta-target "pc_version_javadoc"
 endif()
 

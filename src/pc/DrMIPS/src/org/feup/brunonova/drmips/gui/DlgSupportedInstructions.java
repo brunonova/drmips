@@ -18,9 +18,9 @@
 
 package org.feup.brunonova.drmips.gui;
 
-import org.feup.brunonova.drmips.mips.CPU;
-import org.feup.brunonova.drmips.mips.Instruction;
-import org.feup.brunonova.drmips.mips.PseudoInstruction;
+import org.feup.brunonova.drmips.simulator.mips.CPU;
+import org.feup.brunonova.drmips.simulator.mips.Instruction;
+import org.feup.brunonova.drmips.simulator.mips.PseudoInstruction;
 
 /**
  * Supported instructions dialog.
