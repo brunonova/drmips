@@ -18,7 +18,7 @@
 
 package org.feup.brunonova.drmips.gui;
 
-import org.feup.brunonova.drmips.mips.CPU;
+import org.feup.brunonova.drmips.simulator.mips.CPU;
 
 /**
  *

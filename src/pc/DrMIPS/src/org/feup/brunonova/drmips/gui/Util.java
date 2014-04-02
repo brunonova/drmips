@@ -36,7 +36,7 @@ import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 import javax.swing.RootPaneContainer;
 import javax.swing.UIManager;
-import org.feup.brunonova.drmips.mips.Data;
+import org.feup.brunonova.drmips.simulator.mips.Data;
 
 /**
  * Utility functions.
