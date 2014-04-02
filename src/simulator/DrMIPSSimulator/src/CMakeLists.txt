@@ -20,7 +20,7 @@ endif()
 add_custom_command(TARGET "${PROJECT_NAME}Simulator" POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_if_different
                            "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Simulator.jar"
-                           "${CMAKE_SOURCE_DIR}/src/pc/DrMIPS/lib/${PROJECT_NAME}Simulator.jar"
+                           "${CMAKE_SOURCE_DIR}/src/pc/${PROJECT_NAME}/lib/${PROJECT_NAME}Simulator.jar"
                    COMMENT "Copying ${PROJECT_NAME}Simulator.jar to the PC version project lib/ directory"
                    VERBATIM)
 
@@ -28,7 +28,7 @@ add_custom_command(TARGET "${PROJECT_NAME}Simulator" POST_BUILD
 add_custom_command(TARGET "${PROJECT_NAME}Simulator" POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_if_different
                            "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Simulator.jar"
-                           "${CMAKE_SOURCE_DIR}/src/android/DrMIPS/libs/${PROJECT_NAME}Simulator.jar"
+                           "${CMAKE_SOURCE_DIR}/src/android/${PROJECT_NAME}/libs/${PROJECT_NAME}Simulator.jar"
                    COMMENT "Copying ${PROJECT_NAME}Simulator.jar to the Android version project libs/ directory"
                    VERBATIM)
 
@@ -42,4 +42,4 @@ add_custom_command(TARGET "${PROJECT_NAME}Simulator" POST_BUILD
 
 # Add copied DrMIPSSimulator.jar files to the "clean" target
 set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES
-                         "${CMAKE_SOURCE_DIR}/src/pc/DrMIPS/lib/${PROJECT_NAME}Simulator.jar;${CMAKE_SOURCE_DIR}/src/android/DrMIPS/libs/${PROJECT_NAME}Simulator.jar") 
+                         "${CMAKE_SOURCE_DIR}/src/pc/${PROJECT_NAME}/lib/${PROJECT_NAME}Simulator.jar;${CMAKE_SOURCE_DIR}/src/android/${PROJECT_NAME}/libs/${PROJECT_NAME}Simulator.jar") 
