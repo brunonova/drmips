@@ -30,15 +30,15 @@ import java.io.OutputStreamWriter;
 import java.util.Arrays;
 
 import org.feup.brunonova.drmips.R;
-import org.feup.brunonova.drmips.exceptions.InfiniteLoopException;
-import org.feup.brunonova.drmips.exceptions.InvalidCPUException;
-import org.feup.brunonova.drmips.exceptions.InvalidInstructionSetException;
-import org.feup.brunonova.drmips.exceptions.SyntaxErrorException;
-import org.feup.brunonova.drmips.mips.AssembledInstruction;
-import org.feup.brunonova.drmips.mips.CPU;
-import org.feup.brunonova.drmips.mips.Data;
-import org.feup.brunonova.drmips.mips.Instruction;
-import org.feup.brunonova.drmips.mips.PseudoInstruction;
+import org.feup.brunonova.drmips.simulator.exceptions.InfiniteLoopException;
+import org.feup.brunonova.drmips.simulator.exceptions.InvalidCPUException;
+import org.feup.brunonova.drmips.simulator.exceptions.InvalidInstructionSetException;
+import org.feup.brunonova.drmips.simulator.exceptions.SyntaxErrorException;
+import org.feup.brunonova.drmips.simulator.mips.AssembledInstruction;
+import org.feup.brunonova.drmips.simulator.mips.CPU;
+import org.feup.brunonova.drmips.simulator.mips.Data;
+import org.feup.brunonova.drmips.simulator.mips.Instruction;
+import org.feup.brunonova.drmips.simulator.mips.PseudoInstruction;
 import org.json.JSONException;
 
 import android.annotation.SuppressLint;

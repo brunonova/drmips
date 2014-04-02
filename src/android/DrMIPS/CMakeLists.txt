@@ -18,6 +18,7 @@ add_custom_command(OUTPUT "${ANDROID_BUILD_XML_PATH}" "${ANDROID_LOCAL_PROPERTIE
                    COMMAND "${ANDROID_TOOL}" update project "-n" "${PROJECT_NAME}"
                            "-p" "${CMAKE_CURRENT_SOURCE_DIR}"
                    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+                   DEPENDS "${PROJECT_NAME}Simulator"
                    COMMENT "Updating build.xml and local.properties"
                    VERBATIM)
 
