@@ -1,0 +1,13 @@
+Adapt the usage help text to Linux.
+
+--- a/src/pc/DrMIPS/src/org/feup/brunonova/drmips/gui/DrMIPS.java
++++ b/src/pc/DrMIPS/src/org/feup/brunonova/drmips/gui/DrMIPS.java
+@@ -144,7 +144,7 @@
+ 	
+ 	private static void displayHelpAndExit() {
+ 		System.out.println(PROGRAM_NAME + " - " + PROGRAM_DESCRIPTION + "\n"
+-			+ "Usage: java -jar " + PROGRAM_NAME + ".jar [options] [file]\n"
++			+ "Usage: drmips [options] [file]\n"
+ 			+ "\n"
+ 			+ "Options:\n"
+ 			+ "  -h, --help   display this help and exit\n"

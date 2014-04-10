@@ -1,0 +1,3 @@
+?package(drmips):needs="X11" section="Applications/Education"\
+  title="DrMIPS" command="/usr/bin/drmips"\
+  icon="/usr/share/pixmaps/drmips.xpm"
