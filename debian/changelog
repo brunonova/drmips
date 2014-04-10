@@ -1,0 +1,71 @@
+drmips (1.1.1-0ppa1) saucy; urgency=low
+
+  * New version (1.1.1):
+    - Switched to CMake build system
+    - Added credits to the "about" dialogs
+    - Added some command-line arguments
+
+ -- Bruno Nova <brunomb.nova@gmail.com>  Fri, 28 Mar 2014 21:36:23 +0000
+
+drmips (1.1.0-0ppa2) saucy; urgency=low
+
+  * Corrected launch script (/usr/bin/drmips)
+
+ -- Bruno Nova <brunomb.nova@gmail.com>  Mon, 17 Feb 2014 11:34:36 +0000
+
+drmips (1.1.0-0ppa1) saucy; urgency=low
+
+  * New version(1.1.0):
+    - The critical path of the current instruction can now be displayed
+      The global critical path of the CPU is still available
+
+ -- Bruno Nova <brunomb.nova@gmail.com>  Wed, 08 Jan 2014 15:04:59 +0000
+
+drmips (1.0.6-0ppa1) saucy; urgency=low
+
+  * New version (1.0.6):
+    - Fixed problems with Windows network (UNC) paths (Issue #1)
+
+ -- Bruno Nova <brunomb.nova@gmail.com>  Wed, 18 Dec 2013 23:27:41 +0000
+
+drmips (1.0.5-0ppa1) saucy; urgency=low
+
+  * New version (1.0.5):
+    - All inputs that are only used at the end of the clock cycle now
+      correctly don't affect the component's latency
+
+ -- Bruno Nova <brunomb.nova@gmail.com>  Thu, 12 Dec 2013 19:42:14 +0000
+
+drmips (1.0.4-0ppa1) saucy; urgency=low
+
+  * New version (1.0.4):
+    - Workaround for wrong latencies in Register Bank
+
+ -- Bruno Nova <brunomb.nova@gmail.com>  Wed, 11 Dec 2013 18:57:13 +0000
+
+drmips (1.0.3-0ppa1) saucy; urgency=low
+
+  * New version (1.0.3):
+    - ALU tooltip now displays the operation it's performing
+    - Updated latencies of the components
+    - Added user manual
+    - Corrected some translations
+
+ -- Bruno Nova <brunomb.nova@gmail.com>  Fri, 29 Nov 2013 19:11:19 +0000
+
+drmips (1.0.2-0ppa1) raring; urgency=low
+
+  * New version (1.0.2):
+    - Added statistics dialog
+    - Added option to remove latencies
+    - Added supported instructions dialog
+    - Improved internationalization support
+    - Updated libraries
+
+ -- Bruno Nova <brunomb.nova@gmail.com>  Sun, 13 Oct 2013 20:32:33 +0100
+
+drmips (1.0.1-0ppa1) raring; urgency=low
+
+  * Initial release
+
+ -- Bruno Nova <brunomb.nova@gmail.com>  Sun, 29 Sep 2013 18:05:18 +0100

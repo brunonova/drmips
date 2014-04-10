@@ -1,0 +1,24 @@
+Source: drmips
+Section: education
+Priority: optional
+Maintainer: Bruno Nova <brunomb.nova@gmail.com>
+Build-Depends: debhelper (>= 8.0.0), cmake (>= 2.8), ant, openjdk-7-jdk | openjdk-6-jdk, texlive-full
+Standards-Version: 3.9.4
+Homepage: https://bitbucket.org/brunonova/drmips
+Vcs-Bzr: https://code.launchpad.net/~brunonova/+junk/debian_drmips
+
+Package: drmips
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}, openjdk-7-jre | java7-runtime | openjdk-6-jre | java6-runtime
+Description: Educational MIPS simulator - DrMIPS
+ DrMIPS is graphical simulator of the MIPS processor to support computer
+ architecture teaching and learning. It is intuitive, versatile and
+ configurable.
+ The simulator is available not only for personal computers but also for
+ Android devices, especially tablets.
+ .
+ DrMIPS was created under the Master's dissertation entitled 
+ 'Tool to Support Computer Architecture Teaching and Learning' at 
+ FEUP.
+ .
+ This package installs the PC version of the simulator.
