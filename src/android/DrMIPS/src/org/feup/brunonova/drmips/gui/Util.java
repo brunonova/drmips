@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013 Bruno Nova <ei08109@fe.up.pt>
+    Copyright (C) 2013-2014 Bruno Nova <ei08109@fe.up.pt>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 
 package org.feup.brunonova.drmips.gui;
 
-import org.feup.brunonova.drmips.mips.Data;
+import org.feup.brunonova.drmips.simulator.mips.Data;
 
 /**
  * Utility functions.

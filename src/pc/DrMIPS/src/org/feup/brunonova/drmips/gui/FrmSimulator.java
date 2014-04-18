@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013 Bruno Nova <ei08109@fe.up.pt>
+    Copyright (C) 2013-2014 Bruno Nova <ei08109@fe.up.pt>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -49,11 +49,11 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import org.feup.brunonova.drmips.exceptions.InfiniteLoopException;
-import org.feup.brunonova.drmips.exceptions.InvalidCPUException;
-import org.feup.brunonova.drmips.exceptions.InvalidInstructionSetException;
-import org.feup.brunonova.drmips.exceptions.SyntaxErrorException;
-import org.feup.brunonova.drmips.mips.CPU;
+import org.feup.brunonova.drmips.simulator.exceptions.InfiniteLoopException;
+import org.feup.brunonova.drmips.simulator.exceptions.InvalidCPUException;
+import org.feup.brunonova.drmips.simulator.exceptions.InvalidInstructionSetException;
+import org.feup.brunonova.drmips.simulator.exceptions.SyntaxErrorException;
+import org.feup.brunonova.drmips.simulator.mips.CPU;
 import org.fife.ui.rtextarea.SearchContext;
 import org.fife.ui.rtextarea.SearchEngine;
 import org.json.JSONException;
