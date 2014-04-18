@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013 Bruno Nova <ei08109@fe.up.pt>
+    Copyright (C) 2013-2014 Bruno Nova <ei08109@fe.up.pt>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,17 +19,17 @@
 package org.feup.brunonova.drmips.gui;
 
 import org.feup.brunonova.drmips.R;
-import org.feup.brunonova.drmips.mips.CPU;
-import org.feup.brunonova.drmips.mips.Component;
-import org.feup.brunonova.drmips.mips.Input;
-import org.feup.brunonova.drmips.mips.IsSynchronous;
-import org.feup.brunonova.drmips.mips.Output;
-import org.feup.brunonova.drmips.mips.components.ALU;
-import org.feup.brunonova.drmips.mips.components.Concatenator;
-import org.feup.brunonova.drmips.mips.components.Constant;
-import org.feup.brunonova.drmips.mips.components.Distributor;
-import org.feup.brunonova.drmips.mips.components.ExtendedALU;
-import org.feup.brunonova.drmips.mips.components.Fork;
+import org.feup.brunonova.drmips.simulator.mips.CPU;
+import org.feup.brunonova.drmips.simulator.mips.Component;
+import org.feup.brunonova.drmips.simulator.mips.Input;
+import org.feup.brunonova.drmips.simulator.mips.IsSynchronous;
+import org.feup.brunonova.drmips.simulator.mips.Output;
+import org.feup.brunonova.drmips.simulator.mips.components.ALU;
+import org.feup.brunonova.drmips.simulator.mips.components.Concatenator;
+import org.feup.brunonova.drmips.simulator.mips.components.Constant;
+import org.feup.brunonova.drmips.simulator.mips.components.Distributor;
+import org.feup.brunonova.drmips.simulator.mips.components.ExtendedALU;
+import org.feup.brunonova.drmips.simulator.mips.components.Fork;
 
 import android.app.Dialog;
 import android.graphics.Color;

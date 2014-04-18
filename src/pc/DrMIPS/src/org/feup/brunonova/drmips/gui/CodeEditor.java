@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013 Bruno Nova <ei08109@fe.up.pt>
+    Copyright (C) 2013-2014 Bruno Nova <ei08109@fe.up.pt>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -30,12 +30,12 @@ import javax.swing.JPopupMenu;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.Segment;
-import org.feup.brunonova.drmips.mips.AbstractInstruction;
-import org.feup.brunonova.drmips.mips.Assembler;
-import org.feup.brunonova.drmips.mips.CPU;
-import org.feup.brunonova.drmips.mips.Data;
-import org.feup.brunonova.drmips.mips.Instruction;
-import org.feup.brunonova.drmips.mips.PseudoInstruction;
+import org.feup.brunonova.drmips.simulator.mips.AbstractInstruction;
+import org.feup.brunonova.drmips.simulator.mips.Assembler;
+import org.feup.brunonova.drmips.simulator.mips.CPU;
+import org.feup.brunonova.drmips.simulator.mips.Data;
+import org.feup.brunonova.drmips.simulator.mips.Instruction;
+import org.feup.brunonova.drmips.simulator.mips.PseudoInstruction;
 import org.fife.ui.autocomplete.AutoCompletion;
 import org.fife.ui.autocomplete.BasicCompletion;
 import org.fife.ui.autocomplete.DefaultCompletionProvider;

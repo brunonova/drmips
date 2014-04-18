@@ -6,10 +6,10 @@ set(DRMIPS_SHARE_DIR "share/drmips")
 set(DRMIPS_DOC_DIR "share/doc/drmips")
 set(DRMIPS_DIST_BUILD_DIR "${CMAKE_BINARY_DIR}/dist")
 set(DRMIPS_ZIP_BUILD_DIR "${DRMIPS_DIST_BUILD_DIR}/${PROJECT_NAME}")
-option(DRMIPS_BUILD_MANUALS "Build and install ${PROJECT_NAME} manuals?" ON)
-option(DRMIPS_BUILD_PC_VERSION "Build and install the PC version of the ${PROJECT_NAME} simulator?" ON)
-option(DRMIPS_BUILD_PC_VERSION_JAVADOC "Build and install the Java API documentation of the PC version of the ${PROJECT_NAME} simulator? (DRMIPS_BUILD_PC_VERSION must be ON too)" OFF)
-option(DRMIPS_BUILD_ANDROID_VERSION "Build and install the Android version of the ${PROJECT_NAME} simulator?" OFF)
+option(DRMIPS_BUILD_MANUALS "Build and install the manuals?" ON)
+option(DRMIPS_BUILD_PC_VERSION "Build and install the PC version of the simulator?" ON)
+option(DRMIPS_BUILD_ANDROID_VERSION "Build and install the Android version of the simulator?" OFF)
+option(DRMIPS_BUILD_SIMULATOR_JAVADOC "Build and install the Java API documentation of the simulation logic?" OFF)
 set(CMAKE_JAVA_COMPILE_FLAGS "-encoding" "UTF-8") # force javac to use UTF-8 encoding
 
 # Include required CMake modules and programs
@@ -40,6 +40,7 @@ if(${DRMIPS_BUILD_MANUALS})
 endif()
 
 # Subdirectories
+add_subdirectory(src/simulator/DrMIPSSimulator)
 if(${DRMIPS_BUILD_PC_VERSION})
 	add_subdirectory(src/pc/DrMIPS)
 endif()
