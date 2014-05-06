@@ -33,11 +33,8 @@ import org.feup.brunonova.drmips.simulator.util.Point;
  * @author Bruno nova
  */
 public class ShiftLeft extends Component {
-	/** The identifier of the input. */
-	private final String inId;
-	/** The identifier of the output. */
-	private final String outId;
-	/** The number of bits shifted. */
+	private final Input input;
+	private final Output output;
 	private final int ammount;
 	
 	/**
@@ -54,12 +51,10 @@ public class ShiftLeft extends Component {
 	 */
 	public ShiftLeft(String id, int latency, Point position, String inId, int inSize, String outId, int outSize, int ammount) throws InvalidCPUException {
 		super(id, latency, "Shift\nleft " + ammount, "shift_left", "shift_left_description", position, new Dimension(40, 40));
-		this.inId = inId;
-		this.outId = outId;
 		this.ammount = ammount;
 		
-		addInput(inId, new Data(inSize), IOPort.Direction.WEST, true, true);
-		addOutput(outId, new Data(outSize), IOPort.Direction.EAST, true);
+		input = addInput(inId, new Data(inSize), IOPort.Direction.WEST, true, true);
+		output = addOutput(outId, new Data(outSize), IOPort.Direction.EAST, true);
 	}
 
 	@Override
@@ -68,34 +63,18 @@ public class ShiftLeft extends Component {
 	}
 	
 	/**
-	 * Returns the identifier of the input.
-	 * @return The identifier of the input.
-	 */
-	public String getInputId() {
-		return inId;
-	}
-	
-	/**
-	 * Returns the identifier of the output.
-	 * @return The identifier of the output.
-	 */
-	public String getOutputId() {
-		return outId;
-	}
-	
-	/**
 	 * Returns the input.
 	 * @return The input;
 	 */
-	public Input getInput() {
-		return getInput(inId);
+	public final Input getInput() {
+		return input;
 	}
 	
 	/**
 	 * Returns the output.
 	 * @return The output;
 	 */
-	public Output getOutput() {
-		return getOutput(outId);
+	public final Output getOutput() {
+		return output;
 	}
 }

@@ -30,12 +30,8 @@ import org.feup.brunonova.drmips.simulator.util.Point;
  * @author Bruno Nova
  */
 public class ExtendedALU extends ALU implements IsSynchronous {
-	/** The <tt>HI</tt> "register". */
-	private final Data hi;
-	/** The <tt>LO</tt> "register". */
-	private final Data lo;
-	/** The previous values of the hi and lo registers. */
-	private final Stack<int[]> states = new Stack<int[]>();
+	private final Data hi, lo;
+	private final Stack<int[]> states = new Stack<int[]>(); // previous values
 	
 	/**
 	 * ALU constructor.
@@ -60,7 +56,7 @@ public class ExtendedALU extends ALU implements IsSynchronous {
 	
 	@Override
 	public void executeSynchronous() {
-		control.doSynchronousOperation(getInput1().getValue(), getInput2().getValue(), this, getControl().getValue());
+		controlALU.doSynchronousOperation(getInput1().getValue(), getInput2().getValue(), this, getControl().getValue());
 	}
 
 	@Override
@@ -95,14 +91,14 @@ public class ExtendedALU extends ALU implements IsSynchronous {
 	
 	@Override
 	public boolean isWritingState() {
-		return control.isWritingState(getControl().getValue());
+		return controlALU.isWritingState(getControl().getValue());
 	}
 	
 	/**
 	 * Returns the <tt>HI</tt> "register".
 	 * @return The <tt>HI</tt> "register".
 	 */
-	public Data getHI() {
+	public final Data getHI() {
 		return hi;
 	}
 	
@@ -110,14 +106,14 @@ public class ExtendedALU extends ALU implements IsSynchronous {
 	 * Returns the <tt>HI</tt> "register".
 	 * @return The <tt>HI</tt> "register".
 	 */
-	public Data getLO() {
+	public final Data getLO() {
 		return lo;
 	}
 	
 	/**
 	 * Resets the <tt>HI</tt> and <tt>LO</tt> registers to 0.
 	 */
-	public void reset() {
+	public final void reset() {
 		hi.setValue(0);
 		lo.setValue(0);
 	}

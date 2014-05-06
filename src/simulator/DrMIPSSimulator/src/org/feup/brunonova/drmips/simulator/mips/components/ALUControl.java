@@ -33,12 +33,9 @@ import org.feup.brunonova.drmips.simulator.util.Point;
  * @author Bruno Nova
  */
 public class ALUControl extends Component {
-	/** The identifier of the ALUOp input. */
-	private final String aluOpId;
-	/** The identifier of the func input. */
-	private final String funcId;
-	/** How the ALU control should work. */
-	private ControlALU control = null;
+	private Input aluOp, func;
+	private String aluOpId, funcId; // temporary
+	private ControlALU controlALU = null;
 	
 	/**
 	 * ALU Control constructor.
@@ -57,55 +54,40 @@ public class ALUControl extends Component {
 
 	@Override
 	public void execute() {
-		for(String id: control.getOutputsIds())
-			getOutput(id).setValue(control.getControlValue(getALUOpInput().getValue(), getFuncInput().getValue(), id));
+		for(String id: controlALU.getOutputsIds())
+			getOutput(id).setValue(controlALU.getControlValue(getALUOp().getValue(), getFunc().getValue(), id));
 	}
 
 	/**
 	 * Sets the control information for the ALU Control.
 	 * <p>This method should be called after the instruction set has been loaded.</p>
-	 * @param control Control information.
+	 * @param controlALU Control information.
 	 * @throws InvalidCPUException If an output is duplicated.
 	 */
-	public void setControl(ControlALU control) throws InvalidCPUException {
-		this.control = control;
+	public final void setControlALU(ControlALU controlALU) throws InvalidCPUException {
+		this.controlALU = controlALU;
 		
 		// Add inputs and outputs
-		addInput(aluOpId, new Data(control.getAluOpSize()), IOPort.Direction.NORTH);
-		addInput(funcId, new Data(control.getFuncSize()));
-		for(String id: control.getOutputsIds())
-			addOutput(id, new Data(control.getOutSize(id)));
-	}
-	
-	/**
-	 * Returns the identifier of the ALUOp input.
-	 * @return The identifier of the ALUOp input.
-	 */
-	public String getALUOpId() {
-		return aluOpId;
+		aluOp = addInput(aluOpId, new Data(controlALU.getAluOpSize()), IOPort.Direction.NORTH);
+		func = addInput(funcId, new Data(controlALU.getFuncSize()));
+		aluOpId = funcId = null;
+		for(String id: controlALU.getOutputsIds())
+			addOutput(id, new Data(controlALU.getOutSize(id)));
 	}
 	
 	/**
 	 * Returns the ALUOp input.
 	 * @return ALUOp input.
 	 */
-	public Input getALUOpInput() {
-		return getInput(aluOpId);
-	}
-	
-	/**
-	 * Returns the identifier of the func input.
-	 * @return The identifier of the func input.
-	 */
-	public String getFuncId() {
-		return funcId;
+	public final Input getALUOp() {
+		return aluOp;
 	}
 	
 	/**
 	 * Returns the func input.
 	 * @return Func input.
 	 */
-	public Input getFuncInput() {
-		return getInput(funcId);
+	public final Input getFunc() {
+		return func;
 	}
 }

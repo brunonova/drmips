@@ -32,9 +32,8 @@ import org.feup.brunonova.drmips.simulator.util.Point;
  * @author Bruno Nova
  */
 public class ControlUnit extends Component {
-	/** The identifier of the input. */
-	private final String inId;
-	/** How the control unit should work. */
+	private Input input;
+	private String inId; // temporary
 	private Control control = null;
 	
 	/**
@@ -65,30 +64,23 @@ public class ControlUnit extends Component {
 	 * @param opcodeSize The size of the opcode field.
 	 * @throws InvalidCPUException If an output is duplicated.
 	 */
-	public void setControl(Control control, int opcodeSize) throws InvalidCPUException {
+	public final void setControl(Control control, int opcodeSize) throws InvalidCPUException {
 		this.control = control;
 		
 		// Add input
-		addInput(inId, new Data(opcodeSize));
+		input = addInput(inId, new Data(opcodeSize));
+		inId = null;
 		
 		// Add outputs
 		for(String o: control.getOutputsIds())
 			addOutput(o, new Data(control.getOutSize(o)));
-	}
-
-	/**
-	 * Returns the identifier of the input.
-	 * @return The identifier of the input.
-	 */
-	public String getInputId() {
-		return inId;
 	}
 	
 	/**
 	 * Returns the control unit's input.
 	 * @return Control unit input;
 	 */
-	public Input getInput() {
-		return getInput(inId);
+	public final Input getInput() {
+		return input;
 	}
 }

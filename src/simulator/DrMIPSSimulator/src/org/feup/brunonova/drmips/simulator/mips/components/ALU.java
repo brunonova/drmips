@@ -34,18 +34,11 @@ import org.feup.brunonova.drmips.simulator.util.Point;
  * @author Bruno Nova
  */
 public class ALU extends Component {
-	/** The identifier of the first input. */
-	private final String in1Id;
-	/** The identifier of the second input. */
-	private final String in2Id;
-	/** The identifier of the control input. */
-	private final String controlId;
-	/** The identifier of the result output. */
-	private final String outId;
-	/** The identifier of the zero output. */
-	private final String zeroId;
-	/** How the ALU should work. */
-	protected ControlALU control = null;
+	private final Input input1, input2;
+	private final Output output, zero;
+	private Input control;
+	private String controlId; // temporary
+	protected ControlALU controlALU = null;
 	
 	/**
 	 * ALU constructor.
@@ -61,32 +54,29 @@ public class ALU extends Component {
 	 */
 	public ALU(String id, int latency, Point position, String in1Id, String in2Id, String controlId, String outId, String zeroId) throws InvalidCPUException {
 		super(id, latency, "ALU", "alu", "alu_description", position, new Dimension(60, 60));
-		this.in1Id = in1Id;
-		this.in2Id = in2Id;
 		this.controlId = controlId;
-		this.outId = outId;
-		this.zeroId = zeroId;
 		
-		addInput(in1Id, new Data(), IOPort.Direction.WEST, true, true);
-		addInput(in2Id, new Data(), IOPort.Direction.WEST, true, true);
-		addOutput(outId, new Data(), IOPort.Direction.EAST, true);
-		addOutput(zeroId, new Data(1));
+		input1 = addInput(in1Id, new Data(), IOPort.Direction.WEST, true, true);
+		input2 = addInput(in2Id, new Data(), IOPort.Direction.WEST, true, true);
+		output = addOutput(outId, new Data(), IOPort.Direction.EAST, true);
+		zero = addOutput(zeroId, new Data(1));
 	}
 	
 	/**
 	 * Sets the control information for the ALU.
 	 * <p>This method should be called after the instruction set has been loaded.</p>
-	 * @param control Control information.
+	 * @param controlALU Control information.
 	 * @throws InvalidCPUException If an output is duplicated.
 	 */
-	public void setControl(ControlALU control) throws InvalidCPUException {
-		this.control = control;
-		addInput(controlId, new Data(control.getControlSize()), IOPort.Direction.SOUTH);
+	public void setControlALU(ControlALU controlALU) throws InvalidCPUException {
+		this.controlALU = controlALU;
+		control = addInput(controlId, new Data(controlALU.getControlSize()), IOPort.Direction.SOUTH);
+		controlId = null;
 	}
 
 	@Override
 	public void execute() {
-		int res = control.doOperation(getInput1().getValue(), getInput2().getValue(), this, getControl().getValue());
+		int res = controlALU.doOperation(getInput1().getValue(), getInput2().getValue(), this, getControl().getValue());
 		getOutput().setValue(res);
 		getZero().setValue(res == 0 ? 1 : 0);
 	}
@@ -96,7 +86,7 @@ public class ALU extends Component {
 	 * @return Current operation of the ALU.
 	 */
 	public ControlALU.Operation getOperation() {
-		return control.getOperation(getControl().getValue());
+		return controlALU.getOperation(getControl().getValue());
 	}
 	
 	/**
@@ -108,82 +98,42 @@ public class ALU extends Component {
 	}
 
 	/**
-	 * Returns the identifier of the first input.
-	 * @return The identifier of the first input.
-	 */
-	public String getInput1Id() {
-		return in1Id;
-	}
-
-	/**
-	 * Returns the identifier of the second input.
-	 * @return The identifier of the second input.
-	 */
-	public String getInput2Id() {
-		return in2Id;
-	}
-
-	/**
-	 * Returns the identifier of the output.
-	 * @return The identifier of the output.
-	 */
-	public String getOutputId() {
-		return outId;
-	}
-
-	/**
-	 * Returns the identifier of the control input.
-	 * @return The identifier of the control input.
-	 */
-	public String getControlId() {
-		return controlId;
-	}
-
-	/**
-	 * Returns the identifier of the zero output.
-	 * @return The identifier of the zero output.
-	 */
-	public String getZeroId() {
-		return zeroId;
-	}
-	
-	/**
 	 * Returns the first input.
 	 * @return First input.
 	 */
-	public Input getInput1() {
-		return getInput(in1Id);
+	public final Input getInput1() {
+		return input1;
 	}
 	
 	/**
 	 * Returns the second input.
 	 * @return Second input.
 	 */
-	public Input getInput2() {
-		return getInput(in2Id);
+	public final Input getInput2() {
+		return input2;
 	}
 	
 	/**
 	 * Returns the control input.
 	 * @return Control input.
 	 */
-	public Input getControl() {
-		return getInput(controlId);
+	public final Input getControl() {
+		return control;
 	}
 	
 	/**
 	 * Returns the output.
 	 * @return The result output.
 	 */
-	public Output getOutput() {
-		return getOutput(outId);
+	public final Output getOutput() {
+		return output;
 	}
 	
 	/**
 	 * Returns the zero output.
 	 * @return Zero output.
 	 */
-	public Output getZero() {
-		return getOutput(zeroId);
+	public final Output getZero() {
+		return zero;
 	}
 }

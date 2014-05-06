@@ -31,9 +31,7 @@ import org.feup.brunonova.drmips.simulator.util.Point;
  * @author Bruno Nova
  */
 public class Constant extends Component {
-	/** The identifier of the input. */
-	private final String outId;
-	/** The constant value. */
+	private final Output output;
 	private final int value;
 	
 	/**
@@ -48,9 +46,8 @@ public class Constant extends Component {
 	 */
 	public Constant(String id, int latency, Point position, String outId, int value, int size) throws InvalidCPUException {
 		super(id, latency, "" + value, "constant", "constant_description", position, new Dimension(20, 15));
-		this.outId = outId;
 		this.value = value;
-		addOutput(outId, new Data(size));
+		output = addOutput(outId, new Data(size));
 	}
 
 	@Override
@@ -59,18 +56,10 @@ public class Constant extends Component {
 	}
 	
 	/**
-	 * Returns the identifier of the output.
-	 * @return The identifier of the output.
-	 */
-	public String getOutputId() {
-		return outId;
-	}
-	
-	/**
 	 * Returns the output.
 	 * @return The output;
 	 */
-	public Output getOutput() {
-		return getOutput(outId);
+	public final Output getOutput() {
+		return output;
 	}
 }

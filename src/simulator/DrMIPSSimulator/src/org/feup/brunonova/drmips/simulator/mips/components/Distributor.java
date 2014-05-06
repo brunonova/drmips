@@ -33,9 +33,7 @@ import org.feup.brunonova.drmips.simulator.util.Point;
  * @author Bruno Nova
  */
 public class Distributor extends Component {
-	/** The identifier of the input. */
-	private final String inId;
-	/** The parameters of the outputs. */
+	private final Input input;
 	private final List<OutputParameters> outParameters;
 	
 	/**
@@ -49,8 +47,7 @@ public class Distributor extends Component {
 	 */
 	public Distributor(String id, int latency, Point position, String inId, int inSize) throws InvalidCPUException {
 		super(id, latency, "", "distributor", "distributor_description", position, new Dimension(5, 30));
-		this.inId = inId;
-		addInput(inId, new Data(inSize));
+		input = addInput(inId, new Data(inSize));
 		outParameters = new LinkedList<OutputParameters>();
 	}
 	
@@ -76,33 +73,19 @@ public class Distributor extends Component {
 	}
 	
 	/**
-	 * Returns the identifier of the input.
-	 * @return The identifier of the input.
-	 */
-	public String getInputId() {
-		return inId;
-	}
-	
-	/**
 	 * Returns the distributor's input.
 	 * @return Distributor input;
 	 */
-	public Input getInput() {
-		return getInput(inId);
+	public final Input getInput() {
+		return input;
 	}
 	
 	/**
 	 * Contains the parameters (MSB, LSB, id) for an output of a distributor.
 	 */
 	private class OutputParameters {
-		/** The identifier of the output. */
-		private String id;
-		/** The most significant bit of the value to put. */
-		private int msb;
-		/** The less significant bit of the value to put. */
-		private int lsb;
-		/** The mask generated for the given msb and lsb. */
-		private int mask;
+		private String id; // output identifier
+		private int msb, lsb, mask; // most/less significant bits for the value and corresponding mask
 
 		/**
 		 * Creates the parameters for an output.
@@ -137,7 +120,7 @@ public class Distributor extends Component {
 		 * @param value The original value.
 		 * @return The value formatted for the output.
 		 */
-		public int getValueForOutput(int value) {
+		public final int getValueForOutput(int value) {
 			return (value & mask) >>> lsb;
 		}
 	}

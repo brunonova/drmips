@@ -33,24 +33,11 @@ import org.feup.brunonova.drmips.simulator.util.Point;
  * @author Bruno Nova
  */
 public class ForwardingUnit extends Component {
-	/** The CPU's register bank. */
-	private RegBank regbank = null;
-	/** The identifier of the EX/MEM.RegWrite input. */
-	private final String exMemRegWriteId;
-	/** The identifier of the MEM/WB.RegWrite input. */
-	private final String memWbRegWriteId;
-	/** The identifier of the EX/MEM.Rd input. */
-	private final String exMemRdId;
-	/** The identifier of the MEM/WB.Rd input. */
-	private final String memWbRdId;
-	/** The identifier of the ID/EX.Rs input. */
-	private final String idExRsId;
-	/** The identifier of the ID/EX.Rt input. */
-	private final String idExRtId;
-	/** The identifier of the ForwardA output. */
-	private final String forwardAId;
-	/** The identifier of the ForwardA output. */
-	private final String forwardBId;
+	private RegBank regbank = null; // CPU's register bank
+	private final Input exMemRegWrite, memWbRegWrite;
+	private final Output forwardA, forwardB;
+	private Input exMemRd, memWbRd, idExRs, idExRt;
+	private String exMemRdId, memWbRdId, idExRsId, idExRtId; // temporary
 	
 	/**
 	 * Forwarding unit constructor.
@@ -69,19 +56,15 @@ public class ForwardingUnit extends Component {
 	 */
 	public ForwardingUnit(String id, int latency, Point position, String exMemRegWriteId, String memWbRegWriteId, String exMemRdId, String memWbRdId, String idExRsId, String idExRtId, String forwardAId, String forwardBId) throws InvalidCPUException {
 		super(id, latency, "Forwarding\nunit", "forwarding_unit", "forwarding_unit_description", position, new Dimension(70, 50));
-		this.exMemRegWriteId = exMemRegWriteId;
-		this.memWbRegWriteId = memWbRegWriteId;
 		this.exMemRdId = exMemRdId;
 		this.memWbRdId = memWbRdId;
 		this.idExRsId = idExRsId;
 		this.idExRtId = idExRtId;
-		this.forwardAId = forwardAId;
-		this.forwardBId = forwardBId;
 		
-		addInput(exMemRegWriteId, new Data(1), IOPort.Direction.EAST);
-		addInput(memWbRegWriteId, new Data(1), IOPort.Direction.EAST);
-		addOutput(forwardAId, new Data(2), IOPort.Direction.NORTH);
-		addOutput(forwardBId, new Data(2), IOPort.Direction.NORTH);
+		exMemRegWrite = addInput(exMemRegWriteId, new Data(1), IOPort.Direction.EAST);
+		memWbRegWrite = addInput(memWbRegWriteId, new Data(1), IOPort.Direction.EAST);
+		forwardA = addOutput(forwardAId, new Data(2), IOPort.Direction.NORTH);
+		forwardB = addOutput(forwardBId, new Data(2), IOPort.Direction.NORTH);
 	}
 
 	@Override
@@ -124,140 +107,77 @@ public class ForwardingUnit extends Component {
 	 * @param regbank The CPU's register bank.
 	 * @throws InvalidCPUException If an id is empty or duplicated.
 	 */
-	public void setRegbank(RegBank regbank) throws InvalidCPUException {
+	public final void setRegbank(RegBank regbank) throws InvalidCPUException {
 		this.regbank = regbank;
 		int size = regbank.getRequiredBitsToIdentifyRegister();
-		addInput(exMemRdId, new Data(size), IOPort.Direction.EAST, true, true);
-		addInput(memWbRdId, new Data(size), IOPort.Direction.EAST, true, true);
-		addInput(idExRsId, new Data(size), IOPort.Direction.WEST, true, true);
-		addInput(idExRtId, new Data(size), IOPort.Direction.WEST, true, true);
-	}
-
-	/**
-	 * Returns the identifier of the EX/MEM.Rd input.
-	 * @return The identifier of the EX/MEM.Rd input.
-	 */
-	public String getExMemRdId() {
-		return exMemRdId;
-	}
-
-	/**
-	 * Returns the identifier of the EX/MEM.RegWrite input.
-	 * @return The identifier of the EX/MEM.RegWrite input.
-	 */
-	public String getExMemRegWriteId() {
-		return exMemRegWriteId;
-	}
-
-	/**
-	 * Returns the identifier of the MEM/WB.RegWrite input.
-	 * @return The identifier of the MEM/WB.RegWrite input.
-	 */
-	public String getMemWbRegWriteId() {
-		return memWbRegWriteId;
-	}
-	
-	/**
-	 * Returns the identifier of the ForwardA output.
-	 * @return The identifier of the ForwardA output.
-	 */
-	public String getForwardAId() {
-		return forwardAId;
-	}
-
-	/**
-	 * Returns the identifier of the ForwardB output.
-	 * @return The identifier of the ForwardB output.
-	 */
-	public String getForwardBId() {
-		return forwardBId;
-	}
-
-	/**
-	 * Returns the identifier of the ID/EX.Rs input.
-	 * @return The identifier of the ID/EX.Rs input.
-	 */
-	public String getIdExRsId() {
-		return idExRsId;
-	}
-
-	/**
-	 * Returns the identifier of the ID/EX.Rt input.
-	 * @return The identifier of the ID/EX.Rt input.
-	 */
-	public String getIdExRtId() {
-		return idExRtId;
-	}
-
-	/**
-	 * Returns the identifier of the EX/MEM.Rd input.
-	 * @return The identifier of the EX/MEM.Rd input.
-	 */
-	public String getMemWbRdId() {
-		return memWbRdId;
+		exMemRd = addInput(exMemRdId, new Data(size), IOPort.Direction.EAST, true, true);
+		memWbRd = addInput(memWbRdId, new Data(size), IOPort.Direction.EAST, true, true);
+		idExRs = addInput(idExRsId, new Data(size), IOPort.Direction.WEST, true, true);
+		idExRt = addInput(idExRtId, new Data(size), IOPort.Direction.WEST, true, true);
+		exMemRdId = memWbRdId = idExRsId = idExRtId = null;
 	}
 	
 	/**
 	 * Returns the EX/MEM.Rd input.
 	 * @return The EX/MEM.Rd input.
 	 */
-	public Input getExMemRd() {
-		return getInput(exMemRdId);
+	public final Input getExMemRd() {
+		return exMemRd;
 	}
 
 	/**
 	 * Returns the EX/MEM.RegWrite input.
 	 * @return The EX/MEM.RegWrite input.
 	 */
-	public Input getExMemRegWrite() {
-		return getInput(exMemRegWriteId);
+	public final Input getExMemRegWrite() {
+		return exMemRegWrite;
 	}
 	
 	/**
 	 * Returns the MEM/WB.RegWrite input.
 	 * @return The MEM/WB.RegWrite input.
 	 */
-	public Input getMemWbRegWrite() {
-		return getInput(memWbRegWriteId);
+	public final Input getMemWbRegWrite() {
+		return memWbRegWrite;
 	}
 
 	/**
 	 * Returns the ForwardA output.
 	 * @return The ForwardA output.
 	 */
-	public Output getForwardA() {
-		return getOutput(forwardAId);
+	public final Output getForwardA() {
+		return forwardA;
 	}
 
 	/**
 	 * Returns the ForwardB output.
 	 * @return The ForwardB output.
 	 */
-	public Output getForwardB() {
-		return getOutput(forwardBId);
+	public final Output getForwardB() {
+		return forwardB;
 	}
 
 	/**
 	 * Returns the ID/EX.Rs input.
 	 * @return The ID/EX.Rs input.
 	 */
-	public Input getIdExRs() {
-		return getInput(idExRsId);
+	public final Input getIdExRs() {
+		return idExRs;
 	}
 
 	/**
 	 * Returns the ID/EX.Rt input.
 	 * @return The ID/EX.Rt input.
 	 */
-	public Input getIdExRt() {
-		return getInput(idExRtId);
+	public final Input getIdExRt() {
+		return idExRt;
 	}
 
 	/**
 	 * Returns the MEM/WB.Rd input.
 	 * @return The MEM/WB.Rd input.
 	 */
-	public Input getMemWbRd() {
-		return getInput(memWbRdId);
+	public final Input getMemWbRd() {
+		return memWbRd;
 	}
 }

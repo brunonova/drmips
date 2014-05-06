@@ -35,12 +35,8 @@ import org.feup.brunonova.drmips.simulator.util.Point;
  * @author Bruno Nova
  */
 public class Concatenator extends Component {
-	/** The identifier of the first input (concatenated to the "left"). */
-	private final String in1Id;
-	/** The identifier of the second input (concatenated to the "right"). */
-	private final String in2Id;
-	/** The identifier of the output. */
-	private final String outId;
+	private final Input input1, input2;
+	private final Output output;
 	
 	/**
 	 * Fork constructor.
@@ -56,17 +52,14 @@ public class Concatenator extends Component {
 	 */
 	public Concatenator(String id, int latency, Point position, String in1Id, int in1Size, String in2Id, int in2Size, String outId) throws InvalidCPUException {
 		super(id, latency, "", "concatenator", "concatenator_description", new Point(position.x - 2, position.y - 2), new Dimension(5, 5));
-		this.in1Id = in1Id;
-		this.in2Id = in2Id;
-		this.outId = outId;
 		
-		addInput(in1Id, new Data(in1Size));
-		addInput(in2Id, new Data(in2Size));
-		getInput1().setPosition(position);
-		getInput2().setPosition(position);
+		input1 = addInput(in1Id, new Data(in1Size));
+		input2 = addInput(in2Id, new Data(in2Size));
+		input1.setPosition(position);
+		input2.setPosition(position);
 		
-		addOutput(outId, new Data(in1Size + in2Size));
-		getOutput().setPosition(position);
+		output = addOutput(outId, new Data(in1Size + in2Size));
+		output.setPosition(position);
 	}
 
 	@Override
@@ -75,36 +68,11 @@ public class Concatenator extends Component {
 	}
 	
 	/**
-	 * Returns the identifier of the first input.
-	 * @return The identifier of the first input.
-	 */
-	public String getInput1Id() {
-		return in1Id;
-	}
-	
-	/**
-	 * Returns the identifier of the second input.
-	 * @return The identifier of the second input.
-	 */
-	public String getInput2Id() {
-		return in2Id;
-	}
-	
-	
-	/**
-	 * Returns the identifier of the output.
-	 * @return The identifier of the output.
-	 */
-	public String getOutputId() {
-		return outId;
-	}
-	
-	/**
 	 * Returns the component's first input.
 	 * @return Component's first input;
 	 */
 	public final Input getInput1() {
-		return getInput(in1Id);
+		return input1;
 	}
 	
 	/**
@@ -112,7 +80,7 @@ public class Concatenator extends Component {
 	 * @return Component's second input;
 	 */
 	public final Input getInput2() {
-		return getInput(in2Id);
+		return input2;
 	}
 	
 	/**
@@ -120,6 +88,6 @@ public class Concatenator extends Component {
 	 * @return Component's output;
 	 */
 	public final Output getOutput() {
-		return getOutput(outId);
+		return output;
 	}
 }

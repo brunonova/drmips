@@ -33,12 +33,8 @@ import org.feup.brunonova.drmips.simulator.util.Point;
  * @author Bruno Nova
  */
 public abstract class SimpleBinaryOperationComponent extends Component {
-	/** The identifier of first the input. */
-	private final String in1Id;
-	/** The identifier of second the input. */
-	private final String in2Id;
-	/** The identifier of the output. */
-	private final String outId;
+	private final Input input1, input2;
+	private final Output output;
 
 	/**
 	 * Component constructor.
@@ -57,13 +53,10 @@ public abstract class SimpleBinaryOperationComponent extends Component {
 	 */
 	public SimpleBinaryOperationComponent(String id, int latency, String displayName, String nameKey, String descriptionKey, Point position, Dimension size, String in1Id, String in2Id, String outId, int dataSize) throws InvalidCPUException {
 		super(id, latency, displayName, nameKey, descriptionKey, position, size);
-		this.in1Id = in1Id;
-		this.in2Id = in2Id;
-		this.outId = outId;
 		boolean showTip = dataSize > 1;
-		addInput(in1Id, new Data(dataSize), IOPort.Direction.WEST, true, showTip);
-		addInput(in2Id, new Data(dataSize), IOPort.Direction.WEST, true, showTip);
-		addOutput(outId, new Data(dataSize), IOPort.Direction.EAST, showTip);
+		input1 = addInput(in1Id, new Data(dataSize), IOPort.Direction.WEST, true, showTip);
+		input2 = addInput(in2Id, new Data(dataSize), IOPort.Direction.WEST, true, showTip);
+		output = addOutput(outId, new Data(dataSize), IOPort.Direction.EAST, showTip);
 	}
 
 	@Override
@@ -81,51 +74,26 @@ public abstract class SimpleBinaryOperationComponent extends Component {
 	protected abstract int operation(int in1, int in2);
 	
 	/**
-	 * Returns the identifier of the first input.
-	 * @return The identifier of the first input.
-	 */
-	public String getInput1Id() {
-		return in1Id;
-	}
-	
-	/**
-	 * Returns the identifier of the second input.
-	 * @return The identifier of the second input.
-	 */
-	public String getInput2Id() {
-		return in2Id;
-	}
-	
-	
-	/**
-	 * Returns the identifier of the output.
-	 * @return The identifier of the output.
-	 */
-	public String getOutputId() {
-		return outId;
-	}
-	
-	/**
 	 * Returns the component's first input.
 	 * @return Component's first input;
 	 */
-	public Input getInput1() {
-		return getInput(in1Id);
+	public final Input getInput1() {
+		return input1;
 	}
 	
 	/**
 	 * Returns the component's second input.
 	 * @return Component's second input;
 	 */
-	public Input getInput2() {
-		return getInput(in2Id);
+	public final Input getInput2() {
+		return input2;
 	}
 	
 	/**
 	 * Returns the component's output.
 	 * @return Component's output;
 	 */
-	public Output getOutput() {
-		return getOutput(outId);
+	public final Output getOutput() {
+		return output;
 	}
 }

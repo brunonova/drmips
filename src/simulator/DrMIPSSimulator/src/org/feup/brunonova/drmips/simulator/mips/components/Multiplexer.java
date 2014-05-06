@@ -35,12 +35,9 @@ import org.feup.brunonova.drmips.simulator.util.Point;
  * @author bruno
  */
 public class Multiplexer extends Component {
-	/** The identifier of the selector. */
-	private final String selId;
-	/** The identifier of the output. */
-	private final String outId;
-	/** The identifiers of the inputs. */
-	private final List<String> inIds;
+	private final Input selector;
+	private final Output output;
+	private final List<String> inIds; // inputs' identifiers
 	
 	/**
 	 * Multiplexer constructor.
@@ -55,12 +52,10 @@ public class Multiplexer extends Component {
 	 */
 	public Multiplexer(String id, int latency, Point position, int size, List<String> inIds, String selId, String outId) throws InvalidCPUException {
 		super(id, latency, "M\nU\nX", "multiplexer", "multiplexer_description", position, new Dimension(15, 35));
-		this.selId = selId;
-		this.outId = outId;
 		this.inIds = inIds;
 		
-		addInput(selId, new Data((inIds.size() > 0) ? Data.requiredNumberOfBits(inIds.size() - 1) : 1), IOPort.Direction.NORTH);
-		addOutput(outId, new Data(size));
+		selector = addInput(selId, new Data((inIds.size() > 0) ? Data.requiredNumberOfBits(inIds.size() - 1) : 1), IOPort.Direction.NORTH);
+		output = addOutput(outId, new Data(size));
 		for(String inId: inIds)
 			addInput(inId, new Data(size));
 	}
@@ -90,35 +85,19 @@ public class Multiplexer extends Component {
 	}
 	
 	/**
-	 * Returns the identifier of the output.
-	 * @return The identifier of the output.
-	 */
-	public String getOutputId() {
-		return outId;
-	}
-	
-	/**
 	 * Returns the multiplexer's output.
 	 * @return Multiplexer output;
 	 */
-	public Output getOutput() {
-		return getOutput(outId);
-	}
-	
-	/**
-	 * Returns the identifier of the selector.
-	 * @return The identifier of the selector.
-	 */
-	public String getSelectorId() {
-		return selId;
+	public final Output getOutput() {
+		return output;
 	}
 	
 	/**
 	 * Returns the multiplexer's selector.
 	 * @return Muoltiplexer selector;
 	 */
-	public Input getSelector() {
-		return getInput(selId);
+	public final Input getSelector() {
+		return selector;
 	}
 	
 	/**
@@ -126,7 +105,7 @@ public class Multiplexer extends Component {
 	 * @param index Index of the input.
 	 * @return The input, or <tt>null</tt> if it doesn't exist.
 	 */
-	public Input getInput(int index) {
+	public final Input getInput(int index) {
 		if(index >= 0 && index < inIds.size())
 			return getInput(inIds.get(index));
 		else
