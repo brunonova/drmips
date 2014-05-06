@@ -35,20 +35,12 @@ import org.feup.brunonova.drmips.simulator.util.Point;
  * @author Bruno Nova
  */
 public class PC extends Component implements IsSynchronous {
-	/** The identifier of the input. */
-	private String inId;
-	/** The identifier of the write input. */
-	private String writeId;
-	/** The identifier of the output. */
-	private String outId;
-	/** Current address of the Program Counter (the <tt>$pc</tt> register) */
+	private final Input input, write;
+	private final Output output;
 	private Data address;
-	/** The previous saved addresses. */
-	private final Stack<Integer> states = new Stack<Integer>();
-	/** The index of the current instruction being executed (-1 if none). */
+	private final Stack<Integer> states = new Stack<Integer>(); // previous adresses
 	private int currentInstructionIndex = -1;
-	/** The indexes of the previous instructions. */
-	private final Stack<Integer> instructions = new Stack<Integer>();
+	private final Stack<Integer> instructions = new Stack<Integer>(); // previous instructions
 	
 	/**
 	 * Program Counter constructor.
@@ -76,17 +68,14 @@ public class PC extends Component implements IsSynchronous {
 	public PC(String id, int latency, Point position, String inId, String outId, String writeId) throws InvalidCPUException {
 		super(id, latency, "PC", "pc", "pc_description", position, new Dimension(30, 30));
 		this.address = new Data();
-		this.inId = inId;
-		this.writeId = writeId;
-		this.outId = outId;
-		addInput(inId, new Data(), IOPort.Direction.WEST, false, true);
-		addInput(writeId, new Data(1, 1), IOPort.Direction.NORTH, false);
-		addOutput(outId, new Data(), IOPort.Direction.EAST, true);
+		input = addInput(inId, new Data(), IOPort.Direction.WEST, false, true);
+		write = addInput(writeId, new Data(1, 1), IOPort.Direction.NORTH, false);
+		output = addOutput(outId, new Data(), IOPort.Direction.EAST, true);
 	}
 	
 	@Override
 	public void execute() {
-		getOutput().setValue(address.getValue());
+		getOutput().setValue(getAddress().getValue());
 		getInput().setRelevant(getWrite().getValue() == 1); // mark input as irrelevant if the Write control signal is off
 	}
 
@@ -136,7 +125,7 @@ public class PC extends Component implements IsSynchronous {
 	 * Returns the current address of the Program Counter (the <tt>$pc</tt> register).
 	 * @return Current address.
 	 */
-	public Data getAddress() {
+	public final Data getAddress() {
 		return address;
 	}
 	
@@ -145,7 +134,7 @@ public class PC extends Component implements IsSynchronous {
 	 * <p>The new address is propagated to the rest of the circuit.</p>
 	 * @param address New address.
 	 */
-	public void setAddress(int address) {
+	public final void setAddress(int address) {
 		setAddress(address, true);
 	}
 	
@@ -154,7 +143,7 @@ public class PC extends Component implements IsSynchronous {
 	 * @param address New address.
 	 * @param propagate Whether the new address is propagated to the rest of the circuit.
 	 */
-	public void setAddress(int address, boolean propagate) {
+	public final void setAddress(int address, boolean propagate) {
 		this.address.setValue(address);
 		if(propagate) execute();
 	}
@@ -163,7 +152,7 @@ public class PC extends Component implements IsSynchronous {
 	 * Returns the index of the current instruction being executed.
 	 * @return Index of the current instruction being executed (-1 if none).
 	 */
-	public int getCurrentInstructionIndex() {
+	public final int getCurrentInstructionIndex() {
 		return currentInstructionIndex;
 	}
 
@@ -171,55 +160,31 @@ public class PC extends Component implements IsSynchronous {
 	 * Updates the index of the current instruction being executed.
 	 * @param currentInstructionIndex The index of the instruction (-1 if none).
 	 */
-	public void setCurrentInstructionIndex(int currentInstructionIndex) {
+	public final void setCurrentInstructionIndex(int currentInstructionIndex) {
 		this.currentInstructionIndex = currentInstructionIndex;
-	}
-	
-	/**
-	 * Returns the identifier of the input.
-	 * @return The identifier of the input.
-	 */
-	public String getInputId() {
-		return inId;
-	}
-	
-	/**
-	 * Returns the identifier of the output.
-	 * @return The identifier of the output.
-	 */
-	public String getOutputId() {
-		return outId;
-	}
-
-	/**
-	 * Returns the identifier of the write input.
-	 * @return The identifier of the write input.
-	 */
-	public String getWriteId() {
-		return writeId;
 	}
 	
 	/**
 	 * Returns the Program Counter's input.
 	 * @return PC input;
 	 */
-	public Input getInput() {
-		return getInput(inId);
-	}
-	
-	/**
-	 * Returns the Program Counter's output.
-	 * @return PC output;
-	 */
-	public Output getOutput() {
-		return getOutput(outId);
+	public final Input getInput() {
+		return input;
 	}
 	
 	/**
 	 * Returns the the write input.
 	 * @return Write input.
 	 */
-	public Input getWrite() {
-		return getInput(writeId);
+	public final Input getWrite() {
+		return write;
+	}
+	
+	/**
+	 * Returns the Program Counter's output.
+	 * @return PC output;
+	 */
+	public final Output getOutput() {
+		return output;
 	}
 }

@@ -37,28 +37,12 @@ import org.feup.brunonova.drmips.simulator.util.Point;
  * @author Bruno Nova
  */
 public class RegBank extends Component implements IsSynchronous {
-	/** The ID of the first register address input. */
-	private String readReg1Id;
-	/** The ID of the second register address input. */
-	private String readReg2Id;
-	/** The ID of the first register data output. */
-	private String readData1Id;
-	/** The ID of the second register data output. */
-	private String readData2Id;
-	/** The ID of the write address input. */
-	private String writeRegId;
-	/** The ID of the write data input. */
-	private String writeDataId;
-	/** The ID of the RegWrite control input (that controls whether to write the register). */
-	private String regWriteId;
-	/** The array with the values of the registers. */
-	private Data[] registers;
-	/** The indexes of the registers that are constant. */
-	private Set<Integer> constantRegisters;
-	/** Whether the data in the WriteData input should be forwarded to and output if reading and writing to the same register. */
-	private boolean forwarding;
-	/** The previous values of the registers. */
-	private final Stack<int[]> states = new Stack<int[]>();
+	private final Input readReg1, readReg2, writeReg, writeData, regWrite;
+	private final Output readData1, readData2;
+	private final Data[] registers;
+	private final Set<Integer> constantRegisters; // indexes of the constant registers
+	private final boolean forwarding; // use internal forwarding?
+	private final Stack<int[]> states = new Stack<int[]>(); // previous values
 
 	/**
 	 * Register bank constructor.
@@ -103,13 +87,6 @@ public class RegBank extends Component implements IsSynchronous {
 			throw new InvalidCPUException("Invalid number of registers (must be a power of 2)!");
 		
 		this.forwarding = forwarding;
-		this.readReg1Id = readReg1Id;
-		this.readReg2Id = readReg2Id;
-		this.readData1Id = readData1Id;
-		this.readData2Id = readData2Id;
-		this.writeRegId = writeRegId;
-		this.writeDataId = writeDataId;
-		this.regWriteId = regWriteId;
 		constantRegisters = new HashSet<Integer>();
 		
 		// Initialize registers
@@ -119,13 +96,13 @@ public class RegBank extends Component implements IsSynchronous {
 			registers[i] = new Data();
 		
 		// Add inputs/outputs
-		addInput(readReg1Id, new Data(requiredBits), IOPort.Direction.WEST, true, true);
-		addInput(readReg2Id, new Data(requiredBits), IOPort.Direction.WEST, true, true);
-		addOutput(readData1Id, new Data(), IOPort.Direction.EAST, true);
-		addOutput(readData2Id, new Data(), IOPort.Direction.EAST, true);
-		addInput(writeRegId, new Data(requiredBits), IOPort.Direction.WEST, false, true);
-		addInput(writeDataId, new Data(), IOPort.Direction.WEST, false, true);
-		addInput(regWriteId, new Data(1), Input.Direction.NORTH, false);
+		readReg1 = addInput(readReg1Id, new Data(requiredBits), IOPort.Direction.WEST, true, true);
+		readReg2 = addInput(readReg2Id, new Data(requiredBits), IOPort.Direction.WEST, true, true);
+		readData1 = addOutput(readData1Id, new Data(), IOPort.Direction.EAST, true);
+		readData2 = addOutput(readData2Id, new Data(), IOPort.Direction.EAST, true);
+		writeReg = addInput(writeRegId, new Data(requiredBits), IOPort.Direction.WEST, false, true);
+		writeData = addInput(writeDataId, new Data(), IOPort.Direction.WEST, false, true);
+		regWrite = addInput(regWriteId, new Data(1), Input.Direction.NORTH, false);
 	}
 
 	@Override
@@ -201,14 +178,14 @@ public class RegBank extends Component implements IsSynchronous {
 	 * Returns whether the data in the WriteData input should be forwarded to and output if reading and writing to the same register.
 	 * @return <tt>True</tt> if internal forwarding is enabled.
 	 */
-	public boolean isForwarding() {
+	public final boolean isForwarding() {
 		return forwarding;
 	}
 	
 	/**
 	 * Resets the register bank to zeros.
 	 */
-	public void reset() {
+	public final void reset() {
 		for (Data register: registers)
 			register.setValue(0);
 		execute();
@@ -218,7 +195,7 @@ public class RegBank extends Component implements IsSynchronous {
 	 * Returns the number of registers.
 	 * @return The number of registers.
 	 */
-	public int getNumberOfRegisters() {
+	public final int getNumberOfRegisters() {
 		return registers.length;
 	}
 	
@@ -226,7 +203,7 @@ public class RegBank extends Component implements IsSynchronous {
 	 * Returns how many bits are required to identify a register.
 	 * @return Number of bits required to identify a register.
 	 */
-	public int getRequiredBitsToIdentifyRegister() {
+	public final int getRequiredBitsToIdentifyRegister() {
 		return Data.requiredNumberOfBits(getNumberOfRegisters() - 1);
 	}
 	
@@ -236,7 +213,7 @@ public class RegBank extends Component implements IsSynchronous {
 	 * @return Copy of the indicated register.
 	 * @throws ArrayIndexOutOfBoundsException If the index is invalid.
 	 */
-	public Data getRegister(int index) throws ArrayIndexOutOfBoundsException {
+	public final Data getRegister(int index) throws ArrayIndexOutOfBoundsException {
 		return registers[index].clone();
 	}
 	
@@ -247,7 +224,7 @@ public class RegBank extends Component implements IsSynchronous {
 	 * @param newValue New value.
 	 * @throws ArrayIndexOutOfBoundsException If the index is invalid.
 	 */
-	public void setRegister(int index, int newValue) throws ArrayIndexOutOfBoundsException {
+	public final void setRegister(int index, int newValue) throws ArrayIndexOutOfBoundsException {
 		setRegister(index, newValue, true);
 	}
 	
@@ -258,7 +235,7 @@ public class RegBank extends Component implements IsSynchronous {
 	 * @param propagate Whether the new register is propagated to the rest of the circuit if it is being read.
 	 * @throws ArrayIndexOutOfBoundsException If the index is invalid.
 	 */
-	public void setRegister(int index, int newValue, boolean propagate) throws ArrayIndexOutOfBoundsException {
+	public final void setRegister(int index, int newValue, boolean propagate) throws ArrayIndexOutOfBoundsException {
 		if(!isRegisterConstant(index)) { // don't update constant registers
 			registers[index].setValue(newValue);
 			if(propagate) execute();
@@ -271,7 +248,7 @@ public class RegBank extends Component implements IsSynchronous {
 	 * @param value Constant value.
 	 * @throws ArrayIndexOutOfBoundsException If the index is invalid.
 	 */
-	public void setRegisterConstant(int index, int value) throws ArrayIndexOutOfBoundsException {
+	public final void setRegisterConstant(int index, int value) throws ArrayIndexOutOfBoundsException {
 		setRegister(index, value);
 		constantRegisters.add(index);
 	}
@@ -281,7 +258,7 @@ public class RegBank extends Component implements IsSynchronous {
 	 * @param index Index/address of the register.
 	 * @throws ArrayIndexOutOfBoundsException If the index is invalid.
 	 */
-	public void setRegisterConstant(int index) throws ArrayIndexOutOfBoundsException {
+	public final void setRegisterConstant(int index) throws ArrayIndexOutOfBoundsException {
 		setRegisterConstant(index, 0);
 	}
 	
@@ -290,119 +267,63 @@ public class RegBank extends Component implements IsSynchronous {
 	 * @param index Index/address of the register.
 	 * @return <tt>true</tt> if the register is constant.
 	 */
-	public boolean isRegisterConstant(int index) {
+	public final boolean isRegisterConstant(int index) {
 		return constantRegisters.contains(index);
-	}
-	
-	/**
-	 * Returns the ID of the first register address input.
-	 * @return The ID of the first register address input.
-	 */
-	public String getReadReg1Id() {
-		return readReg1Id;
-	}
-	
-	/**
-	 * Returns the ID of the second register address input.
-	 * @return The ID of the second register address input.
-	 */
-	public String getReadReg2Id() {
-		return readReg2Id;
-	}
-	
-	/**
-	 * Returns the ID of the first register data output.
-	 * @return The ID of the first register data output.
-	 */
-	public String getReadData1Id() {
-		return readData1Id;
-	}
-	
-	/**
-	 * Returns the ID of the second register data output.
-	 * @return The ID of the second register data output.
-	 */
-	public String getReadData2Id() {
-		return readData2Id;
-	}
-	
-	/**
-	 * Returns the ID of the write address input.
-	 * @return The ID of the write address input.
-	 */
-	public String getWriteRegId() {
-		return writeRegId;
-	}
-	
-	/**
-	 * Returns the ID of the write data input.
-	 * @return The ID of the write data input.
-	 */
-	public String getWriteDataId() {
-		return writeDataId;
-	}
-	
-	/**
-	 * Returns the ID of the RegWrite control input (that controls whether to write the register).
-	 * @return The ID of the RegWrite control input.
-	 */
-	public String getRegWriteId() {
-		return regWriteId;
 	}
 	
 	/**
 	 * Returns the first register address input.
 	 * @return The first register address input.
 	 */
-	public Input getReadReg1() {
-		return getInput(readReg1Id);
+	public final Input getReadReg1() {
+		return readReg1;
 	}
 	
 	/**
 	 * Returns the second register address input.
 	 * @return The second register address input.
 	 */
-	public Input getReadReg2() {
-		return getInput(readReg2Id);
+	public final Input getReadReg2() {
+		return readReg2;
 	}
 	
 	/**
 	 * Returns the first register data output.
 	 * @return The first register data output.
 	 */
-	public Output getReadData1() {
-		return getOutput(readData1Id);
+	public final Output getReadData1() {
+		return readData1;
 	}
 	
 	/**
 	 * Returns the second register data output.
 	 * @return The second register data output.
 	 */
-	public Output getReadData2() {
-		return getOutput(readData2Id);
+	public final Output getReadData2() {
+		return readData2;
 	}
 	
 	/**
 	 * Returns the write address input.
 	 * @return The write address input.
 	 */
-	public Input getWriteReg() {
-		return getInput(writeRegId);
+	public final Input getWriteReg() {
+		return writeReg;
 	}
 	
 	/**
 	 * Returns the write data input.
 	 * @return The write data input.
 	 */
-	public Input getWriteData() {
-		return getInput(writeDataId);
+	public final Input getWriteData() {
+		return writeData;
 	}
 	
 	/**
 	 * Returns the RegWrite control input (that controls whether to write the register).
 	 * @return The RegWrite control input.
 	 */
-	public Input getRegWrite() {
-		return getInput(regWriteId);
+	public final Input getRegWrite() {
+		return regWrite;
 	}
 }
