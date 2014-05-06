@@ -32,10 +32,8 @@ import org.feup.brunonova.drmips.simulator.util.Point;
  * @author Bruno Nova
  */
 public class Not extends Component {
-	/** The identifier of the input. */
-	private final String inId;
-	/** The identifier of the output. */
-	private final String outId;
+	private final Input input;
+	private final Output output;
 	
 	/**
 	 * Not constructor.
@@ -48,10 +46,8 @@ public class Not extends Component {
 	 */
 	public Not(String id, int latency, Point position, String inId, String outId) throws InvalidCPUException {
 		super(id, latency, "NOT", "not", "not_description", position, new Dimension(30, 30));
-		this.inId = inId;
-		this.outId = outId;
-		addInput(inId, new Data(1));
-		addOutput(outId, new Data(1));
+		input = addInput(inId, new Data(1));
+		output = addOutput(outId, new Data(1));
 	}
 	
 	@Override
@@ -60,34 +56,18 @@ public class Not extends Component {
 	}
 	
 	/**
-	 * Returns the identifier of the input.
-	 * @return The identifier of the input.
-	 */
-	public String getInputId() {
-		return inId;
-	}
-	
-	/**
-	 * Returns the identifier of the output.
-	 * @return The identifier of the output.
-	 */
-	public String getOutputId() {
-		return outId;
-	}
-	
-	/**
 	 * Returns the input.
 	 * @return Not's input;
 	 */
-	public Input getInput() {
-		return getInput(inId);
+	public final Input getInput() {
+		return input;
 	}
 	
 	/**
 	 * Returns the output.
 	 * @return Not's output;
 	 */
-	public Output getOutput() {
-		return getOutput(outId);
+	public final Output getOutput() {
+		return output;
 	}
 }

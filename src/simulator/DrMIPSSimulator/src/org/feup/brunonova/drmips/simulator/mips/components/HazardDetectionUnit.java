@@ -33,18 +33,11 @@ import org.feup.brunonova.drmips.simulator.util.Point;
  * @author Bruno Nova
  */
 public class HazardDetectionUnit extends Component {
-	/** The CPU's register bank. */
-	private RegBank regbank = null;
-	/** The identifier of the ID/EX.MemRead input. */
-	private final String idExMemReadId;
-	/** The identifier of the ID/EX.Rs input. */
-	private final String idExRtId;
-	/** The identifier of the IF/ID.Rs input. */
-	private final String ifIdRsId;
-	/** The identifier of the IF/ID.Rt input. */
-	private final String ifIdRtId;
-	/** The identifier of the stall output. */
-	private final String stallId;
+	private RegBank regbank = null; // CPU's register bank
+	private final Input idExMemRead;
+	private final Output stall;
+	private Input idExRt, ifIdRs, ifIdRt;
+	private String idExRtId, ifIdRsId, ifIdRtId; // temporary
 
 	/**
 	 * Hazard detection unit constructor.
@@ -60,14 +53,12 @@ public class HazardDetectionUnit extends Component {
 	 */
 	public HazardDetectionUnit(String id, int latency, Point position, String idExMemReadId, String idExRtId, String ifIdRsId, String ifIdRtId, String stallId) throws InvalidCPUException {
 		super(id, latency, "Hazard\ndetection\nunit", "hazard_detection_unit", "hazard_detection_unit_description", position, new Dimension(70, 50));
-		this.idExMemReadId = idExMemReadId;
 		this.idExRtId = idExRtId;
 		this.ifIdRsId = ifIdRsId;
 		this.ifIdRtId = ifIdRtId;
-		this.stallId = stallId;
 		
-		addInput(idExMemReadId, new Data(1), IOPort.Direction.EAST);
-		addOutput(stallId, new Data(1), IOPort.Direction.NORTH);
+		idExMemRead = addInput(idExMemReadId, new Data(1), IOPort.Direction.EAST);
+		stall = addOutput(stallId, new Data(1), IOPort.Direction.NORTH);
 	}
 	
 	@Override
@@ -89,91 +80,52 @@ public class HazardDetectionUnit extends Component {
 	 * @param regbank The CPU's register bank.
 	 * @throws InvalidCPUException If an id is empty or duplicated.
 	 */
-	public void setRegbank(RegBank regbank) throws InvalidCPUException {
+	public final void setRegbank(RegBank regbank) throws InvalidCPUException {
 		this.regbank = regbank;
 		int size = regbank.getRequiredBitsToIdentifyRegister();
-		addInput(idExRtId, new Data(size), IOPort.Direction.EAST, true, true);
-		addInput(ifIdRsId, new Data(size), IOPort.Direction.WEST, true, true);
-		addInput(ifIdRtId, new Data(size), IOPort.Direction.WEST, true, true);
-	}
-	
-	/**
-	 * Returns the identifier of the ID/EX.MemRead input.
-	 * @return The identifier of the ID/EX.MemRead input.
-	 */
-	public String getIdExMemReadId() {
-		return idExMemReadId;
-	}
-
-	/**
-	 * Returns the identifier of the ID/EX.Rs input.
-	 * @return The identifier of the ID/EX.Rs input.
-	 */
-	public String getIdExRtId() {
-		return idExRtId;
-	}
-
-	/**
-	 * Returns the identifier of the IF/ID.Rs input.
-	 * @return The identifier of the IF/ID.Rs input.
-	 */
-	public String getIfIdRsId() {
-		return ifIdRsId;
-	}
-
-	/**
-	 * Returns the identifier of the IF/ID.Rt input.
-	 * @return The identifier of the IF/ID.Rt input.
-	 */
-	public String getIfIdRtId() {
-		return ifIdRtId;
-	}
-
-	/**
-	 * Returns the identifier of the stall output.
-	 * @return The identifier of the stall output.
-	 */
-	public String getStallId() {
-		return stallId;
+		idExRt = addInput(idExRtId, new Data(size), IOPort.Direction.EAST, true, true);
+		ifIdRs = addInput(ifIdRsId, new Data(size), IOPort.Direction.WEST, true, true);
+		ifIdRt = addInput(ifIdRtId, new Data(size), IOPort.Direction.WEST, true, true);
+		idExRtId = ifIdRsId = ifIdRtId = null;
 	}
 	
 	/**
 	 * Returns the ID/EX.MemRead input.
 	 * @return The ID/EX.MemRead input.
 	 */
-	public Input getIdExMemRead() {
-		return getInput(idExMemReadId);
+	public final Input getIdExMemRead() {
+		return idExMemRead;
 	}
 
 	/**
 	 * Returns the ID/EX.Rt input.
 	 * @return The ID/EX.Rt input.
 	 */
-	public Input getIdExRt() {
-		return getInput(idExRtId);
+	public final Input getIdExRt() {
+		return idExRt;
 	}
 
 	/**
 	 * Returns the IF/ID.Rs input.
 	 * @return The IF/ID.Rs input.
 	 */
-	public Input getIfIdRs() {
-		return getInput(ifIdRsId);
+	public final Input getIfIdRs() {
+		return ifIdRs;
 	}
 
 	/**
 	 * Returns the IF/ID.Rt input.
 	 * @return The IF/ID.Rt input.
 	 */
-	public Input getIfIdRt() {
-		return getInput(ifIdRtId);
+	public final Input getIfIdRt() {
+		return ifIdRt;
 	}
 	
 	/**
 	 * Returns the stall output.
 	 * @return The stall output.
 	 */
-	public Output getStall() {
-		return getOutput(stallId);
+	public final Output getStall() {
+		return stall;
 	}
 }

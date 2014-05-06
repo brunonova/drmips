@@ -33,10 +33,8 @@ import org.feup.brunonova.drmips.simulator.util.Point;
  * @author Bruno nova
  */
 public class SignExtend extends Component {
-	/** The identifier of the input. */
-	private final String inId;
-	/** The identifier of the output. */
-	private final String outId;
+	private final Input input;
+	private final Output output;
 	
 	/**
 	 * Sign extend constructor.
@@ -51,16 +49,14 @@ public class SignExtend extends Component {
 	 */
 	public SignExtend(String id, int latency, Point position, String inId, int inSize, String outId, int outSize) throws InvalidCPUException {
 		super(id, latency, "Sign\nextend", "sign_extend", "sign_extend_description", position, new Dimension(40, 40));
-		this.inId = inId;
-		this.outId = outId;
 		if(inSize > outSize) {
 			int aux = inSize;
 			inSize = outSize;
 			outSize = aux;
 		}
 		
-		addInput(inId, new Data(inSize), IOPort.Direction.WEST, true, true);
-		addOutput(outId, new Data(outSize), IOPort.Direction.EAST, true);
+		input = addInput(inId, new Data(inSize), IOPort.Direction.WEST, true, true);
+		output = addOutput(outId, new Data(outSize), IOPort.Direction.EAST, true);
 	}
 
 	@Override
@@ -69,34 +65,18 @@ public class SignExtend extends Component {
 	}
 	
 	/**
-	 * Returns the identifier of the input.
-	 * @return The identifier of the input.
-	 */
-	public String getInputId() {
-		return inId;
-	}
-	
-	/**
-	 * Returns the identifier of the output.
-	 * @return The identifier of the output.
-	 */
-	public String getOutputId() {
-		return outId;
-	}
-	
-	/**
 	 * Returns the input.
 	 * @return The input;
 	 */
-	public Input getInput() {
-		return getInput(inId);
+	public final Input getInput() {
+		return input;
 	}
 	
 	/**
 	 * Returns the output.
 	 * @return The output;
 	 */
-	public Output getOutput() {
-		return getOutput(outId);
+	public final Output getOutput() {
+		return output;
 	}
 }

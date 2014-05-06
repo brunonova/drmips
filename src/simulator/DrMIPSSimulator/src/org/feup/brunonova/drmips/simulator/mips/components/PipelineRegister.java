@@ -37,18 +37,11 @@ import org.feup.brunonova.drmips.simulator.util.Point;
  * @author Bruno Nova
  */
 public class PipelineRegister extends Component implements IsSynchronous {
-	/** The identifier of the write input. */
-	private String writeId;
-	/** The identifier of the flush input. */
-	private String flushId;
-	/** The stored registers (mapped by their ids). */
-	private Map<String, Data> registers;
-	/** The previous saved registers. */
-	private final Stack<Map<String, Data>> states = new Stack<Map<String, Data>>();
-	/** The index of the current instruction being executed (-1 if none). */
+	private final Input write, flush;
+	private Map<String, Data> registers; // stored values
+	private final Stack<Map<String, Data>> states = new Stack<Map<String, Data>>(); // previous values
 	private int currentInstructionIndex = -1;
-	/** The indexes of the previous instructions. */
-	private final Stack<Integer> instructions = new Stack<Integer>();
+	private final Stack<Integer> instructions = new Stack<Integer>(); // previous instructions
 	
 	/**
 	 * Pipeline register constructor.
@@ -75,12 +68,10 @@ public class PipelineRegister extends Component implements IsSynchronous {
 	public PipelineRegister(String id, int latency, Point position, Map<String, Integer> registers, String writeId, String flushId) throws InvalidCPUException {
 		super(id, latency, "", "pipeline_register", "pipeline_register_description", position, new Dimension(15, 300));
 		this.registers = new TreeMap<String, Data>();
-		this.writeId = writeId;
-		this.flushId = flushId;
 		setDisplayName();
 		
-		addInput(writeId, new Data(1, 1), IOPort.Direction.NORTH, false);
-		addInput(flushId, new Data(1, 0), IOPort.Direction.NORTH, false);
+		write = addInput(writeId, new Data(1, 1), IOPort.Direction.NORTH, false);
+		flush = addInput(flushId, new Data(1, 0), IOPort.Direction.NORTH, false);
 		
 		for(Map.Entry<String, Integer> e: registers.entrySet()) {
 			addInput(e.getKey(), new Data(e.getValue()), IOPort.Direction.WEST, false);
@@ -116,10 +107,10 @@ public class PipelineRegister extends Component implements IsSynchronous {
 
 	@Override
 	public void executeSynchronous() {
-		boolean flush = getFlush().getValue() == 1;
-		if(getWrite().getValue() == 1 || flush) {
+		boolean f = getFlush().getValue() == 1; // flush?
+		if(getWrite().getValue() == 1 || f) {
 			for(Map.Entry<String, Data> e: registers.entrySet())
-				e.getValue().setValue(flush ? 0 : getInput(e.getKey()).getValue());
+				e.getValue().setValue(f ? 0 : getInput(e.getKey()).getValue());
 		}
 	}
 
@@ -190,7 +181,7 @@ public class PipelineRegister extends Component implements IsSynchronous {
 	 * Returns the index of the current instruction being executed.
 	 * @return Index of the current instruction being executed (-1 if none).
 	 */
-	public int getCurrentInstructionIndex() {
+	public final int getCurrentInstructionIndex() {
 		return currentInstructionIndex;
 	}
 
@@ -198,39 +189,23 @@ public class PipelineRegister extends Component implements IsSynchronous {
 	 * Updates the index of the current instruction being executed.
 	 * @param currentInstructionIndex The index of the instruction (-1 if none).
 	 */
-	public void setCurrentInstructionIndex(int currentInstructionIndex) {
+	public final void setCurrentInstructionIndex(int currentInstructionIndex) {
 		this.currentInstructionIndex = currentInstructionIndex;
-	}
-
-	/**
-	 * Returns the identifier of the write input.
-	 * @return The identifier of the write input.
-	 */
-	public String getWriteId() {
-		return writeId;
-	}
-
-	/**
-	 * Returns the identifier of the flush input.
-	 * @return The identifier of the flush input.
-	 */
-	public String getFlushId() {
-		return flushId;
 	}
 	
 	/**
 	 * Returns the write input.
 	 * @return Write input.
 	 */
-	public Input getWrite() {
-		return getInput(writeId);
+	public final Input getWrite() {
+		return write;
 	}
 	
 	/**
 	 * Returns the flush input.
 	 * @return Flush input.
 	 */
-	public Input getFlush() {
-		return getInput(flushId);
+	public final Input getFlush() {
+		return flush;
 	}
 }

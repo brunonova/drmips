@@ -179,8 +179,8 @@ public class CPU {
 		if(json.has("reg_names")) parseJSONRegNames(cpu, json.getJSONArray("reg_names"));
 		cpu.instructionSet = new InstructionSet(parentPath + File.separator + json.getString("instructions"));
 		cpu.controlUnit.setControl(cpu.getInstructionSet().getControl(), cpu.getInstructionSet().getOpCodeSize());
-		if(cpu.hasALUControl()) cpu.aluControl.setControl(cpu.getInstructionSet().getControlALU());
-		if(cpu.hasALU()) cpu.alu.setControl(cpu.getInstructionSet().getControlALU());
+		if(cpu.hasALUControl()) cpu.aluControl.setControlALU(cpu.getInstructionSet().getControlALU());
+		if(cpu.hasALU()) cpu.alu.setControlALU(cpu.getInstructionSet().getControlALU());
 		parseJSONWires(cpu, json.getJSONArray("wires"));
 		cpu.determineControlPath();
 		

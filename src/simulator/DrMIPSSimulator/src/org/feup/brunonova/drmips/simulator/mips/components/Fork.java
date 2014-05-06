@@ -33,8 +33,7 @@ import org.feup.brunonova.drmips.simulator.util.Point;
  * @author Bruno Nova
  */
 public class Fork extends Component {
-	/** The identifier of the input. */
-	private final String inId;
+	private final Input input;
 	
 	/**
 	 * Fork constructor.
@@ -48,16 +47,15 @@ public class Fork extends Component {
 	 */
 	public Fork(String id, int latency, Point position, int size, String inId, List<String> outIds) throws InvalidCPUException {
 		super(id, latency, "", "fork", "fork_description", new Point(position.x - 2, position.y - 2), new Dimension(5, 5));
-		this.inId = inId;
 		
-		addInput(inId, new Data(size));
-		getInput().setPosition(position);
+		input = addInput(inId, new Data(size));
+		input.setPosition(position);
 		
-		for(String s: outIds) 
-			addOutput(s, new Data(size));
-		
-		for(Output o: getOutputs())
+		Output o;
+		for(String s: outIds) {
+			o = addOutput(s, new Data(size));
 			o.setPosition(position);
+		}
 	}
 
 	@Override
@@ -67,18 +65,10 @@ public class Fork extends Component {
 	}
 	
 	/**
-	 * Returns the identifier of the input.
-	 * @return The identifier of the input.
-	 */
-	public String getInputId() {
-		return inId;
-	}
-	
-	/**
 	 * Returns the splits's input.
 	 * @return Fork input;
 	 */
 	public final Input getInput() {
-		return getInput(inId);
+		return input;
 	}
 }
