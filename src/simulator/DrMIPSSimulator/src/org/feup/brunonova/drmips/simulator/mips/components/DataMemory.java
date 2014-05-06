@@ -40,20 +40,10 @@ public class DataMemory extends Component implements IsSynchronous {
 	/** The maximum size of the memory (in ints). */
 	public static final int MAXIMUM_SIZE = 500;
 	
-	/** The saved data. */
+	private final Input address, writeData, memRead, memWrite;
+	private final Output output;
 	private int[] memory;
-	/** The identifier of the address input. */
-	private final String addressId;
-	/** The identifier of the write data input. */
-	private final String writeDataId;
-	/** The identifier of the output. */
-	private final String outId;
-	/** The identifier of the MemRead input. */
-	private final String memReadId
-		/** The identifier of the MemWrite input. */;
-	private final String memWriteId;
-	/** The previous values of the memory. */
-	private final Stack<int[]> states = new Stack<int[]>();
+	private final Stack<int[]> states = new Stack<int[]>(); // previous values
 	
 	/**
 	 * Data memory contructor.
@@ -70,21 +60,16 @@ public class DataMemory extends Component implements IsSynchronous {
 	 */
 	public DataMemory(String id, int latency, Point position, int size, String addressId, String writeDataId, String outId, String memReadId, String memWriteId) throws InvalidCPUException {
 		super(id, latency, "Data\nmemory", "data_memory", "data_memory_description", position, new Dimension(80, 100));
-		this.addressId = addressId;
-		this.writeDataId = writeDataId;
-		this.outId = outId;
-		this.memReadId = memReadId;
-		this.memWriteId = memWriteId;
 		
 		if(size < MINIMUM_SIZE || size > MAXIMUM_SIZE)
 			throw new InvalidCPUException("Invalid data memory size! Must be between " + MINIMUM_SIZE + " and " + MAXIMUM_SIZE + " positions (each position has 32 bits).");
 		
 		memory = new int[size];
-		addInput(addressId, new Data(), IOPort.Direction.WEST, true, true);
-		addInput(writeDataId, new Data(), IOPort.Direction.WEST, false, true);
-		addInput(memReadId, new Data(1), IOPort.Direction.NORTH);
-		addInput(memWriteId, new Data(1), IOPort.Direction.NORTH, false);
-		addOutput(outId, new Data(), IOPort.Direction.EAST, true);
+		address = addInput(addressId, new Data(), IOPort.Direction.WEST, true, true);
+		writeData = addInput(writeDataId, new Data(), IOPort.Direction.WEST, false, true);
+		memRead = addInput(memReadId, new Data(1), IOPort.Direction.NORTH);
+		memWrite = addInput(memWriteId, new Data(1), IOPort.Direction.NORTH, false);
+		output = addOutput(outId, new Data(), IOPort.Direction.EAST, true);
 	}
 
 	@Override
@@ -143,7 +128,7 @@ public class DataMemory extends Component implements IsSynchronous {
 	/**
 	 * Resets the memory to zeros.
 	 */
-	public void reset() {
+	public final void reset() {
 		for(int i = 0; i < memory.length; i++)
 			memory[i] = 0;
 		execute();
@@ -154,7 +139,7 @@ public class DataMemory extends Component implements IsSynchronous {
 	 * @param address The address of the memory position.
 	 * @return The desired value.
 	 */
-	public int getData(int address) {
+	public final int getData(int address) {
 		return getDataInIndex(getIndexOfAddress(address));
 	}
 	
@@ -163,7 +148,7 @@ public class DataMemory extends Component implements IsSynchronous {
 	 * @param index The index of the memory position.
 	 * @return The desired value, or 0 if the index is out of bounds.
 	 */
-	public int getDataInIndex(int index) {
+	public final int getDataInIndex(int index) {
 		return (index >= 0 && index < getMemorySize()) ? memory[index] : 0;
 	}
 	
@@ -173,7 +158,7 @@ public class DataMemory extends Component implements IsSynchronous {
 	 * @param address The address of the memory position.
 	 * @param value The new value.
 	 */
-	public void setData(int address, int value) {
+	public final void setData(int address, int value) {
 		setData(address, value, true);
 	}
 	
@@ -183,7 +168,7 @@ public class DataMemory extends Component implements IsSynchronous {
 	 * @param value The new value.
 	 * @param propagate Whether the new value is propagated to the rest of the circuit if it is being read.
 	 */
-	public void setData(int address, int value, boolean propagate) {
+	public final void setData(int address, int value, boolean propagate) {
 		setDataInIndex(getIndexOfAddress(address), value, propagate);
 	}
 	
@@ -193,7 +178,7 @@ public class DataMemory extends Component implements IsSynchronous {
 	 * @param index The index of the memory position.
 	 * @param value The new value.
 	 */
-	public void setDataInIndex(int index, int value) {
+	public final void setDataInIndex(int index, int value) {
 		setDataInIndex(index, value, true);
 	}
 	
@@ -203,7 +188,7 @@ public class DataMemory extends Component implements IsSynchronous {
 	 * @param value The new value.
 	 * @param propagate Whether the new value is propagated to the rest of the circuit if it is being read.
 	 */
-	public void setDataInIndex(int index, int value, boolean propagate) {
+	public final void setDataInIndex(int index, int value, boolean propagate) {
 		if(index >= 0 && index < getMemorySize()) {
 			memory[index] = value;
 			if(propagate) execute();
@@ -215,7 +200,7 @@ public class DataMemory extends Component implements IsSynchronous {
 	 * @param address The address of the memory position.
 	 * @return The index of the position, or -1 if out of bounds.
 	 */
-	public int getIndexOfAddress(int address) {
+	public final int getIndexOfAddress(int address) {
 		int index = address / (Data.DATA_SIZE / 8); // A lw on an address like 3 would give an error in a CPU with exceptions
 		return (index >= 0 && index < getMemorySize()) ? index : -1;
 	}
@@ -224,87 +209,47 @@ public class DataMemory extends Component implements IsSynchronous {
 	 * Returns the size of the memory.
 	 * @return The size of the memory (number of 32 bits positions).
 	 */
-	public int getMemorySize() {
+	public final int getMemorySize() {
 		return memory.length;
 	}
 
 	/**
-	 * Returns the identifier of the address input.
-	 * @return The identifier of the address input.
-	 */
-	public String getAddressId() {
-		return addressId;
-	}
-
-	/**
-	 * Returns the identifier of the write data input.
-	 * @return The identifier of the write data input.
-	 */
-	public String getWriteDataId() {
-		return writeDataId;
-	}
-
-	/**
-	 * Returns the identifier of the MemRead input.
-	 * @return The identifier of the MemRead input.
-	 */
-	public String getMemReadId() {
-		return memReadId;
-	}
-
-	/**
-	 * Returns the identifier of the MemWrite input.
-	 * @return The identifier of the MemWrite input.
-	 */
-	public String getMemWriteId() {
-		return memWriteId;
-	}
-	
-	/**
-	 * Returns the identifier of the output.
-	 * @return The identifier of the output.
-	 */
-	public String getOutputId() {
-		return outId;
-	}
-	
-	/**
 	 * Returns the address input.
 	 * @return Address input.
 	 */
-	public Input getAddress() {
-		return getInput(addressId);
+	public final Input getAddress() {
+		return address;
 	}
 	
 	/**
 	 * Returns the write data input.
 	 * @return Write data input.
 	 */
-	public Input getWriteData() {
-		return getInput(writeDataId);
+	public final Input getWriteData() {
+		return writeData;
 	}
 	
 	/**
 	 * Returns the MemRead input.
 	 * @return MemRead input.
 	 */
-	public Input getMemRead() {
-		return getInput(memReadId);
+	public final Input getMemRead() {
+		return memRead;
 	}
 	
 	/**
 	 * Returns the MemWrite input.
 	 * @return MemWrite input.
 	 */
-	public Input getMemWrite() {
-		return getInput(memWriteId);
+	public final Input getMemWrite() {
+		return memWrite;
 	}
 	
 	/**
 	 * Returns the output.
 	 * @return Output.
 	 */
-	public Output getOutput() {
-		return getOutput(outId);
+	public final Output getOutput() {
+		return output;
 	}
 }

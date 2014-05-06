@@ -35,12 +35,9 @@ import org.feup.brunonova.drmips.simulator.util.Point;
  * @author Bruno Nova
  */
 public class InstructionMemory extends Component {
-	/** All the assembled instructions. */
+	private final Input input;
+	private final Output output;
 	private List<AssembledInstruction> instructions;
-	/** The identifier of the input. */
-	private final String inId;
-	/** The identifier of the output. */
-	private final String outId;
 
 	/**
 	 * Instruction memory constructor.
@@ -54,10 +51,8 @@ public class InstructionMemory extends Component {
 	public InstructionMemory(String id, int latency, Point position, String inId, String outId) throws InvalidCPUException {
 		super(id, latency, "Instruction\nMemory", "instruction_memory", "instruction_memory_description", position, new Dimension(80, 100));
 		instructions = new ArrayList<AssembledInstruction>();
-		this.inId = inId;
-		this.outId = outId;
-		addInput(inId, new Data());
-		addOutput(outId, new Data());
+		input = addInput(inId, new Data());
+		output = addOutput(outId, new Data());
 	}
 
 	@Override
@@ -74,7 +69,7 @@ public class InstructionMemory extends Component {
 	 * @param index Index of the instruction.
 	 * @return The desired instruction, or <tt>null</tt> if it doesn't exist.
 	 */
-	public AssembledInstruction getInstruction(int index) {
+	public final AssembledInstruction getInstruction(int index) {
 		if(index >= 0 && index < instructions.size())
 			return instructions.get(index);
 		else
@@ -85,7 +80,7 @@ public class InstructionMemory extends Component {
 	 * Returns the number of instructions in memory.
 	 * @return The number of instructions.
 	 */
-	public int getNumberOfInstructions() {
+	public final int getNumberOfInstructions() {
 		return instructions.size();
 	}
 	
@@ -93,40 +88,24 @@ public class InstructionMemory extends Component {
 	 * Loads the specified instructions into the memory.
 	 * @param instructions Instructions to load.
 	 */
-	public void setInstructions(List<AssembledInstruction> instructions) {
+	public final void setInstructions(List<AssembledInstruction> instructions) {
 		this.instructions = instructions;
 		execute();
-	}
-	
-	/**
-	 * Returns the identifier of the input.
-	 * @return The identifier of the input.
-	 */
-	public String getInputId() {
-		return inId;
-	}
-	
-	/**
-	 * Returns the identifier of the output.
-	 * @return The identifier of the output.
-	 */
-	public String getOutputId() {
-		return outId;
 	}
 	
 	/**
 	 * Return the memory's input.
 	 * @return Memory input.
 	 */
-	public Input getInput() {
-		return getInput(inId);
+	public final Input getInput() {
+		return input;
 	}
 	
 	/**
 	 * Return the memory's output.
 	 * @return Memory output.
 	 */
-	public Output getOutput() {
-		return getOutput(outId);
+	public final Output getOutput() {
+		return output;
 	}
 }

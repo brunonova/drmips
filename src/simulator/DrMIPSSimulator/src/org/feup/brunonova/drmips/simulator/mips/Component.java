@@ -350,10 +350,11 @@ public abstract class Component {
 	 * Adds an input with an initial value.
 	 * @param id Input identifier.
 	 * @param data Data of the input (size and initial value).
+	 * @return The added input.
 	 * @throws InvalidCPUException If <tt>id</tt> is empty or duplicated.
 	 */
-	protected final void addInput(String id, Data data) throws InvalidCPUException {
-		addInput(id, data, IOPort.Direction.WEST, true, false);
+	protected final Input addInput(String id, Data data) throws InvalidCPUException {
+		return addInput(id, data, IOPort.Direction.WEST, true, false);
 	}
 	
 	/**
@@ -361,10 +362,11 @@ public abstract class Component {
 	 * @param id Input identifier.
 	 * @param data Data of the input (size and initial value).
 	 * @param direction The direction/side of the input on the component.
+	 * @return The added input.
 	 * @throws InvalidCPUException If <tt>id</tt> is empty or duplicated.
 	 */
-	protected final void addInput(String id, Data data, Input.Direction direction) throws InvalidCPUException {
-		addInput(id, data, direction, true, false);
+	protected final Input addInput(String id, Data data, Input.Direction direction) throws InvalidCPUException {
+		return addInput(id, data, direction, true, false);
 	}
 	
 	/**
@@ -373,10 +375,11 @@ public abstract class Component {
 	 * @param data Data of the input (size and initial value).
 	 * @param direction The direction/side of the input on the component.
 	 * @param changesComponentAccumulatedLatency Whether this input changes the respective component's accumulated latency (should be <b>false</b> if the value of the input is only used at the end of the clock cycle).
+	 * @return The added input.
 	 * @throws InvalidCPUException If <tt>id</tt> is empty or duplicated.
 	 */
-	protected final void addInput(String id, Data data, Input.Direction direction, boolean changesComponentAccumulatedLatency) throws InvalidCPUException {
-		addInput(id, data, direction, changesComponentAccumulatedLatency, false);
+	protected final Input addInput(String id, Data data, Input.Direction direction, boolean changesComponentAccumulatedLatency) throws InvalidCPUException {
+		return addInput(id, data, direction, changesComponentAccumulatedLatency, false);
 	}
 	
 	/**
@@ -386,11 +389,14 @@ public abstract class Component {
 	 * @param direction The direction/side of the input on the component.
 	 * @param changesComponentAccumulatedLatency Whether this input changes the respective component's accumulated latency (should be <b>false</b> if the value of the input is only used at the end of the clock cycle).
 	 * @param showTip Whether a balloon tip with the value of the input/output should be displayed.
+	 * @return The added input.
 	 * @throws InvalidCPUException If <tt>id</tt> is empty or duplicated.
 	 */
-	protected final void addInput(String id, Data data, Input.Direction direction, boolean changesComponentAccumulatedLatency, boolean showTip) throws InvalidCPUException {
+	protected final Input addInput(String id, Data data, Input.Direction direction, boolean changesComponentAccumulatedLatency, boolean showTip) throws InvalidCPUException {
 		if(hasInput(id)) throw new InvalidCPUException("Duplicated ID " + id + "!");
-		in.put(id, new Input(this, id, data, direction, changesComponentAccumulatedLatency, showTip));
+		Input input = new Input(this, id, data, direction, changesComponentAccumulatedLatency, showTip);
+		in.put(id, input);
+		return input;
 	}
 	
 	/**
@@ -432,10 +438,11 @@ public abstract class Component {
 	 * Adds an output with an initial value.
 	 * @param id Output identifier.
 	 * @param data Data of the output (size and initial value).
+	 * @return The added output.
 	 * @throws InvalidCPUException If <tt>id</tt> is empty or duplicated.
 	 */
-	protected final void addOutput(String id, Data data) throws InvalidCPUException {
-		addOutput(id, data, IOPort.Direction.EAST, false);
+	protected final Output addOutput(String id, Data data) throws InvalidCPUException {
+		return addOutput(id, data, IOPort.Direction.EAST, false);
 	}
 	
 	/**
@@ -443,10 +450,11 @@ public abstract class Component {
 	 * @param id Output identifier.
 	 * @param data Data of the output (size and initial value).
 	 * @param direction The direction/side of the output on the component.
+	 * @return The added output.
 	 * @throws InvalidCPUException If <tt>id</tt> is empty or duplicated.
 	 */
-	protected final void addOutput(String id, Data data, Output.Direction direction) throws InvalidCPUException {
-		addOutput(id, data, direction, false);
+	protected final Output addOutput(String id, Data data, Output.Direction direction) throws InvalidCPUException {
+		return addOutput(id, data, direction, false);
 	}
 	
 	/**
@@ -455,11 +463,14 @@ public abstract class Component {
 	 * @param data Data of the output (size and initial value).
 	 * @param direction The direction/side of the output on the component.
 	 * @param showTip Whether a balloon tip with the value of the input/output should be displayed.
+	 * @return The added output.
 	 * @throws InvalidCPUException If <tt>id</tt> is empty or duplicated.
 	 */
-	protected final void addOutput(String id, Data data, Output.Direction direction, boolean showTip) throws InvalidCPUException {
+	protected final Output addOutput(String id, Data data, Output.Direction direction, boolean showTip) throws InvalidCPUException {
 		if(hasOutput(id)) throw new InvalidCPUException("Duplicated ID " + id + "!");
-		out.put(id, new Output(this, id, data, direction, showTip));
+		Output output = new Output(this, id, data, direction, showTip);
+		out.put(id, output);
+		return output;
 	}
 	
 	/**
