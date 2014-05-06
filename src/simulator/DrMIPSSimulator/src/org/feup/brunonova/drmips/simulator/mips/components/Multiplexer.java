@@ -37,7 +37,7 @@ import org.feup.brunonova.drmips.simulator.util.Point;
 public class Multiplexer extends Component {
 	private final Input selector;
 	private final Output output;
-	private final List<String> inIds; // inputs' identifiers
+	private final List<Input> inputs; // inputs (excluding the selector)
 	
 	/**
 	 * Multiplexer constructor.
@@ -52,19 +52,20 @@ public class Multiplexer extends Component {
 	 */
 	public Multiplexer(String id, int latency, Point position, int size, List<String> inIds, String selId, String outId) throws InvalidCPUException {
 		super(id, latency, "M\nU\nX", "multiplexer", "multiplexer_description", position, new Dimension(15, 35));
-		this.inIds = inIds;
 		
 		selector = addInput(selId, new Data((inIds.size() > 0) ? Data.requiredNumberOfBits(inIds.size() - 1) : 1), IOPort.Direction.NORTH);
 		output = addOutput(outId, new Data(size));
+		
+		inputs = new ArrayList<Input>(inIds.size());
 		for(String inId: inIds)
-			addInput(inId, new Data(size));
+			inputs.add(addInput(inId, new Data(size)));
 	}
 
 	@Override
 	public void execute() {
 		int sel = getSelector().getValue();
 		Input input;
-		for(int i = 0; i < inIds.size(); i++) { // put selected input value in output and mark other inputs as irrelevant
+		for(int i = 0; i < inputs.size(); i++) { // put selected input value in output and mark other inputs as irrelevant
 			input = getInput(i);
 			if(i == sel) getOutput().setValue(input.getValue());
 			input.setRelevant(i == sel);
@@ -106,8 +107,8 @@ public class Multiplexer extends Component {
 	 * @return The input, or <tt>null</tt> if it doesn't exist.
 	 */
 	public final Input getInput(int index) {
-		if(index >= 0 && index < inIds.size())
-			return getInput(inIds.get(index));
+		if(index >= 0 && index < inputs.size())
+			return inputs.get(index);
 		else
 			return null;
 	}

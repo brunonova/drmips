@@ -18,9 +18,9 @@
 
 package org.feup.brunonova.drmips.simulator.mips.components;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
-import java.util.TreeMap;
 import org.feup.brunonova.drmips.simulator.exceptions.InvalidCPUException;
 import org.feup.brunonova.drmips.simulator.mips.Component;
 import org.feup.brunonova.drmips.simulator.mips.Data;
@@ -67,7 +67,7 @@ public class PipelineRegister extends Component implements IsSynchronous {
 	 */
 	public PipelineRegister(String id, int latency, Point position, Map<String, Integer> registers, String writeId, String flushId) throws InvalidCPUException {
 		super(id, latency, "", "pipeline_register", "pipeline_register_description", position, new Dimension(15, 300));
-		this.registers = new TreeMap<String, Data>();
+		this.registers = new HashMap<String, Data>(32);
 		setDisplayName();
 		
 		write = addInput(writeId, new Data(1, 1), IOPort.Direction.NORTH, false);
@@ -171,7 +171,7 @@ public class PipelineRegister extends Component implements IsSynchronous {
 	 * @return Copy of the registers.
 	 */
 	private Map<String, Data> cloneRegisters() {
-		Map<String, Data> map = new TreeMap<String, Data>();
+		Map<String, Data> map = new HashMap<String, Data>();
 		for(Map.Entry<String, Data> e: registers.entrySet())
 			map.put(e.getKey(), e.getValue().clone());
 		return map;
