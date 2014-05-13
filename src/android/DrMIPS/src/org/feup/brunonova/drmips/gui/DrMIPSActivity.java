@@ -571,10 +571,9 @@ public class DrMIPSActivity extends Activity {
 					.create();
 			
 			case CREDITS_DIALOG:
-				String credits = getString(R.string.contributors) + ":\n" +
-					"  António Araújo\n" +
-					"  Bruno Nova\n" +
-					"  João Canas Ferreira";
+				String credits = "António Araújo\n" +
+					"Bruno Nova\n" +
+					"João Canas Ferreira";
 				return new AlertDialog.Builder(this)
 					.setTitle(R.string.credits)
 					.setMessage(credits)

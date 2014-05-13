@@ -167,14 +167,14 @@ public class DlgAbout extends javax.swing.JDialog {
     }//GEN-LAST:event_cmdLicenseActionPerformed
 
     private void cmdCreditsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdCreditsActionPerformed
-        String credits = Lang.t("contributors") + ":\n"
-			+ "  António Araújo\n"
-			+ "  Bruno Nova\n"
-			+ "  João Canas Ferreira\n"
+        String credits = "António Araújo\n"
+			+ "Bruno Nova\n"
+			+ "João Canas Ferreira\n"
 			+ "\n"
 			+ Lang.t("external_resources") + ":\n"
 			+ "  AutoComplete (http://fifesoft.com/autocomplete/)\n"
 			+ "  Humanity Icons (https://launchpad.net/humanity/)\n"
+			+ "  JSON.org (http://www.json.org/java/)\n"
 			+ "  JTattoo (http://www.jtattoo.net/)\n"
 			+ "  RSyntaxTextArea (http://fifesoft.com/rsyntaxtextarea/)";
 		JOptionPane.showMessageDialog(this, credits, Lang.t("credits"), JOptionPane.INFORMATION_MESSAGE);
