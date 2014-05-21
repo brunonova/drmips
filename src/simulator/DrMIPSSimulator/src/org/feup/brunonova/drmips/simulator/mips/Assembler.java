@@ -60,7 +60,7 @@ public class Assembler {
 	 * @param code The code to assemble.
 	 * @throws SyntaxErrorException If the code has a syntax error.
 	 */
-	public void assembleCode(String code) throws SyntaxErrorException {
+	protected void assembleCode(String code) throws SyntaxErrorException {
 		String[] codeLines = code.split("\n");
 		List<CodeLine> lines = new ArrayList<CodeLine>();
 		List<AssembledInstruction> instructions = new ArrayList<AssembledInstruction>();

@@ -1136,7 +1136,7 @@ public class DrMIPSActivity extends Activity {
 	private void assemble() {
 		getCPU().resetData();
 		try {
-			getCPU().getAssembler().assembleCode(txtCode.getText().toString());
+			getCPU().assembleCode(txtCode.getText().toString());
 			
 			if(datapath != null) datapath.refresh();
 			refreshRegistersTableValues();

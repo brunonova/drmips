@@ -33,6 +33,7 @@ import java.util.TreeMap;
 import org.feup.brunonova.drmips.simulator.exceptions.InfiniteLoopException;
 import org.feup.brunonova.drmips.simulator.exceptions.InvalidCPUException;
 import org.feup.brunonova.drmips.simulator.exceptions.InvalidInstructionSetException;
+import org.feup.brunonova.drmips.simulator.exceptions.SyntaxErrorException;
 import org.feup.brunonova.drmips.simulator.mips.components.*;
 import org.feup.brunonova.drmips.simulator.util.Dimension;
 import org.feup.brunonova.drmips.simulator.util.Point;
@@ -561,6 +562,15 @@ public class CPU {
 		}
 		
 		return new Dimension(width + RIGHT_MARGIN, height + BOTTOM_MARGIN);
+	}
+	
+	/**
+	 * Assembles the given code and updates the CPU's instruction and data memory-
+	 * @param code The code to assemble.
+	 * @throws SyntaxErrorException If the code has a syntax error.
+	 */
+	public void assembleCode(String code) throws SyntaxErrorException {
+		getAssembler().assembleCode(code);
 	}
 	
 	/**
