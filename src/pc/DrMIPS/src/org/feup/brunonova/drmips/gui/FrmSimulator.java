@@ -2008,7 +2008,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		txtCode.clearErrorIcons();
 		if(mnuResetDataBeforeAssembling.isSelected()) cpu.resetData();
 		try {
-			cpu.getAssembler().assembleCode(txtCode.getText());
+			cpu.assembleCode(txtCode.getText());
 			datapath.refresh();
 			tblRegisters.refreshValues(cmbRegFormat.getSelectedIndex());
 			tblAssembledCode.refresh(cmbAssembledCodeFormat.getSelectedIndex());
