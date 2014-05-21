@@ -1,3 +1,10 @@
+drmips (1.2.0-0ppa2) trusty; urgency=low
+
+  * Add missing texlive-lang-portuguese build dependency
+  * Correct debian/copyright format
+
+ -- Bruno Nova <brunomb.nova@gmail.com>  Wed, 21 May 2014 21:14:16 +0100
+
 drmips (1.2.0-0ppa1) trusty; urgency=low
 
   * New version (1.2.0):
