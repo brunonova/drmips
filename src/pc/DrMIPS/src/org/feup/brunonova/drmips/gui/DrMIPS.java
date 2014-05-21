@@ -40,7 +40,7 @@ public class DrMIPS {
 	/** Short description of the program. */
 	public static final String PROGRAM_DESCRIPTION = "Educational MIPS simulator";
 	/** The version of the program, as a string. */
-	public static final String VERSION = "1.1.1";
+	public static final String VERSION = "1.2.0";
 	
 	/** Reference to the user preferences. */
 	public static Preferences prefs = Preferences.userNodeForPackage(DrMIPS.class);
