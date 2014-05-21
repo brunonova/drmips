@@ -288,13 +288,15 @@ public class CPU {
 		for(Component c: comps) {
 			if(!isPerformanceInstructionDependent() || ((IsSynchronous)c).isWritingState()) {
 				for(Input in: c.getInputs()) {
-					if(in.getAccumulatedLatency() > maxLatency) {
-						maxIns.clear();
-						maxIns.add(in);
-						maxLatency = in.getAccumulatedLatency();
+					if(in.isConnected()) {
+						if(in.getAccumulatedLatency() > maxLatency) {
+							maxIns.clear();
+							maxIns.add(in);
+							maxLatency = in.getAccumulatedLatency();
+						}
+						else if(in.getAccumulatedLatency() == maxLatency)
+							maxIns.add(in);
 					}
-					else if(in.getAccumulatedLatency() == maxLatency)
-						maxIns.add(in);
 				}
 			}
 		}
@@ -442,12 +444,6 @@ public class CPU {
 	 * Determines the CPU's critical path
 	 */
 	private void determineCriticalPath() {
-		if(isPerformanceInstructionDependent()) {
-			
-		}
-		else {
-			
-		}		
 		List<Input> maxIns = findHighetsAccumulatedLatencyInputs(isPerformanceInstructionDependent());
 		
 		if(!maxIns.isEmpty()) {
