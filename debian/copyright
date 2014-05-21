@@ -10,7 +10,7 @@ Files: debian/*
 Copyright: 2013-2014 Bruno Nova <brunomb.nova@gmail.com>
 License: GPL-3.0+
 
-Files: src/pc/DrMIPS/lib/rsyntaxtextarea.jar, src/pc/DrMIPS/lib/autocomplete.jar
+Files: src/pc/DrMIPS/lib/rsyntaxtextarea.jar src/pc/DrMIPS/lib/autocomplete.jar
 Copyright: 2012 Robert Futrell
 License: Modified BSD
 
