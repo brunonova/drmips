@@ -1,3 +1,14 @@
+drmips (1.2.0-0ppa1) trusty; urgency=low
+
+  * New version (1.2.0):
+    - Separated the cross-platform simulator code from the PC and Android
+      projects into a new project
+    - Some refactoring
+    - Fixed a bug where the calculation of the critical path would fail when
+      the latencies of all components were 0
+
+ -- Bruno Nova <brunomb.nova@gmail.com>  Wed, 21 May 2014 20:14:22 +0100
+
 drmips (1.1.1-0ppa1) saucy; urgency=low
 
   * New version (1.1.1):

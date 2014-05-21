@@ -59,3 +59,4 @@ debian/*.substvars
 debian/drmips
 debian/files
 obj-x86_64-linux-gnu
+/.pc
