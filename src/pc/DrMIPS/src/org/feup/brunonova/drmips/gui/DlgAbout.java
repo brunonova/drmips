@@ -174,7 +174,7 @@ public class DlgAbout extends javax.swing.JDialog {
 			+ Lang.t("external_resources") + ":\n"
 			+ "  AutoComplete (http://fifesoft.com/autocomplete/)\n"
 			+ "  Humanity Icons (https://launchpad.net/humanity/)\n"
-			+ "  JSON.org (http://www.json.org/java/)\n"
+			+ "  JSON.org by Android (https://android.googlesource.com/platform/libcore/+log/master/json/)\n"
 			+ "  JTattoo (http://www.jtattoo.net/)\n"
 			+ "  RSyntaxTextArea (http://fifesoft.com/rsyntaxtextarea/)";
 		JOptionPane.showMessageDialog(this, credits, Lang.t("credits"), JOptionPane.INFORMATION_MESSAGE);
