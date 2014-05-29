@@ -42,6 +42,23 @@ To compile it:
     the PC version of the simulator.
 
 
+Project Directories
+-------------------
+
+* **arch**: control files to create an Arch Linux package of the simulator.
+  *(should not be included in the distributed source tarball)*
+* **cmake**: additional modules used by the CMake build scripts.
+* **debian**: control files to create a Debian/Ubuntu package of the simulator.
+  *(should not be included in the distributed source tarball)*
+* **doc**: documentation of the project.
+  * **manuals**: user manuals.
+  * **UML**: simple UML class diagram of the simulator.
+* **src**: source code of the project.
+  * **android**: code of the Android application (graphical interface).
+  * **pc**: code of the PC application (graphical interface).
+  * **simulator**: code of the internal simulation logic (cross-platform).
+
+
 
 [DISS]: http://paginas.fe.up.pt/~ei08109/dissertation/ "Dissertation Wiki"
 [FEUP]: http://www.fe.up.pt/ "Faculty of Engineering of the University of Porto"
