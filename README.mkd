@@ -51,12 +51,12 @@ Project Directories
 * **debian**: control files to create a Debian/Ubuntu package of the simulator.
   *(should not be included in the distributed source tarball)*
 * **doc**: documentation of the project.
-  * **manuals**: user manuals.
-  * **UML**: simple UML class diagram of the simulator.
+    * **manuals**: user manuals.
+    * **UML**: simple UML class diagram of the simulator.
 * **src**: source code of the project.
-  * **android**: code of the Android application (graphical interface).
-  * **pc**: code of the PC application (graphical interface).
-  * **simulator**: code of the internal simulation logic (cross-platform).
+    * **android**: code of the Android application (graphical interface).
+    * **pc**: code of the PC application (graphical interface).
+    * **simulator**: code of the internal simulation logic (cross-platform).
 
 
 
