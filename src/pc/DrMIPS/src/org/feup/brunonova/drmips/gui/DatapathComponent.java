@@ -28,6 +28,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
+import org.feup.brunonova.drmips.simulator.AppInfo;
 import org.feup.brunonova.drmips.simulator.mips.CPU;
 import org.feup.brunonova.drmips.simulator.mips.Component;
 import org.feup.brunonova.drmips.simulator.mips.Input;
@@ -206,7 +207,7 @@ public final class DatapathComponent extends JPanel implements MouseListener {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if(datapath.isInPerformanceMode() && e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2) {
-			String res = (String)JOptionPane.showInputDialog(datapath, Lang.t("latency_of_x", component.getId()), DrMIPS.PROGRAM_NAME, JOptionPane.QUESTION_MESSAGE, null, null, component.getLatency());
+			String res = (String)JOptionPane.showInputDialog(datapath, Lang.t("latency_of_x", component.getId()), AppInfo.NAME, JOptionPane.QUESTION_MESSAGE, null, null, component.getLatency());
 			if(res != null) {
 				try {
 					int lat = Integer.parseInt(res);
@@ -217,10 +218,10 @@ public final class DatapathComponent extends JPanel implements MouseListener {
 						datapath.repaint();
 					}
 					else
-						JOptionPane.showMessageDialog(this.getParent(), Lang.t("invalid_value"), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(this.getParent(), Lang.t("invalid_value"), AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
 				}
 				catch(NumberFormatException ex) {
-					JOptionPane.showMessageDialog(this.getParent(), Lang.t("invalid_value"), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this.getParent(), Lang.t("invalid_value"), AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		}

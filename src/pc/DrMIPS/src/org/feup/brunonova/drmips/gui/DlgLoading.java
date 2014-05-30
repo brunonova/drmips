@@ -16,11 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.feup.brunonova.drmips.gui;
+
+import org.feup.brunonova.drmips.simulator.AppInfo;
 
 /**
  *
@@ -57,7 +55,7 @@ public class DlgLoading extends javax.swing.JDialog {
         pbLoading = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle(DrMIPS.PROGRAM_NAME);
+        setTitle(AppInfo.NAME);
         setMinimumSize(new java.awt.Dimension(300, 150));
         setUndecorated(true);
         getContentPane().setLayout(new java.awt.BorderLayout(5, 5));
@@ -67,7 +65,7 @@ public class DlgLoading extends javax.swing.JDialog {
         getContentPane().add(lblIcon, java.awt.BorderLayout.NORTH);
 
         lblName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblName.setText(DrMIPS.PROGRAM_NAME + " " + DrMIPS.VERSION);
+        lblName.setText(AppInfo.NAME + " " + AppInfo.VERSION);
         getContentPane().add(lblName, java.awt.BorderLayout.CENTER);
 
         pbLoading.setIndeterminate(true);

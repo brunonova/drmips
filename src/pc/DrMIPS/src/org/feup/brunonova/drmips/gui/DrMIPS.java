@@ -26,6 +26,7 @@ import java.util.prefs.Preferences;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
+import org.feup.brunonova.drmips.simulator.AppInfo;
 
 
 /**
@@ -35,13 +36,6 @@ import javax.swing.ToolTipManager;
  * @author Bruno Nova
  */
 public class DrMIPS {
-	/** The name of this program. */
-	public static final String PROGRAM_NAME = "DrMIPS";
-	/** Short description of the program. */
-	public static final String PROGRAM_DESCRIPTION = "Educational MIPS simulator";
-	/** The version of the program, as a string. */
-	public static final String VERSION = "1.2.0";
-	
 	/** Reference to the user preferences. */
 	public static Preferences prefs = Preferences.userNodeForPackage(DrMIPS.class);
 	/** The full path to the program's jar folder, or '.' if not running from a jar (when running from the IDE, for example). */
@@ -143,8 +137,8 @@ public class DrMIPS {
 	private static final Logger LOG = Logger.getLogger(DrMIPS.class.getName());
 	
 	private static void displayHelpAndExit() {
-		System.out.println(PROGRAM_NAME + " - " + PROGRAM_DESCRIPTION + "\n"
-			+ "Usage: java -jar " + PROGRAM_NAME + ".jar [options] [file]\n"
+		System.out.println(AppInfo.NAME + " - " + AppInfo.DESCRIPTION + "\n"
+			+ "Usage: java -jar " + AppInfo.NAME + ".jar [options] [file]\n"
 			+ "\n"
 			+ "Options:\n"
 			+ "  -h, --help   display this help and exit\n"
@@ -153,9 +147,9 @@ public class DrMIPS {
 	}
 	
 	private static void displayVersionAndExit() {
-		System.out.println("DrMIPS " + VERSION + "\n"
-			+ "Copyright (C) 2013-2014 Bruno Nova <ei08109@fe.up.pt>\n"
-			+ "License: GPLv3 <http://www.gnu.org/licenses/gpl-3.0.html>");
+		System.out.println(AppInfo.NAME + " " + AppInfo.VERSION + "\n"
+			+ AppInfo.COPYRIGHT + "\n"
+			+ "License: " + AppInfo.LICENSE_SHORT);
 		System.exit(0);
 	}
 	
@@ -219,7 +213,7 @@ public class DrMIPS {
 		
 		// Load the strings
 		if(!Lang.loadPreferredLanguage()) {
-			JOptionPane.showMessageDialog(null, "Error opening language file " + Lang.getLanguage() + "!", PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Error opening language file " + Lang.getLanguage() + "!", AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
 			System.exit(1);
 		}
 		

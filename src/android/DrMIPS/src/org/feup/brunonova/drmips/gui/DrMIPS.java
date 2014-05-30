@@ -227,14 +227,6 @@ public class DrMIPS extends Application {
 	}
 	
 	/**
-	 * Returns the application's version name.
-	 * @return The application's version name.
-	 */
-	public String getVersionName() {
-		return versionName;
-	}
-	
-	/**
 	 * Returns the application's preferences.
 	 * @return App's preferences.
 	 */
