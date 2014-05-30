@@ -137,8 +137,18 @@ public class DrMIPS {
 	private static final Logger LOG = Logger.getLogger(DrMIPS.class.getName());
 	
 	private static void displayHelpAndExit() {
+		// The help text will contain a "Usage" line. The default value of the line is:
+		//   Usage: java -jar DrMIPS.jar [options] [file]
+		// If the simulator will be started from a launcher script/program, you may
+		// want to change the displayed "Usage" line. To do that, you must define
+		// the "program.name" property in the launcher script, like so:
+		//   java -Dprogram.name=drmips -jar /path/to/DrMIPS.jar
+		// This example will change the "Usage" line to:
+		//   Usage: drmips [options] [file]
+		String prog_name = System.getProperty("program.name", "java -jar " + AppInfo.NAME + ".jar");
+		
 		System.out.println(AppInfo.NAME + " - " + AppInfo.DESCRIPTION + "\n"
-			+ "Usage: java -jar " + AppInfo.NAME + ".jar [options] [file]\n"
+			+ "Usage: " + prog_name + " [options] [file]\n"
 			+ "\n"
 			+ "Options:\n"
 			+ "  -h, --help   display this help and exit\n"
