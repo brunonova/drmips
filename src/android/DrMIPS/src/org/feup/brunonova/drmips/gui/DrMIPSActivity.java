@@ -30,6 +30,7 @@ import java.io.OutputStreamWriter;
 import java.util.Arrays;
 
 import org.feup.brunonova.drmips.R;
+import org.feup.brunonova.drmips.simulator.AppInfo;
 import org.feup.brunonova.drmips.simulator.exceptions.InfiniteLoopException;
 import org.feup.brunonova.drmips.simulator.exceptions.InvalidCPUException;
 import org.feup.brunonova.drmips.simulator.exceptions.InvalidInstructionSetException;
@@ -273,11 +274,11 @@ public class DrMIPSActivity extends Activity {
 	protected Dialog onCreateDialog(int id, Bundle args) {
 		switch(id) {
 			case ABOUT_DIALOG: 
-				String msg = getString(R.string.by) + ": Bruno Nova <ei08109@fe.up.pt>"
+				String msg = getString(R.string.by) + ": " + AppInfo.MAIN_AUTHOR_NAME_EMAIL
 					+ "\n" + getString(R.string.for_dissertation)
-					+ "\nFaculdade de Engenharia da Universidade do Porto";
+					+ "\n" + AppInfo.MAIN_AUTHOR_INSTITUTION;
 				return new AlertDialog.Builder(this)
-					.setTitle(getString(R.string.app_name) + " " + DrMIPS.getApplication().getVersionName())
+					.setTitle(AppInfo.NAME + " " + AppInfo.VERSION)
 					.setMessage(msg)
 					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 						@Override
@@ -532,24 +533,9 @@ public class DrMIPSActivity extends Activity {
 					.create();
 				
 			case LICENSE_DIALOG: 
-				String license = "DrMIPS - Educational MIPS simulator\n" +
-					"Copyright (C) 2013-2014 Bruno Nova <ei08109@fe.up.pt>\n" +
-					"\n" +
-					"This program is free software: you can redistribute it and/or modify\n" +
-					"it under the terms of the GNU General Public License as published by\n" +
-					"the Free Software Foundation, either version 3 of the License, or\n" +
-					"(at your option) any later version.\n" +
-					"\n" +
-					"This program is distributed in the hope that it will be useful,\n" +
-					"but WITHOUT ANY WARRANTY; without even the implied warranty of\n" +
-					"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n" +
-					"GNU General Public License for more details.\n" +
-					"\n" +
-					"You should have received a copy of the GNU General Public License\n" +
-					"along with this program.  If not, see <http://www.gnu.org/licenses/>.";
 				return new AlertDialog.Builder(this)
 					.setTitle(R.string.license)
-					.setMessage(license)
+					.setMessage(AppInfo.LICENSE)
 					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
@@ -571,12 +557,9 @@ public class DrMIPSActivity extends Activity {
 					.create();
 			
 			case CREDITS_DIALOG:
-				String credits = "António Araújo\n" +
-					"Bruno Nova\n" +
-					"João Canas Ferreira";
 				return new AlertDialog.Builder(this)
 					.setTitle(R.string.credits)
-					.setMessage(credits)
+					.setMessage(AppInfo.getAuthorsAsText())
 					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {

@@ -49,6 +49,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import org.feup.brunonova.drmips.simulator.AppInfo;
 import org.feup.brunonova.drmips.simulator.exceptions.InfiniteLoopException;
 import org.feup.brunonova.drmips.simulator.exceptions.InvalidCPUException;
 import org.feup.brunonova.drmips.simulator.exceptions.InvalidInstructionSetException;
@@ -401,7 +402,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         frmCode.setResizable(true);
         frmCode.setVisible(true);
         desktop.add(frmCode);
-        frmCode.setBounds(0, 0, 50, 33);
+        frmCode.setBounds(0, 0, 68, 31);
 
         frmAssembledCode.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         frmAssembledCode.setIconifiable(true);
@@ -409,7 +410,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         frmAssembledCode.setResizable(true);
         frmAssembledCode.setVisible(true);
         desktop.add(frmAssembledCode);
-        frmAssembledCode.setBounds(0, 0, 50, 33);
+        frmAssembledCode.setBounds(0, 0, 68, 31);
 
         frmDatapath.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         frmDatapath.setIconifiable(true);
@@ -417,7 +418,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         frmDatapath.setResizable(true);
         frmDatapath.setVisible(true);
         desktop.add(frmDatapath);
-        frmDatapath.setBounds(0, 0, 50, 33);
+        frmDatapath.setBounds(0, 0, 68, 31);
 
         frmRegisters.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         frmRegisters.setIconifiable(true);
@@ -425,7 +426,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         frmRegisters.setResizable(true);
         frmRegisters.setVisible(true);
         desktop.add(frmRegisters);
-        frmRegisters.setBounds(0, 0, 50, 33);
+        frmRegisters.setBounds(0, 0, 68, 31);
 
         frmDataMemory.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         frmDataMemory.setIconifiable(true);
@@ -433,10 +434,10 @@ public class FrmSimulator extends javax.swing.JFrame {
         frmDataMemory.setResizable(true);
         frmDataMemory.setVisible(true);
         desktop.add(frmDataMemory);
-        frmDataMemory.setBounds(0, 0, 50, 33);
+        frmDataMemory.setBounds(0, 0, 68, 31);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle(DrMIPS.PROGRAM_NAME);
+        setTitle(AppInfo.NAME);
         setExtendedState(MAXIMIZED_BOTH);
         setIconImages(icons);
         setMinimumSize(new java.awt.Dimension(600, 400));
@@ -1129,7 +1130,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 			}
 		}
 		catch(Throwable ex) {
-			JOptionPane.showMessageDialog(this, Lang.t("invalid_file") + "\n" + ex.getClass().getName() + " (" + ex.getMessage() + ")", DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, Lang.t("invalid_file") + "\n" + ex.getClass().getName() + " (" + ex.getMessage() + ")", AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
 			LOG.log(Level.WARNING, "error loading CPU", ex);
 		}
     }//GEN-LAST:event_mnuLoadCPUActionPerformed
@@ -1405,7 +1406,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 	 */
 	private void setOpenedFile(File file) {
 		openFile = file;
-		String title = DrMIPS.PROGRAM_NAME;
+		String title = AppInfo.NAME;
 		if(openFile != null) {
 			title = openFile.getName() + " (" + Util.getFilePath(openFile) + ") - " + title;
 			addRecentFile(file);
@@ -1509,7 +1510,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 	private void newFile() {
 		boolean create = true;
 		if(txtCode != null && txtCode.isDirty()) { // file changed?
-			int opt = JOptionPane.showConfirmDialog(this, Lang.t("code_changed"), DrMIPS.PROGRAM_NAME, JOptionPane.YES_NO_CANCEL_OPTION);
+			int opt = JOptionPane.showConfirmDialog(this, Lang.t("code_changed"), AppInfo.NAME, JOptionPane.YES_NO_CANCEL_OPTION);
 			switch(opt) {
 				case JOptionPane.YES_OPTION: 
 					create = true;
@@ -1534,7 +1535,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 	private void openFile() {
 		boolean open = true;
 		if(txtCode != null && txtCode.isDirty()) { // file changed?
-			int opt = JOptionPane.showConfirmDialog(this, Lang.t("code_changed"), DrMIPS.PROGRAM_NAME, JOptionPane.YES_NO_CANCEL_OPTION);
+			int opt = JOptionPane.showConfirmDialog(this, Lang.t("code_changed"), AppInfo.NAME, JOptionPane.YES_NO_CANCEL_OPTION);
 			switch(opt) {
 				case JOptionPane.YES_OPTION: 
 					open = true;
@@ -1582,7 +1583,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 			txtCode.requestFocus();
 		}
 		catch(Exception ex) {
-			JOptionPane.showMessageDialog(this, Lang.t("error_opening_file", file.getName()) + "\n" + ex.getMessage(), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, Lang.t("error_opening_file", file.getName()) + "\n" + ex.getMessage(), AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
 			LOG.log(Level.WARNING, "error opening file \"" + file.getName() + "\"", ex);
 		}
 	}
@@ -1606,7 +1607,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 			File f = codeFileChooser.getSelectedFile();
 			if(codeFileChooser.getFileFilter() == codeFileFilter && f.getName().lastIndexOf(".") == -1)
 				f = new File(f.getPath() + ".asm"); // append extension if missing
-			if(!f.exists() || JOptionPane.showConfirmDialog(this, Lang.t("confirm_replace", f.getName()), DrMIPS.PROGRAM_NAME, JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION)
+			if(!f.exists() || JOptionPane.showConfirmDialog(this, Lang.t("confirm_replace", f.getName()), AppInfo.NAME, JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION)
 				saveFile(f);
 		}
 	}
@@ -1632,7 +1633,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 			setOpenedFile(file);
 			txtCode.setDirty(false);
 		} catch (IOException ex) {
-			JOptionPane.showMessageDialog(this, Lang.t("error_saving_file", file.getName()) + "\n" + ex.getMessage(), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, Lang.t("error_saving_file", file.getName()) + "\n" + ex.getMessage(), AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
 			LOG.log(Level.WARNING, "error saving file \"" + file.getName() + "\"", ex);
 		}
 		
@@ -1648,7 +1649,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 			txtCode.print(header, footer);
 		}
 		catch(Exception ex) {
-			JOptionPane.showMessageDialog(this, Lang.t("error_printing_file") + ": " + ex.getMessage(), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, Lang.t("error_printing_file") + ": " + ex.getMessage(), AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
 			LOG.log(Level.WARNING, "error printing file", ex);
 		}
 	}
@@ -1820,7 +1821,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 	private void exit() {
 		boolean exit = true;
 		if(txtCode != null && txtCode.isDirty()) { // file changed?
-			int opt = JOptionPane.showConfirmDialog(this, Lang.t("code_changed"), DrMIPS.PROGRAM_NAME, JOptionPane.YES_NO_CANCEL_OPTION);
+			int opt = JOptionPane.showConfirmDialog(this, Lang.t("code_changed"), AppInfo.NAME, JOptionPane.YES_NO_CANCEL_OPTION);
 			switch(opt) {
 				case JOptionPane.YES_OPTION: 
 					exit = true;
@@ -1933,7 +1934,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 				loadCPU(DrMIPS.path + File.separator + DrMIPS.DEFAULT_CPU);
 				DrMIPS.prefs.put(DrMIPS.LAST_CPU_PREF, DrMIPS.path + File.separator + DrMIPS.DEFAULT_CPU);
 			} catch (Throwable e) { // error on the default CPU too
-				JOptionPane.showMessageDialog(this, Lang.t("invalid_file") + "\n" + ex.getClass().getName() + " (" + ex.getMessage() + ")", DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, Lang.t("invalid_file") + "\n" + ex.getClass().getName() + " (" + ex.getMessage() + ")", AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
 				LOG.log(Level.SEVERE, "error loading CPU", e);
 				System.exit(2);
 			}
@@ -1990,7 +1991,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 			cpu.executeAll();
 		}
 		catch(InfiniteLoopException e) {
-			JOptionPane.showMessageDialog(this, Lang.t("possible_infinite_loop", CPU.EXECUTE_ALL_LIMIT_CYCLES), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, Lang.t("possible_infinite_loop", CPU.EXECUTE_ALL_LIMIT_CYCLES), AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
 		}
 		updateStepBackEnabled();
 		updateStepEnabled();
@@ -2029,7 +2030,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 					txtCode.addErrorIcon(e.getLine(), getTranslatedSyntaxErrorMessage(e));
 			}
 			
-			JOptionPane.showMessageDialog(this, message, DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, message, AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
@@ -2315,9 +2316,9 @@ public class FrmSimulator extends javax.swing.JFrame {
 			if(Desktop.isDesktopSupported() && docDir.exists() && docDir.isDirectory())
 				Desktop.getDesktop().open(docDir);
 			else
-				JOptionPane.showMessageDialog(this, Lang.t("error_opening_doc_folder"), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, Lang.t("error_opening_doc_folder"), AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
 		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(this, Lang.t("error_opening_doc_folder"), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, Lang.t("error_opening_doc_folder"), AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
 			LOG.log(Level.WARNING, "error opening doc folder", ex);
 		}
 	}
@@ -2475,7 +2476,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		public void actionPerformed(ActionEvent e) {
 			boolean open = true;
 			if(txtCode != null && txtCode.isDirty()) { // file changed?
-				int opt = JOptionPane.showConfirmDialog(FrmSimulator.this, Lang.t("code_changed"), DrMIPS.PROGRAM_NAME, JOptionPane.YES_NO_CANCEL_OPTION);
+				int opt = JOptionPane.showConfirmDialog(FrmSimulator.this, Lang.t("code_changed"), AppInfo.NAME, JOptionPane.YES_NO_CANCEL_OPTION);
 				switch(opt) {
 					case JOptionPane.YES_OPTION: 
 						open = true;
@@ -2514,7 +2515,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 					tabDatapath.select();
 			}
 			catch(Exception ex) {
-				JOptionPane.showMessageDialog(FrmSimulator.this, Lang.t("invalid_file") + "\n" + ex.getMessage(), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(FrmSimulator.this, Lang.t("invalid_file") + "\n" + ex.getMessage(), AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
 				LOG.log(Level.WARNING, "error loading CPU \"" + file.getName() + "\"", ex);
 			}
 		}
@@ -2544,7 +2545,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 					translate();
 				}
 				catch(Exception ex) {
-					JOptionPane.showMessageDialog(null, "Error opening language file " + Lang.getLanguage() + "!\n" + ex.getMessage(), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Error opening language file " + Lang.getLanguage() + "!\n" + ex.getMessage(), AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
 					LOG.log(Level.WARNING, "error opening language file \"" + lang + "\"", ex);
 				}
 			}

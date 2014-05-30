@@ -27,6 +27,7 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import org.feup.brunonova.drmips.simulator.AppInfo;
 import org.feup.brunonova.drmips.simulator.mips.CPU;
 import org.feup.brunonova.drmips.simulator.mips.Data;
 
@@ -167,7 +168,7 @@ public class RegistersTable extends JTable implements MouseListener {
 					cpu.setPCAddress(value);
 				}
 				else
-					JOptionPane.showMessageDialog(this, Lang.t("invalid_value"), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this, Lang.t("invalid_value"), AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
 			}
 			else if(row >= 0 && row < cpu.getRegBank().getNumberOfRegisters()) // register
 				cpu.getRegBank().setRegister(row, value);
@@ -213,18 +214,18 @@ public class RegistersTable extends JTable implements MouseListener {
 		if(e.getClickCount() == 2) {
 			int row = rowAtPoint(e.getPoint());
 			if(isRegisterEditable(row)) {
-				String res = (String)JOptionPane.showInputDialog(this.getParent(), Lang.t("edit_value", getRegisterName(row)) + ":", DrMIPS.PROGRAM_NAME, JOptionPane.QUESTION_MESSAGE, null, null, getRegisterData(row).getValue());
+				String res = (String)JOptionPane.showInputDialog(this.getParent(), Lang.t("edit_value", getRegisterName(row)) + ":", AppInfo.NAME, JOptionPane.QUESTION_MESSAGE, null, null, getRegisterData(row).getValue());
 				if(res != null) {
 					try {
 						setRegisterValue(row, Integer.parseInt(res));
 						refreshValues(dataFormat);
 					} catch(NumberFormatException ex) {
-						JOptionPane.showMessageDialog(this.getParent(), Lang.t("invalid_value"), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(this.getParent(), Lang.t("invalid_value"), AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
 			else
-				JOptionPane.showMessageDialog(this.getParent(), Lang.t("register_not_editable", getRegisterName(row)), DrMIPS.PROGRAM_NAME, JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(this.getParent(), Lang.t("register_not_editable", getRegisterName(row)), AppInfo.NAME, JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 

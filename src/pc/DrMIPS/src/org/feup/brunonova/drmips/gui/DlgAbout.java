@@ -19,6 +19,7 @@
 package org.feup.brunonova.drmips.gui;
 
 import javax.swing.JOptionPane;
+import org.feup.brunonova.drmips.simulator.AppInfo;
 
 /**
  * Dialog that displays information of the program.
@@ -65,7 +66,7 @@ public class DlgAbout extends javax.swing.JDialog {
         setResizable(false);
 
         lblVersion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblVersion.setText(DrMIPS.PROGRAM_NAME + " " + DrMIPS.VERSION);
+        lblVersion.setText(AppInfo.NAME + " " + AppInfo.VERSION);
 
         lblIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/icon_medium.png"))); // NOI18N
@@ -80,7 +81,7 @@ public class DlgAbout extends javax.swing.JDialog {
 
         lblFaculty.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         lblFaculty.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblFaculty.setText("Faculdade de Engenharia da Universidade do Porto");
+        lblFaculty.setText(AppInfo.MAIN_AUTHOR_INSTITUTION);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -148,29 +149,11 @@ public class DlgAbout extends javax.swing.JDialog {
     }//GEN-LAST:event_cmdOkActionPerformed
 
     private void cmdLicenseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLicenseActionPerformed
-		String license = DrMIPS.PROGRAM_NAME + " - " + DrMIPS.PROGRAM_DESCRIPTION + "\n" +
-			"Copyright (C) 2013-2014 Bruno Nova <ei08109@fe.up.pt>\n" +
-			"\n" +
-			"This program is free software: you can redistribute it and/or modify\n" +
-			"it under the terms of the GNU General Public License as published by\n" +
-			"the Free Software Foundation, either version 3 of the License, or\n" +
-			"(at your option) any later version.\n" +
-			"\n" +
-			"This program is distributed in the hope that it will be useful,\n" +
-			"but WITHOUT ANY WARRANTY; without even the implied warranty of\n" +
-			"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n" +
-			"GNU General Public License for more details.\n" +
-			"\n" +
-			"You should have received a copy of the GNU General Public License\n" +
-			"along with this program.  If not, see <http://www.gnu.org/licenses/>.";
-		JOptionPane.showMessageDialog(this, license, Lang.t("license"), JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(this, AppInfo.LICENSE, Lang.t("license"), JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_cmdLicenseActionPerformed
 
     private void cmdCreditsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdCreditsActionPerformed
-        String credits = "António Araújo\n"
-			+ "Bruno Nova\n"
-			+ "João Canas Ferreira\n"
-			+ "\n"
+		String credits = AppInfo.getAuthorsAsText() + "\n\n"
 			+ Lang.t("external_resources") + ":\n"
 			+ "  AutoComplete (http://fifesoft.com/autocomplete/)\n"
 			+ "  Humanity Icons (https://launchpad.net/humanity/)\n"
@@ -184,11 +167,11 @@ public class DlgAbout extends javax.swing.JDialog {
 	 * Translates the form's strings.
 	 */
 	protected final void translate() {
-		setTitle(Lang.t("about_program", DrMIPS.PROGRAM_NAME));
+		setTitle(Lang.t("about_program", AppInfo.NAME));
 		Lang.tButton(cmdOk, "ok");
 		Lang.tButton(cmdLicense, "license");
 		Lang.tButton(cmdCredits, "credits");
-		lblAuthor.setText(Lang.t("by_author", "Bruno Nova <ei08109@fe.up.pt>"));
+		lblAuthor.setText(Lang.t("by_author", AppInfo.MAIN_AUTHOR_NAME_EMAIL));
 		lblDissertation.setText(Lang.t("for_dissertation"));
 	}
 	

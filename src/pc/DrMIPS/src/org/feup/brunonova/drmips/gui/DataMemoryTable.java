@@ -27,6 +27,7 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import org.feup.brunonova.drmips.simulator.AppInfo;
 import org.feup.brunonova.drmips.simulator.mips.CPU;
 import org.feup.brunonova.drmips.simulator.mips.Data;
 
@@ -139,7 +140,7 @@ public class DataMemoryTable extends JTable implements MouseListener {
 	public void mousePressed(MouseEvent e) {
 		if(e.getClickCount() == 2) {
 			int row = rowAtPoint(e.getPoint());
-			String res = (String)JOptionPane.showInputDialog(this.getParent(), Lang.t("edit_value", row * (Data.DATA_SIZE / 8)) + ":", DrMIPS.PROGRAM_NAME, JOptionPane.QUESTION_MESSAGE, null, null, cpu.getDataMemory().getDataInIndex(row));
+			String res = (String)JOptionPane.showInputDialog(this.getParent(), Lang.t("edit_value", row * (Data.DATA_SIZE / 8)) + ":", AppInfo.NAME, JOptionPane.QUESTION_MESSAGE, null, null, cpu.getDataMemory().getDataInIndex(row));
 			if(res != null) {
 				try {
 					cpu.getDataMemory().setDataInIndex(row, Integer.parseInt(res));
@@ -147,7 +148,7 @@ public class DataMemoryTable extends JTable implements MouseListener {
 					if(datapath != null)
 						datapath.refresh(); // update datapath
 				} catch(NumberFormatException ex) {
-					JOptionPane.showMessageDialog(this.getParent(), Lang.t("invalid_value"), DrMIPS.PROGRAM_NAME, JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this.getParent(), Lang.t("invalid_value"), AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		}
