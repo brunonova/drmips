@@ -146,7 +146,7 @@ As propriedades específicas são:
 
 \subsection{And}
 
-uma porta lógica \emph{E}. As propriedades específicas são:
+uma porta lógica \emph{AND}. As propriedades específicas são:
 \begin{itemize}
 	\item \textbf{in1}: Identificador da primeira entrada.
 	\item \textbf{in2}: Identificador da segunda entrada.
@@ -296,7 +296,7 @@ Um multiplexador. As propriedades específicas são:
 
 \subsection{Not}
 
-Uma porta lógica \emph{NÃO}. As propriedades específicas são:
+Uma porta lógica \emph{NOT}. As propriedades específicas são:
 \begin{itemize}
 
 \end{itemize}
@@ -304,7 +304,7 @@ Uma porta lógica \emph{NÃO}. As propriedades específicas são:
 	\item \textbf{out}: Identificador da saída.
 \subsection{Or}
 
-Uma porta lógica \emph{OU}. As propriedades específicas são:
+Uma porta lógica \emph{OR}. As propriedades específicas são:
 \begin{itemize}
 	\item \textbf{in1}: Identificador da primeira entrada.
 	\item \textbf{in2}: Identificador da segunda entrada.
@@ -365,112 +365,111 @@ As propriedades específicas são:
 
 \subsection{SExt}
 
-A sign extender. The specific properties are:
+Uma extensão de sinal. As propriedades específicas são:
 \begin{itemize}
-	\item \textbf{in}: Properties of the input.
-	\item \textbf{out}: Properties of the output.
+	\item \textbf{in}: Propriedades da entrada.
+	\item \textbf{out}: Propriedades da saída.
 \end{itemize}
 
-The properties of both the input and output are defined as JSON objects. 
-The properties of these objects are:
+As propriedades das entradas e das saídas são definidas como objectos JSON.
+As propriedades destes objectos são:
 \begin{itemize}
-	\item \textbf{id}: Identifier of the input/output.
-	\item \textbf{size}: Size of the input/output (in bits).
+	\item \textbf{id}: Identificador da entrada/saída.
+	\item \textbf{size}: Tamanho da entrada/saída (em bits).
 \end{itemize}
 
 \subsection{SLL}
 
-A shift-left logical. The specific properties are:
+Um deslocador para a esquerda. As propriedades específicas são:
 \begin{itemize}
-	\item \textbf{in}: Properties of the input.
-	\item \textbf{out}: Properties of the output.
-	\item \textbf{amount}: Number of bits to shift left.
+	\item \textbf{in}: Propriedades da entrada.
+	\item \textbf{out}: Propriedades da saída.
+	\item \textbf{amount}: Número de bits a deslocar
 \end{itemize}
 
-The properties of both the input and output are defined as JSON objects. 
-The properties of these objects are:
+As propriedades das entradas e das saídas são definidas como objectos JSON.
+As propriedades destes objectos são:
 \begin{itemize}
-	\item \textbf{id}: Identifier of the input/output.
-	\item \textbf{size}: Size of the input/output (in bits).
+	\item \textbf{id}: Identificador da entrada/saída.
+	\item \textbf{size}: Tamanho da entrada/saída (em bits).
 \end{itemize}
 
 \subsection{Xor}
 
-A logical \emph{XOR} port. The specific properties are:
+Uma porta lógica \emph{XOR}. As propriedades específicas são:
 \begin{itemize}
-	\item \textbf{in1}: Identifier of the first input.
-	\item \textbf{in2}: Identifier of the second input.
-	\item \textbf{out}: Identifier of the output.
+	\item \textbf{in1}: Identificador da primeira entrada.
+	\item \textbf{in2}: Identificador da segunda entrada.
+	\item \textbf{out}: Identificador da saída.
 \end{itemize}
 
 \subsection{ZExt}
-
-A zero extender. The specific properties are:
+Uma extensão de valor. As propriedades específicas são:
 \begin{itemize}
-	\item \textbf{in}: Properties of the input.
-	\item \textbf{out}: Properties of the output.
+	\item \textbf{in}: Propriedades da entrada.
+	\item \textbf{out}: Propriedades da saída.
 \end{itemize}
 
-The properties of both the input and output are defined as JSON objects. 
-The properties of these objects are:
+As propriedades das entradas e das saídas são definidas como objectos JSON.
+As propriedades destes objectos são:
 \begin{itemize}
-	\item \textbf{id}: Identifier of the input/output.
-	\item \textbf{size}: Size of the input/output (in bits).
+	\item \textbf{id}: Identificador da entrada/saída.
+	\item \textbf{size}: Tamanho da entrada/saída (em bits).
 \end{itemize}
 
 
 \section{wires}
 
-This section defines all the wires that connect the components of the CPU.
-An example of the definition of a wire is shown below:
+Esta secção define todas as ligações que conectam os componentes do CPU.
+Um exemplo da definição de uma ligação é mostrado abaixo:
 
 \lstinputlisting{listings/wire.txt}
 
-Each wire connects an output of a component to an input of another component.
-A wire is defined as a JSON object with several properties.
-These are:
+Cada ligação conecta uma saída de um componente à entrada de outro componente.
+Uma ligação é definida como um objecto JSON com várias propriedades.
+Estas são:
 
 \begin{itemize}
-	\item \textbf{from}: The ID of the component that the wire connects from (origin).
-	\item \textbf{out}: The ID of output of the origin component that the wire
-		connects from.
-	\item \textbf{to}: The ID of the component that the wire connects to (destination).
-	\item \textbf{in}: The ID of input of the destination component that the wire
-		connects to.
-	\item \textbf{start}: Optional. A JSON object that defines the start position of
-		the wire in the graphical datapath, if the default one is unsuitable.
-	\item \textbf{points}: Optional. An array of JSON objects that define the
-		positions of the intermediate points of the wire, if desired.
-	\item \textbf{end}: Optional. A JSON object that defines the end position of
-		the wire in the graphical datapath, if the default one is unsuitable.
+	\item \textbf{from}: O ID do componente que de onde a conexão é feita (origem).
+	\item \textbf{out}:O ID da saída do componente de origem de onde a conexão é
+		feita.
+	\item \textbf{to}: O ID do componente para onde a conexão é feita (destino).
+	\item \textbf{in}: O ID da entrada do componente de destino para onde a conexão
+		é feita.
+	\item \textbf{start}: Opcional. Um objecto JSON que define a posição gráfica
+		de início no caminho de dados, se a posição por omissão não é a desejável.
+	\item \textbf{points}: Opcional. Um \emph{Array} de objectos JSON que definem
+		as posições dos pontos intermédios da ligação, de desejado.
+	\item \textbf{end}: Opcional. Um objecto JSON que define a posição gráfica
+		final no caminho de dados, se a posição por omissão não é a desejável.
 \end{itemize}
 
-The positions used in the \verb+start+, \verb+points+ and \verb+end+ properties
-above are JSON objects with two integer properties: \verb+x+ and \verb+y+.
-Each input and output of each component is, by default, ``attached'' to one of
-the four sides of the component.
-The positions of the inputs and outputs in the datapath and, thus, the start and
-end positions of the connected wires, are calculated automatically\footnote{The
-inputs and outputs on each side of a component are, by default, ordered 
-alphabetically by their IDs.} but can be overwritten by the \verb+start+ and 
-\verb+end+ properties.
+As posições usadas nas propriedades \verb+start+, \verb+points+ and \verb+end+
+acima são objectos JSON com duas propriedades inteiras: \verb+x+ e \verb+y+.
+Cada entrada e saída de cada componente é, por omissão, ``anexada'' a um dos
+quatro lados do componente.
+As posições das entradas e saídas no caminho de dados e, portanto, as posições
+de início e fim das ligações, são calculadas automaticamente\footnote{As
+entradas e saídas em cada lado do componente são, por omissão, ordenadas
+alfabeticamente pelos seus identificadores.} mas podem ser sobrescritas pelas
+propriedades \verb+start+ e \verb+end+.
 
 
 \section{reg\_names}
 
-This \textbf{optional} section defines the ``friendly'' names of the registers (i.e.
+Esta secção \textbf{opcional} define os nomes ``amigáveis'' dos registos (i.e.
 \verb+$zero+, \verb+$t0+, etc.).
-The value is an array of strings that defines the names of the registers, from
-register \verb+$0+ to the last one, \textbf{without the leading dollar sign}.
-The registers can always be referred by their indexes (\verb+$0+, \verb+$1+, etc.) 
-in the simulator.
+O valor é um \emph{array} de \emph{strings} que definem os nomes dos registos,
+desde o registo \verb+$0+ até ao último, \textbf{sem o sinal de dólar inicial}.
+Os registos podem sempre ser referenciados pelos seus índices (\verb+$0+,
+\verb+$1+, etc.) no simulador.
 
 
 \section{instructions}
 
-This section declares the instruction set that the CPU uses.
-The value is the \textbf{relative} path to the desired instruction set file.
-These files are explained in the next chapter.
+Esta secção declara o conjunto de instruções que o processador usa.
+O valor é o caminho \textbf{relativo} para ficheiro de instruções desejado.
+Estes ficheiros são explicados no próximo capítulo.
 
 
 \chapter{Instruction set file}
