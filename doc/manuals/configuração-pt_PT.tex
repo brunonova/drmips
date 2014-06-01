@@ -298,10 +298,10 @@ Um multiplexador. As propriedades específicas são:
 
 Uma porta lógica \emph{NOT}. As propriedades específicas são:
 \begin{itemize}
-
-\end{itemize}
 	\item \textbf{in}: Identificador da entrada.
 	\item \textbf{out}: Identificador da saída.
+\end{itemize}
+
 \subsection{Or}
 
 Uma porta lógica \emph{OR}. As propriedades específicas são:
@@ -472,84 +472,84 @@ O valor é o caminho \textbf{relativo} para ficheiro de instruções desejado.
 Estes ficheiros são explicados no próximo capítulo.
 
 
-\chapter{Instruction set file}
+\chapter{Ficheiro de instruções}
 
 \section*{}
 
-The instruction sets used by the different versions of the MIPS CPU
-are defined in instruction set files.
-These can be edited/configured and additional ones can be created.
-This chapter explains the syntax of these files.
+Os conjuntos de instruções usados pelas diferentes versões do processador MIPS
+são definidos em ficheiros de instruções.
+Estes podem ser editados/configurados em novos podem ser criados.
+Este capítulo explica a sintaxe destes ficheiros.
 
-Like the CPU files, the instruction set files are formatted in 
+Tal como os ficheiros de CPU, os ficheiros de instruções são formatados em
 JSON (\url{http://json.org/}).
-A partial example of an instruction set file is shown below:
+Um exemplo parcial de um ficheiro de instruções e mostrado abaixo:
 
 \lstinputlisting{listings/set.set}
 
-The various sections that compose the instruction set files are detailed in 
-the following sections of this chapter.
+As várias secções que compõe os ficheiros de instruções são detalhados nas
+seguintes secções deste capítulo.
 
 
 \section{types}
 
-This section defines the existing types of instructions and their fields.
-All instruction are 32 bits in size.
-An example of the definition of an instruction type is shown below:
+Esta secção define os tipos de instruções existentes e os seus campos.
+Todas as instruções têm um tamanho de 32 bits.
+Um exemplo da definição de um tipo de instrução é mostrado abaixo:
 
 \lstinputlisting{listings/type.txt}
 
-Each instruction type is identified by its identifier (\verb+R+ in this example).
-The fields of an instruction are defined in a JSON array. Each individual field is 
-a JSON object and defines the field's identifier and size in bits. The first field
-in this example is the \verb+op+ field with a size of 6 bits.
-The first field of the instructions is considered the \emph{opcode} and must
-have the same size in all types.
+Cada tipo de instrução é definido pelo seu identificador (\verb+R+ neste exemplo).
+Os campos de uma instrução são definidos num \emph{array} JSON. Cada campo
+individual é um objecto JSON e define o identificador do campo e seu tamanho em
+bits. O primeiro campo neste exemplo é o campo \verb+op+ com um tamanho de 6 bits.
+O primeiro campo das instruções é considerado o \emph{opcode} e tem de ter o
+mesmo tamanho em todos os tipos.
 
 
 \section{instructions}
 
-This section defines the available instructions and how they are encoded.
-An example of the definition of an instruction is shown below:
+Esta secção define as instruções disponíveis e como elas são codificadas.
+Um examplo da definição de uma instrução é mostrado abaixo:
 
 \lstinputlisting{listings/instruction.txt}
 
-Each instruction is identified by its unique mnemonic (\verb+add+ in this example).
-An instruction is defined as a JSON object with several properties. These are:
+Cada instrução é identificada pela sua mnemónica única (\verb+add+ neste exemplo),
+Uma instrução é definida como um objecto JSON com várias propriedades. Estas são:
 
 \begin{itemize}
-	\item \textbf{type}: The type of the instruction.
-	\item \textbf{args}: An array with the types of each argument (may be omitted if
-		the instruction has no arguments).
-		The different types of arguments are:
+	\item \textbf{type}: O tipo da instrução.
+	\item \textbf{args}: Um \emph{array} com os tipos de cada argumento (pode ser
+		omitido se a instrução não tem argumentos).
+		Os diferentes tipos de argumentos são:
 		\begin{itemize}
-			\item \textbf{reg}: A register.
-			\item \textbf{int}: An integer value. Can also be a label (allowed because 
-				of the \verb+la+ pseudo-instruction).
-			\item \textbf{target}: A label in the code or direct instruction index for 
-				a jump.
-			\item \textbf{offset}: A label in the code or direct instruction offset 
-				for a branch.
-			\item \textbf{label}: A label in the code or data segment or direct 
-				address/index.
-			\item \textbf{data}: A label in the data segment of direct address plus
-				an offset register for a load or store instruction (an argument like
-				\verb+label($t0)+). The user may omit the offset register.
+			\item \textbf{reg}: Um registo.
+			\item \textbf{int}: Um valor inteiro. Pode ser também uma etiqueta
+				(permitido devido à pseudo-instrução \verb+la+).
+			\item \textbf{target}: Uma etiqueta no código ou directamente o índice de
+				uma instrução para um salto.
+			\item \textbf{offset}: Uma etiqueta no código ou directamente um
+				\emph{offset} de instruções para um \emph{branch}.
+			\item \textbf{label}: Uma etiqueta no código ou segmento de dados ou
+				directamente um endereço/índice.
+			\item \textbf{data}: Uma etiqueta no segmento de dados or directamente um
+				endereço mais um registo de \emph{offset} para uma instrução de
+				\emph{load} ou \emph{store} (um argumento como \verb+label($t0)+). O
+				utilizador pode omitir o registo de \emph{offset}.
 		\end{itemize}
-	\item \textbf{fields}: A JSON object that defines the values of the fields
-		(the fields defined in the instruction's type). The value of each field
-		can either be a constant integer or come from an argument (specified as
-		\verb+"#1"+, \verb+"#2"+, etc.).
-		For values that come from a \verb+data+ argument it is necessary to
-		specify if they come from the base address or from the offset register.
-		This is done by appending \verb+.base+ or \verb+.offset+ to the reference
-		to the argument (\verb+#1+, \verb+#2+, etc.).
+	\item \textbf{fields}: Um objecto JSON que define os valores dos campos (os
+		campos definidos no tipo da instrução). O valor de cada campo pode ser
+		um inteiro constante ou vir de um argument (especificado como \verb+"#1"+,
+		\verb+"#2"+, etc.).
+		Para valores que venham de um argumento \verb+data+ é necessário especificar
+		se eles vêm de um endereço base ou de um registo de \emph{offset}.
+		Isto é feito afixando \verb+.base+ ou \verb+.offset+ à referência para o
+		argumento (\verb+#1+, \verb+#2+, etc.).
 		
-		In this example: \verb+op+ has the constant value \verb+0+, \verb+rs+
-		has the value from the 2nd argument, \verb+rt+ has the value from the 3rd
-		argument, etc.
-	\item \textbf{desc}: Optional. A string that should contain a short symbolic
-		description of what the instruction does for the user to see.
+		Neste exemplo: \verb+op+ tem o valor constante \verb+0+, \verb+rs+ tem
+		o valor do 2º argumento, \verb+rt+ tem o valor do 3º argumento, etc.
+	\item \textbf{desc}: Opcional. Uma \emph{string} que deverá conter uma
+		curta descrição simbólica do que a instrução faz para o utilizador ver.
 \end{itemize}
 
 
