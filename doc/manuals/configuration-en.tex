@@ -137,7 +137,7 @@ The basic ALU. Only one ALU or Extended ALU can be present. The specific propert
 The component that controls the ALU. Only one can be present.
 The specific properties are:
 \begin{itemize}
-	\item \textbf{aluop}: Identifier of the \textit{ALUOp} input.
+	\item \textbf{aluop}: Identifier of the \emph{ALUOp} input.
 	\item \textbf{func}: Identifier of the \emph{func} input (from the function field
 		of the instruction).
 \end{itemize}
@@ -213,11 +213,11 @@ The specific properties are:
 The data memory. Only one can be present. The specific properties are:
 \begin{itemize}
 	\item \textbf{size}: Size of the memory (number of 32 bits memory positions).
-	\item \textbf{address}: Identifier of the \textit{Address} input.
-	\item \textbf{write\_data}: Identifier of the \textit{WriteData} input.
+	\item \textbf{address}: Identifier of the \emph{Address} input.
+	\item \textbf{write\_data}: Identifier of the \emph{WriteData} input.
 	\item \textbf{out}: Identifier of the output.
-	\item \textbf{mem\_read}: Identifier of the \textit{MemRead} control input.
-	\item \textbf{mem\_write}: Identifier of the \textit{MemWrite} control input.
+	\item \textbf{mem\_read}: Identifier of the \emph{MemRead} control input.
+	\item \textbf{mem\_write}: Identifier of the \emph{MemWrite} control input.
 \end{itemize}
 
 \subsection{Ext\_ALU}
@@ -250,14 +250,14 @@ The specific properties are:
 The pipeline forwarding unit. Only one can be present.
 The specific properties are:
 \begin{itemize}
-	\item \textbf{ex\_mem\_reg\_write}: Identifier of the \textit{EX/MEM.RegWrite} input.
-	\item \textbf{mem\_wb\_reg\_write}: Identifier of the \textit{MEM/WB.RegWrite} input.
-	\item \textbf{ex\_mem\_rd}: Identifier of the \textit{EX/MEM.Rd} input.
-	\item \textbf{mem\_wb\_rd}: Identifier of the \textit{MEM/WB.Rd} input.
-	\item \textbf{id\_ex\_rs}: Identifier of the \textit{ID/EX.Rs} input.
-	\item \textbf{id\_ex\_rt}: Identifier of the \textit{ID/EX.Rt} input.
-	\item \textbf{fwd\_a}: Identifier of the \textit{ForwardA} output.
-	\item \textbf{fwd\_b}: Identifier of the \textit{ForwardB} output.
+	\item \textbf{ex\_mem\_reg\_write}: Identifier of the \emph{EX/MEM.RegWrite} input.
+	\item \textbf{mem\_wb\_reg\_write}: Identifier of the \emph{MEM/WB.RegWrite} input.
+	\item \textbf{ex\_mem\_rd}: Identifier of the \emph{EX/MEM.Rd} input.
+	\item \textbf{mem\_wb\_rd}: Identifier of the \emph{MEM/WB.Rd} input.
+	\item \textbf{id\_ex\_rs}: Identifier of the \emph{ID/EX.Rs} input.
+	\item \textbf{id\_ex\_rt}: Identifier of the \emph{ID/EX.Rt} input.
+	\item \textbf{fwd\_a}: Identifier of the \emph{ForwardA} output.
+	\item \textbf{fwd\_b}: Identifier of the \emph{ForwardB} output.
 \end{itemize}
 
 \subsection{Hzd\_Unit}
@@ -265,11 +265,11 @@ The specific properties are:
 The pipeline hazard detection unit. Only one can be present.
 The specific properties are:
 \begin{itemize}
-	\item \textbf{id\_ex\_mem\_read}: Identifier of the \textit{ID/EX.MemRead} input.
-	\item \textbf{id\_ex\_rt}: Identifier of the \textit{ID/EX.Rt} input.
-	\item \textbf{if\_id\_rs}: Identifier of the \textit{IF/ID.Rs} input.
-	\item \textbf{if\_id\_rt}: Identifier of the \textit{IF/ID.Rt} input.
-	\item \textbf{stall}: Identifier of the output
+	\item \textbf{id\_ex\_mem\_read}: Identifier of the \emph{ID/EX.MemRead} input.
+	\item \textbf{id\_ex\_rt}: Identifier of the \emph{ID/EX.Rt} input.
+	\item \textbf{if\_id\_rs}: Identifier of the \emph{IF/ID.Rs} input.
+	\item \textbf{if\_id\_rt}: Identifier of the \emph{IF/ID.Rt} input.
+	\item \textbf{stall}: Identifier of the output.
 \end{itemize}
 
 \subsection{IMem}
@@ -293,7 +293,7 @@ A multiplexer. The specific properties are:
 
 \subsection{Not}
 
-A logical \textit{NOT} port. The specific properties are:
+A logical \emph{NOT} port. The specific properties are:
 \begin{itemize}
 	\item \textbf{in}: Identifier of the input.
 	\item \textbf{out}: Identifier of the output.
@@ -301,7 +301,7 @@ A logical \textit{NOT} port. The specific properties are:
 
 \subsection{Or}
 
-A logical \textit{OR} port. The specific properties are:
+A logical \emph{OR} port. The specific properties are:
 \begin{itemize}
 	\item \textbf{in1}: Identifier of the first input.
 	\item \textbf{in2}: Identifier of the second input.
@@ -320,8 +320,8 @@ The specific properties are:
 		JSON object where each property defines a register: the identifier is
 		the identifier of the register and corresponding input and output, and
 		the value is the size of the register (in bits).
-	\item \textbf{flush}: Optional. Identifier of the \textit{Flush} control input.
-	\item \textbf{write}: Optional. Identifier of the \textit{Write} control input.
+	\item \textbf{flush}: Optional. Identifier of the \emph{Flush} control input.
+	\item \textbf{write}: Optional. Identifier of the \emph{Write} control input.
 \end{itemize}
 
 \subsection{PC}
@@ -331,7 +331,7 @@ The specific properties are:
 \begin{itemize}
 	\item \textbf{in}: Identifier of the input.
 	\item \textbf{out}: Identifier of the output.
-	\item \textbf{write}: Optional. Identifier of the \textit{Write} control input.
+	\item \textbf{write}: Optional. Identifier of the \emph{Write} control input.
 \end{itemize}
 
 \subsection{RegBank}
@@ -341,14 +341,14 @@ The specific properties are:
 \begin{itemize}
 	\item \textbf{num\_regs}: The number of registers. Must be greater than 1 and
 		a power of 2.
-	\item \textbf{read\_reg1}: Identifier of the \textit{ReadReg1} input.
-	\item \textbf{read\_reg2}: Identifier of the \textit{ReadReg2} input.
-	\item \textbf{read\_data1}: Identifier of the \textit{ReadData1} output.
-	\item \textbf{read\_data2}: Identifier of the \textit{ReadData2} output.
-	\item \textbf{write\_reg}: Identifier of the \textit{WriteReg} input.
-	\item \textbf{write\_data}: Identifier of the \textit{WriteData} input.
-	\item \textbf{reg\_write}: Identifier of the \textit{RegWrite} control input.
-	\item \textbf{forwarding}: Optional. If \verb+true+ the register bank will use 
+	\item \textbf{read\_reg1}: Identifier of the \emph{ReadReg1} input.
+	\item \textbf{read\_reg2}: Identifier of the \emph{ReadReg2} input.
+	\item \textbf{read\_data1}: Identifier of the \emph{ReadData1} output.
+	\item \textbf{read\_data2}: Identifier of the \emph{ReadData2} output.
+	\item \textbf{write\_reg}: Identifier of the \emph{WriteReg} input.
+	\item \textbf{write\_data}: Identifier of the \emph{WriteData} input.
+	\item \textbf{reg\_write}: Identifier of the \emph{RegWrite} control input.
+	\item \textbf{forwarding}: Optional. If \verb+true+, the register bank will use 
 		internal forwarding (for pipelined datapaths).
 	\item \textbf{const\_regs}: Optional. JSON array that defines the constant 
 		registers. Each element can be either the index of the register or a JSON 
@@ -392,7 +392,7 @@ The properties of these objects are:
 
 \subsection{Xor}
 
-A logical \textit{XOR} port. The specific properties are:
+A logical \emph{XOR} port. The specific properties are:
 \begin{itemize}
 	\item \textbf{in1}: Identifier of the first input.
 	\item \textbf{in2}: Identifier of the second input.
