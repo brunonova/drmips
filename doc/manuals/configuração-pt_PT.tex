@@ -98,7 +98,7 @@ algumas existem para todos os componentes. Estas são:
 		caminho de dados gráfico. O valor mínimo é 0 e corresponde à borda de
 		cima do caminho de dados. Não há valor máximo.
 	\item \textbf{desc}: Opcional. Descrição específica do componente, em cada
-		idioma, mostrada na dica do componente.
+		idioma, mostrada na dica de ajuda do componente.
 		O valor é um objecto JSON onde a descrição para cada idioma é definida na
 		forma \verb+"código_idioma": "Descrição."+. O identificador
 		\verb+language_code+ é o código do idioma, como \verb+pt+ ou \verb+pt_BT+.
@@ -253,8 +253,8 @@ As propriedades específicas são:
 A unidade de atalhos da \emph{pipeline}. Apenas uma pode estar presente.
 As propriedades específicas são:
 \begin{itemize}
-	\item \textbf{ex\_mem\_reg\_write}: Identificador da entrada \emph{EX/MEM.RegWrite}.
-	\item \textbf{mem\_wb\_reg\_write}: Identificador da entrada \emph{MEM/WB.RegWrite}.
+	\item \textbf{ex\_mem\_reg\_write}: Identificador da entrada\\ \emph{EX/MEM.RegWrite}.
+	\item \textbf{mem\_wb\_reg\_write}: Identificador da entrada\\ \emph{MEM/WB.RegWrite}.
 	\item \textbf{ex\_mem\_rd}: Identificador da entrada \emph{EX/MEM.Rd}.
 	\item \textbf{mem\_wb\_rd}: Identificador da entrada \emph{MEM/WB.Rd}.
 	\item \textbf{id\_ex\_rs}: Identificador da entrada \emph{ID/EX.Rs}.
@@ -555,77 +555,80 @@ Uma instrução é definida como um objecto JSON com várias propriedades. Estas
 
 \section{pseudo}
 
-This section defines the available pseudo-instructions.
-An example of the definition of an instruction is shown below:
+Esta secção define as pseudo-instruções disponíveis.
+Um exemplo da definição de uma instrução é mostrado abaixo:
 
 \lstinputlisting{listings/pseudo.txt}
 
-Each pseudo-instruction is identified by its unique mnemonic (\verb+subi+ 
-in this example). Each mnemonic can only identify either an instruction or a
-pseudo-instruction, not both.
-A pseudo-instruction is defined as a JSON object with several properties. 
-These are:
+Cada pseudo-instrução é identificada pela sua mnemónica única (\verb+subi+
+neste exemplo). Cada mnemónica apenas pode identificar uma instrução ou uma
+pseudo-instrução, não as duas.
+Uma pseudo-instrução é definida como um objecto JSON com várias propriedades.
+Estas são:
 
 \begin{itemize}
-	\item \textbf{args}: An array with the types of each argument (may be omitted if
-		the pseudo-instruction has no arguments). These types are the same ones that are
-		available for instructions, explained in the previous section.
-	\item \textbf{to}: An array that lists the real instructions that the
-		pseudo-instruction is converted to when assembled. The values of the arguments
-		specified by the user can be referenced by using \verb+#1+ for the 1st argument,
-		\verb+#2+ for the 2nd, and so on.
-	\item \textbf{desc}: Optional. A string that should contain a short symbolic
-		description of what the pseudo-instruction does for the user to see.
+	\item \textbf{args}: Um \emph{arrau} com os tipos de cada argumento (pode ser
+		omitido se a pseudo-instrução não tiver argumentos). Estes tipos são os
+		mesmos que estão disponíveis para as instruções, explicados na secção
+		anterior.
+	\item \textbf{to}: Um \emph{array} que lista as instruções reais para as quais
+		a pseudo-instrução é convertida quando assemblada. Os valores dos argumentos
+		especificados pelo utilizador podem ser referenciados usando \verb+#1+ para
+		o 1º argumento, \verb+#2+ para o 2º, e por assim adiante.
+	\item \textbf{desc}: Opcional. Uma \emph{string} que deverá conter uma
+		curta descrição simbólica do que a pseudo-instrução faz para o utilizador 
+		ver.
 \end{itemize}
 
 
 \section{control}
 
-This section defines how the control unit works. More specifically, it
-defines the values of the outputs (control signals) for each possible value at
-the input (the \emph{opcode}).
-An example of the definition of the values of the control signals for one
-\emph{opcode} is shown below:
+Esta secção define como a unidade de controlo funciona. Mais especificamente,
+define os valores das saídas (sinais de controlo) para cada valor possível na
+entrada (o \emph{opcode}).
+Um exemplo da definição dos valores dos sinais de control para um \emph{opcode}
+é mostrado abaixo:
 
 \lstinputlisting{listings/control.txt}
 
-The values of the control signals for a specified \emph{opcode} are defined as
-a JSON object. The values are in decimal format and the sizes (in bits) of the 
-control signals are determined automatically.
-Control signals that have the value \verb+0+ can be omitted.
+Os valores dos sinais de controlo para um certo \emph{opcode} são definidos como
+um objecto JSON. Os valores estão em formato decimal e os tamanhos (em bits) dos
+sinais de controlo são determinados automaticamente.
+Sinais de controlo que têm o valor \verb+0+ podem ser omitidos.
 
 
 \section{alu}
 
-This section defines how the ALU and ALU control work.
-A partial example of this section is shown below:
+Esta secção define como a ALU e o controlador da ALU funcionam.
+Um exemplo parcial desta secção é mostrado abaixo:
 
 \lstinputlisting{listings/alu.txt}
 
-The \verb+aluop_size+, \verb+func_size+ and \verb+control_size+ properties
-define the sizes (in bits) of the \verb+ALUOp+ and \verb+func+ inputs of the
-ALU control and of the control input of the ALU, respectively.
+As propriedades \verb+aluop_size+, \verb+func_size+ e \verb+control_size+
+definem os tamanhos (em bits) das entradas \verb+ALUOp+ e \verb+func+ do
+controlador da ALU e da entrada de controlo da ALU, respectivamente.
 
-The \verb+control+ subsection defines how the ALU control works (in a JSON array).
-Each element in the array defines (as a JSON array) the value(s) of the output(s)
-for the specified value(s) of the input(s).
-The \verb+aluop+ and \verb+func+ properties correspond to the values of the
-inputs for the correspondence. If the value of the \verb+func+ is not relevant
-for the correspondence (\emph{don't care}, can be any value), the property 
-should be omitted.
-The \verb+out+ property defines the values of the outputs for the correspondence.
-The values are specified as a JSON object and the sizes (in bits) of the outputs
-are determined automatically.
-All values are in decimal format.
+A subsecção \verb+control+ define como o controlador da ALU funciona (num
+\emph{array} JSON).
+Cada elemento no \emph{array} define (como um objecto JSON) o(s) valor(es)
+da(s) saída(s) para o(s) valor(es) da(s) entrada(s) especificado(s).
+As propriedades \verb+aluop+ e \verb+func+ correspondem aos valores das
+entradas para a correspondência. Se o valor da entrada \verb+func+ não for
+relevante para a correspondência (\emph{don't care}, pode ser qualquer valor),
+a propriedade pode ser omitida.
+A propriedade \verb+out+ define os valores das saídas para a correspondência.
+Os valores são especificados como um objecto JSON e os tamanhos (em bits) das
+saídas são determinados automaticamente.
+Todos os valores são em formato decimal.
 
-The \verb+operations+ subsection defines (as a JSON object) the correspondence 
-between the values of the control input of the ALU and the arithmetic operation 
-it performs.
-The available operations are: \textbf{add}, \textbf{sub}, \textbf{and}, \textbf{or},
+A subsecção \verb+operations+ define (como um objecto JSON) a correspondência
+entre os valores da entrada de controlo da ALU e a operação aritmética que a
+mesma realiza.
+As operações disponíveis são: \textbf{add}, \textbf{sub}, \textbf{and}, \textbf{or},
 \textbf{slt}, \textbf{xor}, \textbf{sll}, \textbf{srl}, \textbf{sra}, \textbf{nor},
 \textbf{mult}, \textbf{div}, \textbf{mfhi}, \textbf{mflo}.
-Note that the last four operations require an ``extended'' ALU in the CPU, instead 
-of a ``normal'' ALU.
+Note que as últimas quatro operações exigem uma ALU ``estendida'' no CPU, ao
+invés de uma ALU ``normal''.
 
 
 \end{document}
