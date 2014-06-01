@@ -553,7 +553,7 @@ An instruction is defined as a JSON object with several properties. These are:
 \section{pseudo}
 
 This section defines the available pseudo-instructions.
-An example of the definition of an instruction is shown below:
+An example of the definition of a pseudo-instruction is shown below:
 
 \lstinputlisting{listings/pseudo.txt}
 
@@ -604,8 +604,8 @@ define the sizes (in bits) of the \verb+ALUOp+ and \verb+func+ inputs of the
 ALU control and of the control input of the ALU, respectively.
 
 The \verb+control+ subsection defines how the ALU control works (in a JSON array).
-Each element in the array defines (as a JSON object) the value(s) of the output(s)
-for the specified value(s) of the input(s).
+Each element in the array defines (as a JSON object) the values of the outputs
+for the specified values of the inputs.
 The \verb+aluop+ and \verb+func+ properties correspond to the values of the
 inputs for the correspondence. If the value of the \verb+func+ input is not relevant
 for the correspondence (\emph{don't care}, can be any value), the property 
