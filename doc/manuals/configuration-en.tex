@@ -604,10 +604,10 @@ define the sizes (in bits) of the \verb+ALUOp+ and \verb+func+ inputs of the
 ALU control and of the control input of the ALU, respectively.
 
 The \verb+control+ subsection defines how the ALU control works (in a JSON array).
-Each element in the array defines (as a JSON array) the value(s) of the output(s)
+Each element in the array defines (as a JSON object) the value(s) of the output(s)
 for the specified value(s) of the input(s).
 The \verb+aluop+ and \verb+func+ properties correspond to the values of the
-inputs for the correspondence. If the value of the \verb+func+ is not relevant
+inputs for the correspondence. If the value of the \verb+func+ input is not relevant
 for the correspondence (\emph{don't care}, can be any value), the property 
 should be omitted.
 The \verb+out+ property defines the values of the outputs for the correspondence.
