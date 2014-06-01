@@ -123,7 +123,7 @@ Um somador que soma os valores das entradas. As propriedades específicas são:
 
 \subsection{ALU}
 
-A ALU básica. Só uma ALU ou ALU Extendida pode estar presente. As propriedades
+A ALU básica. Só uma ALU ou ALU Estendida pode estar presente. As propriedades
 específicas são:
 \begin{itemize}
 	\item \textbf{in1}: Identificador da primeira entrada.
@@ -139,7 +139,7 @@ específicas são:
 O componente que controla a ALU. Só um pode estar presente.
 As propriedades específicas são:
 \begin{itemize}
-	\item \textbf{aluop}: Identificador da entrada \textit{ALUOp}.
+	\item \textbf{aluop}: Identificador da entrada \emph{ALUOp}.
 	\item \textbf{func}: Identificador da entrada \emph{func} (do campo de função
 		da instrução).
 \end{itemize}
@@ -175,189 +175,191 @@ propriedades destes objectos são:
 
 \subsection{Const}
 
-A component that outputs a constant value. The specific properties are:
+Um componente que produz um valor constante. As propriedades específicas são:
 \begin{itemize}
-	\item \textbf{out}: Identifier of the output.
-	\item \textbf{val}: The constant value.
-	\item \textbf{size}: Size of the output (in bits).
+	\item \textbf{out}: Identificador da saída.
+	\item \textbf{val}: O valor constante.
+	\item \textbf{size}: Tamanho da saída (em bits).
 \end{itemize}
 
 \subsection{Control}
 
-The control unit. The datapath must have one control unit.
-This component has only one specific property: \textbf{in}, which is
-the identifier of the input.
+A unidade de controlo. O caminho de dados tem de ter uma unidade de controlo.
+Este componente tem apenas uma propriedade específica: \textbf{in}, que é o
+identificador da entrada.
 
 \subsection{Dist}
 
-This component distributes the bits of the input through several outputs.
-The specific properties are:
+Este componente distribui os bits da entrada por várias saídas.
+As propriedades específicas são:
 \begin{itemize}
-	\item \textbf{in}: Properties of the input as a JSON object.
-		The properties of the object are:
+	\item \textbf{in}: Propriedades da entrada como um objecto JSON.
+		As propriedades do objecto são:
 		\begin{itemize}
-			\item \textbf{id}: Identifier of the input.
-			\item \textbf{size}: Size of the input (in bits).
+			\item \textbf{id}: Identificador da entrada.
+			\item \textbf{size}: Tamanho da entrada (em bits).
 		\end{itemize}
-	\item \textbf{out}: Properties of the outputs as a JSON array.
-		Each element of the array defines the properties of an output as a
-		JSON object. The properties of the objects of the array are:
+	\item \textbf{out}: Propriedades das saídas como um \emph{array} JSON.
+		Cada elemento do \emph{array} define as propriedades de uma saída como um
+		objecto JSON. As propriedades dos objectos do \emph{array} são:
 		\begin{itemize}
-			\item \textbf{msb}: The index of the most significant bit from the input.
-			\item \textbf{lsb}: The index of the less significant bit from the input.
-			\item \textbf{id}: Optional. Identifier of the output. If omitted,
-				the identifier corresponds to ``\verb+<msb>-<lsb>+''.
+			\item \textbf{msb}: Índice do bit mais significativo da entrada.
+			\item \textbf{lsb}: Índice do bit menos significativo da entrada.
+			\item \textbf{id}: Opcional. Identificador da saída. Se omitido, o
+				identificador corresponde a ``\verb+<msb>-<lsb>+''.
 		\end{itemize}
 \end{itemize}
 
 \subsection{DMem}
 
-The data memory. Only one can be present. The specific properties are:
+A memória de dados. Só uma pode estar presente. As propriedades específicas são:
 \begin{itemize}
-	\item \textbf{size}: Size of the memory (number of 32 bits memory positions).
-	\item \textbf{address}: Identifier of the \textit{Address} input.
-	\item \textbf{write\_data}: Identifier of the \textit{WriteData} input.
-	\item \textbf{out}: Identifier of the output.
-	\item \textbf{mem\_read}: Identifier of the \textit{MemRead} control input.
-	\item \textbf{mem\_write}: Identifier of the \textit{MemWrite} control input.
+	\item \textbf{size}: Tamanho da memória (número de posições de memória de
+		32 bits).
+	\item \textbf{address}: Identificador da entrada \emph{Address}.
+	\item \textbf{write\_data}: Identificador da entrada \emph{WriteData}.
+	\item \textbf{out}: Identificador da saída.
+	\item \textbf{mem\_read}: Identificador da entrada de controlo \emph{MemRead}.
+	\item \textbf{mem\_write}: Identificador da entrada de controlo \emph{MemWrite}.
 \end{itemize}
 
 \subsection{Ext\_ALU}
 
-An extended ALU. This ALU stores the \verb+hi+ and \verb+lo+ registers and is
-capable of calculating multiplications and divisions.
-Only one ALU or Extended ALU can be present. The specific properties are the same
-as the basic ALU:
+Uma ALU estendida. Esta ALU armazena os registos \verb+hi+ e \verb+lo+ e é capaz
+de realizar multiplicações e divisões.
+Apenas uma ALU ou ALU Estendida pode estar presente. As propriedades específicas
+são as mesmas da ALU básica:
 \begin{itemize}
-	\item \textbf{in1}: Identifier of the first input.
-	\item \textbf{in2}: Identifier of the second input.
-	\item \textbf{control}: Identifier of the control input (that selects the operation
-		to perform).
-	\item \textbf{out}: Identifier of the result output.
-	\item \textbf{zero}: Identifier of the 1 bit \emph{zero} output.
+	\item \textbf{in1}: Identificador da primeira entrada.
+	\item \textbf{in2}: Identificador da segunda entrada.
+	\item \textbf{control}: Identificador da entrada de controlo (que selecciona
+		a operação a realizar).
+	\item \textbf{out}: Identificador da saída de resultado.
+	\item \textbf{zero}: Identificador da saída de 1 bit do \emph{zero}.
 \end{itemize}
 
 \subsection{Fork}
 
-This component forks a wire into several other wires with the same size.
-The specific properties are:
+Este componente divide uma ligação em várias outras ligações com o mesmo tamanho.
+As propriedades específicas são:
 \begin{itemize}
-	\item \textbf{in}: Identifier of the input.
-	\item \textbf{size}: Size of the input and outputs (in bits).
-	\item \textbf{out}: Array with the identifiers of the outputs.
+	\item \textbf{in}: Identificador da entrada.
+	\item \textbf{size}: Tamanho da entrada e das saídas (em bits).
+	\item \textbf{out}: \emph{Array} com os identificadores das saídas.
 \end{itemize}
 
 \subsection{Fwd\_Unit}
 
-The pipeline forwarding unit. Only one can be present.
-The specific properties are:
+A unidade de atalhos da \emph{pipeline}. Apenas uma pode estar presente.
+As propriedades específicas são:
 \begin{itemize}
-	\item \textbf{ex\_mem\_reg\_write}: Identifier of the \textit{EX/MEM.RegWrite} input.
-	\item \textbf{mem\_wb\_reg\_write}: Identifier of the \textit{MEM/WB.RegWrite} input.
-	\item \textbf{ex\_mem\_rd}: Identifier of the \textit{EX/MEM.Rd} input.
-	\item \textbf{mem\_wb\_rd}: Identifier of the \textit{MEM/WB.Rd} input.
-	\item \textbf{id\_ex\_rs}: Identifier of the \textit{ID/EX.Rs} input.
-	\item \textbf{id\_ex\_rt}: Identifier of the \textit{ID/EX.Rt} input.
-	\item \textbf{fwd\_a}: Identifier of the \textit{ForwardA} output.
-	\item \textbf{fwd\_b}: Identifier of the \textit{ForwardB} output.
+	\item \textbf{ex\_mem\_reg\_write}: Identificador da entrada \emph{EX/MEM.RegWrite}.
+	\item \textbf{mem\_wb\_reg\_write}: Identificador da entrada \emph{MEM/WB.RegWrite}.
+	\item \textbf{ex\_mem\_rd}: Identificador da entrada \emph{EX/MEM.Rd}.
+	\item \textbf{mem\_wb\_rd}: Identificador da entrada \emph{MEM/WB.Rd}.
+	\item \textbf{id\_ex\_rs}: Identificador da entrada \emph{ID/EX.Rs}.
+	\item \textbf{id\_ex\_rt}: Identificador da entrada \emph{ID/EX.Rt}.
+	\item \textbf{fwd\_a}: Identificador da saída \emph{ForwardA}.
+	\item \textbf{fwd\_b}: Identificador da saída \emph{ForwardB}.
 \end{itemize}
 
 \subsection{Hzd\_Unit}
-
-The pipeline hazard detection unit. Only one can be present.
-The specific properties are:
+A unidade de detecção de conflitos da \emph{pipeline}. Apenas uma pode estar
+presente.
+As propriedades específicas são:
 \begin{itemize}
-	\item \textbf{id\_ex\_mem\_read}: Identifier of the \textit{ID/EX.MemRead} input.
-	\item \textbf{id\_ex\_rt}: Identifier of the \textit{ID/EX.Rt} input.
-	\item \textbf{if\_id\_rs}: Identifier of the \textit{IF/ID.Rs} input.
-	\item \textbf{if\_id\_rt}: Identifier of the \textit{IF/ID.Rt} input.
-	\item \textbf{stall}: Identifier of the output
+	\item \textbf{id\_ex\_mem\_read}: Identificador da entrada \emph{ID/EX.MemRead}.
+	\item \textbf{id\_ex\_rt}: Identificador da entrada \emph{ID/EX.Rt}.
+	\item \textbf{if\_id\_rs}: Identificador da entrada \emph{IF/ID.Rs}.
+	\item \textbf{if\_id\_rt}: Identificador da entrada \emph{IF/ID.Rt}.
+	\item \textbf{stall}: Identificador da saída.
 \end{itemize}
 
 \subsection{IMem}
 
-The instruction memory. The datapath must have one instruction memory.
-The specific properties are:
+A memória de instruções. O caminho de dados tem de ter uma memória de instruções.
+As propriedades específicas são:
 \begin{itemize}
-	\item \textbf{in}: Identifier of the input.
-	\item \textbf{out}: Identifier of the output.
+	\item \textbf{in}: Identificador da entrada.
+	\item \textbf{out}: Identificador da saída.
 \end{itemize}
 
 \subsection{Mux}
 
-A multiplexer. The specific properties are:
+Um multiplexador. As propriedades específicas são:
 \begin{itemize}
-	\item \textbf{size}: The size of the inputs and output (in bits).
-	\item \textbf{sel}: Identifier of the selector input.
-	\item \textbf{out}: Identifier of the output.
-	\item \textbf{in}: Array with the identifiers of the inputs.
+	\item \textbf{size}: O tamanho das entradas e saída (em bits).
+	\item \textbf{sel}: Identificador da entrada de selecção.
+	\item \textbf{out}: Identificador da saída.
+	\item \textbf{in}: \emph{Array} com os identificadores das saídas.
 \end{itemize}
 
 \subsection{Not}
 
-A logical \textit{NOT} port. The specific properties are:
+Uma porta lógica \emph{NÃO}. As propriedades específicas são:
 \begin{itemize}
-	\item \textbf{in}: Identifier of the input.
-	\item \textbf{out}: Identifier of the output.
-\end{itemize}
 
+\end{itemize}
+	\item \textbf{in}: Identificador da entrada.
+	\item \textbf{out}: Identificador da saída.
 \subsection{Or}
 
-A logical \textit{OR} port. The specific properties are:
+Uma porta lógica \emph{OU}. As propriedades específicas são:
 \begin{itemize}
-	\item \textbf{in1}: Identifier of the first input.
-	\item \textbf{in2}: Identifier of the second input.
-	\item \textbf{out}: Identifier of the output.
+	\item \textbf{in1}: Identificador da primeira entrada.
+	\item \textbf{in2}: Identificador da segunda entrada.
+	\item \textbf{out}: Identificador da saída.
 \end{itemize}
 
 \subsection{PipeReg}
 
-A pipeline register that separates two stages of the pipeline.
-A pipelined datapath must have exactly 4 of these registers (corresponding to a
-5-stage pipeline). Additionally, the identifiers of these components must be:
+Um registo de \emph{pipeline} que separa duas etapas da \emph{pipeline}.
+Um caminho de dados \emph{pipeline} tem de ter exactamente 4 destes registos
+(correspondentes a um \emph{pipeline} de 5 etapas). Adicionalmente, os
+identificadores destes componentes têm de ser:
 \verb+IF/ID+, \verb+ID/EX+, \verb+EX/MEM+ and \verb+MEM/WB+.
-The specific properties are:
+As propriedades específicas são:
 \begin{itemize}
-	\item \textbf{regs}: Definition of the registers recorded. The value is a
-		JSON object where each property defines a register: the identifier is
-		the identifier of the register and corresponding input and output, and
-		the value is the size of the register (in bits).
-	\item \textbf{flush}: Optional. Identifier of the \textit{Flush} control input.
-	\item \textbf{write}: Optional. Identifier of the \textit{Write} control input.
+	\item \textbf{regs}: Definição dos registos guardados. O valor é um objecto
+		JSON onde cada propriedade define um registo: o identificador é o
+		identificador do registo e correspondente entrada e saída, e o valor é o
+		tamanho do registo (em bits).
+	\item \textbf{flush}: Opcional. Identificador da entrada de controlo \emph{Flush}.
+	\item \textbf{write}: Opcional. Identificador da entrada de controlo \emph{Write}.
 \end{itemize}
 
 \subsection{PC}
 
-The program counter. The datapath must have one program counter.
-The specific properties are:
+O contador do programa. O caminho de dados tem de ter um contador do programa.
+As propriedades específicas são:
 \begin{itemize}
-	\item \textbf{in}: Identifier of the input.
-	\item \textbf{out}: Identifier of the output.
-	\item \textbf{write}: Optional. Identifier of the \textit{Write} control input.
+	\item \textbf{in}: Identificador da entrada.
+	\item \textbf{out}: Identificador da saída.
+	\item \textbf{write}: Opcional. Identificador da saída de controlo \emph{Write}.
 \end{itemize}
 
 \subsection{RegBank}
 
-The register bank. The datapath must have one register bank.
-The specific properties are:
+O banco de registos. O caminho de dados tem de ter um banco de registos.
+As propriedades específicas são:
 \begin{itemize}
-	\item \textbf{num\_regs}: The number of registers. Must be greater than 1 and
-		a power of 2.
-	\item \textbf{read\_reg1}: Identifier of the \textit{ReadReg1} input.
-	\item \textbf{read\_reg2}: Identifier of the \textit{ReadReg2} input.
-	\item \textbf{read\_data1}: Identifier of the \textit{ReadData1} output.
-	\item \textbf{read\_data2}: Identifier of the \textit{ReadData2} output.
-	\item \textbf{write\_reg}: Identifier of the \textit{WriteReg} input.
-	\item \textbf{write\_data}: Identifier of the \textit{WriteData} input.
-	\item \textbf{reg\_write}: Identifier of the \textit{RegWrite} control input.
-	\item \textbf{forwarding}: Optional. If \verb+true+ the register bank will use 
-		internal forwarding (for pipelined datapaths).
-	\item \textbf{const\_regs}: Optional. JSON array that defines the constant 
-		registers. Each element can be either the index of the register or a JSON 
-		object with the following properties:
+	\item \textbf{num\_regs}: O número de registos. Tem de ser maior do que 1 e
+		uma potência de 2.
+	\item \textbf{read\_reg1}: Identificador da entrada \emph{ReadReg1}.
+	\item \textbf{read\_reg2}: Identificador da entrada \emph{ReadReg2}.
+	\item \textbf{read\_data1}: Identificador da saída \emph{ReadData1}.
+	\item \textbf{read\_data2}: Identificador da saída \emph{ReadData2}.
+	\item \textbf{write\_reg}: Identificador da entrada \emph{WriteReg}.
+	\item \textbf{write\_data}: Identificador da entrada \emph{WriteData}.
+	\item \textbf{reg\_write}: Identificador da entrada de controlo \emph{RegWrite}.
+	\item \textbf{forwarding}: Opcional. Se \verb+true+, o banco de registos irá
+		usar atalhos internos (para caminhos de dados \emph{pipeline}.
+	\item \textbf{const\_regs}: Opcional. \emph{Array} JSON que define os registos
+		constantes. Cada elemento é ou o índice do registo ou um objecto JSON com
+		as seguintes propriedades:
 		\begin{itemize}
-			\item \textbf{reg}: Index of the register.
-			\item \textbf{val}: The constant value of the register.
+			\item \textbf{reg}: Índice do registo.
+			\item \textbf{val}: O valor constante do registo.
 		\end{itemize}
 \end{itemize}
 
@@ -394,7 +396,7 @@ The properties of these objects are:
 
 \subsection{Xor}
 
-A logical \textit{XOR} port. The specific properties are:
+A logical \emph{XOR} port. The specific properties are:
 \begin{itemize}
 	\item \textbf{in1}: Identifier of the first input.
 	\item \textbf{in2}: Identifier of the second input.
