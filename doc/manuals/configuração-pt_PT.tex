@@ -101,7 +101,7 @@ algumas existem para todos os componentes. Estas são:
 		idioma, mostrada na dica de ajuda do componente.
 		O valor é um objecto JSON onde a descrição para cada idioma é definida na
 		forma \verb+"código_idioma": "Descrição."+. O identificador
-		\verb+language_code+ é o código do idioma, como \verb+pt+ ou \verb+pt_BT+.
+		\verb+código_idioma+ é o código do idioma, como \verb+pt+ ou \verb+pt_BR+.
 		O idioma especial \verb+default+ deverá definir a descrição por omissão em
 		Inglês que é usada quando uma descrição específica para o idioma não está
 		disponível.
@@ -146,7 +146,7 @@ As propriedades específicas são:
 
 \subsection{And}
 
-uma porta lógica \emph{AND}. As propriedades específicas são:
+Uma porta lógica \emph{AND}. As propriedades específicas são:
 \begin{itemize}
 	\item \textbf{in1}: Identificador da primeira entrada.
 	\item \textbf{in2}: Identificador da segunda entrada.
@@ -353,7 +353,7 @@ As propriedades específicas são:
 	\item \textbf{write\_data}: Identificador da entrada \emph{WriteData}.
 	\item \textbf{reg\_write}: Identificador da entrada de controlo \emph{RegWrite}.
 	\item \textbf{forwarding}: Opcional. Se \verb+true+, o banco de registos irá
-		usar atalhos internos (para caminhos de dados \emph{pipeline}.
+		usar atalhos internos (para caminhos de dados \emph{pipeline}).
 	\item \textbf{const\_regs}: Opcional. \emph{Array} JSON que define os registos
 		constantes. Cada elemento é ou o índice do registo ou um objecto JSON com
 		as seguintes propriedades:
@@ -371,7 +371,7 @@ Uma extensão de sinal. As propriedades específicas são:
 	\item \textbf{out}: Propriedades da saída.
 \end{itemize}
 
-As propriedades das entradas e das saídas são definidas como objectos JSON.
+As propriedades da entrada e da saída são definidas como objectos JSON.
 As propriedades destes objectos são:
 \begin{itemize}
 	\item \textbf{id}: Identificador da entrada/saída.
@@ -387,7 +387,7 @@ Um deslocador para a esquerda. As propriedades específicas são:
 	\item \textbf{amount}: Número de bits a deslocar
 \end{itemize}
 
-As propriedades das entradas e das saídas são definidas como objectos JSON.
+As propriedades da entrada e da saída são definidas como objectos JSON.
 As propriedades destes objectos são:
 \begin{itemize}
 	\item \textbf{id}: Identificador da entrada/saída.
@@ -410,7 +410,7 @@ Uma extensão de valor. As propriedades específicas são:
 	\item \textbf{out}: Propriedades da saída.
 \end{itemize}
 
-As propriedades das entradas e das saídas são definidas como objectos JSON.
+As propriedades da entrada e da saída são definidas como objectos JSON.
 As propriedades destes objectos são:
 \begin{itemize}
 	\item \textbf{id}: Identificador da entrada/saída.
@@ -430,8 +430,8 @@ Uma ligação é definida como um objecto JSON com várias propriedades.
 Estas são:
 
 \begin{itemize}
-	\item \textbf{from}: O ID do componente que de onde a conexão é feita (origem).
-	\item \textbf{out}:O ID da saída do componente de origem de onde a conexão é
+	\item \textbf{from}: O ID do componente de onde a conexão é feita (origem).
+	\item \textbf{out}: O ID da saída do componente de origem de onde a conexão é
 		feita.
 	\item \textbf{to}: O ID do componente para onde a conexão é feita (destino).
 	\item \textbf{in}: O ID da entrada do componente de destino para onde a conexão
@@ -439,7 +439,7 @@ Estas são:
 	\item \textbf{start}: Opcional. Um objecto JSON que define a posição gráfica
 		de início no caminho de dados, se a posição por omissão não é a desejável.
 	\item \textbf{points}: Opcional. Um \emph{Array} de objectos JSON que definem
-		as posições dos pontos intermédios da ligação, de desejado.
+		as posições dos pontos intermédios da ligação, se desejado.
 	\item \textbf{end}: Opcional. Um objecto JSON que define a posição gráfica
 		final no caminho de dados, se a posição por omissão não é a desejável.
 \end{itemize}
@@ -460,7 +460,7 @@ propriedades \verb+start+ e \verb+end+.
 Esta secção \textbf{opcional} define os nomes ``amigáveis'' dos registos (i.e.
 \verb+$zero+, \verb+$t0+, etc.).
 O valor é um \emph{array} de \emph{strings} que definem os nomes dos registos,
-desde o registo \verb+$0+ até ao último, \textbf{sem o sinal de dólar inicial}.
+desde o registo \verb+$0+ até ao último, \textbf{sem o símbolo do dólar inicial}.
 Os registos podem sempre ser referenciados pelos seus índices (\verb+$0+,
 \verb+$1+, etc.) no simulador.
 
@@ -478,16 +478,16 @@ Estes ficheiros são explicados no próximo capítulo.
 
 Os conjuntos de instruções usados pelas diferentes versões do processador MIPS
 são definidos em ficheiros de instruções.
-Estes podem ser editados/configurados em novos podem ser criados.
+Estes podem ser editados/configurados e novos podem ser criados.
 Este capítulo explica a sintaxe destes ficheiros.
 
 Tal como os ficheiros de CPU, os ficheiros de instruções são formatados em
 JSON (\url{http://json.org/}).
-Um exemplo parcial de um ficheiro de instruções e mostrado abaixo:
+Um exemplo parcial de um ficheiro de instruções é mostrado abaixo:
 
 \lstinputlisting{listings/set.set}
 
-As várias secções que compõe os ficheiros de instruções são detalhados nas
+As várias secções que compõe os ficheiros de instruções são detalhadas nas
 seguintes secções deste capítulo.
 
 
@@ -510,7 +510,7 @@ mesmo tamanho em todos os tipos.
 \section{instructions}
 
 Esta secção define as instruções disponíveis e como elas são codificadas.
-Um examplo da definição de uma instrução é mostrado abaixo:
+Um exemplo da definição de uma instrução é mostrado abaixo:
 
 \lstinputlisting{listings/instruction.txt}
 
@@ -520,7 +520,7 @@ Uma instrução é definida como um objecto JSON com várias propriedades. Estas
 \begin{itemize}
 	\item \textbf{type}: O tipo da instrução.
 	\item \textbf{args}: Um \emph{array} com os tipos de cada argumento (pode ser
-		omitido se a instrução não tem argumentos).
+		omitido se a instrução não tiver argumentos).
 		Os diferentes tipos de argumentos são:
 		\begin{itemize}
 			\item \textbf{reg}: Um registo.
@@ -532,14 +532,14 @@ Uma instrução é definida como um objecto JSON com várias propriedades. Estas
 				\emph{offset} de instruções para um \emph{branch}.
 			\item \textbf{label}: Uma etiqueta no código ou segmento de dados ou
 				directamente um endereço/índice.
-			\item \textbf{data}: Uma etiqueta no segmento de dados or directamente um
+			\item \textbf{data}: Uma etiqueta no segmento de dados ou directamente um
 				endereço mais um registo de \emph{offset} para uma instrução de
 				\emph{load} ou \emph{store} (um argumento como \verb+label($t0)+). O
 				utilizador pode omitir o registo de \emph{offset}.
 		\end{itemize}
 	\item \textbf{fields}: Um objecto JSON que define os valores dos campos (os
 		campos definidos no tipo da instrução). O valor de cada campo pode ser
-		um inteiro constante ou vir de um argument (especificado como \verb+"#1"+,
+		um inteiro constante ou vir de um argumento (especificado como \verb+"#1"+,
 		\verb+"#2"+, etc.).
 		Para valores que venham de um argumento \verb+data+ é necessário especificar
 		se eles vêm de um endereço base ou de um registo de \emph{offset}.
@@ -556,7 +556,7 @@ Uma instrução é definida como um objecto JSON com várias propriedades. Estas
 \section{pseudo}
 
 Esta secção define as pseudo-instruções disponíveis.
-Um exemplo da definição de uma instrução é mostrado abaixo:
+Um exemplo da definição de uma pseudo-instrução é mostrado abaixo:
 
 \lstinputlisting{listings/pseudo.txt}
 
@@ -567,7 +567,7 @@ Uma pseudo-instrução é definida como um objecto JSON com várias propriedades
 Estas são:
 
 \begin{itemize}
-	\item \textbf{args}: Um \emph{arrau} com os tipos de cada argumento (pode ser
+	\item \textbf{args}: Um \emph{array} com os tipos de cada argumento (pode ser
 		omitido se a pseudo-instrução não tiver argumentos). Estes tipos são os
 		mesmos que estão disponíveis para as instruções, explicados na secção
 		anterior.
@@ -610,8 +610,8 @@ controlador da ALU e da entrada de controlo da ALU, respectivamente.
 
 A subsecção \verb+control+ define como o controlador da ALU funciona (num
 \emph{array} JSON).
-Cada elemento no \emph{array} define (como um objecto JSON) o(s) valor(es)
-da(s) saída(s) para o(s) valor(es) da(s) entrada(s) especificado(s).
+Cada elemento no \emph{array} define (como um objecto JSON) os valores
+das saídas para os valores das entradas especificados.
 As propriedades \verb+aluop+ e \verb+func+ correspondem aos valores das
 entradas para a correspondência. Se o valor da entrada \verb+func+ não for
 relevante para a correspondência (\emph{don't care}, pode ser qualquer valor),
