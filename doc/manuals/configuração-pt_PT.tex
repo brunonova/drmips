@@ -4,7 +4,7 @@
 \documentclass[11pt,a4paper,twoside,titlepage]{report}
 
 \usepackage[utf8x]{inputenc}
-\usepackage[english]{babel}
+\usepackage[portuguese]{babel}
 \usepackage[T1]{fontenc}
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -16,7 +16,7 @@
 \usepackage{siunitx}
 
 \newcommand{\Author}{Bruno Nova}
-\newcommand{\Title}{DrMIPS -- Configuration Manual}
+\newcommand{\Title}{DrMIPS -- Manual de Configuração}
 
 \author{Bruno Nova}
 \title{\Title}
@@ -57,118 +57,120 @@
 \maketitle
 \tableofcontents
 
-\chapter{CPU file}
+\chapter{Ficheiro de CPU}
 
 \section*{}
 
-The different versions of the MIPS CPU are defined in CPU files.
-These can be edited/configured and additional ones can be created.
-This chapter explains the syntax of these files.
+As diferentes versões do processador MIPS são definidas em ficheiros de CPU.
+Estes podem ser editados/configurados e novos podem ser criados.
+Este capítulo explica a sintaxe destes ficheiros.
 
-The CPU files are formatted in JSON (\url{http://json.org/}).
-A partial example of a CPU file is shown below:
+Os ficheiros de CPU são formatados em JSON (\url{http://json.org/}).
+Um exemplo parcial de um ficheiros de CPU é mostrado abaixo:
 
 \lstinputlisting{listings/cpu.cpu}
 
-The various sections that compose the CPU files are detailed in the
-following sections of this chapter.
+As várias secções que compõe os ficheiros de CPU são detalhadas nas seguintes
+secções deste capítulo.
 
 
 \section{components}
 
-This section defines all the components of the CPU and their properties.
-An example of the definition of a component is shown below:
+Esta secção define todos os componentes do processador e suas propriedades.
+Um exemplo da definição de um componente é mostrado abaixo:
 
 \lstinputlisting{listings/component.txt}
 
-Each component is identified by a unique ID (\verb+MUX_DST+ in this example).
-The properties of the component are defined between curly braces as a JSON
-object. Many properties are specific to each type of component, but some exist
-for all components. These are:
+Cada componente é identificado por um ID único (\verb+MUX_DST+ neste exemplo).
+As propriedades do componente são definidas entre chavetas como um objecto
+JSON. Muitas propriedades são específicas a cada tipo de componente, mas
+algumas existem para todos os componentes. Estas são:
 
 \begin{itemize}
-	\item \textbf{type}: The type of the component. The component of the example
-		is a multiplexer. The different types of components are explained next.
-	\item \textbf{latency}: Optional. An integer with the latency of the component
-		in \SI{}{\pico\second}. The default latency is \SI{0}{\pico\second}.
-	\item \textbf{x}: The x-coordinate of the top-left corner of the component in 
-		the graphical datapath. The minimum value is 0 and corresponds to the left
-		border of the datapath. There is no maximum value.
-	\item \textbf{y}: The y-coordinate of the top-left corner of the component in 
-		the graphical datapath. The minimum value is 0 and corresponds to the top
-		border of the datapath. There is no maximum value.
-	\item \textbf{desc}: Optional. Component specific description, in each language, 
-		shown in the tooltip of the component.
-		The value is a JSON object where the description for each language is defined
-		in the form \verb+"language_code": "Description."+. The \verb+language_code+
-		identifier is the code of the language, like \verb+pt+ or \verb+pt_BR+.
-		The special language code \verb+default+ should define the default description
-		in English that is used when the language-specific description is not available.
+	\item \textbf{type}: O tipo de componente. O componente no exemplo é um
+		multiplexador. Os diferentes tipos de componentes são explicados a seguir.
+	\item \textbf{latency}: Opcional. Um inteiro com a latência do componente em
+		\SI{}{\pico\second}. A latência por omissão é \SI{0}{\pico\second}.
+	\item \textbf{x}: A coordenada x do canto superior esquerdo do componente no
+		caminho de dados gráfico. O valor mínimo é 0 e corresponde à borda da
+		esquerda do caminho de dados. Não há valor máximo.
+	\item \textbf{y}: A coordenada y do canto superior esquerdo do componente no
+		caminho de dados gráfico. O valor mínimo é 0 e corresponde à borda de
+		cima do caminho de dados. Não há valor máximo.
+	\item \textbf{desc}: Opcional. Descrição específica do componente, em cada
+		idioma, mostrada na dica do componente.
+		O valor é um objecto JSON onde a descrição para cada idioma é definida na
+		forma \verb+"código_idioma": "Descrição."+. O identificador
+		\verb+language_code+ é o código do idioma, como \verb+pt+ ou \verb+pt_BT+.
+		O idioma especial \verb+default+ deverá definir a descrição por omissão em
+		Inglês que é usada quando uma descrição específica para o idioma não está
+		disponível.
 \end{itemize}
 
-The following subsections explain the different types of components available
-and their specific properties. 
-The titles of the subsections are the values that should be written in the
-\verb+type+ property of the components. This property is case-insensitive.
+As subsecções seguintes explicam os diferentes tipos de componentes disponíveis
+e as suas propriedades específicas.
+Os títulos das subsecções são os valores que devem ser escritos na propriedade
+\verb+type+ dos componentes. Esta propriedade não é sensível à capitalização.
 
 \subsection{Add}
 
-An adder that sums the values of the inputs. The specific properties are:
+Um somador que soma os valores das entradas. As propriedades específicas são:
 \begin{itemize}
-	\item \textbf{in1}: Identifier of the first input.
-	\item \textbf{in2}: Identifier of the second input.
-	\item \textbf{out}: Identifier of the output.
+	\item \textbf{in1}: Identificador da primeira entrada.
+	\item \textbf{in2}: Identificador da segunda entrada.
+	\item \textbf{out}: Identificador da saída.
 \end{itemize}
 
 \subsection{ALU}
 
-The basic ALU. Only one ALU or Extended ALU can be present. The specific properties are:
+A ALU básica. Só uma ALU ou ALU Extendida pode estar presente. As propriedades
+específicas são:
 \begin{itemize}
-	\item \textbf{in1}: Identifier of the first input.
-	\item \textbf{in2}: Identifier of the second input.
-	\item \textbf{control}: Identifier of the control input (that selects the operation
-		to perform).
-	\item \textbf{out}: Identifier of the result output.
-	\item \textbf{zero}: Identifier of the 1 bit \emph{zero} output.
+	\item \textbf{in1}: Identificador da primeira entrada.
+	\item \textbf{in2}: Identificador da segunda entrada.
+	\item \textbf{control}: Identificador da entrada de controlo (que selecciona
+		a operação a realizar).
+	\item \textbf{out}: Identificador da saída de resultado.
+	\item \textbf{zero}: Identificador da saída de 1 bit do \emph{zero}.
 \end{itemize}
 
 \subsection{ALU\_Control}
 
-The component that controls the ALU. Only one can be present.
-The specific properties are:
+O componente que controla a ALU. Só um pode estar presente.
+As propriedades específicas são:
 \begin{itemize}
-	\item \textbf{aluop}: Identifier of the \textit{ALUOp} input.
-	\item \textbf{func}: Identifier of the \emph{func} input (from the function field
-		of the instruction).
+	\item \textbf{aluop}: Identificador da entrada \textit{ALUOp}.
+	\item \textbf{func}: Identificador da entrada \emph{func} (do campo de função
+		da instrução).
 \end{itemize}
 
 \subsection{And}
 
-A logical \emph{AND} port. The specific properties are:
+uma porta lógica \emph{E}. As propriedades específicas são:
 \begin{itemize}
-	\item \textbf{in1}: Identifier of the first input.
-	\item \textbf{in2}: Identifier of the second input.
-	\item \textbf{out}: Identifier of the output.
+	\item \textbf{in1}: Identificador da primeira entrada.
+	\item \textbf{in2}: Identificador da segunda entrada.
+	\item \textbf{out}: Identificador da saída.
 \end{itemize}
 
 \subsection{Concat}
 
-A ``concatenator'' that concatenates the values of the two inputs into a single output.
-The value of the output is the concatenation of the value of the first input (as higher
-order bits) with the value of the second input (as lower order bits).
-The size of the output is equal to the sum of the sizes of the inputs.
-The specific properties are:
+Um ``concatenador'' que concatena os valores de duas entradas numa única saída.
+O valor da saída é a concatenação do valor da primeira entrada (como bits mais
+significativos) com o valor da segunda entrada (como bits menos significativos).
+O tamanho da saída é igual à soma dos tamanhos das entradas.
+As propriedades específicas são:
 \begin{itemize}
-	\item \textbf{in1}: Properties of the first input.
-	\item \textbf{in2}: Properties of the second input.
-	\item \textbf{out}: Identifier of the output.
+	\item \textbf{in1}: Identificador da primeira entrada.
+	\item \textbf{in2}: Identificador da segunda entrada.
+	\item \textbf{out}: Identificador da saída.
 \end{itemize}
 
-The properties of both inputs are defined as JSON objects. The properties of these
-objects are:
+As propriedades de ambas as entradas são definidas como objectos JSON. As
+propriedades destes objectos são:
 \begin{itemize}
-	\item \textbf{id}: Identifier of the input.
-	\item \textbf{size}: Size of the input (in bits).
+	\item \textbf{id}: Identificador da entrada.
+	\item \textbf{size}: Tamanho da entrada (em bits).
 \end{itemize}
 
 \subsection{Const}
