@@ -6,7 +6,6 @@
         <item >Decimal</item>
         <item >Hexadecimal</item>
     </string-array>
-    
         
     <string-array name="performance_types">
         <item >Instrução</item>
@@ -14,17 +13,17 @@
     </string-array>
     
     <string name="pc">Contador do Programa</string>
-    <string name="pc_description">Contém o endereço da instrução a ser executada.\nO endereço é actualizado quando a transição do relógio ocorre.</string>
+    <string name="pc_description">Contém o endereço da instrução a ser executada.\nO endereço é actualizado (com o valor da entrada) na transição do relógio.</string>
     <string name="regbank">Banco de registos</string>
-    <string name="regbank_description">Contém os 32 registos do MIPS fornece acesso de leitura/escrita aos mesmos.\nO registo WriteReg é actualizado na transição do relógio se RegWrite estiver activo.</string>
+    <string name="regbank_description">Contém todos os registos do MIPS e fornece acesso de leitura/escrita aos mesmos.\nOs valores dos registos ReadReg1 e ReadReg2 são lidos para as saídas.\nWriteData é escrito para o registo WriteReg na transição do relógio se RegWrite estiver activo.</string>
     <string name="instruction_memory">Memória de instruções</string>
-    <string name="instruction_memory_description">Contém o código assemblado.</string>
+    <string name="instruction_memory_description">Contém o programa que está a ser executado.</string>
     <string name="control_unit">Unidade de controlo</string>
-    <string name="control_unit_description">Descodifica o opcode da instrução para gerar os vários sinais de controlo adequadamente.</string>
+    <string name="control_unit_description">Controla a execução das instruções.\nA entrada (o opcode da instrução) é descodificada para gerar os sinais de controlo correctos.\nEstes sinais são usados para controlar os outros componentes do caminho de dados.</string>
     <string name="add">Somador</string>
     <string name="add_description">Adiciona os valores das entradas.</string>
     <string name="not">Porta NOT</string>
-    <string name="not_description">Inverte o valor da entrada.</string>
+    <string name="not_description">Nega o valor da entrada.</string>
     <string name="and">Porta AND</string>
     <string name="and_description">Executa um E lógico nas entradas.</string>
     <string name="or">Porta OR</string>
@@ -38,29 +37,29 @@
     <string name="constant">Constante</string>
     <string name="constant_description">Um valor constante.</string>
     <string name="sign_extend">Extensão de sinal</string>
-    <string name="sign_extend_description">Extende o valor da entrada com o seu sinal.</string>
+    <string name="sign_extend_description">Estende o valor da entrada com o seu sinal.\nSe a entrada for negativa, a saída também será negativa.</string>
     <string name="zero_extend">Extensão de valor</string>
-    <string name="zero_extend_description">Extende o valor da entrada com zeros.</string>
+    <string name="zero_extend_description">Estende o valor da entrada com zeros.\nSe a entrada for negativa, a saída terá um valor positivo.</string>
     <string name="shift_left">Deslocamento para a esquerda</string>
     <string name="shift_left_description">Desloca os bits da entrada algumas posições para a esquerda.</string>
     <string name="fork">Bifurcação</string>
-    <string name="fork_description">Bifurca um fio para o conectar a múltiplos componentes.</string>
+    <string name="fork_description">Bifurca uma ligação para a conectar a múltiplos componentes.</string>
     <string name="concatenator">Concatenador</string>
-    <string name="concatenator_description">Concatena os valores das duas entradas.</string>
+    <string name="concatenator_description">Concatena os valores das duas entradas.\nOs bits da primeira entrada serão os bits mais significativos e os bits da segunda entrada serão os bits menos significativos.</string>
     <string name="alu_control">Controlador da ALU</string>
-    <string name="alu_control_description">Usa os valores das suas duas entradas para decidir a operação da ALU.</string>
+    <string name="alu_control_description">Usa os valores das suas duas entradas para determinar a operação da ALU.</string>
     <string name="alu">Unidade Lógica e Aritmética</string>
-    <string name="alu_description">Realiza operações aritméticas.</string>
+    <string name="alu_description">Realiza operações aritméticas.\nAs duas saídas são o resultado da operação e se o resultado é zero.</string>
     <string name="extended_alu">Unidade Lógica e Aritmética (extendida)</string>
-    <string name="extended_alu_description">Realiza operações aritméticas.\nEsta ALU suporta multiplicações e divisões, e armazena os "registos" HI e LO.</string>
+    <string name="extended_alu_description">Realiza operações aritméticas.\nAs duas saídas são o resultado da operação e se o resultado é zero.\nEsta ALU suporta multiplicações e divisões, e armazena os "registos" HI e LO usados por estas operações.</string>
     <string name="data_memory">Memória de dados</string>
-    <string name="data_memory_description">Memória RAM com várias posições para guardar e carregar dados temporariamente.</string>
+    <string name="data_memory_description">Memória RAM com várias posições para armazenar dados temporariamente.\nSe MemRead estiver activo, a posição de memória especificada é lida.\nSe MemWrite estiver activo, WriteData é escrito para a posição de memória na transição do relógio.</string>
     <string name="pipeline_register">Registo de pipeline</string>
-    <string name="pipeline_register_description">Separa duas etapas do pipeline.</string>
+    <string name="pipeline_register_description">Registo que separa duas etapas do pipeline.\nOs valores que transitam para a próxima etapa são armazenados aqui temporariamente se Write estiver activo.\nSe Flush, estiver activo todos os valores são colocados a zero, inserindo uma instrução NOP.</string>
     <string name="forwarding_unit">Unidade de encaminhamento</string>
-    <string name="forwarding_unit_description">Resolve alguns dos conflitos de dados encaminhando resultados das etapas de MEM e WB para trás.</string>
+    <string name="forwarding_unit_description">Resolve alguns dos conflitos de dados encaminhando resultados das etapas de MEM e WB para trás.\nHá um atalho quando o valor de um registo usado na etapa EX é determinado nas etapas seguintes por uma instrução anterior.</string>
     <string name="hazard_detection_unit">Unidade de detecção de conflitos</string>
-    <string name="hazard_detection_unit_description">Detecta quando um protelamento deve ocorrer devido a uma instrução load seguida por uma instrução que usa o valor carregado.</string>
+    <string name="hazard_detection_unit_description">Detecta quando um protelamento deve ocorrer.\nHá um protelamento quando o valor de um registo usado na etapa EX é carregado da memória na etapa MEM pela instrução anterior.</string>
     
     <string name="app_description">Simulador educativo do processador MIPS.</string>
     <string name="settings">Preferências</string>
@@ -118,7 +117,7 @@
     <string name="latency">Latência</string>
     <string name="latency_of_x">Latência de #1</string>
     <string name="control_path">Caminho de controlo</string>
-    <string name="arrows_in_wires">Setas nos fios</string>
+    <string name="arrows_in_wires">Setas nas ligações</string>
     <string name="performance_mode">Modo de desempenho</string>
     <string name="long_press_to_change">mantenha premido para alterar</string>
     <string name="overlayed_data">Dados sobrepostos</string>
@@ -135,29 +134,29 @@
     <string name="text_directive"># Inicia o segmento de texto</string>
     <string name="word_directive"># Armazena words na memória de dados</string>
     <string name="data_mode">Modo de dados</string>
-    <string name="normal_wire">Fio normal</string>
-    <string name="wire_in_critical_path">Fio no caminho crítico</string>
-    <string name="control_path_wire">Fio do caminho de controlo</string>
-    <string name="relevant_control_path_wire">Fio relevante do caminho de controlo</string>
-	<string name="irrelevant_wire">Fio irrelevante</string>
-	<string name="advised_to_display_control_path">É aconselhado mostrar o caminho de controlo.</string>
-	<string name="filename">Nome do ficheiro</string>
-	<string name="confirm_exit">Tem a certeza que deseja sair da aplicação?</string>
-	<string name="for_dissertation">no âmbito da Dissertação de Mestrado do MIEIC</string>
-	<string name="license">Licença</string>
-	<string name="remove_latencies">Remover latências</string>
-	<string name="restore_latencies">Restaurar latências</string>
-	<string name="statistics">Estatísticas</string>
-	<string name="clock_period">Período de relógio:</string>
-	<string name="clock_frequency">Frequência de relógio:</string>
-	<string name="executed_cycles">Ciclos executados:</string>
-	<string name="execution_time">Tempo de execução:</string>
-	<string name="executed_instructions">Instruções executadas:</string>
-	<string name="forwards">Atalhos:</string>
-	<string name="stalls">Protelamentos:</string>
-	<string name="operation">Operação</string>
-	<string name="register_not_editable">O registo #1 não é editável!</string>
-	<string name="performance">Desempenho:</string>
-	<string name="credits">Créditos</string>
+    <string name="normal_wire">Ligação normal</string>
+    <string name="wire_in_critical_path">Ligação no caminho crítico</string>
+    <string name="control_path_wire">Ligação do caminho de controlo</string>
+    <string name="relevant_control_path_wire">Ligação relevante do caminho de controlo</string>
+    <string name="irrelevant_wire">Ligação irrelevante</string>
+    <string name="advised_to_display_control_path">É aconselhado mostrar o caminho de controlo.</string>
+    <string name="filename">Nome do ficheiro</string>
+    <string name="confirm_exit">Tem a certeza que deseja sair da aplicação?</string>
+    <string name="for_dissertation">no âmbito da Dissertação de Mestrado do MIEIC</string>
+    <string name="license">Licença</string>
+    <string name="remove_latencies">Remover latências</string>
+    <string name="restore_latencies">Restaurar latências</string>
+    <string name="statistics">Estatísticas</string>
+    <string name="clock_period">Período de relógio:</string>
+    <string name="clock_frequency">Frequência de relógio:</string>
+    <string name="executed_cycles">Ciclos executados:</string>
+    <string name="execution_time">Tempo de execução:</string>
+    <string name="executed_instructions">Instruções executadas:</string>
+    <string name="forwards">Atalhos:</string>
+    <string name="stalls">Protelamentos:</string>
+    <string name="operation">Operação</string>
+    <string name="register_not_editable">O registo #1 não é editável!</string>
+    <string name="performance">Desempenho:</string>
+    <string name="credits">Créditos</string>
     
 </resources>
