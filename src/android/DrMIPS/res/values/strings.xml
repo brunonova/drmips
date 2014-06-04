@@ -13,17 +13,17 @@
     </string-array>
     
     <string name="pc">Program Counter</string>
-    <string name="pc_description">Contains the address of the instruction being executed.\nThe address is updated when the clock transition occurs.</string>
+    <string name="pc_description">Contains the address of the instruction being executed.\nThe address is updated (with the value at the input) at the clock transition.</string>
     <string name="regbank">Register bank</string>
-    <string name="regbank_description">Holds the 32 MIPS registers and provides read/write to them.\nThe WriteReg register is updated on the clock transition if RegWrite is enabled.</string>
+    <string name="regbank_description">Holds all the MIPS registers and provides read/write to them.\nThe values of the ReadReg1 and ReadReg2 registers are read to the outputs.\nWriteData is written to the WriteReg register at the clock transition if RegWrite is enabled.</string>
     <string name="instruction_memory">Instruction memory</string>
-    <string name="instruction_memory_description">Contains the assembled code.</string>
+    <string name="instruction_memory_description">Contains the program being executed.</string>
     <string name="control_unit">Control unit</string>
-    <string name="control_unit_description">Decodes the opcode of the instruction to generate the various control signals accordingly.</string>
+    <string name="control_unit_description">Controls the execution of the instructions.\nThe input (opcode of the instruction) is decoded to generate the correct control signals.\nThese signals are used to control the other components of the datapath.</string>
     <string name="add">Adder</string>
     <string name="add_description">Adds the values of the inputs.</string>
     <string name="not">NOT port</string>
-    <string name="not_description">Inverts the value of the input.</string>
+    <string name="not_description">Negates the value of the input.</string>
     <string name="and">AND port</string>
     <string name="and_description">Executes a logical AND on the inputs.</string>
     <string name="or">OR port</string>
@@ -37,29 +37,29 @@
     <string name="constant">Constant</string>
     <string name="constant_description">A constant value.</string>
     <string name="sign_extend">Sign extend</string>
-    <string name="sign_extend_description">Extends the value of the input with its sign.</string>
+    <string name="sign_extend_description">Extends the value of the input with its sign.\nIf the input is negative, the output will also be negative.</string>
     <string name="zero_extend">Zero extend</string>
-    <string name="zero_extend_description">Extends the value of the input with zeros.</string>
+    <string name="zero_extend_description">Extends the value of the input with zeros.\nIf the input is negative, the output will have a positive value.</string>
     <string name="shift_left">Shift left</string>
     <string name="shift_left_description">Shifts the input\'s bits some positions to the left.</string>
     <string name="fork">Fork</string>
     <string name="fork_description">Forks a wire to connect it to multiple components.</string>
     <string name="concatenator">Concatenator</string>
-    <string name="concatenator_description">Concatenates the values of the two inputs.</string>
+    <string name="concatenator_description">Concatenates the values of the two inputs.\nThe bits of the first input will be the most significant bits and the bits of the second input will be the less significant bits.</string>
     <string name="alu_control">ALU controller</string>
-    <string name="alu_control_description">Uses the values of its two inputs to decide the ALU operation.</string>
+    <string name="alu_control_description">Uses the values of its two inputs to determine the operation of the ALU.</string>
     <string name="alu">Arithmetic and Logic Unit</string>
-    <string name="alu_description">Performs arithmetic operations.</string>
+    <string name="alu_description">Performs arithmetic operations.\nThe two outputs are the result of the operation and whether the result is zero.</string>
     <string name="extended_alu">Arithmetic and Logic Unit (extended)</string>
-    <string name="extended_alu_description">Performs arithmetic operations.\nThis ALU supports multiplications and divisions, and stores the HI and LO "registers".</string>
+    <string name="extended_alu_description">Performs arithmetic operations.\nThe two outputs are the result of the operation and whether the result is zero.\nThis ALU supports multiplications and divisions, and stores the HI and LO "registers" used by these operations.</string>
     <string name="data_memory">Data memory</string>
-    <string name="data_memory_description">RAM memory with several positions to temporarily save and load data.</string>
+    <string name="data_memory_description">RAM memory with several positions to store data temporarily.\nIf MemRead is active, the specified memory position is read from.\nIf MemWrite is active, WriteData is written to the memory position at the clock transition.</string>
     <string name="pipeline_register">Pipeline register</string>
-    <string name="pipeline_register_description">Separates two pipeline stages.</string>
+    <string name="pipeline_register_description">Register that separates two pipeline stages.\nThe values that transition to the next stage are stored here temporarily if Write is active.\nIf Flush is active, all values are set to zero, inserting a NOP instruction.</string>
     <string name="forwarding_unit">Forwarding unit</string>
-    <string name="forwarding_unit_description">Solves some data hazards by forwarding results from the MEM and WB stages back.</string>
+    <string name="forwarding_unit_description">Solves some data hazards by forwarding results from the MEM and WB stages back.\nThere is a forward when the value of a register used in the EX stage is determined in the next stages by a previous instruction.</string>
     <string name="hazard_detection_unit">Hazard detection unit</string>
-    <string name="hazard_detection_unit_description">Detects when a stall should occur because of a load followed by an instruction that uses the loaded value.</string>
+    <string name="hazard_detection_unit_description">Detects when a stall should occur.\nThere is a stall when the value of a register used in the EX stage is loaded from memory in the MEM stage by the previous instruction.</string>
     
     <string name="app_name">DrMIPS</string>
     <string name="app_description">Educational simulator of the MIPS processor.</string>
@@ -160,6 +160,5 @@
     <string name="register_not_editable">Register #1 is not editable!</string>
     <string name="performance">Performance:</string>
     <string name="credits">Credits</string>
-    
 
 </resources>
