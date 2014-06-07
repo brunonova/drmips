@@ -49,6 +49,8 @@ import org.feup.brunonova.drmips.simulator.mips.components.Fork;
 public final class DatapathComponent extends JPanel implements MouseListener {
 	/** The font used for the text. */
 	private static final Font FONT = new Font(Font.MONOSPACED, Font.PLAIN, 8);
+	/** Width of the tooltips with the details of the components. */
+	private static final int TOOLTIP_WIDTH = 400;
 	
 	/** The graphical datapath this component is in. */
 	private final DatapathPanel datapath;
@@ -128,7 +130,7 @@ public final class DatapathComponent extends JPanel implements MouseListener {
 		
 		
 		// Refresh the tooltip
-		String tip = "<html><table cellspacing=0 cellpadding=0>";
+		String tip = "<html><table width='" + TOOLTIP_WIDTH + "' cellspacing=0 cellpadding=0>";
 		String controlStyle = "style='color: rgb(" + DatapathPanel.CONTROL_COLOR.getRed() + "," + DatapathPanel.CONTROL_COLOR.getGreen() + "," + DatapathPanel.CONTROL_COLOR.getBlue() + ")'";
 		
 		// Name
