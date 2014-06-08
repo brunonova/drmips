@@ -10,20 +10,13 @@ depends=('java-environment' 'desktop-file-utils')
 makedepends=('jdk7-openjdk' 'cmake' 'texlive-core' 'texlive-latexextra' 'texlive-science')
 install="$pkgname.install"
 source=("https://bitbucket.org/brunonova/$pkgname/downloads/DrMIPS_v$pkgver.tar.gz"
-        "https://bitbucket.org/brunonova/$pkgname/raw/v$pkgver/debian/patches/adapt_usage_help_text.patch"
         "https://bitbucket.org/brunonova/$pkgname/raw/v$pkgver/debian/$pkgname.desktop"
         "https://bitbucket.org/brunonova/$pkgname/raw/v$pkgver/debian/$pkgname.1"
         "https://bitbucket.org/brunonova/$pkgname/raw/v$pkgver/debian/$pkgname.pt.1")
 md5sums=('999640ef041551e141a74aab64ecd2fe'
-         '4789f9db632ba230b182271a8ec581c2'
          '02ba7efa585b621e978f6a23e8fd210e'
          '4910bafb9087b68ed9fa40bfd46838c5'
          '70954b479c35eeaff5f9306d0ec5eff9')
-
-prepare() {
-	cd "$srcdir"
-	patch -p1 -i "adapt_usage_help_text.patch"
-}
 
 build() {
 	cd "$srcdir"
