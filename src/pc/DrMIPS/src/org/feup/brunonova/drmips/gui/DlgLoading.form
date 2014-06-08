@@ -37,7 +37,7 @@
       <Properties>
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/res/icons/icon_large.png"/>
+          <Image iconType="3" name="/res/icons/x96/drmips.png"/>
         </Property>
       </Properties>
       <Constraints>

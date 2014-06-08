@@ -27,7 +27,9 @@ build() {
 package() {
 	cd "$srcdir"
 	make DESTDIR="$pkgdir" install
-	install -Dm644 "icons/$pkgname.png" "$pkgdir/usr/share/pixmaps/$pkgname.png"
+	for _size in 16 24 32 48 64 96 128 256 512; do
+		install -Dm644 "src/pc/DrMIPS/src/res/icons/x$_size/$pkgname.png" "$pkgdir/usr/share/icons/hicolor/${_size}x${_size}/apps/$pkgname"
+	done
 	install -Dm644 "$pkgname.desktop" "$pkgdir/usr/share/applications/$pkgname.desktop"
 	install -Dm644 "$pkgname.1" "$pkgdir/usr/share/man/man1/$pkgname.1"
 	install -Dm644 "$pkgname.pt.1" "$pkgdir/usr/share/man/pt/man1/$pkgname.1"

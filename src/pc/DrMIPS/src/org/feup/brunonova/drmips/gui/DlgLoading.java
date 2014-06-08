@@ -61,7 +61,7 @@ public class DlgLoading extends javax.swing.JDialog {
         getContentPane().setLayout(new java.awt.BorderLayout(5, 5));
 
         lblIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/icon_large.png"))); // NOI18N
+        lblIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x96/drmips.png"))); // NOI18N
         getContentPane().add(lblIcon, java.awt.BorderLayout.NORTH);
 
         lblName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

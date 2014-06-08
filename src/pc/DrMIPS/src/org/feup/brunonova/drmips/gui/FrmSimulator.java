@@ -123,11 +123,11 @@ public class FrmSimulator extends javax.swing.JFrame {
 		txtCode.requestFocus();
 		txtCode.getDocument().addDocumentListener(new CodeEditorDocumentListener());
 		
-		frmCode.setFrameIcon(new ImageIcon(getClass().getResource("/res/icons/icon_xsmall.png")));
-		frmDatapath.setFrameIcon(new ImageIcon(getClass().getResource("/res/icons/icon_xsmall.png")));
-		frmRegisters.setFrameIcon(new ImageIcon(getClass().getResource("/res/icons/icon_xsmall.png")));
-		frmAssembledCode.setFrameIcon(new ImageIcon(getClass().getResource("/res/icons/icon_xsmall.png")));
-		frmDataMemory.setFrameIcon(new ImageIcon(getClass().getResource("/res/icons/icon_xsmall.png")));
+		frmCode.setFrameIcon(new ImageIcon(getClass().getResource("/res/icons/x16/drmips.png")));
+		frmDatapath.setFrameIcon(new ImageIcon(getClass().getResource("/res/icons/x16/drmips.png")));
+		frmRegisters.setFrameIcon(new ImageIcon(getClass().getResource("/res/icons/x16/drmips.png")));
+		frmAssembledCode.setFrameIcon(new ImageIcon(getClass().getResource("/res/icons/x16/drmips.png")));
+		frmDataMemory.setFrameIcon(new ImageIcon(getClass().getResource("/res/icons/x16/drmips.png")));
 
 		mnuResetDataBeforeAssembling.setSelected(DrMIPS.prefs.getBoolean(DrMIPS.ASSEMBLE_RESET_PREF, DrMIPS.DEFAULT_ASSEMBLE_RESET));
 		mnuSwitchTheme.setSelected(DrMIPS.prefs.getBoolean(DrMIPS.DARK_THEME_PREF, DrMIPS.DEFAULT_DARK_THEME));
@@ -165,11 +165,9 @@ public class FrmSimulator extends javax.swing.JFrame {
 	 */
 	private void obtainIcons() {
 		icons = new LinkedList<Image>();
-		icons.add((new ImageIcon(getClass().getResource("/res/icons/icon_xsmall.png"))).getImage());
-		icons.add((new ImageIcon(getClass().getResource("/res/icons/icon_small.png"))).getImage());
-		icons.add((new ImageIcon(getClass().getResource("/res/icons/icon_medium.png"))).getImage());
-		icons.add((new ImageIcon(getClass().getResource("/res/icons/icon_large.png"))).getImage());
-		icons.add((new ImageIcon(getClass().getResource("/res/icons/icon_xlarge.png"))).getImage());
+		int[] sizes = {16, 24, 32, 48, 64, 96, 128, 256, 512};
+		for(int size: sizes)
+			icons.add((new ImageIcon(getClass().getResource("/res/icons/x" + size + "/drmips.png"))).getImage());
 	}
 
 	/**

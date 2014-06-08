@@ -69,7 +69,7 @@ public class DlgAbout extends javax.swing.JDialog {
         lblVersion.setText(AppInfo.NAME + " " + AppInfo.VERSION);
 
         lblIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/icon_medium.png"))); // NOI18N
+        lblIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x96/drmips.png"))); // NOI18N
 
         lblAuthor.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         lblAuthor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
