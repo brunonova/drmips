@@ -2,41 +2,41 @@
 	"components": {
 		"PC":         {"type": "PC", "x": 40, "y": 250, "in": "NewPC", "out": "PC"},
 		"ForkPC":     {"type": "fork", "x": 80, "y": 265, "size": 32, "in": "In", "out": ["Out1", "Out2"]},
-		"PCAdder":    {"type": "add", "latency": 50, "x": 110, "y": 158, "in1": "In1", "in2": "In2", "out": "PC+4"},
+		"PCAdder":    {"type": "add", "latency": 50, "x": 110, "y": 158, "in1": "In1", "in2": "In2", "out": "PC+4", "desc": {"default": "Calculates the address of the next sequential instruction.", "pt_PT": "Calcula o endereço da instrução sequencial seguinte."}},
 		"Const4":     {"type": "const", "x": 85, "y": 173, "out": "Out", "val": 4, "size": 32},
 		"ForkPCAdder":{"type": "fork", "x": 155, "y": 175, "size": 32, "in": "In", "out": ["Out1", "Out2"]},
-		"MuxPC":      {"type": "mux", "latency": 15, "x": 15, "y": 248, "size": 32, "sel": "PCSrc", "in": ["0", "1"], "out": "Out"},
+		"MuxPC":      {"type": "mux", "latency": 15, "x": 15, "y": 248, "size": 32, "sel": "PCSrc", "in": ["0", "1"], "out": "Out", "desc": {"default": "Selects PC+4 or the branch address as the new PC.", "pt_PT": "Selecciona o PC+4 ou o endereço de branch como novo PC."}},
 		"InstMem":    {"type": "imem", "latency": 300, "x": 90, "y": 215, "in": "Address", "out": "Instruction"},
 		
-		"IF/ID":      {"type": "pipereg", "x": 180, "y": 110, "regs": {"NewPC": 32, "Instruction": 32}},
+		"IF/ID":      {"type": "pipereg", "x": 180, "y": 110, "regs": {"NewPC": 32, "Instruction": 32}, "desc": {"default": "Register that separates two pipeline stages.\nThe values that transition to the next stage are stored here temporarily.", "pt_PT": "Registo que separa duas etapas do pipeline.\nOs valores que transitam para a próxima etapa são armazenados aqui temporariamente."}},
 		
 		"DistInst":   {"type": "dist", "x": 200, "y": 250, "in": {"id": "Instruction", "size": 32}, "out": [{"msb": 31, "lsb": 26}, {"msb": 25, "lsb": 21}, {"msb": 20, "lsb": 16},   {"msb": 15, "lsb": 11}, {"msb": 15, "lsb": 0}]},
 		"ForkRt":     {"type": "fork", "x": 220, "y": 265, "size": 5, "in": "In", "out": ["Out1", "Out2"]},
 		"RegBank":    {"type": "regbank", "latency": 100, "x": 260, "y": 215, "num_regs": 32, "read_reg1": "ReadReg1", "read_reg2": "ReadReg2", "read_data1": "ReadData1", "read_data2": "ReadData2", "write_reg": "WriteReg", "write_data": "WriteData", "reg_write": "RegWrite", "const_regs": [{"reg": 0, "val": 0}]},
 		"Control":    {"type": "control", "latency": 50, "x": 230, "y": 70, "in": "Opcode"},
-		"ExtendImm":  {"type": "sext", "x": 280, "y": 330, "in": {"id": "In", "size": 16}, "out": {"id": "Out", "size": 32}},
+		"ExtendImm":  {"type": "sext", "x": 280, "y": 330, "in": {"id": "In", "size": 16}, "out": {"id": "Out", "size": 32}, "desc": {"default": "Extends the instruction's immediate value from 16 to 32 bits, in the case it is an I-type instruction.", "pt_PT": "Estende o valor imediato da instrução de 16 para 32 bits, no caso de ser uma instrução do tipo I."}},
 		
-		"ID/EX":      {"type": "pipereg", "x": 390, "y": 110, "regs": {"ReadData1": 32, "ReadData2": 32, "NewPC": 32, "Imm": 32, "Rt": 5, "Rd": 5, "RegDst": 1, "ALUOp": 2, "ALUSrc": 1, "Branch": 1, "MemRead": 1, "MemWrite": 1, "MemToReg": 1, "RegWrite": 1}},
+		"ID/EX":      {"type": "pipereg", "x": 390, "y": 110, "regs": {"ReadData1": 32, "ReadData2": 32, "NewPC": 32, "Imm": 32, "Rt": 5, "Rd": 5, "RegDst": 1, "ALUOp": 2, "ALUSrc": 1, "Branch": 1, "MemRead": 1, "MemWrite": 1, "MemToReg": 1, "RegWrite": 1}, "desc": {"default": "Register that separates two pipeline stages.\nThe values that transition to the next stage are stored here temporarily.", "pt_PT": "Registo que separa duas etapas do pipeline.\nOs valores que transitam para a próxima etapa são armazenados aqui temporariamente."}},
 		
 		"ForkReg":    {"type": "fork", "x": 410, "y": 281, "size": 32, "in": "In", "out": ["Out1", "Out2"]},
-		"MuxReg":     {"type": "mux", "latency": 15, "x": 425, "y": 270, "size": 32, "sel": "ALUSrc", "out": "Out", "in": ["0", "1"]},
+		"MuxReg":     {"type": "mux", "latency": 15, "x": 425, "y": 270, "size": 32, "sel": "ALUSrc", "out": "Out", "in": ["0", "1"], "desc": {"default": "Selects the value of the 2nd read register or the instruction's immediate value as the ALU's second operand.", "pt_PT": "Selecciona o valor do 2º registo lido ou o valor imediato da instrução como segundo operando da ALU."}},
 		"DistImm":    {"type": "dist", "x": 413, "y": 330, "in": {"id": "In", "size": 32}, "out": [{"msb": 31, "lsb": 0}, {"msb": 5, "lsb": 0}]},
 		"ALUControl": {"type": "alu_control", "latency": 50, "x": 426, "y": 330, "aluop": "ALUOp", "func": "func"},
 		"ALU":        {"type": "alu", "latency": 100, "x": 450, "y": 237, "in1": "In1", "in2": "In2", "control": "Operation", "out": "Result", "zero": "Zero"},
-		"MuxDst":     {"type": "mux", "latency": 15, "x": 413, "y": 370, "size": 5, "sel": "RegDst", "in": ["0", "1"], "out": "Out"},
-		"ShiftImm":   {"type": "sll", "x": 450, "y": 190, "in": {"id": "In", "size": 32}, "out": {"id": "Out", "size": 32}, "amount": 2},
-		"AddBranch":  {"type": "add", "latency": 50, "x": 505, "y": 164, "in1": "In1", "in2": "In2", "out": "Out"},
+		"MuxDst":     {"type": "mux", "latency": 15, "x": 413, "y": 370, "size": 5, "sel": "RegDst", "in": ["0", "1"], "out": "Out", "desc": {"default": "Selects the instruction's rt or rd field as the destination register (WriteReg).", "pt_PT": "Selecciona o campo rt ou rd da instrução como registo de destino (WriteReg)."}},
+		"ShiftImm":   {"type": "sll", "x": 450, "y": 190, "in": {"id": "In", "size": 32}, "out": {"id": "Out", "size": 32}, "amount": 2, "desc": {"default": "The 2 less significant bits of the addresses of the instructions are always 00 (the addresses are multiples of 4). As such, these bits are not included in the instruction's immediate value (offset).\nThis component restores those bits by shifting the value 2 bits to the left (or multiplying by 4), in case it is a branch instruction.", "pt_PT": "Os 2 bits menos significativos dos endereços das instruções são sempre 00 (os endereços são múltiplos de 4). Como tal, estes bits não são incluídos no valor imediato da instrução (offset).\nEste componente restaura esses bits deslocando o valor 2 bits para a esquerda (ou multiplicando por 4), no caso de ser uma instrução de branch."}},
+		"AddBranch":  {"type": "add", "latency": 50, "x": 505, "y": 164, "in1": "In1", "in2": "In2", "out": "Out", "desc": {"default": "Adds the branch offset to the PC+4 to obtain the destination branch address, in case it is a branch instruction.", "pt_PT": "Soma o offset do branch ao PC+4 para obter o endereço de destino do branch, no caso de ser uma instrução de branch."}},
 		"ForkImm":    {"type": "fork", "x": 415, "y": 292, "size": 32, "in": "In", "out": ["Out1", "Out2"]},
 		
-		"EX/MEM":     {"type": "pipereg", "x": 550, "y": 110, "regs": {"Result": 32, "ReadData2": 32, "Zero": 1, "RegBankDst": 5, "Target": 32, "Branch": 1, "MemRead": 1, "MemWrite": 1, "MemToReg": 1, "RegWrite": 1}},
+		"EX/MEM":     {"type": "pipereg", "x": 550, "y": 110, "regs": {"Result": 32, "ReadData2": 32, "Zero": 1, "RegBankDst": 5, "Target": 32, "Branch": 1, "MemRead": 1, "MemWrite": 1, "MemToReg": 1, "RegWrite": 1}, "desc": {"default": "Register that separates two pipeline stages.\nThe values that transition to the next stage are stored here temporarily.", "pt_PT": "Registo que separa duas etapas do pipeline.\nOs valores que transitam para a próxima etapa são armazenados aqui temporariamente."}},
 		
 		"ForkMem":    {"type": "fork", "x": 572, "y": 275, "size": 32, "in": "In", "out": ["Out1", "Out2"]},
 		"DataMem":    {"type": "dmem", "latency": 400, "x": 580, "y": 242, "size": 100, "address": "Address", "write_data": "WriteData", "out": "ReadData", "mem_read": "MemRead", "mem_write": "MemWrite"},
-		"AndBranch":  {"type": "and", "x": 600, "y": 180, "in1": "Branch", "in2": "Zero", "out": "Branch"},
+		"AndBranch":  {"type": "and", "x": 600, "y": 180, "in1": "Branch", "in2": "Zero", "out": "Branch", "desc": {"default": "Determines if a branch should occur.", "pt_PT": "Determina se um branch será efectuado."}},
 		
-		"MEM/WB":     {"type": "pipereg", "x": 680, "y": 110, "regs": {"Result": 32, "ReadData": 32, "RegBankDst": 5, "MemToReg": 1, "RegWrite": 1}},
+		"MEM/WB":     {"type": "pipereg", "x": 680, "y": 110, "regs": {"Result": 32, "ReadData": 32, "RegBankDst": 5, "MemToReg": 1, "RegWrite": 1}, "desc": {"default": "Register that separates two pipeline stages.\nThe values that transition to the next stage are stored here temporarily.", "pt_PT": "Registo que separa duas etapas do pipeline.\nOs valores que transitam para a próxima etapa são armazenados aqui temporariamente."}},
 		
-		"MuxMem":     {"type": "mux", "latency": 15, "x": 710, "y": 270, "size": 32, "sel": "MemToReg", "in": ["0", "1"], "out": "Out"}
+		"MuxMem":     {"type": "mux", "latency": 15, "x": 710, "y": 270, "size": 32, "sel": "MemToReg", "in": ["0", "1"], "out": "Out", "desc": {"default": "Selects the result of the ALU or the value read from memory to write to the destination register (WriteData).", "pt_PT": "Selecciona o resultado da ALU ou o valor lido da memória para escrever no registo de destino (WriteData)."}}
 	},
 	"wires": [
 		{"from": "PC", "out": "PC", "to": "ForkPC", "in": "In"},
