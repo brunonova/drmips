@@ -1,3 +1,13 @@
+drmips (1.2.1-0ppa1) trusty; urgency=low
+
+  * New version (1.2.1):
+    - Added Portuguese translation of the configuration manual
+    - Improved the descriptions of the components
+    - Renamed the identifiers of the components and inputs
+    - Replaced JSON.org library with a free version
+
+ -- Bruno Nova <brunomb.nova@gmail.com>  Mon, 09 Jun 2014 20:10:27 +0100
+
 drmips (1.2.0-0ppa2) trusty; urgency=low
 
   * Add missing texlive-lang-portuguese build dependency
