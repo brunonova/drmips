@@ -1,3 +1,10 @@
+drmips (1.2.2-0ppa1) trusty; urgency=low
+
+  * New version (1.2.2):
+    - Support Java 6
+
+ -- Bruno Nova <brunomb.nova@gmail.com>  Fri, 13 Jun 2014 11:23:49 +0100
+
 drmips (1.2.1-0ppa1) trusty; urgency=low
 
   * New version (1.2.1):
