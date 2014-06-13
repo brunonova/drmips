@@ -15,7 +15,7 @@ source=("https://bitbucket.org/brunonova/$_pkgname/downloads/DrMIPS_v$pkgver.tar
         "https://bitbucket.org/brunonova/$_pkgname/raw/v$pkgver/debian/$_pkgname.desktop"
         "https://bitbucket.org/brunonova/$_pkgname/raw/v$pkgver/debian/$_pkgname.1"
         "https://bitbucket.org/brunonova/$_pkgname/raw/v$pkgver/debian/$_pkgname.pt.1")
-md5sums=('3f971589eb22824101b0735cfde835e9'
+md5sums=('499bc462d6b9aa3367fd7d41fa2bdd24'
          '02ba7efa585b621e978f6a23e8fd210e'
          '4910bafb9087b68ed9fa40bfd46838c5'
          '70954b479c35eeaff5f9306d0ec5eff9')
