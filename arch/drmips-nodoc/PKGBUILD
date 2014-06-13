@@ -1,7 +1,7 @@
 # Maintainer: Bruno Nova <brunomb.nova@gmail.com>
 pkgname=drmips-nodoc
 _pkgname=drmips
-pkgver=1.2.1
+pkgver=1.2.2
 pkgrel=1
 pkgdesc="Graphical MIPS simulator to support computer architecture teaching and learning - This package doesn't include the documentation"
 arch=('any')
