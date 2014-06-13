@@ -10,7 +10,8 @@ option(DRMIPS_BUILD_MANUALS "Build and install the manuals?" ON)
 option(DRMIPS_BUILD_PC_VERSION "Build and install the PC version of the simulator?" ON)
 option(DRMIPS_BUILD_ANDROID_VERSION "Build and install the Android version of the simulator?" OFF)
 option(DRMIPS_BUILD_SIMULATOR_JAVADOC "Build and install the Java API documentation of the simulation logic?" OFF)
-set(CMAKE_JAVA_COMPILE_FLAGS "-encoding" "UTF-8") # force javac to use UTF-8 encoding
+# force javac to use UTF-8 encoding and set JDK/JRE 6 as the target
+set(CMAKE_JAVA_COMPILE_FLAGS "-encoding" "UTF-8" "-source" "1.6" "-target" "1.6")
 
 # Include required CMake modules and programs
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/Modules")
