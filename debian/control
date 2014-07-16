@@ -10,7 +10,7 @@ Vcs-Git: https://bitbucket.org/brunonova/drmips
 Package: drmips
 Architecture: all
 Depends: ${shlibs:Depends}, ${misc:Depends}, openjdk-7-jre | java7-runtime | openjdk-6-jre | java6-runtime
-Description: Educational MIPS simulator - DrMIPS
+Description: Educational MIPS simulator
  DrMIPS is graphical simulator of the MIPS processor to support computer
  architecture teaching and learning. It is intuitive, versatile and
  configurable.
