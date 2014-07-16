@@ -11,7 +11,7 @@ Package: drmips
 Architecture: all
 Depends: ${shlibs:Depends}, ${misc:Depends}, openjdk-7-jre | java7-runtime | openjdk-6-jre | java6-runtime
 Description: Educational MIPS simulator
- DrMIPS is graphical simulator of the MIPS processor to support computer
+ DrMIPS is a graphical simulator of the MIPS processor to support computer
  architecture teaching and learning. It is intuitive, versatile and
  configurable.
  The simulator is available not only for personal computers but also for
