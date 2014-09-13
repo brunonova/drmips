@@ -51,18 +51,3 @@ CMakeFiles
 Makefile
 cmake_uninstall.cmake
 cmake_install.cmake
-
-# Files generated for Debian packaging
-debian/*.log
-debian/*.debhelper
-debian/*.substvars
-debian/drmips
-debian/files
-obj-x86_64-linux-gnu
-/.pc
-
-# Files generated for Arch Linux packaging
-arch/*/*
-!arch/*/PKGBUILD
-!arch/*/*.install
-!arch/*/*.patch
