@@ -2,8 +2,8 @@ Source: drmips
 Section: education
 Priority: optional
 Maintainer: Bruno Nova <brunomb.nova@gmail.com>
-Build-Depends: debhelper (>= 8.0.0), cmake (>= 2.8), openjdk-7-jdk | openjdk-6-jdk, texlive, texlive-latex-extra, texlive-science, texlive-lang-portuguese
-Standards-Version: 3.9.4
+Build-Depends: debhelper (>= 8.0.0), cmake (>= 2.8), openjdk-7-jdk | java7-jdk | openjdk-6-jdk | java6-jdk, texlive-base, texlive-latex-extra, texlive-science, texlive-lang-portuguese
+Standards-Version: 3.9.5
 Homepage: https://bitbucket.org/brunonova/drmips
 Vcs-Git: https://bitbucket.org/brunonova/drmips
 
