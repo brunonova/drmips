@@ -65,3 +65,4 @@ obj-x86_64-linux-gnu
 arch/*/*
 !arch/*/PKGBUILD
 !arch/*/*.install
+!arch/*/*.patch
