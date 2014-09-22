@@ -7,7 +7,7 @@ configure_file(drmips.in drmips)
 
 # Copy distributable static files to DRMIPS_ZIP_BUILD_DIR
 message(STATUS "PC version: copying cpu,lang,lib to the ZIP build directory")
-file(COPY cpu lang lib DESTINATION "${DRMIPS_ZIP_BUILD_DIR}")
+file(COPY cpu lang DESTINATION "${DRMIPS_ZIP_BUILD_DIR}")
 message(STATUS "PC version: copying cpu,lang,lib to the ZIP build directory -- done")
 
 # Install target
