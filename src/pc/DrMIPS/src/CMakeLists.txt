@@ -5,10 +5,11 @@ set(CLASS_DIR "${CMAKE_CURRENT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/${PROJECT_NAM
 set(MANIFEST "${CMAKE_CURRENT_BINARY_DIR}/Manifest.mf")
 
 # List of Java source files
-file(GLOB_RECURSE SRC RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "org/*.java" "com/*.java")
+file(GLOB_RECURSE SRC RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "org/*.java" "com/jtattoo/plaf/*"
+                               "org/fife/io/*" "org/fife/print/*" "org/fife/ui/*" "org/fife/util/*")
 
 # List of resource files
-file(GLOB_RECURSE RES RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "res/*" "com/*.gif" "org/*.properties")
+file(GLOB_RECURSE RES RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "res/*" "org/*.properties")
 
 # List of libraries (without the path)
 set(LIBS DrMIPSSimulator.jar)
