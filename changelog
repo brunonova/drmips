@@ -1,0 +1,88 @@
+Version 1.2.2 (2014-06-13)
+--------------------------
+
+* Support Java 6
+
+Version 1.2.1 (2014-06-09)
+--------------------------
+
+* Added Portuguese translation of the configuration manual
+* Improved the descriptions of the components
+* Renamed the identifiers of the components and inputs
+* Replaced JSON.org library with a free version
+
+Version 1.2.0 (2014-05-21)
+--------------------------
+
+* Fixed a bug where the calculation of the critical path would fail when
+    the latencies of all components were 0
+* Separated the cross-platform simulator code from the PC and Android
+    projects into a new project
+* Some refactoring
+
+Version 1.1.1 (2014-03-28)
+--------------------------
+
+* Added credits to the "about" dialogs
+* Added some command-line arguments to the PC version
+* Switched to CMake build system to compile the simulator from the
+    command-line
+
+Version 1.1.0 (2014-01-08)
+--------------------------
+
+* The critical path of the current instruction can now be displayed
+  
+    The global critical path of the CPU is still available
+
+Version 1.0.6 (2013-12-18)
+--------------------------
+
+* Fixed problems with Windows network (UNC) paths in the
+  PC version (Issue #1)
+
+
+Version 1.0.5 (2013-12-12)
+--------------------------
+
+* All inputs that are only used at the end of the clock cycle now correctly
+  don't affect the component's latency
+
+
+Version 1.0.4 (2013-12-11)
+--------------------------
+
+* Workaround for wrong latencies in Register Bank
+
+
+Version 1.0.3 (2013-11-29)
+--------------------------
+
+* The tooltip of the ALU in the datapath now displays the operation it's
+  performing
+* Updated the latencies of the components to more "realistic" values
+* Added a user manual in English and Portuguese to the PC version
+* Corrected some translations in the PC version
+
+
+Version 1.0.2 (2013-10-13)
+--------------------------
+
+* Added an option to view some execution statistics
+* Added an option to remove the latencies of all components (set them to zero)
+* Added a button to view the list of instructions supported by the CPU to the
+  PC version
+* Improved the internationalization feature of the PC version
+* Updated the libraries used in the PC version
+
+
+Version 1.0.1 (2013-09-13)
+--------------------------
+
+First open-source release
+
+
+Version 1.0.0 (2013-06-13)
+--------------------------
+
+First release
