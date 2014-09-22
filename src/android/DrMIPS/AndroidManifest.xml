@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.feup.brunonova.drmips"
     android:versionCode="33"
-    android:versionName="1.2.2a"
+    android:versionName="1.2.3"
     android:installLocation="auto" >
 
     <uses-sdk

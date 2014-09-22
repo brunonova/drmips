@@ -1,3 +1,10 @@
+Version 1.2.3 (2014-09-22)
+--------------------------
+
+* JTattoo, RSyntaxTextArea and Autocomplete libraries are now compiled from
+    source and included inside of the JAR file of the PC version
+* Updated JTattoo library
+
 Version 1.2.2 (2014-06-13)
 --------------------------
 
