@@ -21,7 +21,7 @@ add_custom_target(manuals) # add meta-target "manuals"
 foreach(TEX ${SRC})
 	add_latex_document("${TEX}.tex" INPUTS ${RES} DEFAULT_PDF MANGLE_TARGET_NAMES) # build target
 	add_dependencies(manuals "${TEX}_pdf") # add this document to "manuals" meta-target
-	install(FILES "${LATEX_OUTPUT_PATH}/${TEX}.pdf" DESTINATION "${DRMIPS_SHARE_DIR}/doc") # install target
+	install(FILES "${LATEX_OUTPUT_PATH}/${TEX}.pdf" DESTINATION "${DRMIPS_MANUALS_DIR}") # install target
 	add_custom_command(TARGET "${TEX}_pdf" POST_BUILD
 	                   COMMAND ${CMAKE_COMMAND} -E copy_if_different
 	                           "${LATEX_OUTPUT_PATH}/${TEX}.pdf" "${DRMIPS_ZIP_BUILD_DIR}/doc/${TEX}.pdf"

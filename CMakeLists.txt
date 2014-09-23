@@ -3,7 +3,9 @@ project(DrMIPS NONE)
 
 # Configurations
 set(DRMIPS_SHARE_DIR "share/drmips")
-set(DRMIPS_DOC_DIR "share/doc/drmips")
+set(DRMIPS_DOC_DIR "share/drmips")
+set(DRMIPS_MANUALS_DIR "${DRMIPS_DOC_DIR}/doc")
+set(DRMIPS_JAVADOC_DIR "${DRMIPS_DOC_DIR}/javadoc")
 set(DRMIPS_DIST_BUILD_DIR "${CMAKE_BINARY_DIR}/dist")
 set(DRMIPS_ZIP_BUILD_DIR "${DRMIPS_DIST_BUILD_DIR}/${PROJECT_NAME}")
 option(DRMIPS_BUILD_MANUALS "Build and install the manuals?" ON)
