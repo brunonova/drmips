@@ -12,7 +12,7 @@ add_custom_target(simulator DEPENDS "${PROJECT_NAME}Simulator") # add meta-targe
 if(DRMIPS_BUILD_SIMULATOR_JAVADOC)
 	create_javadoc(${PROJECT_NAME} FILES ${SRC}
 	                               WINDOWTITLE "${PROJECT_NAME}" DOCTITLE "${PROJECT_NAME}"
-	                               INSTALLPATH "${DRMIPS_DOC_DIR}/javadoc")
+	                               INSTALLPATH "${DRMIPS_JAVADOC_DIR}")
 	add_custom_target(simulator_javadoc DEPENDS "${PROJECT_NAME}_javadoc") # add meta-target "simulator_javadoc"
 endif()
 
