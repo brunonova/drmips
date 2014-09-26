@@ -2310,15 +2310,27 @@ public class FrmSimulator extends javax.swing.JFrame {
 	 */
 	public void openDocDir() {
 		File docDir = new File(DrMIPS.path + File.separator + DrMIPS.DOC_DIR);
+		File docDir2 = new File(DrMIPS.DOC_DIR2);
+		boolean error = false;
+
 		try {
-			if(Desktop.isDesktopSupported() && docDir.exists() && docDir.isDirectory())
-				Desktop.getDesktop().open(docDir);
+			if(Desktop.isDesktopSupported()) {
+				if(docDir.isDirectory())
+					Desktop.getDesktop().open(docDir);
+				else if(docDir2.isDirectory())
+					Desktop.getDesktop().open(docDir2);
+				else
+					error = true;
+			}
 			else
-				JOptionPane.showMessageDialog(this, Lang.t("error_opening_doc_folder"), AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
+				error = true;
 		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(this, Lang.t("error_opening_doc_folder"), AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
 			LOG.log(Level.WARNING, "error opening doc folder", ex);
+			error = true;
 		}
+
+		if(error)
+			JOptionPane.showMessageDialog(this, Lang.t("error_opening_doc_folder"), AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
 	}
 	
 	/**
