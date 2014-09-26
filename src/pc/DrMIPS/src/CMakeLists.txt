@@ -4,6 +4,10 @@ set(CLASS_DIR "${CMAKE_CURRENT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/${PROJECT_NAM
 # The manifest file (specifying the Main class and the libraries)
 set(MANIFEST "${CMAKE_CURRENT_BINARY_DIR}/Manifest.mf")
 
+# Configure files
+configure_file("org/feup/brunonova/drmips/gui/DrMIPS.java.in"
+               "${CMAKE_CURRENT_SOURCE_DIR}/org/feup/brunonova/drmips/gui/DrMIPS.java")
+
 # List of Java source files
 file(GLOB_RECURSE SRC RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "org/*.java" "com/jtattoo/plaf/*"
                                "org/fife/io/*" "org/fife/print/*" "org/fife/ui/*" "org/fife/util/*")

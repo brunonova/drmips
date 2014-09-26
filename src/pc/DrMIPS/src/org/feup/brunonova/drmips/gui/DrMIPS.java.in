@@ -16,6 +16,13 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/*
+  IMPORTANT:
+  DrMIPS.java is generated automatically by CMake from DrMIPS.java.in.
+  Do not edit DrMIPS.java directly, as the changes will be overwritten by CMake.
+  Edit DrMIPS.java.in instead.
+*/
+
 package org.feup.brunonova.drmips.gui;
 
 import java.io.File;
@@ -42,8 +49,10 @@ public class DrMIPS {
 	public static String path = ".";
 	/** The CPU file loaded by default. */
 	public static final String DEFAULT_CPU = "cpu" + File.separator + "unicycle.cpu";
-	/** The name of the documentation directory. */
+	/** Relative path to the documentation directory. */
 	public static final String DOC_DIR = "doc";
+	/** Absolute path to the fallback documentation directory (when installed in a separate directory). */
+	public static final String DOC_DIR2 = "@DRMIPS_MANUALS_DIR_ABSOLUTE@";
 	/** The default format with which the registers are displayed. */
 	public static final int DEFAULT_REGISTER_FORMAT = Util.DECIMAL_FORMAT_INDEX;
 	/** The default format with which the datapath data is displayed. */
