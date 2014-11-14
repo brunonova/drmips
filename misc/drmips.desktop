@@ -11,5 +11,5 @@ Exec=drmips %f
 Icon=drmips
 Terminal=false
 StartupNotify=true
-Categories=Education;
+Categories=Education;Electronics;Java;
 MimeType=text/plain;
