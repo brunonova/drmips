@@ -158,5 +158,6 @@
     <string name="register_not_editable">O registo #1 não é editável!</string>
     <string name="performance">Desempenho:</string>
     <string name="credits">Créditos</string>
-    
+    <string name="cpi">CPI:</string>
+
 </resources>
