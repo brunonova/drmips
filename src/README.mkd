@@ -7,8 +7,7 @@ It has two subdirectories:
 * **simulator**: source code of the cross-platform simulation logic
   ([NetBeans][nb] project in [Java][java]).
 * **pc**: source code of the PC version ([NetBeans][nb] project in [Java][java]).
-* **android**: source code of the Android version ([Eclipse][ec] project with
-  the [ADT plugin][adt]).
+* **android**: source code of the Android version ([Android Studio][as] project).
 
 Some important notes:
 
@@ -23,6 +22,5 @@ Some important notes:
   This must be done everytime the **simulator** project is changed.
 
 [nb]: http://netbeans.org/ "NetBeans IDE"
-[ec]: http://www.eclipse.org/ "Eclipse IDE"
-[adt]: http://developer.android.com/tools/sdk/eclipse-adt.html "ADT Plugin | Android Developers"
+[as]: http://developer.android.com/sdk/ "Download Android Studio and SDK Tools | Android Developers"
 [java]: http://www.java.com/ "java.com: Java + You"
