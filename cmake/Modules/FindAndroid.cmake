@@ -12,7 +12,7 @@
 
 #=============================================================================
 # DrMIPS - Educational MIPS simulator
-# Copyright (C) 2014 Bruno Nova <ei08109@fe.up.pt>
+# Copyright (C) 2014-2015 Bruno Nova <ei08109@fe.up.pt>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,23 +28,25 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #=============================================================================
 
-mark_as_advanced(ANDROID_TOOL ANT_TOOL JARSIGNER_TOOL ZIPALIGN_TOOL
-                 ANT_TOOL_FLAGS JARSIGNER_TOOL_FLAGS ZIPALIGN_TOOL_FLAGS)
+mark_as_advanced(JARSIGNER_TOOL ZIPALIGN_TOOL JARSIGNER_TOOL_FLAGS
+                 ZIPALIGN_TOOL_FLAGS)
+
+# Check in ANDROID_HOME is defined
+message(STATUS "Android_HOME: $ENV{ANDROID_HOME}")
+if(EXISTS $ENV{ANDROID_HOME})
+	set(ANDROID_HOME "$ENV{ANDROID_HOME}")
+endif()
 
 # Find required tools
-find_program(ANDROID_TOOL android)
-find_program(ANT_TOOL ant)
 find_program(JARSIGNER_TOOL jarsigner)
 find_program(ZIPALIGN_TOOL zipalign)
 
 # Define the default flags for the tools
-set(ANT_TOOL_FLAGS "-q" CACHE STRING "Flags passed to ant.")
-separate_arguments(ANT_TOOL_FLAGS)
 set(JARSIGNER_TOOL_FLAGS "-sigalg SHA1withRSA -digestalg SHA1" CACHE STRING "Flags passed to jarsigner.")
 separate_arguments(JARSIGNER_TOOL_FLAGS)
 set(ZIPALIGN_TOOL_FLAGS "-f 4" CACHE STRING "Flags passed to zipalign.")
 separate_arguments(ZIPALIGN_TOOL_FLAGS)
 
 # Finish
-find_package_handle_standard_args(Android "Could not find all the required Android tools!\nBoth JDK and Android SDK must be installed, and the SDK's tools/ directory must be in the PATH."
-                                  ANDROID_TOOL ANT_TOOL JARSIGNER_TOOL ZIPALIGN_TOOL)
+find_package_handle_standard_args(Android "Could not find all the required Android tools!\nBoth JDK and Android SDK must be installed, and the SDK's tools/ directory must be in the PATH.\nAdditionally, the environment variable ANDROID_HOME must be defined and contain the installation path of the Android SDK."
+                                  ANDROID_HOME JARSIGNER_TOOL ZIPALIGN_TOOL)
