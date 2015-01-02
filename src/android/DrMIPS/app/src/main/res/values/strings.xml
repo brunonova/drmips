@@ -61,7 +61,7 @@
     <string name="hazard_detection_unit">Hazard detection unit</string>
     <string name="hazard_detection_unit_description">Detects when a stall should occur.\nThere is a stall when the value of a register used in the EX stage is loaded from memory in the MEM stage by the previous instruction.</string>
     
-    <string name="app_name">DrMIPS</string>
+    <string name="app_name" translatable="false">DrMIPS</string>
     <string name="app_description">Educational simulator of the MIPS processor.</string>
     <string name="settings">Settings</string>
     <string name="about">About</string>
