@@ -40,7 +40,7 @@ public class AppInfo {
 	/** Institution of the main author (creator) of the application. */
 	public static final String MAIN_AUTHOR_INSTITUTION = "Faculdade de Engenharia da Universidade do Porto";
 	/** Copyright line(s) of the application. */
-	public static final String COPYRIGHT = "Copyright (C) 2013-2014 " + MAIN_AUTHOR_NAME_EMAIL;
+	public static final String COPYRIGHT = "Copyright (C) 2013-2015 " + MAIN_AUTHOR_NAME_EMAIL;
 	/** License of the application. */
 	public static final String LICENSE = NAME + " - " + DESCRIPTION + "\n" +
 		COPYRIGHT + "\n" +
