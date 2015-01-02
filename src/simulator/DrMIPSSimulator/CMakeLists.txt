@@ -3,7 +3,7 @@ add_subdirectory(src)
 
 # Configurations
 set(PC_CPU_PATH "${CMAKE_SOURCE_DIR}/src/pc/${PROJECT_NAME}/cpu")
-set(ANDROID_CPU_PATH "${CMAKE_SOURCE_DIR}/src/android/${PROJECT_NAME}/res/raw")
+set(ANDROID_CPU_PATH "${CMAKE_SOURCE_DIR}/src/android/${PROJECT_NAME}/app/src/main/res/raw")
 
 # Copy .cpu and .set files to the PC and Android projects
 message(STATUS "Copying cpu/ to the PC and Android projects")
