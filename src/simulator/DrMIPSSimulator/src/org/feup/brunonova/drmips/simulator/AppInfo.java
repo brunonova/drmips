@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <ei08109@fe.up.pt>
+    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ public class AppInfo {
 	/** Name of the main author (creator) of the application. */
 	public static final String MAIN_AUTHOR_NAME = "Bruno Nova";
 	/** E-mail address of the main author (creator) of the application. */
-	public static final String MAIN_AUTHOR_EMAIL = "ei08109@fe.up.pt";
+	public static final String MAIN_AUTHOR_EMAIL = "brunomb.nova@gmail.com";
 	/** Name and e-mail address of the main author (creator) of the application. */ 
 	public static final String MAIN_AUTHOR_NAME_EMAIL = MAIN_AUTHOR_NAME + " <" + MAIN_AUTHOR_EMAIL + ">";
 	/** Institution of the main author (creator) of the application. */
