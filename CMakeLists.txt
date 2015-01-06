@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 2.8)
 project(DrMIPS NONE)
 
 # Configurations
-set(DRMIPS_SHARE_DIR "share/drmips")
-set(DRMIPS_DOC_DIR "share/doc/drmips")
+set(DRMIPS_SHARE_DIR "share/drmips" CACHE STRING "Where to install program data and resources (relative to CMAKE_INSTALL_PREFIX)")
+set(DRMIPS_DOC_DIR "share/doc/drmips" CACHE STRING "Where to install the documentation (relative to CMAKE_INSTALL_PREFIX)")
 set(DRMIPS_MANUALS_DIR "${DRMIPS_DOC_DIR}/manuals")
 set(DRMIPS_MANUALS_DIR_ABSOLUTE "${CMAKE_INSTALL_PREFIX}/${DRMIPS_MANUALS_DIR}")
 set(DRMIPS_JAVADOC_DIR "${DRMIPS_DOC_DIR}/javadoc")
