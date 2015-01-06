@@ -2311,26 +2311,30 @@ public class FrmSimulator extends javax.swing.JFrame {
 	public void openDocDir() {
 		File docDir = new File(DrMIPS.path + File.separator + DrMIPS.DOC_DIR);
 		File docDir2 = new File(DrMIPS.DOC_DIR2);
-		boolean error = false;
+		File dir;
 
-		try {
-			if(Desktop.isDesktopSupported()) {
-				if(docDir.isDirectory())
-					Desktop.getDesktop().open(docDir);
-				else if(docDir2.isDirectory())
-					Desktop.getDesktop().open(docDir2);
-				else
-					error = true;
-			}
-			else
-				error = true;
-		} catch (Exception ex) {
-			LOG.log(Level.WARNING, "error opening doc folder", ex);
-			error = true;
+		if(docDir.isDirectory())
+			dir = docDir;
+		else if(docDir2.isDirectory())
+			dir = docDir2;
+		else {
+			JOptionPane.showMessageDialog(this, Lang.t("doc_dir_not_found"), AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
+			return;
 		}
 
-		if(error)
-			JOptionPane.showMessageDialog(this, Lang.t("error_opening_doc_folder"), AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
+		if(!Desktop.isDesktopSupported()) {
+			LOG.log(Level.WARNING, "Desktop class is not supported in this system");
+			JOptionPane.showMessageDialog(this, Lang.t("failed_to_open_doc_folder", dir.getAbsolutePath()), AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		try {
+			Desktop.getDesktop().open(dir);
+		}
+		catch(Exception ex) {
+			LOG.log(Level.WARNING, "error opening doc folder", ex);
+			JOptionPane.showMessageDialog(this, Lang.t("failed_to_open_doc_folder", dir.getAbsolutePath()), AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 	/**
