@@ -205,7 +205,7 @@ public class CodeEditor extends TextEditorPane {
 		String usage = instruction.getUsage();
 		desc += "<dt><b>" + Lang.t("usage") + ":</b></dt>";
 		desc += "<dd><pre>" + instruction.getUsage() + "</pre></dd>";
-		
+
 		// Arguments
 		if(instruction.hasArguments()) {
 			desc += "<dt><br /><b>" + Lang.t("arguments") + ":</b></dt>";

@@ -43,6 +43,10 @@ import org.feup.brunonova.drmips.simulator.AppInfo;
  * @author Bruno Nova
  */
 public class DrMIPS {
+	/** The number of milliseconds before tooltips are displayed. */
+	public static final int TOOLTIP_INITIAL_DELAY = 200;
+	/** The number of milliseconds tooltips are shown before disappearing. */
+	public static final int TOOLTIP_DISMISS_DELAY = 30000;
 	/** Reference to the user preferences. */
 	public static Preferences prefs = Preferences.userNodeForPackage(DrMIPS.class);
 	/** The full path to the program's jar folder, or '.' if not running from a jar (when running from the IDE, for example). */
@@ -87,6 +91,12 @@ public class DrMIPS {
 	public static final boolean DEFAULT_PERFORMANCE_MODE = false;
 	/** Whether the in/out tips are shown by default. */
 	public static final boolean DEFAULT_OVERLAYED_DATA = true;
+	/** Whether the window show be started maximized by default. */
+	public static final boolean DEFAULT_MAXIMIZED = true;
+	/** The default width of the window. */
+	public static final int DEFAULT_WIDTH = 800;
+	/** The default height of the window. */
+	public static final int DEFAULT_HEIGHT = 600;
 	/** The key of the language preference. */
 	public static final String LANG_PREF = "lang";
 	/** The key of the last loaded CPU preference. */
@@ -135,11 +145,13 @@ public class DrMIPS {
 	public static final String PERFORMANCE_TYPE_PREF = "performance_type";
 	/** The key of the overlayed data preference. */
 	public static final String OVERLAYED_DATA_PREF = "overlayed_data";
-	/** The number of milliseconds before tooltips are displayed. */
-	public static final int TOOLTIP_INITIAL_DELAY = 200;
-	/** The number of milliseconds tooltips are shown before disappearing. */
-	public static final int TOOLTIP_DISMISS_DELAY = 30000;
-	
+	/** The key of the maximized preference. */
+	public static final String MAXIMIZED_PREF = "maximized";
+	/** The key to the window width preference. */
+	public static final String WIDTH_PREF = "width";
+	/** The key to the window height preference. */
+	public static final String HEIGHT_PREF = "height";
+
 	/** "Loading" dialog. */
 	private static DlgLoading dlgLoading = null;
 	/** Class logger. */
