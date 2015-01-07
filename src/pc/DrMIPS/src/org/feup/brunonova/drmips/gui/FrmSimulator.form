@@ -1172,7 +1172,7 @@
                         <Component class="javax.swing.JLabel" name="lblDatapathHelp">
                           <Properties>
                             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                              <Image iconType="3" name="/res/icons/x24/help.png"/>
+                              <Image iconType="3" name="/res/icons/x16/help.png"/>
                             </Property>
                           </Properties>
                         </Component>

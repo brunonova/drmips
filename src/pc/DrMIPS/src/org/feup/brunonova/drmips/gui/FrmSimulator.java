@@ -688,7 +688,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 
         jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 0));
 
-        lblDatapathHelp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x24/help.png"))); // NOI18N
+        lblDatapathHelp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/help.png"))); // NOI18N
         jPanel6.add(lblDatapathHelp);
 
         jPanel2.add(jPanel6, java.awt.BorderLayout.EAST);
