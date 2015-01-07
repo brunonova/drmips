@@ -137,6 +137,8 @@ public class FrmSimulator extends javax.swing.JFrame {
 		mnuSwitchTheme.setSelected(DrMIPS.prefs.getBoolean(DrMIPS.DARK_THEME_PREF, DrMIPS.DEFAULT_DARK_THEME));
 		mnuInternalWindows.setSelected(DrMIPS.prefs.getBoolean(DrMIPS.INTERNAL_WINDOWS_PREF, DrMIPS.DEFAULT_INTERNAL_WINDOWS));
 		if(mnuInternalWindows.isSelected()) switchToInternalWindows();
+		mnuMarginLine.setSelected(DrMIPS.prefs.getBoolean(DrMIPS.MARGIN_LINE_PREF, DrMIPS.DEFAULT_MARGIN_LINE));
+		txtCode.setMarginLineEnabled(mnuMarginLine.isSelected());
 		mnuControlPath.setSelected(DrMIPS.prefs.getBoolean(DrMIPS.SHOW_CONTROL_PATH_PREF, DrMIPS.DEFAULT_SHOW_CONTROL_PATH));
 		datapath.setControlPathVisible(mnuControlPath.isSelected());
 		mnuArrowsInWires.setSelected(DrMIPS.prefs.getBoolean(DrMIPS.SHOW_ARROWS_PREF, DrMIPS.DEFAULT_SHOW_ARROWS));
@@ -269,6 +271,8 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuSwitchTheme = new javax.swing.JCheckBoxMenuItem();
         mnuInternalWindows = new javax.swing.JCheckBoxMenuItem();
         jSeparator11 = new javax.swing.JPopupMenu.Separator();
+        mnuMarginLine = new javax.swing.JCheckBoxMenuItem();
+        jSeparator16 = new javax.swing.JPopupMenu.Separator();
         mnuLanguage = new javax.swing.JMenu();
         mnuEdit = new javax.swing.JMenu();
         mnuUndo = new javax.swing.JMenuItem();
@@ -834,6 +838,15 @@ public class FrmSimulator extends javax.swing.JFrame {
         });
         mnuView.add(mnuInternalWindows);
         mnuView.add(jSeparator11);
+
+        mnuMarginLine.setText("show_margin_line");
+        mnuMarginLine.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuMarginLineActionPerformed(evt);
+            }
+        });
+        mnuView.add(mnuMarginLine);
+        mnuView.add(jSeparator16);
 
         mnuLanguage.setText("language");
         mnuView.add(mnuLanguage);
@@ -1401,6 +1414,12 @@ public class FrmSimulator extends javax.swing.JFrame {
 		datapath.refresh();
     }//GEN-LAST:event_cmbDatapathPerformanceActionPerformed
 
+    private void mnuMarginLineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMarginLineActionPerformed
+		txtCode.setMarginLineEnabled(mnuMarginLine.isSelected());
+		txtCode.repaint();
+		DrMIPS.prefs.putBoolean(DrMIPS.MARGIN_LINE_PREF, mnuMarginLine.isSelected());
+    }//GEN-LAST:event_mnuMarginLineActionPerformed
+
 	/**
 	 * Sets the path of the opened file and updates the title bar and recent files.
 	 * @param path Path to the opened file.
@@ -1683,6 +1702,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		Lang.tButton(mnuOverlayedData, "overlayed_data");
 		Lang.tButton(mnuInternalWindows, "internal_windows");
 		Lang.tButton(mnuSwitchTheme, "dark_theme");
+		Lang.tButton(mnuMarginLine, "show_margin_line");
 		Lang.tButton(mnuExecute, "execute");
 		Lang.tButton(mnuAssemble, "assemble");
 		Lang.tButton(mnuRestart, "restart");
@@ -2396,6 +2416,7 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator13;
     private javax.swing.JPopupMenu.Separator jSeparator14;
     private javax.swing.JPopupMenu.Separator jSeparator15;
+    private javax.swing.JPopupMenu.Separator jSeparator16;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;
@@ -2437,6 +2458,7 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JMenu mnuLanguage;
     private javax.swing.JMenuItem mnuLoadCPU;
     private javax.swing.JMenu mnuLoadRecentCPU;
+    private javax.swing.JCheckBoxMenuItem mnuMarginLine;
     private javax.swing.JMenuItem mnuNew;
     private javax.swing.JMenuItem mnuOpen;
     private javax.swing.JMenu mnuOpenRecent;

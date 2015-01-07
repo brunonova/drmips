@@ -77,12 +77,11 @@ public class CodeEditor extends TextEditorPane {
 	 */
 	public CodeEditor() {
 		super();
-		
 		scrollPane = new RTextScrollPane(this);
 		scrollPane.setIconRowHeaderEnabled(true);
-		
 		setRows(20);
 		setColumns(80);
+		setMarginLinePosition(80);
 		setAntiAliasingEnabled(true);
 		//setMarkOccurrences(true);
 		setLineWrap(true);
@@ -319,6 +318,7 @@ public class CodeEditor extends TextEditorPane {
 		setCaretColor(dark ? Color.WHITE : Color.BLACK);
 		setCurrentLineHighlightColor(dark ? (new Color(32, 32, 32)) : (new Color(255, 255, 170)));
 		setSelectionColor(dark ? (new Color(64, 64, 64)) : (new Color(200, 200, 255)));
+		setMarginLineColor(dark ? Color.DARK_GRAY : Color.LIGHT_GRAY);
 		
 		Style reservedWord = scheme.getStyle(Token.RESERVED_WORD);
 		Style preprocessor = scheme.getStyle(Token.PREPROCESSOR);
