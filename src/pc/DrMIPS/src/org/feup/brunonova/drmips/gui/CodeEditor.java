@@ -324,7 +324,6 @@ public class CodeEditor extends TextEditorPane {
 		Style preprocessor = scheme.getStyle(Token.PREPROCESSOR);
 		Style comment = scheme.getStyle(Token.COMMENT_EOL);
 		Style function = scheme.getStyle(Token.FUNCTION);
-		
 		scheme.setStyle(Token.IDENTIFIER, new Style(dark ? Color.WHITE : Color.BLACK));
 		scheme.setStyle(Token.RESERVED_WORD, new Style(dark ? (new Color(128, 128, 255)) : (new Color(0, 0, 255)), null, reservedWord.font));
 		scheme.setStyle(Token.RESERVED_WORD_2, new Style(dark ? (new Color(255, 128, 255)) : (new Color(128, 0, 255)), null, reservedWord.font));

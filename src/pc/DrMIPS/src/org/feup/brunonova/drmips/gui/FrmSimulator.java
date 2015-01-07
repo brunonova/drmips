@@ -46,6 +46,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -126,6 +128,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		fillLanguages();
 		txtCode.requestFocus();
 		txtCode.getDocument().addDocumentListener(new CodeEditorDocumentListener());
+		txtCode.addCaretListener(new CodeEditorCaretListener());
 		
 		frmCode.setFrameIcon(new ImageIcon(getClass().getResource("/res/icons/x16/drmips.png")));
 		frmDatapath.setFrameIcon(new ImageIcon(getClass().getResource("/res/icons/x16/drmips.png")));
@@ -222,6 +225,8 @@ public class FrmSimulator extends javax.swing.JFrame {
         pnlSplit = new javax.swing.JSplitPane();
         pnlLeft = new javax.swing.JTabbedPane();
         pnlCode = new javax.swing.JPanel();
+        jPanel7 = new javax.swing.JPanel();
+        lblCaretPosition = new javax.swing.JLabel();
         pnlAssembledCode = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblAssembledCode = new org.feup.brunonova.drmips.gui.AssembledCodeTable();
@@ -606,6 +611,14 @@ public class FrmSimulator extends javax.swing.JFrame {
         });
 
         pnlCode.setLayout(new java.awt.BorderLayout());
+
+        jPanel7.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        lblCaretPosition.setText("line_col");
+        jPanel7.add(lblCaretPosition);
+
+        pnlCode.add(jPanel7, java.awt.BorderLayout.SOUTH);
+
         pnlLeft.addTab("code", pnlCode);
 
         pnlAssembledCode.setLayout(new java.awt.BorderLayout());
@@ -710,7 +723,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         pnlSplit.setLeftComponent(pnlLeft);
 
         pnlRight.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
-        pnlRight.setMinimumSize(new java.awt.Dimension(150, 71));
+        pnlRight.setMinimumSize(new java.awt.Dimension(200, 71));
         pnlRight.setPreferredSize(new java.awt.Dimension(200, 452));
         pnlRight.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1765,6 +1778,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		cmdSupportedInstructions.setToolTipText(Lang.t("supported_instructions"));
 		cmdHelp.setToolTipText(Lang.t("documentation"));
 
+		updateCaretPosition();
 		lblRegFormat.setText(Lang.t("format") + ":");
 		lblDatapathDataFormat.setText(Lang.t("format") + ":");
 		lblDatapathPerformance.setText(Lang.t("performance") + ":");
@@ -2373,6 +2387,15 @@ public class FrmSimulator extends javax.swing.JFrame {
 		dlgStatistics.refresh(cpu);
 	}
 	
+	/**
+	 * Updates the caret position displayed in the status bar of the code editor.
+	 */
+	public void updateCaretPosition() {
+		int line = txtCode.getCaretLineNumber() + 1;
+		int col = txtCode.getCaretOffsetFromLineStart() + 1;
+		lblCaretPosition.setText(Lang.t("line", line) + ", " + Lang.t("column", col));
+	}
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cmbAssembledCodeFormat;
     private javax.swing.JComboBox cmbDataMemoryFormat;
@@ -2405,6 +2428,7 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -2426,6 +2450,7 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator8;
     private javax.swing.JPopupMenu.Separator jSeparator9;
     private javax.swing.JLabel lblAssembledCodeFormat;
+    private javax.swing.JLabel lblCaretPosition;
     private javax.swing.JLabel lblDataMemoryFormat;
     private javax.swing.JLabel lblDatapathDataFormat;
     private javax.swing.JLabel lblDatapathHelp;
@@ -2687,5 +2712,16 @@ public class FrmSimulator extends javax.swing.JFrame {
 			setSimulationControlsEnabled(false);
 		}
 		
+	}
+
+	/**
+	 * Listener that updates the caret position displayed in the status bar when
+	 * the caret changes.
+	 */
+	private class CodeEditorCaretListener implements CaretListener {
+		@Override
+		public void caretUpdate(CaretEvent e) {
+			updateCaretPosition();
+		}
 	}
 }
