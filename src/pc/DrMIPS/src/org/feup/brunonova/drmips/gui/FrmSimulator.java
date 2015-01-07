@@ -108,6 +108,10 @@ public class FrmSimulator extends javax.swing.JFrame {
 	public FrmSimulator() {
 		obtainIcons();
 		initComponents();
+		setSize(DrMIPS.prefs.getInt(DrMIPS.WIDTH_PREF, DrMIPS.DEFAULT_WIDTH),
+		        DrMIPS.prefs.getInt(DrMIPS.HEIGHT_PREF, DrMIPS.DEFAULT_HEIGHT));
+		if(DrMIPS.prefs.getBoolean("maximized", DrMIPS.DEFAULT_MAXIMIZED))
+			setExtendedState(MAXIMIZED_BOTH);
 		datapath.setParent(this);
 		if(DrMIPS.prefs.getInt(DrMIPS.DIVIDER_LOCATION_PREF, -1) != -1)
 			pnlSplit.setDividerLocation(DrMIPS.prefs.getInt(DrMIPS.DIVIDER_LOCATION_PREF, -1));
@@ -400,7 +404,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         frmCode.setResizable(true);
         frmCode.setVisible(true);
         desktop.add(frmCode);
-        frmCode.setBounds(0, 0, 68, 31);
+        frmCode.setBounds(0, 0, 50, 33);
 
         frmAssembledCode.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         frmAssembledCode.setIconifiable(true);
@@ -408,7 +412,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         frmAssembledCode.setResizable(true);
         frmAssembledCode.setVisible(true);
         desktop.add(frmAssembledCode);
-        frmAssembledCode.setBounds(0, 0, 68, 31);
+        frmAssembledCode.setBounds(0, 0, 50, 33);
 
         frmDatapath.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         frmDatapath.setIconifiable(true);
@@ -416,7 +420,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         frmDatapath.setResizable(true);
         frmDatapath.setVisible(true);
         desktop.add(frmDatapath);
-        frmDatapath.setBounds(0, 0, 68, 31);
+        frmDatapath.setBounds(0, 0, 50, 33);
 
         frmRegisters.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         frmRegisters.setIconifiable(true);
@@ -424,7 +428,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         frmRegisters.setResizable(true);
         frmRegisters.setVisible(true);
         desktop.add(frmRegisters);
-        frmRegisters.setBounds(0, 0, 68, 31);
+        frmRegisters.setBounds(0, 0, 50, 33);
 
         frmDataMemory.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         frmDataMemory.setIconifiable(true);
@@ -432,13 +436,12 @@ public class FrmSimulator extends javax.swing.JFrame {
         frmDataMemory.setResizable(true);
         frmDataMemory.setVisible(true);
         desktop.add(frmDataMemory);
-        frmDataMemory.setBounds(0, 0, 68, 31);
+        frmDataMemory.setBounds(0, 0, 50, 33);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle(AppInfo.NAME);
-        setExtendedState(MAXIMIZED_BOTH);
         setIconImages(icons);
-        setMinimumSize(new java.awt.Dimension(600, 400));
+        setMinimumSize(new java.awt.Dimension(500, 400));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -703,7 +706,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         pnlSplit.setLeftComponent(pnlLeft);
 
         pnlRight.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
-        pnlRight.setMinimumSize(new java.awt.Dimension(200, 71));
+        pnlRight.setMinimumSize(new java.awt.Dimension(150, 71));
         pnlRight.setPreferredSize(new java.awt.Dimension(200, 452));
         pnlRight.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1838,7 +1841,13 @@ public class FrmSimulator extends javax.swing.JFrame {
 			DrMIPS.prefs.putInt(DrMIPS.DATA_MEMORY_FORMAT_PREF, cmbDataMemoryFormat.getSelectedIndex());
 			DrMIPS.prefs.putInt(DrMIPS.PERFORMANCE_TYPE_PREF, cmbDatapathPerformance.getSelectedIndex());
 			DrMIPS.prefs.putBoolean(DrMIPS.ASSEMBLE_RESET_PREF, mnuResetDataBeforeAssembling.isSelected());
-		
+			boolean maximized = getExtendedState() == MAXIMIZED_BOTH;
+			DrMIPS.prefs.putBoolean(DrMIPS.MAXIMIZED_PREF, maximized);
+			if(!maximized) {
+				DrMIPS.prefs.putInt(DrMIPS.WIDTH_PREF, getWidth());
+				DrMIPS.prefs.putInt(DrMIPS.HEIGHT_PREF, getHeight());
+			}
+
 			if(mnuInternalWindows.isSelected()) {
 				saveFrameBounds("code", frmCode);
 				saveFrameBounds("datapath", frmDatapath);
