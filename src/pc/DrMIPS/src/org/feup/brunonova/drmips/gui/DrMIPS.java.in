@@ -97,6 +97,8 @@ public class DrMIPS {
 	public static final int DEFAULT_WIDTH = 800;
 	/** The default height of the window. */
 	public static final int DEFAULT_HEIGHT = 600;
+	/** Whether to show the margin line by default in the code editor. */
+	public static final boolean DEFAULT_MARGIN_LINE = false;
 	/** The key of the language preference. */
 	public static final String LANG_PREF = "lang";
 	/** The key of the last loaded CPU preference. */
@@ -151,6 +153,8 @@ public class DrMIPS {
 	public static final String WIDTH_PREF = "width";
 	/** The key to the window height preference. */
 	public static final String HEIGHT_PREF = "height";
+	/** The key to the show margin line  preference. */
+	public static final String MARGIN_LINE_PREF = "margin_line";
 
 	/** "Loading" dialog. */
 	private static DlgLoading dlgLoading = null;
