@@ -89,7 +89,7 @@ Os separadores ou janelas mostrados são:
 \begin{itemize}
 	\item \textbf{Código}: o editor de código, onde pode criar ou editar um
 		programa em \emph{assembly} para ser executado pelo simulador.
-	\item \textbf{Assemblado}: após o código ser assemblado com sucesso, 
+	\item \textbf{Código máquina}: após o código máquina ser gerado com sucesso,
 		este mostra as instruções máquina resultantes.
 	\item \textbf{Registos}: lista todos os registos e seus valores.
 	\item \textbf{Memória de dados}: mostra todos os valores na memória de 
@@ -121,9 +121,10 @@ Ao premir \emph{Ctrl+Espaço} num espaço vazio serão listadas todas as instru�
 pseudo-instruções, directivas e etiquetas disponíveis.
 Também pode ver esta informação no menu \menupath{CPU > Instruções suportadas}.
 
-Após escrever um programa em \emph{assembly}, terá de o assemblar.
-Isto é feito seleccionando \menupath{Executar > Assemblar} no menu ou pressionando
-o respectivo botão na barra de ferramentas.
+Após escrever um programa em \emph{assembly}, terá de o converter em código máquina
+(i.e., ``assemblar'' o programa).
+Isto é feito seleccionando \menupath{Executar > Gerar o código máquina} no menu ou
+pressionando o respectivo botão na barra de ferramentas.
 Se o programa tiver erros, uma mensagem irá indicar o primeiro erro e um ícone de
 exclamação irá aparecer ao lado dos números das linhas que têm um erro.
 Pode pairar o cursor do rato sobre estes ícones para descobrir qual é o erro.
@@ -131,12 +132,12 @@ Se o programa estiver correcto, nenhuma mensagem será mostrada e pode prossegui
 para o executar.
 
 
-\subsection{Assemblado} \label{sec:assembled}
+\subsection{Código Máquina} \label{sec:assembled}
 
-Após o programa ser assemblado com sucesso, as instruções em código máquina
+Após o código máquina ser gerado com sucesso, as instruções máquina
 resultantes serão mostradas aqui numa tabela.
 
-Cada linha da tabela corresponde a uma instrução ``assemblada'', contendo o seu
+Cada linha da tabela corresponde a uma instrução máquina, contendo o seu
 endereço, código máquina e instrução original.
 A instrução a ser executada no momento é realçada.
 
@@ -199,9 +200,9 @@ Registos constantes (como o registo \verb+$zero+) não podem ser editados.
 registo/endereço para o editar.}
 
 Por omissão, os valores dos registos e da memória de dados são reiniciados
-sempre que o código é assemblado.
+sempre que o código máquina é gerado.
 Se não quiser que isto aconteça, desmarque 
-\menupath{Executar > Reiniciar dados antes de assemblar} no menu.
+\menupath{Executar > Reiniciar dados antes de gerar cód. máquina} no menu.
 
 
 \subsection{Caminho de dados}
