@@ -85,7 +85,7 @@
     <string name="datapath">Caminho de dados</string>
     <string name="load_cpu">Carregar CPU</string>
     <string name="invalid_file">Ficheiro inválido!</string>
-    <string name="assemble">Assemblar</string>
+    <string name="assemble">Gerar o código máquina</string>
     <string name="step">Passo</string>
     <string name="back_step">Passo atrás</string>
     <string name="line">Linha #1</string>
@@ -101,8 +101,8 @@
     <string name="invalid_arg_positive_int">Argumento inválido! Esperado um inteiro positivo, encontrado #1.</string>
     <string name="data_segment_without_data_memory">Segmento de dados não disponível quando é usado um CPU sem memória de dados!</string>
     <string name="address">Endereço</string>
-    <string name="assembled">Assemblado</string>
-    <string name="assembled_code">Código assemblado</string>
+    <string name="assembled">Código máquina</string>
+    <string name="assembled_code">Código máquina</string>
     <string name="type_x">Tipo #1</string>
     <string name="format">Formato:</string>
     <string name="registers">Registos</string>
