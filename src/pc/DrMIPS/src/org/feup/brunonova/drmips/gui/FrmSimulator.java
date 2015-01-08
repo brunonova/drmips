@@ -31,7 +31,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.text.MessageFormat;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -207,6 +206,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         frmDatapath = new javax.swing.JInternalFrame();
         frmRegisters = new javax.swing.JInternalFrame();
         frmDataMemory = new javax.swing.JInternalFrame();
+        txtPrint = new javax.swing.JTextArea();
         pnlToolBar = new javax.swing.JToolBar();
         cmdNew = new javax.swing.JButton();
         cmdOpen = new javax.swing.JButton();
@@ -446,6 +446,15 @@ public class FrmSimulator extends javax.swing.JFrame {
         frmDataMemory.setVisible(true);
         desktop.add(frmDataMemory);
         frmDataMemory.setBounds(0, 0, 50, 33);
+
+        txtPrint.setBackground(java.awt.Color.white);
+        txtPrint.setColumns(80);
+        txtPrint.setFont(new java.awt.Font("Courier New", 1, 12)); // NOI18N
+        txtPrint.setForeground(java.awt.Color.black);
+        txtPrint.setLineWrap(true);
+        txtPrint.setRows(30);
+        txtPrint.setTabSize(4);
+        txtPrint.setWrapStyleWord(true);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle(AppInfo.NAME);
@@ -811,6 +820,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuPrint.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         mnuPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/print.png"))); // NOI18N
         mnuPrint.setText("print");
+        mnuPrint.setEnabled(false);
         mnuPrint.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuPrintActionPerformed(evt);
@@ -1676,14 +1686,17 @@ public class FrmSimulator extends javax.swing.JFrame {
 	 * Shows the print dialog to send the current file to the printer.
 	 */
 	private void printFile() {
-		try {
-			MessageFormat header = (openFile != null) ? new MessageFormat(openFile.getName()) : null;
-			MessageFormat footer = new MessageFormat(Lang.t("page") + " {0}");
-			txtCode.print(header, footer);
-		}
-		catch(Exception ex) {
-			JOptionPane.showMessageDialog(this, Lang.t("error_printing_file") + ": " + ex.getMessage(), AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
-			LOG.log(Level.WARNING, "error printing file", ex);
+		if(!txtCode.getText().isEmpty()) {
+			try {
+				// Copy the code to a hidden JTextArea (with white background,
+				// black foreground) and print it
+				txtPrint.setText(txtCode.getText());
+				txtPrint.print();
+			}
+			catch(Exception ex) {
+				JOptionPane.showMessageDialog(this, Lang.t("error_printing_file") + ": " + ex.getMessage(), AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
+				LOG.log(Level.WARNING, "error printing file", ex);
+			}
 		}
 	}
 	
@@ -2525,6 +2538,7 @@ public class FrmSimulator extends javax.swing.JFrame {
     private org.feup.brunonova.drmips.gui.DataMemoryTable tblDataMemory;
     private org.feup.brunonova.drmips.gui.ExecTable tblExec;
     private org.feup.brunonova.drmips.gui.RegistersTable tblRegisters;
+    private javax.swing.JTextArea txtPrint;
     // End of variables declaration//GEN-END:variables
 
 	/**
@@ -2700,16 +2714,19 @@ public class FrmSimulator extends javax.swing.JFrame {
 		@Override
 		public void insertUpdate(DocumentEvent e) {
 			setSimulationControlsEnabled(false);
+			mnuPrint.setEnabled(!txtCode.getText().isEmpty());
 		}
 
 		@Override
 		public void removeUpdate(DocumentEvent e) {
 			setSimulationControlsEnabled(false);
+			mnuPrint.setEnabled(!txtCode.getText().isEmpty());
 		}
 
 		@Override
 		public void changedUpdate(DocumentEvent e) {
 			setSimulationControlsEnabled(false);
+			mnuPrint.setEnabled(!txtCode.getText().isEmpty());
 		}
 		
 	}
