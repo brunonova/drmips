@@ -221,6 +221,24 @@
         </Container>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JTextArea" name="txtPrint">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="ff" id="white" palette="1" red="ff" type="palette"/>
+        </Property>
+        <Property name="columns" type="int" value="80"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Courier New" size="12" style="1"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="0" green="0" id="black" palette="1" red="0" type="palette"/>
+        </Property>
+        <Property name="lineWrap" type="boolean" value="true"/>
+        <Property name="rows" type="int" value="30"/>
+        <Property name="tabSize" type="int" value="4"/>
+        <Property name="wrapStyleWord" type="boolean" value="true"/>
+      </Properties>
+    </Component>
     <Menu class="javax.swing.JMenuBar" name="mnuBar">
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="mnuFile">
@@ -303,6 +321,7 @@
                   <Image iconType="3" name="/res/icons/x16/print.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="print"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuPrintActionPerformed"/>
