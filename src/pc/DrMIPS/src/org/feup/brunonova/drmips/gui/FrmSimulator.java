@@ -2713,22 +2713,28 @@ public class FrmSimulator extends javax.swing.JFrame {
 	private class CodeEditorDocumentListener implements DocumentListener {
 		@Override
 		public void insertUpdate(DocumentEvent e) {
-			setSimulationControlsEnabled(false);
-			mnuPrint.setEnabled(!txtCode.getText().isEmpty());
+			codeEdited();
 		}
 
 		@Override
 		public void removeUpdate(DocumentEvent e) {
-			setSimulationControlsEnabled(false);
-			mnuPrint.setEnabled(!txtCode.getText().isEmpty());
+			codeEdited();
 		}
 
 		@Override
 		public void changedUpdate(DocumentEvent e) {
+			codeEdited();
+		}
+
+		private void codeEdited() {
 			setSimulationControlsEnabled(false);
 			mnuPrint.setEnabled(!txtCode.getText().isEmpty());
+			if(openFile != null && !getTitle().startsWith("*")) {
+				// Prepend '*' to the window title to inform that the file has
+				// unsaved changes
+				setTitle("*" + getTitle());
+			}
 		}
-		
 	}
 
 	/**
