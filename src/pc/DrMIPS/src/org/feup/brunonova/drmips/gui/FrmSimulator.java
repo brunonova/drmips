@@ -281,6 +281,9 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuMarginLine = new javax.swing.JCheckBoxMenuItem();
         jSeparator16 = new javax.swing.JPopupMenu.Separator();
         mnuLanguage = new javax.swing.JMenu();
+        mnuWindows = new javax.swing.JMenu();
+        mnuTileWindows = new javax.swing.JMenuItem();
+        mnuCascadeWindows = new javax.swing.JMenuItem();
         mnuEdit = new javax.swing.JMenu();
         mnuUndo = new javax.swing.JMenuItem();
         mnuRedo = new javax.swing.JMenuItem();
@@ -835,6 +838,27 @@ public class FrmSimulator extends javax.swing.JFrame {
 
         mnuLanguage.setText("language");
         mnuView.add(mnuLanguage);
+
+        mnuWindows.setText("windows");
+        mnuWindows.setEnabled(false);
+
+        mnuTileWindows.setText("tile");
+        mnuTileWindows.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuTileWindowsActionPerformed(evt);
+            }
+        });
+        mnuWindows.add(mnuTileWindows);
+
+        mnuCascadeWindows.setText("cascade");
+        mnuCascadeWindows.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuCascadeWindowsActionPerformed(evt);
+            }
+        });
+        mnuWindows.add(mnuCascadeWindows);
+
+        mnuView.add(mnuWindows);
 
         mnuBar.add(mnuView);
 
@@ -1405,6 +1429,16 @@ public class FrmSimulator extends javax.swing.JFrame {
 		DrMIPS.prefs.putBoolean(DrMIPS.MARGIN_LINE_PREF, mnuMarginLine.isSelected());
     }//GEN-LAST:event_mnuMarginLineActionPerformed
 
+    private void mnuTileWindowsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuTileWindowsActionPerformed
+		if(mnuInternalWindows.isSelected())
+			desktop.tileInternalFrames();
+    }//GEN-LAST:event_mnuTileWindowsActionPerformed
+
+    private void mnuCascadeWindowsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuCascadeWindowsActionPerformed
+		if(mnuInternalWindows.isSelected())
+			desktop.cascadeInternalFrames();
+    }//GEN-LAST:event_mnuCascadeWindowsActionPerformed
+
 	/**
 	 * Sets the path of the opened file and updates the title bar and recent files.
 	 * @param path Path to the opened file.
@@ -1691,6 +1725,9 @@ public class FrmSimulator extends javax.swing.JFrame {
 		Lang.tButton(mnuInternalWindows, "internal_windows");
 		Lang.tButton(mnuSwitchTheme, "dark_theme");
 		Lang.tButton(mnuMarginLine, "show_margin_line");
+		Lang.tButton(mnuWindows, "windows");
+		Lang.tButton(mnuTileWindows, "tile");
+		Lang.tButton(mnuCascadeWindows, "cascade");
 		Lang.tButton(mnuExecute, "execute");
 		Lang.tButton(mnuAssemble, "assemble");
 		Lang.tButton(mnuRestart, "restart");
@@ -2236,7 +2273,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 	 */
 	private void switchToInternalWindows() {
 		DrMIPS.prefs.putInt(DrMIPS.DIVIDER_LOCATION_PREF, pnlSplit.getDividerLocation());
-		
+
 		remove(pnlSplit);
 		add(desktop, BorderLayout.CENTER);
 		frmCode = desktop.add(Lang.t("code"), pnlCode, false);
@@ -2251,6 +2288,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		restoreFrameBounds("registers", frmRegisters);
 		restoreFrameBounds("data_memory", frmDataMemory);
 
+		mnuWindows.setEnabled(true);
 		SwingUtilities.updateComponentTreeUI(this);
 	}
 	
@@ -2274,6 +2312,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		desktop.remove(frmRegisters);
 		desktop.remove(frmDataMemory);
 
+		mnuWindows.setEnabled(false);
 		SwingUtilities.updateComponentTreeUI(this);
 	}
 	
@@ -2440,6 +2479,7 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuBackStep;
     private javax.swing.JMenuBar mnuBar;
     private javax.swing.JMenu mnuCPU;
+    private javax.swing.JMenuItem mnuCascadeWindows;
     private javax.swing.JCheckBoxMenuItem mnuControlPath;
     private javax.swing.JMenuItem mnuCopy;
     private javax.swing.JMenuItem mnuCopyP;
@@ -2485,9 +2525,11 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuSwitchSide;
     private javax.swing.JCheckBoxMenuItem mnuSwitchTheme;
     private javax.swing.JPopupMenu mnuTabSide;
+    private javax.swing.JMenuItem mnuTileWindows;
     private javax.swing.JMenuItem mnuUndo;
     private javax.swing.JMenuItem mnuUndoP;
     private javax.swing.JMenu mnuView;
+    private javax.swing.JMenu mnuWindows;
     private javax.swing.JPanel pnlAssembledCode;
     private javax.swing.JPanel pnlCode;
     private javax.swing.JPanel pnlDataMemory;

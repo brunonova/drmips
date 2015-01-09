@@ -303,6 +303,30 @@
                 <Property name="text" type="java.lang.String" value="language"/>
               </Properties>
             </Menu>
+            <Menu class="javax.swing.JMenu" name="mnuWindows">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="windows"/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="mnuTileWindows">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="tile"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuTileWindowsActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="mnuCascadeWindows">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="cascade"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuCascadeWindowsActionPerformed"/>
+                  </Events>
+                </MenuItem>
+              </SubComponents>
+            </Menu>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="mnuEdit">
