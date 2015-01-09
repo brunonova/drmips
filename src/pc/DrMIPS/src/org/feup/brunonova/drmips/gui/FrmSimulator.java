@@ -2722,9 +2722,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		}
 
 		@Override
-		public void changedUpdate(DocumentEvent e) {
-			codeEdited();
-		}
+		public void changedUpdate(DocumentEvent e) { }
 
 		private void codeEdited() {
 			setSimulationControlsEnabled(false);
