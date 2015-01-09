@@ -133,94 +133,6 @@
         </MenuItem>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JDesktopPane" name="desktop">
-
-      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
-        <Property name="useNullLayout" type="boolean" value="true"/>
-      </Layout>
-      <SubComponents>
-        <Container class="javax.swing.JInternalFrame" name="frmCode">
-          <Properties>
-            <Property name="defaultCloseOperation" type="int" value="0"/>
-            <Property name="iconifiable" type="boolean" value="true"/>
-            <Property name="maximizable" type="boolean" value="true"/>
-            <Property name="resizable" type="boolean" value="true"/>
-            <Property name="visible" type="boolean" value="true"/>
-          </Properties>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="0" y="0" width="-1" height="-1"/>
-            </Constraint>
-          </Constraints>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
-        </Container>
-        <Container class="javax.swing.JInternalFrame" name="frmAssembledCode">
-          <Properties>
-            <Property name="defaultCloseOperation" type="int" value="0"/>
-            <Property name="iconifiable" type="boolean" value="true"/>
-            <Property name="maximizable" type="boolean" value="true"/>
-            <Property name="resizable" type="boolean" value="true"/>
-            <Property name="visible" type="boolean" value="true"/>
-          </Properties>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="0" y="0" width="-1" height="-1"/>
-            </Constraint>
-          </Constraints>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
-        </Container>
-        <Container class="javax.swing.JInternalFrame" name="frmDatapath">
-          <Properties>
-            <Property name="defaultCloseOperation" type="int" value="0"/>
-            <Property name="iconifiable" type="boolean" value="true"/>
-            <Property name="maximizable" type="boolean" value="true"/>
-            <Property name="resizable" type="boolean" value="true"/>
-            <Property name="visible" type="boolean" value="true"/>
-          </Properties>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="0" y="0" width="-1" height="-1"/>
-            </Constraint>
-          </Constraints>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
-        </Container>
-        <Container class="javax.swing.JInternalFrame" name="frmRegisters">
-          <Properties>
-            <Property name="defaultCloseOperation" type="int" value="0"/>
-            <Property name="iconifiable" type="boolean" value="true"/>
-            <Property name="maximizable" type="boolean" value="true"/>
-            <Property name="resizable" type="boolean" value="true"/>
-            <Property name="visible" type="boolean" value="true"/>
-          </Properties>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="0" y="0" width="-1" height="-1"/>
-            </Constraint>
-          </Constraints>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
-        </Container>
-        <Container class="javax.swing.JInternalFrame" name="frmDataMemory">
-          <Properties>
-            <Property name="defaultCloseOperation" type="int" value="0"/>
-            <Property name="iconifiable" type="boolean" value="true"/>
-            <Property name="maximizable" type="boolean" value="true"/>
-            <Property name="resizable" type="boolean" value="true"/>
-            <Property name="visible" type="boolean" value="true"/>
-          </Properties>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="0" y="0" width="-1" height="-1"/>
-            </Constraint>
-          </Constraints>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
-        </Container>
-      </SubComponents>
-    </Container>
     <Component class="javax.swing.JTextArea" name="txtPrint">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -238,6 +150,8 @@
         <Property name="tabSize" type="int" value="4"/>
         <Property name="wrapStyleWord" type="boolean" value="true"/>
       </Properties>
+    </Component>
+    <Component class="org.jscroll.JScrollDesktopPane" name="desktop">
     </Component>
     <Menu class="javax.swing.JMenuBar" name="mnuBar">
       <SubComponents>
