@@ -1995,19 +1995,35 @@ public class FrmSimulator extends javax.swing.JFrame {
 			}
 		}
 	}
-	
+
 	/**
-	 * Executes a clock cycle in the CPU and displays the results in the GUI.
+	 * Updates the state of the simulation controls and the values displayed.
+	 * Updates the enabled/disabled states of the simulation controls.
+	 * It also refreshes the values displayed in the tables and the datapath,
+	 * and scrolls the assembled code table to make the current instruction visible.
 	 */
-	private void step() {
-		cpu.executeCycle();
+	private void refreshValues() {
 		updateStepBackEnabled();
 		updateStepEnabled();
+
 		tblRegisters.refreshValues(cmbRegFormat.getSelectedIndex());
 		tblDataMemory.refreshValues(cmbDataMemoryFormat.getSelectedIndex());
 		tblAssembledCode.refreshValues();
 		tblExec.refresh(cmbDatapathDataFormat.getSelectedIndex());
 		datapath.refresh();
+
+		// Scroll the assembled code table to the current instruction
+		int index = cpu.getPC().getCurrentInstructionIndex();
+		if(index >= 0)
+			tblAssembledCode.scrollRectToVisible(tblAssembledCode.getCellRect(index, 0, true));
+	}
+
+	/**
+	 * Executes a clock cycle in the CPU and displays the results in the GUI.
+	 */
+	private void step() {
+		cpu.executeCycle();
+		refreshValues();
 	}
 	
 	/**
@@ -2015,13 +2031,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 	 */
 	private void backStep() {
 		cpu.restorePreviousCycle();
-		updateStepBackEnabled();
-		updateStepEnabled();
-		tblRegisters.refreshValues(cmbRegFormat.getSelectedIndex());
-		tblDataMemory.refreshValues(cmbDataMemoryFormat.getSelectedIndex());
-		tblAssembledCode.refreshValues();
-		tblExec.refresh(cmbDatapathDataFormat.getSelectedIndex());
-		datapath.refresh();
+		refreshValues();
 	}
 	
 	/**
@@ -2029,13 +2039,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 	 */
 	private void restart() {
 		cpu.resetToFirstCycle();
-		updateStepBackEnabled();
-		updateStepEnabled();
-		tblRegisters.refreshValues(cmbRegFormat.getSelectedIndex());
-		tblDataMemory.refreshValues(cmbDataMemoryFormat.getSelectedIndex());
-		tblAssembledCode.refreshValues();
-		tblExec.refresh(cmbDatapathDataFormat.getSelectedIndex());
-		datapath.refresh();
+		refreshValues();
 	}
 	
 	/**
@@ -2048,13 +2052,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		catch(InfiniteLoopException e) {
 			JOptionPane.showMessageDialog(this, Lang.t("possible_infinite_loop", CPU.EXECUTE_ALL_LIMIT_CYCLES), AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
 		}
-		updateStepBackEnabled();
-		updateStepEnabled();
-		tblRegisters.refreshValues(cmbRegFormat.getSelectedIndex());
-		tblDataMemory.refreshValues(cmbDataMemoryFormat.getSelectedIndex());
-		tblAssembledCode.refreshValues();
-		tblExec.refresh(cmbDatapathDataFormat.getSelectedIndex());
-		datapath.refresh();
+		refreshValues();
 	}
 	
 	/**
@@ -2065,13 +2063,9 @@ public class FrmSimulator extends javax.swing.JFrame {
 		if(mnuResetDataBeforeAssembling.isSelected()) cpu.resetData();
 		try {
 			cpu.assembleCode(txtCode.getText());
-			datapath.refresh();
-			tblRegisters.refreshValues(cmbRegFormat.getSelectedIndex());
-			tblAssembledCode.refresh(cmbAssembledCodeFormat.getSelectedIndex());
-			tblDataMemory.refreshValues(cmbDataMemoryFormat.getSelectedIndex());
-			tblExec.refresh(cmbDatapathDataFormat.getSelectedIndex());
-			
 			setSimulationControlsEnabled(true);
+			tblAssembledCode.refresh(cmbAssembledCodeFormat.getSelectedIndex());
+			refreshValues();
 			if(!mnuInternalWindows.isSelected())
 				tabAssembledCode.select();
 		}
