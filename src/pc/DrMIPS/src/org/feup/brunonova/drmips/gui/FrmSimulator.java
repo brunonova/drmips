@@ -58,6 +58,7 @@ import org.feup.brunonova.drmips.simulator.exceptions.SyntaxErrorException;
 import org.feup.brunonova.drmips.simulator.mips.CPU;
 import org.fife.ui.rtextarea.SearchContext;
 import org.fife.ui.rtextarea.SearchEngine;
+import org.jscroll.widgets.JScrollInternalFrame;
 import org.json.JSONException;
 
 /**
@@ -100,6 +101,17 @@ public class FrmSimulator extends javax.swing.JFrame {
 	/** Information of the data memory tab. */
 	private Tab tabDataMemory;
 	
+	/** Internal frame for the code editor. */
+	private JScrollInternalFrame frmCode = null;
+	/** Internal frame for the assembled code table. */
+	private JScrollInternalFrame frmAssembledCode = null;
+	/** Internal frame for the datapath. */
+	private JScrollInternalFrame frmDatapath = null;
+	/** Internal frame for the registers table. */
+	private JScrollInternalFrame frmRegisters = null;
+	/** Internal frame for the data memory table. */
+	private JScrollInternalFrame frmDataMemory = null;
+
 	/** Class logger. */
 	private static final Logger LOG = Logger.getLogger(FrmSimulator.class.getName());
 	
@@ -128,12 +140,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		txtCode.requestFocus();
 		txtCode.getDocument().addDocumentListener(new CodeEditorDocumentListener());
 		txtCode.addCaretListener(new CodeEditorCaretListener());
-		
-		frmCode.setFrameIcon(new ImageIcon(getClass().getResource("/res/icons/x16/drmips.png")));
-		frmDatapath.setFrameIcon(new ImageIcon(getClass().getResource("/res/icons/x16/drmips.png")));
-		frmRegisters.setFrameIcon(new ImageIcon(getClass().getResource("/res/icons/x16/drmips.png")));
-		frmAssembledCode.setFrameIcon(new ImageIcon(getClass().getResource("/res/icons/x16/drmips.png")));
-		frmDataMemory.setFrameIcon(new ImageIcon(getClass().getResource("/res/icons/x16/drmips.png")));
+		desktop.registerDefaultFrameIcon(new ImageIcon(getClass().getResource("/res/icons/x16/drmips.png")));
 
 		mnuResetDataBeforeAssembling.setSelected(DrMIPS.prefs.getBoolean(DrMIPS.ASSEMBLE_RESET_PREF, DrMIPS.DEFAULT_ASSEMBLE_RESET));
 		mnuSwitchTheme.setSelected(DrMIPS.prefs.getBoolean(DrMIPS.DARK_THEME_PREF, DrMIPS.DEFAULT_DARK_THEME));
@@ -200,13 +207,8 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuFindReplaceP = new javax.swing.JMenuItem();
         mnuTabSide = new javax.swing.JPopupMenu();
         mnuSwitchSide = new javax.swing.JMenuItem();
-        desktop = new javax.swing.JDesktopPane();
-        frmCode = new javax.swing.JInternalFrame();
-        frmAssembledCode = new javax.swing.JInternalFrame();
-        frmDatapath = new javax.swing.JInternalFrame();
-        frmRegisters = new javax.swing.JInternalFrame();
-        frmDataMemory = new javax.swing.JInternalFrame();
         txtPrint = new javax.swing.JTextArea();
+        desktop = new org.jscroll.JScrollDesktopPane();
         pnlToolBar = new javax.swing.JToolBar();
         cmdNew = new javax.swing.JButton();
         cmdOpen = new javax.swing.JButton();
@@ -406,46 +408,6 @@ public class FrmSimulator extends javax.swing.JFrame {
             }
         });
         mnuTabSide.add(mnuSwitchSide);
-
-        frmCode.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        frmCode.setIconifiable(true);
-        frmCode.setMaximizable(true);
-        frmCode.setResizable(true);
-        frmCode.setVisible(true);
-        desktop.add(frmCode);
-        frmCode.setBounds(0, 0, 50, 33);
-
-        frmAssembledCode.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        frmAssembledCode.setIconifiable(true);
-        frmAssembledCode.setMaximizable(true);
-        frmAssembledCode.setResizable(true);
-        frmAssembledCode.setVisible(true);
-        desktop.add(frmAssembledCode);
-        frmAssembledCode.setBounds(0, 0, 50, 33);
-
-        frmDatapath.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        frmDatapath.setIconifiable(true);
-        frmDatapath.setMaximizable(true);
-        frmDatapath.setResizable(true);
-        frmDatapath.setVisible(true);
-        desktop.add(frmDatapath);
-        frmDatapath.setBounds(0, 0, 50, 33);
-
-        frmRegisters.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        frmRegisters.setIconifiable(true);
-        frmRegisters.setMaximizable(true);
-        frmRegisters.setResizable(true);
-        frmRegisters.setVisible(true);
-        desktop.add(frmRegisters);
-        frmRegisters.setBounds(0, 0, 50, 33);
-
-        frmDataMemory.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        frmDataMemory.setIconifiable(true);
-        frmDataMemory.setMaximizable(true);
-        frmDataMemory.setResizable(true);
-        frmDataMemory.setVisible(true);
-        desktop.add(frmDataMemory);
-        frmDataMemory.setBounds(0, 0, 50, 33);
 
         txtPrint.setBackground(java.awt.Color.white);
         txtPrint.setColumns(80);
@@ -1757,12 +1719,14 @@ public class FrmSimulator extends javax.swing.JFrame {
 		Lang.tButton(mnuFindReplaceP, "find_replace");
 		Lang.tButton(mnuSwitchSide, "switch_side");
 		
-		frmCode.setTitle(Lang.t("code"));
-		frmDatapath.setTitle(Lang.t("datapath"));
-		frmRegisters.setTitle(Lang.t("registers"));
-		frmAssembledCode.setTitle(Lang.t("assembled"));
-		frmDataMemory.setTitle(Lang.t("data_memory"));
-		if(!mnuInternalWindows.isSelected()) {
+		if(mnuInternalWindows.isSelected()) {
+			frmCode.setTitle(Lang.t("code"));
+			frmDatapath.setTitle(Lang.t("datapath"));
+			frmRegisters.setTitle(Lang.t("registers"));
+			frmAssembledCode.setTitle(Lang.t("assembled"));
+			frmDataMemory.setTitle(Lang.t("data_memory"));
+		}
+		else {
 			tabCode.setTitle(Lang.t("code"));
 			tabDatapath.setTitle(Lang.t("datapath"));
 			tabRegisters.setTitle(Lang.t("registers"));
@@ -2275,20 +2239,17 @@ public class FrmSimulator extends javax.swing.JFrame {
 		
 		remove(pnlSplit);
 		add(desktop, BorderLayout.CENTER);
-		frmCode.add(pnlCode);
-		frmDatapath.add(pnlDatapath);
-		frmRegisters.add(pnlRegisters);
-		frmAssembledCode.add(pnlAssembledCode);
-		frmDataMemory.add(pnlDataMemory);
+		frmCode = desktop.add(Lang.t("code"), pnlCode, false);
+		frmAssembledCode = desktop.add(Lang.t("assembled"), pnlAssembledCode, false);
+		frmDatapath = desktop.add(Lang.t("datapath"), pnlDatapath, false);
+		frmRegisters = desktop.add(Lang.t("registers"), pnlRegisters, false);
+		frmDataMemory = desktop.add(Lang.t("data_memory"), pnlDataMemory, false);
 
 		restoreFrameBounds("code", frmCode);
+		restoreFrameBounds("assembled_code", frmAssembledCode);
 		restoreFrameBounds("datapath", frmDatapath);
 		restoreFrameBounds("registers", frmRegisters);
-		restoreFrameBounds("assembled_code", frmAssembledCode);
 		restoreFrameBounds("data_memory", frmDataMemory);
-		
-		for(JInternalFrame frm: desktop.getAllFrames())
-			frm.setVisible(true);
 
 		SwingUtilities.updateComponentTreeUI(this);
 	}
@@ -2298,14 +2259,21 @@ public class FrmSimulator extends javax.swing.JFrame {
 	 */
 	private void switchToTabs() {
 		saveFrameBounds("code", frmCode);
+		saveFrameBounds("assembled_code", frmAssembledCode);
 		saveFrameBounds("datapath", frmDatapath);
 		saveFrameBounds("registers", frmRegisters);
-		saveFrameBounds("assembled_code", frmAssembledCode);
 		saveFrameBounds("data_memory", frmDataMemory);
-		
+
 		remove(desktop);
 		add(pnlSplit, BorderLayout.CENTER);
 		refreshTabSides();
+
+		desktop.remove(frmCode);
+		desktop.remove(frmAssembledCode);
+		desktop.remove(frmDatapath);
+		desktop.remove(frmRegisters);
+		desktop.remove(frmDataMemory);
+
 		SwingUtilities.updateComponentTreeUI(this);
 	}
 	
@@ -2428,12 +2396,7 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JButton cmdStep;
     private javax.swing.JButton cmdSupportedInstructions;
     private org.feup.brunonova.drmips.gui.DatapathPanel datapath;
-    private javax.swing.JDesktopPane desktop;
-    private javax.swing.JInternalFrame frmAssembledCode;
-    private javax.swing.JInternalFrame frmCode;
-    private javax.swing.JInternalFrame frmDataMemory;
-    private javax.swing.JInternalFrame frmDatapath;
-    private javax.swing.JInternalFrame frmRegisters;
+    private org.jscroll.JScrollDesktopPane desktop;
     private javax.swing.ButtonGroup grpLanguages;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
