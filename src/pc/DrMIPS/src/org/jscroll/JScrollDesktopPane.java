@@ -319,4 +319,18 @@ public class JScrollDesktopPane extends JPanel implements DesktopConstants {
     public void flagContentsChanged(JInternalFrame f) {
         desktopMediator.flagContentsChanged(f);
     }
+
+	/**
+	 * Tiles all of the internal frames.
+	 */
+	public void tileInternalFrames() {
+		desktopMediator.tileInternalFrames();
+	}
+
+	/**
+	 * Cascades all of the internal frames.
+	 */
+	public void cascadeInternalFrames() {
+		desktopMediator.cascadeInternalFrames();
+	}
 }
