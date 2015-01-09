@@ -70,6 +70,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
@@ -1122,13 +1123,9 @@ public class DrMIPSActivity extends Activity {
 			getCPU().assembleCode(txtCode.getText().toString());
 			
 			if(datapath != null) datapath.refresh();
-			refreshRegistersTableValues();
-			refreshAssembledCodeTable();
-			refreshDataMemoryTableValues();
-			refreshAssembledCodeTableValues();
-			refreshExecTableValues();
-			
 			setSimulationControlsEnabled(true);
+			refreshAssembledCodeTable();
+			refreshValues();
 			tabHost.setCurrentTabByTag("tabAssembledCode");
 		}
 		catch(SyntaxErrorException ex) {
@@ -1151,19 +1148,45 @@ public class DrMIPSActivity extends Activity {
 			Toast.makeText(this, message, Toast.LENGTH_LONG).show();
 		}
 	}
-	
+
 	/**
-	 * Executes a clock cycle in the CPU and displays the results in the GUI.
+	 * Updates the state of the simulation controls and the values displayed.
+	 * Updates the enabled/disabled states of the simulation controls.
+	 * It also refreshes the values displayed in the tables and the datapath,
+	 * and scrolls the assembled code table to make the current instruction visible.
 	 */
-	private void step() {
-		getCPU().executeCycle();
+	private void refreshValues() {
 		updateStepBackEnabled();
 		updateStepEnabled();
+
 		refreshRegistersTableValues();
 		refreshDataMemoryTableValues();
 		refreshAssembledCodeTableValues();
 		refreshExecTableValues();
 		if(datapath != null) datapath.refresh();
+
+		// Scroll the assembled code table to the current instruction
+		int index = getCPU().getPC().getCurrentInstructionIndex();
+		if(index >= 0) {
+			final ScrollView scroll = (ScrollView)findViewById(R.id.tblAssembledCodeScroll);
+			final View row = tblAssembledCode.getChildAt(index + 1);
+			if(row != null) {
+				scroll.post(new Runnable() {
+					@Override
+					public void run() {
+						scroll.smoothScrollTo(0, row.getTop());
+					}
+				});
+			}
+		}
+	}
+
+	/**
+	 * Executes a clock cycle in the CPU and displays the results in the GUI.
+	 */
+	private void step() {
+		getCPU().executeCycle();
+		refreshValues();
 	}
 	
 	/**
@@ -1171,13 +1194,7 @@ public class DrMIPSActivity extends Activity {
 	 */
 	private void backStep() {
 		getCPU().restorePreviousCycle();
-		updateStepBackEnabled();
-		updateStepEnabled();
-		refreshRegistersTableValues();
-		refreshDataMemoryTableValues();
-		refreshAssembledCodeTableValues();
-		refreshExecTableValues();
-		if(datapath != null) datapath.refresh();
+		refreshValues();
 	}
 	
 	/**
@@ -1185,13 +1202,7 @@ public class DrMIPSActivity extends Activity {
 	 */
 	private void restart() {
 		getCPU().resetToFirstCycle();
-		updateStepBackEnabled();
-		updateStepEnabled();
-		refreshRegistersTableValues();
-		refreshDataMemoryTableValues();
-		refreshAssembledCodeTableValues();
-		refreshExecTableValues();
-		if(datapath != null) datapath.refresh();
+		refreshValues();
 	}
 	
 	/**
@@ -1204,13 +1215,7 @@ public class DrMIPSActivity extends Activity {
 		catch(InfiniteLoopException e) {
 			Toast.makeText(this, getString(R.string.possible_infinite_loop).replace("#1", "" + CPU.EXECUTE_ALL_LIMIT_CYCLES), Toast.LENGTH_SHORT).show();
 		}
-		updateStepBackEnabled();
-		updateStepEnabled();
-		refreshRegistersTableValues();
-		refreshDataMemoryTableValues();
-		refreshAssembledCodeTableValues();
-		refreshExecTableValues();
-		if(datapath != null) datapath.refresh();
+		refreshValues();
 	}
 	
 	/**
