@@ -277,13 +277,13 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuView = new javax.swing.JMenu();
         mnuSwitchTheme = new javax.swing.JCheckBoxMenuItem();
         mnuInternalWindows = new javax.swing.JCheckBoxMenuItem();
+        mnuWindows = new javax.swing.JMenu();
+        mnuTileWindows = new javax.swing.JMenuItem();
+        mnuCascadeWindows = new javax.swing.JMenuItem();
         jSeparator11 = new javax.swing.JPopupMenu.Separator();
         mnuMarginLine = new javax.swing.JCheckBoxMenuItem();
         jSeparator16 = new javax.swing.JPopupMenu.Separator();
         mnuLanguage = new javax.swing.JMenu();
-        mnuWindows = new javax.swing.JMenu();
-        mnuTileWindows = new javax.swing.JMenuItem();
-        mnuCascadeWindows = new javax.swing.JMenuItem();
         mnuEdit = new javax.swing.JMenu();
         mnuUndo = new javax.swing.JMenuItem();
         mnuRedo = new javax.swing.JMenuItem();
@@ -825,19 +825,6 @@ public class FrmSimulator extends javax.swing.JFrame {
             }
         });
         mnuView.add(mnuInternalWindows);
-        mnuView.add(jSeparator11);
-
-        mnuMarginLine.setText("show_margin_line");
-        mnuMarginLine.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuMarginLineActionPerformed(evt);
-            }
-        });
-        mnuView.add(mnuMarginLine);
-        mnuView.add(jSeparator16);
-
-        mnuLanguage.setText("language");
-        mnuView.add(mnuLanguage);
 
         mnuWindows.setText("windows");
         mnuWindows.setEnabled(false);
@@ -859,6 +846,19 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuWindows.add(mnuCascadeWindows);
 
         mnuView.add(mnuWindows);
+        mnuView.add(jSeparator11);
+
+        mnuMarginLine.setText("show_margin_line");
+        mnuMarginLine.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuMarginLineActionPerformed(evt);
+            }
+        });
+        mnuView.add(mnuMarginLine);
+        mnuView.add(jSeparator16);
+
+        mnuLanguage.setText("language");
+        mnuView.add(mnuLanguage);
 
         mnuBar.add(mnuView);
 
