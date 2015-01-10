@@ -991,7 +991,7 @@ public class DrMIPSActivity extends Activity {
 	
 	/**
 	 * Opens and loads the code from the given file.
-	 * @param path The file to open.
+	 * @param file The file to open.
 	 */
 	private void openFile(File file) {
 		try {
