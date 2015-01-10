@@ -1170,11 +1170,23 @@ public class DrMIPSActivity extends Activity {
 		if(index >= 0) {
 			final ScrollView scroll = (ScrollView)findViewById(R.id.tblAssembledCodeScroll);
 			final View row = tblAssembledCode.getChildAt(index + 1);
-			if(row != null) {
+
+			// Scroll only if the row is out of view
+			if(row != null && (row.getTop() < scroll.getScrollY() ||
+			                   row.getBottom() > (scroll.getScrollY() + scroll.getHeight()))) {
 				scroll.post(new Runnable() {
 					@Override
 					public void run() {
-						scroll.smoothScrollTo(0, row.getTop());
+						if(row.getTop() < scroll.getScrollY()) {
+							// Row is above the visible area
+							// > scroll up until the row is visible at the top of the ScrollView
+							scroll.smoothScrollTo(0, row.getTop());
+						}
+						else {
+							// Row is below the visible area
+							// > scroll down until the row is visible at the bottom of the ScrollView
+							scroll.smoothScrollTo(0, row.getBottom() - scroll.getHeight());
+						}
 					}
 				});
 			}
