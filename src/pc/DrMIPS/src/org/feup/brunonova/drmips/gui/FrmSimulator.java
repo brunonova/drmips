@@ -23,6 +23,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyVetoException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -2316,10 +2317,12 @@ public class FrmSimulator extends javax.swing.JFrame {
 	 * @param frame The frame.
 	 */
 	private void saveFrameBounds(String prefPrefix, JInternalFrame frame) {
-		DrMIPS.prefs.putInt(prefPrefix + "_x", frame.getX());
-		DrMIPS.prefs.putInt(prefPrefix + "_y", frame.getY());
-		DrMIPS.prefs.putInt(prefPrefix + "_w", frame.getWidth());
-		DrMIPS.prefs.putInt(prefPrefix + "_h", frame.getHeight());
+		DrMIPS.prefs.putInt(prefPrefix + "_x", frame.getNormalBounds().x);
+		DrMIPS.prefs.putInt(prefPrefix + "_y", frame.getNormalBounds().y);
+		DrMIPS.prefs.putInt(prefPrefix + "_w", frame.getNormalBounds().width);
+		DrMIPS.prefs.putInt(prefPrefix + "_h", frame.getNormalBounds().height);
+		DrMIPS.prefs.putBoolean(prefPrefix + "_max", frame.isMaximum());
+		DrMIPS.prefs.putBoolean(prefPrefix + "_min", frame.isIcon());
 	}
 	
 	/**
@@ -2335,6 +2338,15 @@ public class FrmSimulator extends javax.swing.JFrame {
 			frame.setSize(w, h);
 		else
 			frame.pack();
+		try {
+			if(DrMIPS.prefs.getBoolean(prefPrefix + "_max", false))
+				frame.setMaximum(true);
+			if(DrMIPS.prefs.getBoolean(prefPrefix + "_min", false))
+				frame.setIcon(true);
+		}
+		catch(PropertyVetoException ex) {
+			LOG.log(Level.WARNING, "failed to maximize/minimize an internal frame");
+		}
 	}
 	
 	/**
