@@ -82,7 +82,6 @@ public class DlgAbout extends javax.swing.JDialog {
         lblHomepage.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         lblHomepage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblHomepage.setText("<html><u>" + AppInfo.HOMEPAGE + "</u></html>");
-        lblHomepage.setToolTipText("open_homepage");
         lblHomepage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblHomepage.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -93,6 +92,12 @@ public class DlgAbout extends javax.swing.JDialog {
         lblAuthor.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         lblAuthor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblAuthor.setText("by_author");
+        lblAuthor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblAuthor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblAuthorMouseClicked(evt);
+            }
+        });
 
         lblDissertation.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         lblDissertation.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -198,6 +203,18 @@ public class DlgAbout extends javax.swing.JDialog {
 		}
     }//GEN-LAST:event_lblHomepageMouseClicked
 
+    private void lblAuthorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAuthorMouseClicked
+		if(evt.getButton() == MouseEvent.BUTTON1) {
+			try {
+				Desktop.getDesktop().mail(new URI("mailto:" + AppInfo.MAIN_AUTHOR_EMAIL));
+			}
+			catch(Exception ex) {
+				LOG.log(Level.WARNING, "error opening e-mail program", ex);
+				JOptionPane.showMessageDialog(this, Lang.t("failed_to_open_email_program"), AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
+			}
+		}
+    }//GEN-LAST:event_lblAuthorMouseClicked
+
 	/**
 	 * Translates the form's strings.
 	 */
@@ -206,9 +223,9 @@ public class DlgAbout extends javax.swing.JDialog {
 		Lang.tButton(cmdOk, "ok");
 		Lang.tButton(cmdLicense, "license");
 		Lang.tButton(cmdCredits, "credits");
-		lblAuthor.setText(Lang.t("by_author", AppInfo.MAIN_AUTHOR_NAME_EMAIL));
-		lblHomepage.setToolTipText(Lang.t("open_homepage"));
 		lblDissertation.setText(Lang.t("for_dissertation"));
+		String email_html = AppInfo.MAIN_AUTHOR_NAME_EMAIL.replace("<", "&lt;").replace(">", "&gt;");
+		lblAuthor.setText("<html>" + Lang.t("by_author", "<u>" + email_html + "</u>") + "</html>");
 	}
 	
     // Variables declaration - do not modify//GEN-BEGIN:variables
