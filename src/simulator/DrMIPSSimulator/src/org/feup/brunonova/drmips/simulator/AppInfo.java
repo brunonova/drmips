@@ -31,6 +31,8 @@ public class AppInfo {
 	public static final String DESCRIPTION = "Educational MIPS simulator";
 	/** Version of the application. */
 	public static final String VERSION = "1.2.3";
+	/** Homepage of the application. */
+	public static final String HOMEPAGE = "https://bitbucket.org/brunonova/drmips";
 	/** Name of the main author (creator) of the application. */
 	public static final String MAIN_AUTHOR_NAME = "Bruno Nova";
 	/** E-mail address of the main author (creator) of the application. */
