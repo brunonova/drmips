@@ -18,6 +18,11 @@
 
 package org.feup.brunonova.drmips.gui;
 
+import java.awt.Desktop;
+import java.awt.event.MouseEvent;
+import java.net.URI;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.feup.brunonova.drmips.simulator.AppInfo;
 
@@ -27,6 +32,8 @@ import org.feup.brunonova.drmips.simulator.AppInfo;
  * @author Bruno Nova
  */
 public class DlgAbout extends javax.swing.JDialog {
+	/** Class logger. */
+	private static final Logger LOG = Logger.getLogger(DlgAbout.class.getName());
 
 	/**
 	 * Creates new form DlgAbout
@@ -53,6 +60,7 @@ public class DlgAbout extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         lblVersion = new javax.swing.JLabel();
         lblIcon = new javax.swing.JLabel();
+        lblHomepage = new javax.swing.JLabel();
         lblAuthor = new javax.swing.JLabel();
         lblDissertation = new javax.swing.JLabel();
         lblFaculty = new javax.swing.JLabel();
@@ -70,6 +78,17 @@ public class DlgAbout extends javax.swing.JDialog {
 
         lblIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x96/drmips.png"))); // NOI18N
+
+        lblHomepage.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        lblHomepage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblHomepage.setText("<html><u>" + AppInfo.HOMEPAGE + "</u></html>");
+        lblHomepage.setToolTipText("open_homepage");
+        lblHomepage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblHomepage.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblHomepageMouseClicked(evt);
+            }
+        });
 
         lblAuthor.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         lblAuthor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -94,7 +113,8 @@ public class DlgAbout extends javax.swing.JDialog {
                     .addComponent(lblFaculty, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
                     .addComponent(lblAuthor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblVersion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblDissertation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblDissertation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblHomepage, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -104,9 +124,11 @@ public class DlgAbout extends javax.swing.JDialog {
                 .addComponent(lblVersion)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblIcon)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblHomepage)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblAuthor)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblDissertation)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblFaculty)
@@ -164,6 +186,18 @@ public class DlgAbout extends javax.swing.JDialog {
 		JOptionPane.showMessageDialog(this, credits, Lang.t("credits"), JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_cmdCreditsActionPerformed
 
+    private void lblHomepageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHomepageMouseClicked
+		if(evt.getButton() == MouseEvent.BUTTON1) {
+			try {
+				Desktop.getDesktop().browse(new URI(AppInfo.HOMEPAGE));
+			}
+			catch(Exception ex) {
+				LOG.log(Level.WARNING, "error opening web browser", ex);
+				JOptionPane.showMessageDialog(this, Lang.t("failed_to_open_web_browser"), AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
+			}
+		}
+    }//GEN-LAST:event_lblHomepageMouseClicked
+
 	/**
 	 * Translates the form's strings.
 	 */
@@ -173,6 +207,7 @@ public class DlgAbout extends javax.swing.JDialog {
 		Lang.tButton(cmdLicense, "license");
 		Lang.tButton(cmdCredits, "credits");
 		lblAuthor.setText(Lang.t("by_author", AppInfo.MAIN_AUTHOR_NAME_EMAIL));
+		lblHomepage.setToolTipText(Lang.t("open_homepage"));
 		lblDissertation.setText(Lang.t("for_dissertation"));
 	}
 	
@@ -185,6 +220,7 @@ public class DlgAbout extends javax.swing.JDialog {
     private javax.swing.JLabel lblAuthor;
     private javax.swing.JLabel lblDissertation;
     private javax.swing.JLabel lblFaculty;
+    private javax.swing.JLabel lblHomepage;
     private javax.swing.JLabel lblIcon;
     private javax.swing.JLabel lblVersion;
     // End of variables declaration//GEN-END:variables
