@@ -26,7 +26,6 @@ import java.awt.event.MouseListener;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import org.feup.brunonova.drmips.simulator.AppInfo;
 import org.feup.brunonova.drmips.simulator.mips.CPU;
@@ -46,7 +45,7 @@ import org.feup.brunonova.drmips.simulator.mips.components.Fork;
  * 
  * @author Bruno Nova
  */
-public final class DatapathComponent extends JPanel implements MouseListener {
+public final class DatapathComponent extends JLabel implements MouseListener {
 	/** The font used for the text. */
 	private static final Font FONT = new Font(Font.MONOSPACED, Font.PLAIN, 8);
 	/** Width of the tooltips with the details of the components. */
@@ -56,8 +55,6 @@ public final class DatapathComponent extends JPanel implements MouseListener {
 	private final DatapathPanel datapath;
 	/** The respective CPU component. */
 	private final Component component;
-	/** The label that displays the component name. */
-	private final JLabel lblName;
 	
 	/**
 	 * Creates a graphical CPU component.
@@ -71,15 +68,16 @@ public final class DatapathComponent extends JPanel implements MouseListener {
 		boolean dark = DrMIPS.prefs.getBoolean(DrMIPS.DARK_THEME_PREF, DrMIPS.DEFAULT_DARK_THEME);
 		
 		setBorder(new LineBorder(Color.BLACK));
+		setOpaque(true);
 		setBackground(Color.WHITE);
 		setLayout(new BorderLayout());
 		setLocation(component.getPosition().x, component.getPosition().y);
 		setSize(component.getSize().width, component.getSize().height);
 		
-		lblName = new JLabel("<html><pre>" + component.getDisplayName() + "</pre></html>", JLabel.CENTER);
-		lblName.setFont(FONT);
-		lblName.setForeground(Color.BLACK);
-		add(lblName, BorderLayout.CENTER);
+		setText("<html><pre>" + component.getDisplayName() + "</pre></html>");
+		setHorizontalAlignment(JLabel.CENTER);
+		setFont(FONT);
+		setForeground(Color.BLACK);
 		
 		if(component instanceof Fork || component instanceof Concatenator || component instanceof Distributor) {
 			Color color = component.isInControlPath() ? DatapathPanel.getControlPathColor(dark) : (dark ? Color.WHITE : Color.BLACK);
@@ -89,12 +87,12 @@ public final class DatapathComponent extends JPanel implements MouseListener {
 		else if(component instanceof Constant) {
 			setOpaque(false);
 			setBorder(null);
-			lblName.setForeground(component.isInControlPath() ? DatapathPanel.getControlPathColor(dark) : (dark ? Color.WHITE : Color.BLACK));
+			setForeground(component.isInControlPath() ? DatapathPanel.getControlPathColor(dark) : (dark ? Color.WHITE : Color.BLACK));
 		}
 		else {
 			if(component.isInControlPath()) {
 				setBorder(BorderFactory.createLineBorder(DatapathPanel.getControlPathColor(dark)));
-				lblName.setForeground(DatapathPanel.getControlPathColor(dark));
+				setForeground(DatapathPanel.getControlPathColor(dark));
 			}
 		}
 		
