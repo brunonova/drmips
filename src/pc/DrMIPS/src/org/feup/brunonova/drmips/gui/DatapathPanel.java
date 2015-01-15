@@ -42,11 +42,6 @@ import org.feup.brunonova.drmips.simulator.util.Point;
  * @author Bruno Nova
  */
 public class DatapathPanel extends JLayeredPane {
-	/** The color of the control path for the light theme. */
-	private static final Color CONTROL_COLOR_LIGHT_THEME = new Color(0, 100, 200);
-	/** The color of the control path for the dark theme. */
-	private static final Color CONTROL_COLOR_DARK_THEME = new Color(0, 170, 230);
-	
 	/** The main window where the datapath is. */
 	private FrmSimulator parent = null;
 	/** The CPU being displayed. */
@@ -230,15 +225,6 @@ public class DatapathPanel extends JLayeredPane {
 	}
 
 	/**
-	 * Returns the color of the control path, which depends on the theme.
-	 * @param dark Whether the UI is using a dark theme.
-	 * @return Color of the control path.
-	 */
-	public static Color getControlPathColor(boolean dark) {
-		return dark ? CONTROL_COLOR_DARK_THEME : CONTROL_COLOR_LIGHT_THEME;
-	}
-
-	/**
 	 * Represents a graphical wire on the datapath.
 	 */
 	public class Wire {
@@ -306,13 +292,13 @@ public class DatapathPanel extends JLayeredPane {
 		public void paint(Graphics g, boolean dark) {
 			if(!out.isInControlPath() || controlPathVisible) {
 				if(performanceMode && out.isInCriticalPath())
-					g.setColor(Color.RED);
+					g.setColor(Util.criticalPathColor);
 				else if(!out.isRelevant() && (!performanceMode || cpu.isPerformanceInstructionDependent()))
-					g.setColor(Color.GRAY);
+					g.setColor(Util.irrelevantColor);
 				else if(out.isInControlPath())
-					g.setColor(getControlPathColor(dark));
+					g.setColor(Util.controlPathColor);
 				else
-					g.setColor(dark ? Color.WHITE : Color.BLACK);
+					g.setColor(Util.wireColor);
 				
 				Point s = start;
 				for(Point e: points) {

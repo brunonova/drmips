@@ -2246,6 +2246,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		datapath.setControlPathVisible(mnuControlPath.isSelected());
 		datapath.setShowArrows(mnuArrowsInWires.isSelected());
 		datapath.setPerformanceMode(mnuPerformanceMode.isSelected());
+		refreshDatapathHelp();
 		txtCode.setColors();
 	}
 	
@@ -2357,17 +2358,17 @@ public class FrmSimulator extends javax.swing.JFrame {
 		
 		if(datapath.isInPerformanceMode()) {
 			tip += Lang.t("performance_mode") + "</u></b><br /><br />";
-			tip += "- " + Lang.t("normal_wire") + "<br />";
-			tip += "<span style='color: rgb(0, 130, 230)'>- " + Lang.t("control_path_wire") + "</span><br />";
-			tip += "<span style='color: red'>- " + Lang.t("wire_in_critical_path") + "</span><br /><br />";
+			tip += "<span style='color: " + Util.colorToRGBString(Util.wireColor) + "'>- " + Lang.t("normal_wire") + "</span><br />";
+			tip += "<span style='color: " + Util.colorToRGBString(Util.controlPathColor) + "'>- " + Lang.t("control_path_wire") + "</span><br />";
+			tip += "<span style='color: " + Util.colorToRGBString(Util.criticalPathColor) + "'>- " + Lang.t("wire_in_critical_path") + "</span><br /><br />";
 			tip += Lang.t("advised_to_display_control_path");
 			
 		}
 		else {
 			tip += Lang.t("data_mode") + "</u></b><br /><br />";
-			tip += "- " + Lang.t("normal_wire") + "<br />";
-			tip += "<span style='color: rgb(0, 130, 230)'>- " + Lang.t("relevant_control_path_wire") + "</span><br />";
-			tip += "<span style='color: gray'>- " + Lang.t("irrelevant_wire") + "</span>";
+			tip += "<span style='color: " + Util.colorToRGBString(Util.wireColor) + "'>- " + Lang.t("normal_wire") + "</span><br />";
+			tip += "<span style='color: " + Util.colorToRGBString(Util.controlPathColor) + "'>- " + Lang.t("relevant_control_path_wire") + "</span><br />";
+			tip += "<span style='color: " + Util.colorToRGBString(Util.irrelevantColor) + "'>- " + Lang.t("irrelevant_wire") + "</span>";
 		}
 		
 		tip += "</html>";

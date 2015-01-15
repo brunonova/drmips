@@ -41,16 +41,6 @@ public class AssembledCodeTable extends JTable {
 	private static final int ASSEMBLED_COLUMN_INDEX = 1;
 	/** The index of the code column. */
 	private static final int CODE_COLUMN_INDEX = 2;
-	/** Color used to highlight the instruction in IF stage. */
-	public static Color IF_COLOR = new Color(0, 170, 230);
-	/** Color used to highlight the instruction in ID stage. */
-	public static Color ID_COLOR = Color.GREEN;
-	/** Color used to highlight the instruction in EX stage. */
-	public static Color EX_COLOR = Color.MAGENTA;
-	/** Color used to highlight the instruction in MEM stage. */
-	public static Color MEM_COLOR = new Color(255, 128, 0);
-	/** Color used to highlight the instruction in WB stage. */
-	public static Color WB_COLOR = Color.RED;
 	
 	/** The model of the table. */
 	private DefaultTableModel model = null;
@@ -156,16 +146,16 @@ public class AssembledCodeTable extends JTable {
 			
 			// Highlight instructions being executed
 			if(row == cpu.getPC().getCurrentInstructionIndex())
-				setForeground(IF_COLOR);
+				setForeground(Util.ifColor);
 			else if(cpu.isPipeline()) {
 				if(row == cpu.getIfIdReg().getCurrentInstructionIndex())
-					setForeground(ID_COLOR);
+					setForeground(Util.idColor);
 				else if(row == cpu.getIdExReg().getCurrentInstructionIndex())
-					setForeground(EX_COLOR);
+					setForeground(Util.exColor);
 				else if(row == cpu.getExMemReg().getCurrentInstructionIndex())
-					setForeground(MEM_COLOR);
+					setForeground(Util.memColor);
 				else if(row == cpu.getMemWbReg().getCurrentInstructionIndex())
-					setForeground(WB_COLOR);
+					setForeground(Util.wbColor);
 				else
 					setForeground(foreground);
 			}

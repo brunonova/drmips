@@ -80,19 +80,19 @@ public final class DatapathComponent extends JLabel implements MouseListener {
 		setForeground(Color.BLACK);
 		
 		if(component instanceof Fork || component instanceof Concatenator || component instanceof Distributor) {
-			Color color = component.isInControlPath() ? DatapathPanel.getControlPathColor(dark) : (dark ? Color.WHITE : Color.BLACK);
+			Color color = component.isInControlPath() ? Util.controlPathColor : Util.wireColor;
 			setBackground(color);
 			setBorder(BorderFactory.createLineBorder(color));
 		}
 		else if(component instanceof Constant) {
 			setOpaque(false);
 			setBorder(null);
-			setForeground(component.isInControlPath() ? DatapathPanel.getControlPathColor(dark) : (dark ? Color.WHITE : Color.BLACK));
+			setForeground(component.isInControlPath() ? Util.controlPathColor : Util.wireColor);
 		}
 		else {
 			if(component.isInControlPath()) {
-				setBorder(BorderFactory.createLineBorder(DatapathPanel.getControlPathColor(dark)));
-				setForeground(DatapathPanel.getControlPathColor(dark));
+				setBorder(BorderFactory.createLineBorder(Util.controlPathColor));
+				setForeground(Util.controlPathColor);
 			}
 		}
 		
@@ -118,11 +118,11 @@ public final class DatapathComponent extends JLabel implements MouseListener {
 		if(getComponent() instanceof Fork) {
 			Color color;
 			if(!((Fork)component).getInput().isRelevant() && (!datapath.isInPerformanceMode() || datapath.getCPU().isPerformanceInstructionDependent()))
-				color = Color.GRAY;
+				color = Util.irrelevantColor;
 			else if(component.isInControlPath())
-				color = DatapathPanel.getControlPathColor(dark);
+				color = Util.controlPathColor;
 			else
-				color = dark ? Color.WHITE : Color.BLACK;
+				color = Util.wireColor;
 			setBackground(color);
 			setBorder(BorderFactory.createLineBorder(color));
 		}
@@ -130,7 +130,7 @@ public final class DatapathComponent extends JLabel implements MouseListener {
 		
 		// Refresh the tooltip
 		String tip = "<html><table width='" + TOOLTIP_WIDTH + "' cellspacing=0 cellpadding=0>";
-		String controlStyle = "style='color: rgb(" + DatapathPanel.getControlPathColor(dark).getRed() + "," + DatapathPanel.getControlPathColor(dark).getGreen() + "," + DatapathPanel.getControlPathColor(dark).getBlue() + ")'";
+		String controlStyle = "style='color: " + Util.colorToRGBString(Util.controlPathColor) + "'";
 		
 		// Name
 		tip += "<tr><th><u>" + Lang.t(component.getNameKey()) + "</u></th></tr>";
