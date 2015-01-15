@@ -2360,14 +2360,14 @@ public class FrmSimulator extends javax.swing.JFrame {
 			tip += Lang.t("performance_mode") + "</u></b><br /><br />";
 			tip += "<span style='color: " + Util.colorToRGBString(Util.wireColor) + "'>- " + Lang.t("normal_wire") + "</span><br />";
 			tip += "<span style='color: " + Util.colorToRGBString(Util.controlPathColor) + "'>- " + Lang.t("control_path_wire") + "</span><br />";
-			tip += "<span style='color: " + Util.colorToRGBString(Util.criticalPathColor) + "'>- " + Lang.t("wire_in_critical_path") + "</span><br /><br />";
+			tip += "<span style='color: " + Util.colorToRGBString(Util.criticalPathColor) + "'>- " + Lang.t("wire_in_critical_path") + "</span><br />";
+			tip += "<span style='color: " + Util.colorToRGBString(Util.irrelevantColor) + "'>- " + Lang.t("irrelevant_wire") + "</span><br /><br />";
 			tip += Lang.t("advised_to_display_control_path");
-			
 		}
 		else {
 			tip += Lang.t("data_mode") + "</u></b><br /><br />";
 			tip += "<span style='color: " + Util.colorToRGBString(Util.wireColor) + "'>- " + Lang.t("normal_wire") + "</span><br />";
-			tip += "<span style='color: " + Util.colorToRGBString(Util.controlPathColor) + "'>- " + Lang.t("relevant_control_path_wire") + "</span><br />";
+			tip += "<span style='color: " + Util.colorToRGBString(Util.controlPathColor) + "'>- " + Lang.t("control_path_wire") + "</span><br />";
 			tip += "<span style='color: " + Util.colorToRGBString(Util.irrelevantColor) + "'>- " + Lang.t("irrelevant_wire") + "</span>";
 		}
 		
