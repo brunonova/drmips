@@ -20,6 +20,7 @@ package org.feup.brunonova.drmips.gui;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JOptionPane;
@@ -74,7 +75,7 @@ public class RegistersTable extends JTable implements MouseListener {
 		cellRenderer = new RegistersTableCellRenderer();
 		setDefaultRenderer(Object.class, cellRenderer);
 		setModel(model);
-		setFont(new java.awt.Font("Courier New", 0, 12));
+		setFont(new Font("Courier New", Font.BOLD, 12));
 		getTableHeader().setReorderingAllowed(false);
 		
 		addMouseListener(this);

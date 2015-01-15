@@ -19,6 +19,7 @@
 package org.feup.brunonova.drmips.gui;
 
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.event.MouseEvent;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -51,7 +52,7 @@ public class ExecTable extends JTable {
 		cellRenderer = new ExecTableCellRenderer();
 		setDefaultRenderer(Object.class, cellRenderer);
 		setModel(model);
-		setFont(new java.awt.Font("Courier New", 0, 12));
+		setFont(new Font("Courier New", Font.BOLD, 12));
 		getTableHeader().setReorderingAllowed(false);
 	}
 	
