@@ -82,19 +82,19 @@ public final class DatapathComponent extends JPanel implements MouseListener {
 		add(lblName, BorderLayout.CENTER);
 		
 		if(component instanceof Fork || component instanceof Concatenator || component instanceof Distributor) {
-			Color color = component.isInControlPath() ? DatapathPanel.CONTROL_COLOR : (dark ? Color.WHITE : Color.BLACK);
+			Color color = component.isInControlPath() ? DatapathPanel.getControlPathColor(dark) : (dark ? Color.WHITE : Color.BLACK);
 			setBackground(color);
 			setBorder(BorderFactory.createLineBorder(color));
 		}
 		else if(component instanceof Constant) {
 			setOpaque(false);
 			setBorder(null);
-			lblName.setForeground(component.isInControlPath() ? DatapathPanel.CONTROL_COLOR : (dark ? Color.WHITE : Color.BLACK));
+			lblName.setForeground(component.isInControlPath() ? DatapathPanel.getControlPathColor(dark) : (dark ? Color.WHITE : Color.BLACK));
 		}
 		else {
 			if(component.isInControlPath()) {
-				setBorder(BorderFactory.createLineBorder(DatapathPanel.CONTROL_COLOR));
-				lblName.setForeground(DatapathPanel.CONTROL_COLOR);
+				setBorder(BorderFactory.createLineBorder(DatapathPanel.getControlPathColor(dark)));
+				lblName.setForeground(DatapathPanel.getControlPathColor(dark));
 			}
 		}
 		
@@ -114,14 +114,15 @@ public final class DatapathComponent extends JPanel implements MouseListener {
 	 * Refreshes the component tooltip with the current information, and possibly other things.
 	 */
 	public void refresh() {
+		boolean dark = DrMIPS.prefs.getBoolean(DrMIPS.DARK_THEME_PREF, DrMIPS.DEFAULT_DARK_THEME);
+
 		// Set fork gray if irrelevant
 		if(getComponent() instanceof Fork) {
-			boolean dark = DrMIPS.prefs.getBoolean(DrMIPS.DARK_THEME_PREF, DrMIPS.DEFAULT_DARK_THEME);
 			Color color;
 			if(!((Fork)component).getInput().isRelevant() && (!datapath.isInPerformanceMode() || datapath.getCPU().isPerformanceInstructionDependent()))
 				color = Color.GRAY;
 			else if(component.isInControlPath())
-				color = DatapathPanel.CONTROL_COLOR;
+				color = DatapathPanel.getControlPathColor(dark);
 			else
 				color = dark ? Color.WHITE : Color.BLACK;
 			setBackground(color);
@@ -131,7 +132,7 @@ public final class DatapathComponent extends JPanel implements MouseListener {
 		
 		// Refresh the tooltip
 		String tip = "<html><table width='" + TOOLTIP_WIDTH + "' cellspacing=0 cellpadding=0>";
-		String controlStyle = "style='color: rgb(" + DatapathPanel.CONTROL_COLOR.getRed() + "," + DatapathPanel.CONTROL_COLOR.getGreen() + "," + DatapathPanel.CONTROL_COLOR.getBlue() + ")'";
+		String controlStyle = "style='color: rgb(" + DatapathPanel.getControlPathColor(dark).getRed() + "," + DatapathPanel.getControlPathColor(dark).getGreen() + "," + DatapathPanel.getControlPathColor(dark).getBlue() + ")'";
 		
 		// Name
 		tip += "<tr><th><u>" + Lang.t(component.getNameKey()) + "</u></th></tr>";
@@ -175,27 +176,27 @@ public final class DatapathComponent extends JPanel implements MouseListener {
 		
 		// Inputs
 		tip += "<tr><td align='center'><table cellspacing=0>";
-		tip += "<tr><th colspan=2><br />" + Lang.t("inputs") + "</th></tr>";
+		tip += "<tr><th colspan=2><br /><u>" + Lang.t("inputs") + "</u></th></tr>";
 		for(Input in: component.getInputs()) {
 			if(in.isConnected()) {
 				tip += in.isInControlPath() ? ("<tr " + controlStyle + ">") : "<tr>";
-				tip += "<td><tt>" + in.getId() + ":</tt></td><td align='right'><tt>";
+				tip += "<td><tt><b>" + in.getId() + ":</b></tt></td><td align='right'><tt><b>";
 				if(datapath.isInPerformanceMode())
-					tip += in.getAccumulatedLatency() + " " + CPU.LATENCY_UNIT + "</tt></td></tr>";
+					tip += in.getAccumulatedLatency() + " " + CPU.LATENCY_UNIT + "</b></tt></td></tr>";
 				else
-					tip += Util.formatDataAccordingToFormat(in.getData(), datapath.getDataFormat())  + "</tt></td></tr>";
+					tip += Util.formatDataAccordingToFormat(in.getData(), datapath.getDataFormat())  + "</b></tt></td></tr>";
 			}
 		}
 		// Outputs
-		tip += "<tr><th colspan=2><br />" + Lang.t("outputs") + "</th></tr>";
+		tip += "<tr><th colspan=2><br /><u>" + Lang.t("outputs") + "</u></th></tr>";
 		for(Output out: component.getOutputs()) {
 			if(out.isConnected()) {
 				tip += out.isInControlPath() ? ("<tr " + controlStyle + ">") : "<tr>";
-				tip += "<td><tt>" + out.getId() + ":</tt></td><td align='right'><tt>";
+				tip += "<td><tt><b>" + out.getId() + ":</b></tt></td><td align='right'><tt><b>";
 				if(datapath.isInPerformanceMode())
-					tip += component.getAccumulatedLatency() + " " + CPU.LATENCY_UNIT + "</tt></td></tr>";
+					tip += component.getAccumulatedLatency() + " " + CPU.LATENCY_UNIT + "</b></tt></td></tr>";
 				else
-					tip += Util.formatDataAccordingToFormat(out.getData(), datapath.getDataFormat()) + "</tt></td></tr>";
+					tip += Util.formatDataAccordingToFormat(out.getData(), datapath.getDataFormat()) + "</b></tt></td></tr>";
 			}
 		}
 		tip += "</table></td></tr>";

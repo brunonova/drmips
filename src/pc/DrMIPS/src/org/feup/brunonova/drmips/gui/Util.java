@@ -36,6 +36,7 @@ import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 import javax.swing.RootPaneContainer;
 import javax.swing.UIManager;
+import org.feup.brunonova.drmips.simulator.AppInfo;
 import org.feup.brunonova.drmips.simulator.mips.Data;
 
 /**
@@ -129,7 +130,6 @@ public class Util {
 	public static void setLightLookAndFeel() {
 		try {
 			Properties props = new Properties();
-			//props.put("logoString", DrMIPS.PROGRAM_NAME);
 			props.put("logoString", "");
 			props.put("windowDecoration", "off");
 			MintLookAndFeel.setCurrentTheme(props);
@@ -145,7 +145,6 @@ public class Util {
 	public static void setDarkLookAndFeel() {
 		try {
 			Properties props = new Properties();
-			//props.put("logoString", DrMIPS.PROGRAM_NAME);
 			props.put("logoString", "");
 			props.put("windowDecoration", "off");
 			HiFiLookAndFeel.setCurrentTheme(props);

@@ -86,14 +86,17 @@ public class DlgSupportedInstructions extends javax.swing.JDialog {
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.SOUTH);
 
+        tblInstructions.setFont(new java.awt.Font("Courier New", 1, 12)); // NOI18N
         pnlInstructions.setViewportView(tblInstructions);
 
         pnlTabs.addTab("instructions", pnlInstructions);
 
+        tblPseudoInstructions.setFont(new java.awt.Font("Courier New", 1, 12)); // NOI18N
         pnlPseudoInstructions.setViewportView(tblPseudoInstructions);
 
         pnlTabs.addTab("pseudo_instructions", pnlPseudoInstructions);
 
+        tblDirectives.setFont(new java.awt.Font("Courier New", 1, 12)); // NOI18N
         pnlDirectives.setViewportView(tblDirectives);
 
         pnlTabs.addTab("directives", pnlDirectives);

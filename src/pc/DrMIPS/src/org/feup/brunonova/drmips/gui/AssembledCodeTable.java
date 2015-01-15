@@ -20,6 +20,7 @@ package org.feup.brunonova.drmips.gui;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.event.MouseEvent;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -69,7 +70,7 @@ public class AssembledCodeTable extends JTable {
 		cellRenderer = new AssembledCodeTableCellRenderer();
 		setDefaultRenderer(Object.class, cellRenderer);
 		setModel(model);
-		setFont(new java.awt.Font("Courier New", 0, 12));
+		setFont(new Font("Courier New", Font.BOLD, 12));
 		getTableHeader().setReorderingAllowed(false);
 	}
 	
