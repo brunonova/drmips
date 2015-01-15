@@ -42,12 +42,6 @@ public class DataMemoryTable extends JTable implements MouseListener {
 	private static final int ADDRESS_COLUMN_INDEX = 0;
 	/** The index of the value column. */
 	private static final int VALUE_COLUMN_INDEX = 1;
-	/** Color used to highlight data being read in the table. */
-	private static final Color READ_COLOR = new Color(0, 255, 0);
-	/** Color used to highlight data being written in the table. */
-	private static final Color WRITE_COLOR = new Color(255, 0, 0);
-	/** Color used to highlight data being both read and written in the table. */
-	private static final Color RW_COLOR = new Color(255, 128, 0);
 	
 	/** The model of the table. */
 	private DefaultTableModel model = null;
@@ -182,16 +176,16 @@ public class DataMemoryTable extends JTable implements MouseListener {
 
 				if(write && row == index) {
 					if(read) {
-						setForeground(RW_COLOR);
+						setForeground(Util.rwColor);
 						setToolTipText(Lang.t("reading_and_writing_to_mem"));
 					}
 					else {
-						setForeground(WRITE_COLOR);
+						setForeground(Util.writeColor);
 						setToolTipText(Lang.t("writing_to_mem"));
 					}
 				}
 				else if(read && row == index) {
-					setForeground(READ_COLOR);
+					setForeground(Util.readColor);
 					setToolTipText(Lang.t("reading_from_mem"));
 				}
 				else {

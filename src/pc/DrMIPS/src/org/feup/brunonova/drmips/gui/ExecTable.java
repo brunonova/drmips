@@ -150,11 +150,11 @@ public class ExecTable extends JTable {
 			setHorizontalAlignment(SwingConstants.CENTER); // center all values
 	
 			switch(column) {
-				case 0: setForeground(AssembledCodeTable.IF_COLOR); break;
-				case 1: setForeground(AssembledCodeTable.ID_COLOR); break;
-				case 2: setForeground(AssembledCodeTable.EX_COLOR); break;
-				case 3: setForeground(AssembledCodeTable.MEM_COLOR); break;
-				case 4: setForeground(AssembledCodeTable.WB_COLOR); break;
+				case 0: setForeground(Util.ifColor); break;
+				case 1: setForeground(Util.idColor); break;
+				case 2: setForeground(Util.exColor); break;
+				case 3: setForeground(Util.memColor); break;
+				case 4: setForeground(Util.wbColor); break;
 			}
 			
 			return c;

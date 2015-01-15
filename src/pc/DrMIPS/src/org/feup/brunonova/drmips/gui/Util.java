@@ -20,6 +20,7 @@ package org.feup.brunonova.drmips.gui;
 
 import com.jtattoo.plaf.hifi.HiFiLookAndFeel;
 import com.jtattoo.plaf.mint.MintLookAndFeel;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.Window;
@@ -62,7 +63,41 @@ public class Util {
 	
 	/** Class logger. */
 	private static final Logger LOG = Logger.getLogger(Util.class.getName());
-	
+
+	/** Color of a wire in the datapath. */
+	public static Color wireColor = Color.BLACK;
+	/** Color of the control path in the datapath. */
+	public static Color controlPathColor = new Color(0, 130, 200);
+	/** Color of the critical path in the datapath. */
+	public static final Color criticalPathColor = Color.RED;
+	/** Color of a "irrelevant" wire in the datapath. */
+	public static final Color irrelevantColor = Color.GRAY;
+	/** Color of a register/address being read. */
+	public static Color readColor = new Color(0, 160, 0);
+	/** Color of a register/address being written. */
+	public static final Color writeColor = Color.RED;
+	/** Color of a register/address being read and written at the same time. */
+	public static final Color rwColor = new Color(255, 128, 0);
+	/** Color of the IF pipeline stage. */
+	public static final Color ifColor = new Color(0, 170, 230);
+	/** Color of the ID pipeline stage. */
+	public static final Color idColor = Color.GREEN;
+	/** Color of the EX pipeline stage. */
+	public static final Color exColor = Color.MAGENTA;
+	/** Color of the MEM pipeline stage. */
+	public static final Color memColor = new Color(255, 128, 0);
+	/** Color of the WB pipeline stage. */
+	public static final Color wbColor = Color.RED;
+
+	/**
+	 * Converts the specified color to an "rgb(R,G,B)" string (for use in HTML).
+	 * @param color The color.
+	 * @return String in the format "rgb(R,G,B)".
+	 */
+	public static String colorToRGBString(Color color) {
+		return "rgb(" + color.getRed() + "," + color.getGreen() + "," + color.getBlue() + ")";
+	}
+
 	/**
 	 * Centers the given window on the screen.
 	 * @param window Window to center.
@@ -133,6 +168,11 @@ public class Util {
 			props.put("windowDecoration", "off");
 			MintLookAndFeel.setCurrentTheme(props);
 			UIManager.setLookAndFeel("com.jtattoo.plaf.mint.MintLookAndFeel");
+
+			// Set appropriate colors for theme
+			wireColor = Color.BLACK;
+			controlPathColor = new Color(0, 130, 200);
+			readColor = new Color(0, 160, 0);
 		} catch (Exception ex) {
 			LOG.log(Level.WARNING, "error setting light LookAndFeel", ex);
 		}
@@ -148,6 +188,11 @@ public class Util {
 			props.put("windowDecoration", "off");
 			HiFiLookAndFeel.setCurrentTheme(props);
 			UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
+
+			// Set appropriate colors for theme
+			wireColor = Color.WHITE;
+			controlPathColor = new Color(0, 170, 230);
+			readColor = Color.GREEN;
 		} catch (Exception ex) {
 			LOG.log(Level.WARNING, "error setting dark LookAndFeel", ex);
 		}
