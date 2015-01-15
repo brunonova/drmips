@@ -1692,15 +1692,13 @@ public class DrMIPSActivity extends Activity {
 		if(datapath.isInPerformanceMode()) {
 			dialog.setTitle(R.string.performance_mode);
 			dialog.findViewById(R.id.rowControlPathWire).setVisibility(View.VISIBLE);
-			dialog.findViewById(R.id.rowRelevantControlPathWire).setVisibility(View.GONE);
-			dialog.findViewById(R.id.rowIrrelevantWire).setVisibility(View.GONE);
+			dialog.findViewById(R.id.rowIrrelevantWire).setVisibility(View.VISIBLE);
 			dialog.findViewById(R.id.rowWireInCriticalPath).setVisibility(View.VISIBLE);
 			dialog.findViewById(R.id.lblAdvisedDisplayControlPath).setVisibility(View.VISIBLE);
 		}
 		else {
 			dialog.setTitle(R.string.data_mode);
-			dialog.findViewById(R.id.rowControlPathWire).setVisibility(View.GONE);
-			dialog.findViewById(R.id.rowRelevantControlPathWire).setVisibility(View.VISIBLE);
+			dialog.findViewById(R.id.rowControlPathWire).setVisibility(View.VISIBLE);
 			dialog.findViewById(R.id.rowIrrelevantWire).setVisibility(View.VISIBLE);
 			dialog.findViewById(R.id.rowWireInCriticalPath).setVisibility(View.GONE);
 			dialog.findViewById(R.id.lblAdvisedDisplayControlPath).setVisibility(View.GONE);

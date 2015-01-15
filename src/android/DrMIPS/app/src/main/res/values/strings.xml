@@ -138,7 +138,6 @@
     <string name="normal_wire">Normal wire</string>
     <string name="wire_in_critical_path">Wire in critical path</string>
     <string name="control_path_wire">Control path wire</string>
-    <string name="relevant_control_path_wire">Relevant control path wire</string>
     <string name="irrelevant_wire">Irrelevant wire</string>
     <string name="advised_to_display_control_path">It is advised to display the control path.</string>
     <string name="filename">File name</string>

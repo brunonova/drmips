@@ -136,8 +136,7 @@
     <string name="data_mode">Modo de dados</string>
     <string name="normal_wire">Ligação normal</string>
     <string name="wire_in_critical_path">Ligação no caminho crítico</string>
-    <string name="control_path_wire">Ligação do caminho de controlo</string>
-    <string name="relevant_control_path_wire">Ligação relevante do caminho de controlo</string>
+    <string name="control_path_wire">Ligação no caminho de controlo</string>
     <string name="irrelevant_wire">Ligação irrelevante</string>
     <string name="advised_to_display_control_path">É aconselhado mostrar o caminho de controlo.</string>
     <string name="filename">Nome do ficheiro</string>
