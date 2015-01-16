@@ -165,7 +165,7 @@ public class DataMemoryTable extends JTable implements MouseListener {
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 			Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-			Color foreground = javax.swing.UIManager.getDefaults().getColor("Table.foreground"); // get foreground color from look and feel
+			Color background = javax.swing.UIManager.getDefaults().getColor("Table.background"); // get background color from look and feel
 			
 			setHorizontalAlignment(column == 1 ? SwingConstants.RIGHT : SwingConstants.LEFT); // align 2nd column to the right
 			
@@ -176,20 +176,20 @@ public class DataMemoryTable extends JTable implements MouseListener {
 
 				if(write && row == index) {
 					if(read) {
-						setForeground(Util.rwColor);
+						setBackground(Util.rwColor);
 						setToolTipText(Lang.t("reading_and_writing_to_mem"));
 					}
 					else {
-						setForeground(Util.writeColor);
+						setBackground(Util.writeColor);
 						setToolTipText(Lang.t("writing_to_mem"));
 					}
 				}
 				else if(read && row == index) {
-					setForeground(Util.readColor);
+					setBackground(Util.readColor);
 					setToolTipText(Lang.t("reading_from_mem"));
 				}
 				else {
-					setForeground(foreground);
+					setBackground(background);
 					setToolTipText(null);
 				}
 			}

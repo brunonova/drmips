@@ -18,6 +18,7 @@
 
 package org.feup.brunonova.drmips.gui;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
@@ -148,13 +149,17 @@ public class ExecTable extends JTable {
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 			Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 			setHorizontalAlignment(SwingConstants.CENTER); // center all values
-	
-			switch(column) {
-				case 0: setForeground(Util.ifColor); break;
-				case 1: setForeground(Util.idColor); break;
-				case 2: setForeground(Util.exColor); break;
-				case 3: setForeground(Util.memColor); break;
-				case 4: setForeground(Util.wbColor); break;
+
+			if(getColumnCount() == 1)
+				setBackground(Util.instColor);
+			else {
+				switch(column) {
+					case 0: setBackground(Util.ifColor); break;
+					case 1: setBackground(Util.idColor); break;
+					case 2: setBackground(Util.exColor); break;
+					case 3: setBackground(Util.memColor); break;
+					case 4: setBackground(Util.wbColor); break;
+				}
 			}
 			
 			return c;
