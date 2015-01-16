@@ -65,31 +65,35 @@ public class Util {
 	private static final Logger LOG = Logger.getLogger(Util.class.getName());
 
 	/** Color of a wire in the datapath. */
-	public static Color wireColor = Color.BLACK;
+	public static Color wireColor;
 	/** Color of the control path in the datapath. */
-	public static Color controlPathColor = new Color(0, 130, 200);
+	public static Color controlPathColor;
 	/** Color of the critical path in the datapath. */
-	public static final Color criticalPathColor = Color.RED;
+	public static Color criticalPathColor;
 	/** Color of a "irrelevant" wire in the datapath. */
-	public static final Color irrelevantColor = Color.GRAY;
+	public static Color irrelevantColor;
 	/** Color of a register/address being read. */
-	public static Color readColor = new Color(128, 255, 128);
+	public static Color readColor;
 	/** Color of a register/address being written. */
-	public static Color writeColor = new Color(128, 255, 128);
+	public static Color writeColor;
 	/** Color of a register/address being read and written at the same time. */
-	public static Color rwColor = new Color(255, 192, 64);
+	public static Color rwColor;
 	/** Color of an instruction being executed (unicycle). */
-	public static Color instColor = new Color(128, 128, 128);
+	public static Color instColor;
 	/** Color of the IF pipeline stage. */
-	public static Color ifColor = new Color(0, 170, 230);
+	public static Color ifColor;
 	/** Color of the ID pipeline stage. */
-	public static Color idColor = Color.GREEN;
+	public static Color idColor;
 	/** Color of the EX pipeline stage. */
-	public static Color exColor = Color.MAGENTA;
+	public static Color exColor;
 	/** Color of the MEM pipeline stage. */
-	public static Color memColor = new Color(255, 128, 0);
+	public static Color memColor;
 	/** Color of the WB pipeline stage. */
-	public static Color wbColor = Color.RED;
+	public static Color wbColor;
+
+	static { // Initialize the colors
+		setColorsLightTheme();
+	}
 
 	/**
 	 * Converts the specified color to an "rgb(R,G,B)" string (for use in HTML).
@@ -170,19 +174,7 @@ public class Util {
 			props.put("windowDecoration", "off");
 			MintLookAndFeel.setCurrentTheme(props);
 			UIManager.setLookAndFeel("com.jtattoo.plaf.mint.MintLookAndFeel");
-
-			// Set appropriate colors for theme
-			wireColor = Color.BLACK;
-			controlPathColor = new Color(0, 130, 200);
-			readColor = new Color(128, 255, 128);
-			writeColor = new Color(255, 128, 128);
-			rwColor = new Color(255, 255, 128);
-			instColor = new Color(200, 200, 200);
-			ifColor = new Color(128, 255, 255);
-			idColor = readColor;
-			exColor = new Color(255, 128, 255);
-			memColor = rwColor;
-			wbColor = writeColor;
+			setColorsLightTheme();
 		} catch (Exception ex) {
 			LOG.log(Level.WARNING, "error setting light LookAndFeel", ex);
 		}
@@ -198,21 +190,41 @@ public class Util {
 			props.put("windowDecoration", "off");
 			HiFiLookAndFeel.setCurrentTheme(props);
 			UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
-
-			// Set appropriate colors for theme
-			wireColor = Color.WHITE;
-			controlPathColor = new Color(0, 170, 230);
-			readColor = new Color(0, 128, 0);
-			writeColor = new Color(128, 0, 0);
-			rwColor = new Color(128, 128, 0);
-			instColor = new Color(110, 110, 110);
-			ifColor = new Color(0, 128, 128);
-			idColor = readColor;
-			exColor = new Color(128, 0, 128);
-			memColor = rwColor;
-			wbColor = writeColor;
+			setColorsDarkTheme();
 		} catch (Exception ex) {
 			LOG.log(Level.WARNING, "error setting dark LookAndFeel", ex);
 		}
+	}
+
+	public static void setColorsLightTheme() {
+		wireColor = Color.BLACK;
+		controlPathColor = new Color(0, 130, 200);
+		criticalPathColor = Color.RED;
+		irrelevantColor = Color.GRAY;
+		readColor = new Color(128, 255, 128);
+		writeColor = new Color(255, 128, 128);
+		rwColor = new Color(255, 255, 128);
+		instColor = new Color(200, 200, 200);
+		ifColor = new Color(128, 255, 255);
+		idColor = readColor;
+		exColor = new Color(255, 128, 255);
+		memColor = rwColor;
+		wbColor = writeColor;
+	}
+
+	public static void setColorsDarkTheme() {
+		wireColor = Color.WHITE;
+		controlPathColor = new Color(0, 170, 230);
+		criticalPathColor = Color.RED;
+		irrelevantColor = Color.GRAY;
+		readColor = new Color(0, 128, 0);
+		writeColor = new Color(128, 0, 0);
+		rwColor = new Color(128, 128, 0);
+		instColor = new Color(110, 110, 110);
+		ifColor = new Color(0, 128, 128);
+		idColor = readColor;
+		exColor = new Color(128, 0, 128);
+		memColor = rwColor;
+		wbColor = writeColor;
 	}
 }
