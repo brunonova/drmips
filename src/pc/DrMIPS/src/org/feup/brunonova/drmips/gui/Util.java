@@ -200,7 +200,7 @@ public class Util {
 		wireColor = Color.BLACK;
 		controlPathColor = new Color(0, 130, 200);
 		criticalPathColor = Color.RED;
-		irrelevantColor = Color.GRAY;
+		irrelevantColor = new Color(150, 150, 150);
 		readColor = new Color(128, 255, 128);
 		writeColor = new Color(255, 128, 128);
 		rwColor = new Color(255, 255, 128);
