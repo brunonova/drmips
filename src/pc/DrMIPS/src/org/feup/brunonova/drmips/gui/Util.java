@@ -73,21 +73,23 @@ public class Util {
 	/** Color of a "irrelevant" wire in the datapath. */
 	public static final Color irrelevantColor = Color.GRAY;
 	/** Color of a register/address being read. */
-	public static Color readColor = new Color(0, 160, 0);
+	public static Color readColor = new Color(128, 255, 128);
 	/** Color of a register/address being written. */
-	public static final Color writeColor = Color.RED;
+	public static Color writeColor = new Color(128, 255, 128);
 	/** Color of a register/address being read and written at the same time. */
-	public static final Color rwColor = new Color(255, 128, 0);
+	public static Color rwColor = new Color(255, 192, 64);
+	/** Color of an instruction being executed (unicycle). */
+	public static Color instColor = new Color(128, 128, 128);
 	/** Color of the IF pipeline stage. */
-	public static final Color ifColor = new Color(0, 170, 230);
+	public static Color ifColor = new Color(0, 170, 230);
 	/** Color of the ID pipeline stage. */
-	public static final Color idColor = Color.GREEN;
+	public static Color idColor = Color.GREEN;
 	/** Color of the EX pipeline stage. */
-	public static final Color exColor = Color.MAGENTA;
+	public static Color exColor = Color.MAGENTA;
 	/** Color of the MEM pipeline stage. */
-	public static final Color memColor = new Color(255, 128, 0);
+	public static Color memColor = new Color(255, 128, 0);
 	/** Color of the WB pipeline stage. */
-	public static final Color wbColor = Color.RED;
+	public static Color wbColor = Color.RED;
 
 	/**
 	 * Converts the specified color to an "rgb(R,G,B)" string (for use in HTML).
@@ -172,7 +174,15 @@ public class Util {
 			// Set appropriate colors for theme
 			wireColor = Color.BLACK;
 			controlPathColor = new Color(0, 130, 200);
-			readColor = new Color(0, 160, 0);
+			readColor = new Color(128, 255, 128);
+			writeColor = new Color(255, 128, 128);
+			rwColor = new Color(255, 255, 128);
+			instColor = new Color(200, 200, 200);
+			ifColor = new Color(128, 255, 255);
+			idColor = readColor;
+			exColor = new Color(255, 128, 255);
+			memColor = rwColor;
+			wbColor = writeColor;
 		} catch (Exception ex) {
 			LOG.log(Level.WARNING, "error setting light LookAndFeel", ex);
 		}
@@ -192,7 +202,15 @@ public class Util {
 			// Set appropriate colors for theme
 			wireColor = Color.WHITE;
 			controlPathColor = new Color(0, 170, 230);
-			readColor = Color.GREEN;
+			readColor = new Color(0, 128, 0);
+			writeColor = new Color(128, 0, 0);
+			rwColor = new Color(128, 128, 0);
+			instColor = new Color(110, 110, 110);
+			ifColor = new Color(0, 128, 128);
+			idColor = readColor;
+			exColor = new Color(128, 0, 128);
+			memColor = rwColor;
+			wbColor = writeColor;
 		} catch (Exception ex) {
 			LOG.log(Level.WARNING, "error setting dark LookAndFeel", ex);
 		}

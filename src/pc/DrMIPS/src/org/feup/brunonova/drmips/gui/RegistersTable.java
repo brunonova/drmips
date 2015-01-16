@@ -240,7 +240,7 @@ public class RegistersTable extends JTable implements MouseListener {
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 			Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-			Color foreground = javax.swing.UIManager.getDefaults().getColor("Table.foreground"); // get foreground color from look and feel
+			Color background = javax.swing.UIManager.getDefaults().getColor("Table.background"); // get foreground color from look and feel
 			
 			setHorizontalAlignment(column == 1 ? SwingConstants.RIGHT : SwingConstants.LEFT); // align 2nd column to the right
 			
@@ -252,20 +252,20 @@ public class RegistersTable extends JTable implements MouseListener {
 			
 			if(write && row == regW && !cpu.getRegBank().isRegisterConstant(regW)) {
 				if(row == reg1 || row == reg2) {
-					setForeground(Util.rwColor);
+					setBackground(Util.rwColor);
 					setToolTipText(Lang.t("reading_and_writing_to_reg"));
 				}
 				else {
-					setForeground(Util.writeColor);
+					setBackground(Util.writeColor);
 					setToolTipText(Lang.t("writing_to_reg"));
 				}
 			}
 			else if(row == reg1 || row == reg2) {
-				setForeground(Util.readColor);
+				setBackground(Util.readColor);
 				setToolTipText(Lang.t("reading_from_reg"));
 			}
 			else {
-				setForeground(foreground);
+				setBackground(background);
 				setToolTipText(null);
 			}
 			

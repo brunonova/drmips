@@ -142,25 +142,25 @@ public class AssembledCodeTable extends JTable {
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 			Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-			Color foreground = javax.swing.UIManager.getDefaults().getColor("Table.foreground"); // get foreground color from look and feel
+			Color background = javax.swing.UIManager.getDefaults().getColor("Table.background"); // get background color from look and feel
 			
 			// Highlight instructions being executed
 			if(row == cpu.getPC().getCurrentInstructionIndex())
-				setForeground(Util.ifColor);
+				setBackground(cpu.isPipeline() ? Util.ifColor : Util.instColor);
 			else if(cpu.isPipeline()) {
 				if(row == cpu.getIfIdReg().getCurrentInstructionIndex())
-					setForeground(Util.idColor);
+					setBackground(Util.idColor);
 				else if(row == cpu.getIdExReg().getCurrentInstructionIndex())
-					setForeground(Util.exColor);
+					setBackground(Util.exColor);
 				else if(row == cpu.getExMemReg().getCurrentInstructionIndex())
-					setForeground(Util.memColor);
+					setBackground(Util.memColor);
 				else if(row == cpu.getMemWbReg().getCurrentInstructionIndex())
-					setForeground(Util.wbColor);
+					setBackground(Util.wbColor);
 				else
-					setForeground(foreground);
+					setBackground(background);
 			}
 			else
-				setForeground(foreground);
+				setBackground(background);
 			
 			return c;
 		}
