@@ -85,9 +85,7 @@ public class DatapathComponent extends TextView {
 		}
 		else if(component instanceof Constant) {
 			setBackgroundResource(R.drawable.const_comp_back);
-			TypedValue typedValue = new TypedValue();
-			getContext().getTheme().resolveAttribute(R.attr.wireColor, typedValue, true);
-			setTextColor(component.isInControlPath() ? getResources().getColor(R.color.control) : getResources().getColor(typedValue.resourceId));
+			setTextColor(component.isInControlPath() ? getResources().getColor(R.color.control) : Util.getThemeColor(getContext(), R.attr.wireColor));
 		}
 		else {
 			if(component.isInControlPath()) {
