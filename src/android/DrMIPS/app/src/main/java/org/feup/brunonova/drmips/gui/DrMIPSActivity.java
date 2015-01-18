@@ -1341,7 +1341,6 @@ public class DrMIPSActivity extends Activity {
 	private void refreshRegistersTableValues() {
 		CPU cpu = getCPU();
 		int numRegs = cpu.getRegBank().getNumberOfRegisters();
-		int pcIndex = numRegs;
 		TextView value;
 		TableRow row;
 
@@ -1349,8 +1348,7 @@ public class DrMIPSActivity extends Activity {
 		int reg2 = cpu.getRegBank().getReadReg2().getValue();
 		int regW = cpu.getRegBank().getWriteReg().getValue();
 		boolean write = cpu.getRegBank().getRegWrite().getValue() == 1;
-		TypedValue typedValue = new TypedValue();
-		
+
 		for(int i = 0; i < numRegs; i++) { // registers
 			row = (TableRow)tblRegisters.getChildAt(i + 1);
 			value = (TextView)row.getChildAt(1);
@@ -1370,7 +1368,7 @@ public class DrMIPSActivity extends Activity {
 		}
 		
 		// Special "registers"
-		value = (TextView)((TableRow)tblRegisters.getChildAt(pcIndex + 1)).getChildAt(1);
+		value = (TextView)((TableRow)tblRegisters.getChildAt(numRegs + 1)).getChildAt(1);
 		value.setText(Util.formatDataAccordingToFormat(cpu.getPC().getAddress(), cmbRegistersFormat.getSelectedItemPosition()));
 		
 		tblRegisters.requestLayout();
