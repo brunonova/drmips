@@ -50,7 +50,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -81,23 +80,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class DrMIPSActivity extends Activity {
-	/** Color used to highlight data being read in tables. */
-	private static final int READ_COLOR = Color.rgb(0, 128, 0);
-	/** Color used to highlight data being written in tables. */
-	private static final int WRITE_COLOR = Color.rgb(255, 0, 0);
-	/** Color used to highlight data being both read and written in tables. */
-	private static final int RW_COLOR = Color.rgb(255, 128, 0);
-	/** Color used to highlight the instruction in IF stage. */
-	public static final int IF_COLOR = Color.rgb(0, 170, 230);
-	/** Color used to highlight the instruction in ID stage. */
-	public static final int ID_COLOR = Color.GREEN;
-	/** Color used to highlight the instruction in EX stage. */
-	public static final int EX_COLOR = Color.MAGENTA;
-	/** Color used to highlight the instruction in MEM stage. */
-	public static final int MEM_COLOR = Color.rgb(255, 128, 0);
-	/** Color used to highlight the instruction in WB stage. */
-	public static final int WB_COLOR = Color.RED;
-	
 	// Identifiers of the dialogs
 	public static final int ABOUT_DIALOG = 1;
 	public static final int SAVE_DIALOG = 2;
@@ -1597,11 +1579,11 @@ public class DrMIPSActivity extends Activity {
 				lbl.setWidth(0);
 				lbl.setEllipsize(TruncateAt.END);
 				switch (i) {
-					case 0: lbl.setTextColor(IF_COLOR); break;
-					case 1: lbl.setTextColor(ID_COLOR); break;
-					case 2: lbl.setTextColor(EX_COLOR); break;
-					case 3: lbl.setTextColor(MEM_COLOR); break;
-					case 4: lbl.setTextColor(WB_COLOR); break;
+					case 0: lbl.setBackgroundColor(Util.getThemeColor(this, R.attr.ifColor)); break;
+					case 1: lbl.setBackgroundColor(Util.getThemeColor(this, R.attr.idColor)); break;
+					case 2: lbl.setBackgroundColor(Util.getThemeColor(this, R.attr.exColor)); break;
+					case 3: lbl.setBackgroundColor(Util.getThemeColor(this, R.attr.memColor)); break;
+					case 4: lbl.setBackgroundColor(Util.getThemeColor(this, R.attr.wbColor)); break;
 				}
 				lbl.setOnClickListener(new ExecTableOnClickListener());
 				tblExecRow.addView(lbl);
@@ -1611,7 +1593,7 @@ public class DrMIPSActivity extends Activity {
 		else {
 			lbl = new TextView(this);
 			lbl.setGravity(Gravity.CENTER);
-			lbl.setTextColor(IF_COLOR);
+			lbl.setBackgroundColor(Util.getThemeColor(this, R.attr.instColor));
 			lbl.setWidth(0);
 			lbl.setMaxLines(1);
 			lbl.setEllipsize(TruncateAt.END);
