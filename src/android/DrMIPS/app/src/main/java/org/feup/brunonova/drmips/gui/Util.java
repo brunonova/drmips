@@ -18,6 +18,11 @@
 
 package org.feup.brunonova.drmips.gui;
 
+import android.content.Context;
+import android.graphics.Color;
+import android.util.Log;
+import android.util.TypedValue;
+
 import org.feup.brunonova.drmips.simulator.mips.Data;
 
 /**
@@ -48,6 +53,29 @@ public class Util {
 			case BINARY_FORMAT_INDEX: return data.toBinary();
 			case HEXADECIMAL_FORMAT_INDEX: return data.toHexadecimal();
 			default: return "" + data.getValue();
+		}
+	}
+
+	/**
+	 * Returns the color with the given attribute ID for the current theme.
+	 * @param context The current Activity/Application context.
+	 * @param attrId The resource attribute ID of the desired color.
+	 * @return The desired color, or <tt>0</tt> if not found or in case of error.
+	 */
+	public static int getThemeColor(Context context, int attrId) {
+		try {
+			TypedValue value = new TypedValue();
+			boolean ret = context.getTheme().resolveAttribute(attrId, value, true);
+			if (ret)
+				return context.getResources().getColor(value.resourceId);
+			else {
+				Log.e(Util.class.getName(), "failed to find theme color attribute " + attrId);
+				return 0; // return something in case of failure
+			}
+		}
+		catch (Exception ex) {
+			Log.e(Util.class.getName(), "error retrieving theme color attribute " + attrId, ex);
+			return 0; // return something in case of failure
 		}
 	}
 }

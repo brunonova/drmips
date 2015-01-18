@@ -7,4 +7,10 @@
     <color name="red">#ff0000</color>
     <color name="tip_border">#968f8f00</color>
     <color name="tip_background">#96ffff8f</color>
+    <color name="readColorLight">#80ff80</color>
+    <color name="readColorDark">#008000</color>
+    <color name="writeColorLight">#ff8080</color>
+    <color name="writeColorDark">#ff0000</color>
+    <color name="rwColorLight">#ffff80</color>
+    <color name="rwColorDark">#808000</color>
 </resources>

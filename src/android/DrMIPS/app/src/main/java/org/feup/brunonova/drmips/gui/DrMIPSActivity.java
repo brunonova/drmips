@@ -59,6 +59,7 @@ import android.text.InputType;
 import android.text.TextUtils.TruncateAt;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -1383,38 +1384,31 @@ public class DrMIPSActivity extends Activity {
 		CPU cpu = getCPU();
 		int numRegs = cpu.getRegBank().getNumberOfRegisters();
 		int pcIndex = numRegs;
-		TextView name, value;
-		int foreground = (new TextView(this)).getCurrentTextColor();
-		
+		TextView value;
+		TableRow row;
+
 		int reg1 = cpu.getRegBank().getReadReg1().getValue();
 		int reg2 = cpu.getRegBank().getReadReg2().getValue();
 		int regW = cpu.getRegBank().getWriteReg().getValue();
 		boolean write = cpu.getRegBank().getRegWrite().getValue() == 1;
+		TypedValue typedValue = new TypedValue();
 		
 		for(int i = 0; i < numRegs; i++) { // registers
-			name = (TextView)((TableRow)tblRegisters.getChildAt(i + 1)).getChildAt(0);
-			value = (TextView)((TableRow)tblRegisters.getChildAt(i + 1)).getChildAt(1);
+			row = (TableRow)tblRegisters.getChildAt(i + 1);
+			value = (TextView)row.getChildAt(1);
 			value.setText(Util.formatDataAccordingToFormat(cpu.getRegBank().getRegister(i), cmbRegistersFormat.getSelectedItemPosition()));
 			
 			// Highlight registers being accessed
 			if(write && i == regW && !cpu.getRegBank().isRegisterConstant(regW)) {
-				if(i == reg1 || i == reg2) {
-					name.setTextColor(RW_COLOR);
-					value.setTextColor(RW_COLOR);
-				}
-				else {
-					name.setTextColor(WRITE_COLOR);
-					value.setTextColor(WRITE_COLOR);
-				}
+				if(i == reg1 || i == reg2)
+					row.setBackgroundColor(Util.getThemeColor(this, R.attr.rwColor));
+				else
+					row.setBackgroundColor(Util.getThemeColor(this, R.attr.writeColor));
 			}
-			else if(i == reg1 || i == reg2) {
-				name.setTextColor(READ_COLOR);
-				value.setTextColor(READ_COLOR);
-			}
-			else {
-				name.setTextColor(foreground);
-				value.setTextColor(foreground);
-			}
+			else if(i == reg1 || i == reg2)
+				row.setBackgroundColor(Util.getThemeColor(this, R.attr.readColor));
+			else
+				row.setBackgroundResource(0); // remove background color
 		}
 		
 		// Special "registers"

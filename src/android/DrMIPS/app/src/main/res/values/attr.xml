@@ -20,4 +20,7 @@
     
     <attr name="wireColor" format="color|reference" />
     <attr name="aux_comp_back" format="reference" />
+    <attr name="readColor" format="color|reference" />
+    <attr name="writeColor" format="color|reference" />
+    <attr name="rwColor" format="color|reference" />
 </resources>

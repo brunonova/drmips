@@ -39,7 +39,6 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Path;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -57,8 +56,6 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 	Paint paint = new Paint();
 	/** The activity that the datapath belongs to. */
 	private DrMIPSActivity activity;
-	/** Typed Value object used when drawing the datapath. */
-	private TypedValue typedValue = new TypedValue();
 	/** The color used to draw wires (and other things). */
 	private int wireColor;
 	/** The color used for the control components/wires. */
@@ -86,9 +83,7 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 		wires = new LinkedList<Wire>();
 		setWillNotDraw(false); // enable draw
 		
-		// Get wire color from style+attr resource files
-		getContext().getTheme().resolveAttribute(R.attr.wireColor, typedValue, true);
-		wireColor = getResources().getColor(typedValue.resourceId);
+		wireColor = Util.getThemeColor(getContext(), R.attr.wireColor);
 		controlColor = getResources().getColor(R.color.control);
 		
 		// Add each component
