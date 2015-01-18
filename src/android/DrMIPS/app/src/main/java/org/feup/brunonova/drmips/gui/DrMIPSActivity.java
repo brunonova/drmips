@@ -1276,53 +1276,29 @@ public class DrMIPSActivity extends Activity {
 	 * Refreshes the assembled code table highlights.
 	 */
 	private void refreshAssembledCodeTableValues() {
-		TextView address, assembled, codeLine;
-		int foreground = (new TextView(this)).getCurrentTextColor();
+		TableRow row;
 		CPU cpu = getCPU();
 		
 		for(int i = 0; i < cpu.getInstructionMemory().getNumberOfInstructions(); i++) {
-			address = (TextView)((TableRow)tblAssembledCode.getChildAt(i + 1)).getChildAt(0);
-			assembled = (TextView)((TableRow)tblAssembledCode.getChildAt(i + 1)).getChildAt(1);
-			codeLine = (TextView)((TableRow)tblAssembledCode.getChildAt(i + 1)).getChildAt(2);
-			
+			row = (TableRow)tblAssembledCode.getChildAt(i + 1);
+
 			// Highlight instructions being executed
-			if(i == cpu.getPC().getCurrentInstructionIndex()) {
-				address.setTextColor(IF_COLOR);
-				assembled.setTextColor(IF_COLOR);
-				codeLine.setTextColor(IF_COLOR);
-			}
+			if(i == cpu.getPC().getCurrentInstructionIndex())
+				row.setBackgroundColor(Util.getThemeColor(this, getCPU().isPipeline() ? R.attr.ifColor : R.attr.instColor));
 			else if(cpu.isPipeline()) {
-				if(i == cpu.getIfIdReg().getCurrentInstructionIndex()) {
-					address.setTextColor(ID_COLOR);
-					assembled.setTextColor(ID_COLOR);
-					codeLine.setTextColor(ID_COLOR);
-				}
-				else if(i == cpu.getIdExReg().getCurrentInstructionIndex()) {
-					address.setTextColor(EX_COLOR);
-					assembled.setTextColor(EX_COLOR);
-					codeLine.setTextColor(EX_COLOR);
-				}
-				else if(i == cpu.getExMemReg().getCurrentInstructionIndex()) {
-					address.setTextColor(MEM_COLOR);
-					assembled.setTextColor(MEM_COLOR);
-					codeLine.setTextColor(MEM_COLOR);
-				}
-				else if(i == cpu.getMemWbReg().getCurrentInstructionIndex()) {
-					address.setTextColor(WB_COLOR);
-					assembled.setTextColor(WB_COLOR);
-					codeLine.setTextColor(WB_COLOR);
-				}
-				else {
-					address.setTextColor(foreground);
-					assembled.setTextColor(foreground);
-					codeLine.setTextColor(foreground);
-				}
+				if(i == cpu.getIfIdReg().getCurrentInstructionIndex())
+					row.setBackgroundColor(Util.getThemeColor(this, R.attr.idColor));
+				else if(i == cpu.getIdExReg().getCurrentInstructionIndex())
+					row.setBackgroundColor(Util.getThemeColor(this, R.attr.exColor));
+				else if(i == cpu.getExMemReg().getCurrentInstructionIndex())
+					row.setBackgroundColor(Util.getThemeColor(this, R.attr.memColor));
+				else if(i == cpu.getMemWbReg().getCurrentInstructionIndex())
+					row.setBackgroundColor(Util.getThemeColor(this, R.attr.wbColor));
+				else
+					row.setBackgroundResource(0); // remove background color
 			}
-			else {
-				address.setTextColor(foreground);
-				assembled.setTextColor(foreground);
-				codeLine.setTextColor(foreground);
-			}
+			else
+				row.setBackgroundResource(0); // remove background color
 		}
 		
 		tblAssembledCode.requestLayout();
@@ -1455,11 +1431,12 @@ public class DrMIPSActivity extends Activity {
 		CPU cpu = getCPU();
 		if(cpu.hasDataMemory()) {
 			TextView address, value;
-			int foreground = (new TextView(this)).getCurrentTextColor();
-			
+			TableRow row;
+
 			for(int i = 0; i < cpu.getDataMemory().getMemorySize(); i++) {
-				address = (TextView)((TableRow)tblDataMemory.getChildAt(i + 1)).getChildAt(0);
-				value = (TextView)((TableRow)tblDataMemory.getChildAt(i + 1)).getChildAt(1);
+				row = (TableRow)tblDataMemory.getChildAt(i + 1);
+				address = (TextView)row.getChildAt(0);
+				value = (TextView)row.getChildAt(1);
 				address.setText(Util.formatDataAccordingToFormat(new Data(Data.DATA_SIZE, i * (Data.DATA_SIZE / 8)), cmbDataMemoryFormat.getSelectedItemPosition()) + " ");
 				value.setText(Util.formatDataAccordingToFormat(new Data(Data.DATA_SIZE, cpu.getDataMemory().getDataInIndex(i)), cmbDataMemoryFormat.getSelectedItemPosition()));
 				
@@ -1469,23 +1446,15 @@ public class DrMIPSActivity extends Activity {
 				boolean write = cpu.getDataMemory().getMemWrite().getValue() == 1;
 
 				if(write && i == index) {
-					if(read) {
-						address.setTextColor(RW_COLOR);
-						value.setTextColor(RW_COLOR);
-					}
-					else {
-						address.setTextColor(WRITE_COLOR);
-						value.setTextColor(WRITE_COLOR);
-					}
+					if(read)
+						row.setBackgroundColor(Util.getThemeColor(this, R.attr.rwColor));
+					else
+						row.setBackgroundColor(Util.getThemeColor(this, R.attr.writeColor));
 				}
-				else if(read && i == index) {
-					address.setTextColor(READ_COLOR);
-					value.setTextColor(READ_COLOR);
-				}
-				else {
-					address.setTextColor(foreground);
-					value.setTextColor(foreground);
-				}
+				else if(read && i == index)
+					row.setBackgroundColor(Util.getThemeColor(this, R.attr.readColor));
+				else
+					row.setBackgroundResource(0); // remove background color
 			}
 			tblDataMemory.requestLayout();
 		}
