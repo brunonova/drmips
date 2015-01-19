@@ -39,7 +39,7 @@
 		<item name="wbColor">@color/wbDark</item>
 	</style>
 	
-	<style name="LightTheme" parent="android:Theme.Light">
+	<style parent="android:Theme.Light" name="LightTheme">
 		<item name="fileIcon">@drawable/ic_action_file_dark</item>
 		<item name="newIcon">@drawable/ic_action_new_dark</item>
 		<item name="openIcon">@drawable/ic_action_open_dark</item>
@@ -71,7 +71,7 @@
 		<item name="ifColor">@color/ifLight</item>
 		<item name="exColor">@color/exLight</item>
 		<item name="memColor">@color/memLight</item>
-		<item name="wbColor">@color/wbLight</item>
+<item name="wbColor">@color/wbLight</item>
 	</style>
     
 
