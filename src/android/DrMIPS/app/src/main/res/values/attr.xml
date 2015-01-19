@@ -21,9 +21,6 @@
 	<attr name="aux_comp_back" format="reference" />
 
 	<attr name="wireColor" format="color|reference" />
-	<attr name="controlPathColor" format="color|reference" />
-	<attr name="criticalPathColor" format="color|reference" />
-	<attr name="irrelevantColor" format="color|reference" />
 	<attr name="readColor" format="color|reference" />
 	<attr name="writeColor" format="color|reference" />
 	<attr name="rwColor" format="color|reference" />
