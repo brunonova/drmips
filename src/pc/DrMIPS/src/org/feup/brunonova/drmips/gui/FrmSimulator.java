@@ -343,7 +343,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         });
         mnuEditP.add(mnuUndoP);
 
-        mnuRedoP.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_MASK));
+        mnuRedoP.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         mnuRedoP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/redo.png"))); // NOI18N
         mnuRedoP.setText("redo");
         mnuRedoP.addActionListener(new java.awt.event.ActionListener() {
@@ -880,7 +880,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         });
         mnuEdit.add(mnuUndo);
 
-        mnuRedo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_MASK));
+        mnuRedo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         mnuRedo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/redo.png"))); // NOI18N
         mnuRedo.setText("redo");
         mnuRedo.addActionListener(new java.awt.event.ActionListener() {
