@@ -19,10 +19,10 @@
 	<color name="ifDark">#008080</color>
 	<color name="idLight">#80ff80</color>
 	<color name="idDark">#008000</color>
-	<color name="exLight">#ff80ff</color>
-	<color name="exDark">#800080</color>
-	<color name="memLight">#ffff80</color>
-	<color name="memDark">#808000</color>
-	<color name="wbLight">#ff8080</color>
-	<color name="wbDark">#800000</color>
+	<color name="exLight">#ffff80</color>
+	<color name="exDark">#808000</color>
+	<color name="memLight">#ff8080</color>
+	<color name="memDark">#800000</color>
+	<color name="wbLight">#ff80ff</color>
+	<color name="wbDark">#800080</color>
 </resources>

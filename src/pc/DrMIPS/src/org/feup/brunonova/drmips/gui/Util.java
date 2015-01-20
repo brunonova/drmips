@@ -207,9 +207,9 @@ public class Util {
 		instColor = new Color(200, 200, 200);
 		ifColor = new Color(128, 255, 255);
 		idColor = readColor;
-		exColor = new Color(255, 128, 255);
-		memColor = rwColor;
-		wbColor = writeColor;
+		exColor = rwColor;
+		memColor = writeColor;
+		wbColor = new Color(255, 128, 255);
 	}
 
 	public static void setColorsDarkTheme() {
@@ -223,8 +223,8 @@ public class Util {
 		instColor = new Color(110, 110, 110);
 		ifColor = new Color(0, 128, 128);
 		idColor = readColor;
-		exColor = new Color(128, 0, 128);
-		memColor = rwColor;
-		wbColor = writeColor;
+		exColor = rwColor;
+		memColor = writeColor;
+		wbColor = new Color(128, 0, 128);
 	}
 }
