@@ -448,7 +448,7 @@ public class CPU {
 		
 		if(!maxIns.isEmpty()) {
 			for(Input in: maxIns) {
-				in.getConnectedOutput().setInCriticalPath();
+				in.getConnectedOutput().setInCriticalPath(true);
 				determineCriticalPath(in.getConnectedOutput().getComponent());
 			}
 		}
@@ -463,7 +463,7 @@ public class CPU {
 		for(Input i: component.getInputs()) {
 			if(i.canChangeComponentAccumulatedLatency() && i.getAccumulatedLatency() == lat 
 				&& i.isConnected() && !i.getConnectedOutput().isInCriticalPath()) {
-				i.getConnectedOutput().setInCriticalPath();
+				i.getConnectedOutput().setInCriticalPath(true);
 				determineCriticalPath(i.getConnectedOutput().getComponent());
 			}
 		}

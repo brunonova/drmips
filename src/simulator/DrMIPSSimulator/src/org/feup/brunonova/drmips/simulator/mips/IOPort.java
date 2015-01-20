@@ -74,6 +74,12 @@ public abstract class IOPort {
 	public Component getComponent() {
 		return component;
 	}
+
+	/**
+	 * Returns whether this input/output is connected to another component's input/output.
+	 * @return <tt>true</tt> if this input/output is connected to an input/output.
+	 */
+	public abstract boolean isConnected();
 	
 	/**
 	 * Returns the identifier of this input/output.
@@ -169,4 +175,28 @@ public abstract class IOPort {
 	public boolean shouldShowTip() {
 		return showTip;
 	}
+
+	/**
+	 * Returns whether the input/output and its wire is relevant.
+	 * @return <tt>True</tt> if relevant.
+	 */
+	public abstract boolean isRelevant();
+
+	/**
+	 * Sets whether the input/output and its wire is relevant.
+	 * @param relevant Whether it's relevant.
+	 */
+	public abstract void setRelevant(boolean relevant);
+
+	/**
+	 * Returns whether this input/output and its wire is in the critical path.
+	 * @return <tt>True</tt> if in the critical path.
+	 */
+	public abstract boolean isInCriticalPath();
+
+	/**
+	 * Defines whether this output and its wire is in the critical path.
+	 * @param critical Whether it's in the critical path.
+	 */
+	public abstract void setInCriticalPath(boolean critical);
 }
