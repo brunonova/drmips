@@ -131,6 +131,7 @@ public final class DatapathComponent extends JLabel implements MouseListener {
 		// Refresh the tooltip
 		String tip = "<html><table width='" + TOOLTIP_WIDTH + "' cellspacing=0 cellpadding=0>";
 		String controlStyle = "style='color: " + Util.colorToRGBString(Util.controlPathColor) + "'";
+		String criticalStyle = "style='color: " + Util.colorToRGBString(Util.criticalPathColor) + "'";
 		
 		// Name
 		tip += "<tr><th><u>" + Lang.t(component.getNameKey()) + "</u></th></tr>";
@@ -177,7 +178,10 @@ public final class DatapathComponent extends JLabel implements MouseListener {
 		tip += "<tr><th colspan=2><br /><u>" + Lang.t("inputs") + "</u></th></tr>";
 		for(Input in: component.getInputs()) {
 			if(in.isConnected()) {
-				tip += in.isInControlPath() ? ("<tr " + controlStyle + ">") : "<tr>";
+				if(datapath.isInPerformanceMode() && in.isInCriticalPath())
+					tip += "<tr " + criticalStyle + ">";
+				else
+					tip += in.isInControlPath() ? ("<tr " + controlStyle + ">") : "<tr>";
 				tip += "<td><tt><b>" + in.getId() + ":</b></tt></td><td align='right'><tt><b>";
 				if(datapath.isInPerformanceMode())
 					tip += in.getAccumulatedLatency() + " " + CPU.LATENCY_UNIT + "</b></tt></td></tr>";
@@ -189,7 +193,10 @@ public final class DatapathComponent extends JLabel implements MouseListener {
 		tip += "<tr><th colspan=2><br /><u>" + Lang.t("outputs") + "</u></th></tr>";
 		for(Output out: component.getOutputs()) {
 			if(out.isConnected()) {
-				tip += out.isInControlPath() ? ("<tr " + controlStyle + ">") : "<tr>";
+				if(datapath.isInPerformanceMode() && out.isInCriticalPath())
+					tip += "<tr " + criticalStyle + ">";
+				else
+					tip += out.isInControlPath() ? ("<tr " + controlStyle + ">") : "<tr>";
 				tip += "<td><tt><b>" + out.getId() + ":</b></tt></td><td align='right'><tt><b>";
 				if(datapath.isInPerformanceMode())
 					tip += component.getAccumulatedLatency() + " " + CPU.LATENCY_UNIT + "</b></tt></td></tr>";

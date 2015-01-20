@@ -168,7 +168,11 @@ public class DatapathComponent extends TextView {
 					lblValue.setText(Util.formatDataAccordingToFormat(in.getData(), activity.getDatapathFormat()));
 				row.addView(lblId);
 				row.addView(lblValue);
-				if(in.isInControlPath()) {
+				if(activity.getDatapath().isInPerformanceMode() && in.isInCriticalPath()) {
+					lblId.setTextColor(getResources().getColor(R.color.red));
+					lblValue.setTextColor(getResources().getColor(R.color.red));
+				}
+				else if(in.isInControlPath()) {
 					lblId.setTextColor(getResources().getColor(R.color.control));
 					lblValue.setTextColor(getResources().getColor(R.color.control));
 				}
@@ -192,7 +196,11 @@ public class DatapathComponent extends TextView {
 					lblValue.setText(Util.formatDataAccordingToFormat(out.getData(), activity.getDatapathFormat()));
 				row.addView(lblId);
 				row.addView(lblValue);
-				if(out.isInControlPath()) {
+				if(activity.getDatapath().isInPerformanceMode() && out.isInCriticalPath()) {
+					lblId.setTextColor(getResources().getColor(R.color.red));
+					lblValue.setTextColor(getResources().getColor(R.color.red));
+				}
+				else if(out.isInControlPath()) {
 					lblId.setTextColor(getResources().getColor(R.color.control));
 					lblValue.setTextColor(getResources().getColor(R.color.control));
 				}
