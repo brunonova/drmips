@@ -343,7 +343,7 @@ public abstract class Component {
 		for(Input i: getInputs())
 			i.resetAccumulatedLatency();
 		for(Output o: getOutputs())
-			o.unsetInCriticalPath();
+			o.setInCriticalPath(false);
 	}
 	
 	/**

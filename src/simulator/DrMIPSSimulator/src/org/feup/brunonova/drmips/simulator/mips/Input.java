@@ -116,11 +116,8 @@ public final class Input extends IOPort {
 	public Output getConnectedOutput() {
 		return connectedTo;
 	}
-	
-	/**
-	 * Returns whether this input is connected to another component's output.
-	 * @return <tt>true</tt> if this input is connected to an output.
-	 */
+
+	@Override
 	public boolean isConnected() {
 		return connectedTo != null;
 	}
@@ -201,22 +198,24 @@ public final class Input extends IOPort {
 				c.setInControlPath();
 		}
 	}
-	
-	/**
-	 * Returns whether the input and its wire is relevant.
-	 * <p>Technically, it checks if the connected output is relevant (if connected).</p>
-	 * @return <tt>True</tt> if relevant.
-	 */
+
+	@Override
 	public boolean isRelevant() {
 		return isConnected() ? getConnectedOutput().isRelevant() : true;
 	}
-	
-	/**
-	 * Sets whether the input and its wire is relevant.
-	 * <p>Technically, it sets the connected output relevant or not (if connected).</p>
-	 * @param relevant Whether it's relevant.
-	 */
+
+	@Override
 	public void setRelevant(boolean relevant) {
 		if(isConnected()) getConnectedOutput().setRelevant(relevant);
+	}
+
+	@Override
+	public boolean isInCriticalPath() {
+		return isConnected() ? getConnectedOutput().isInCriticalPath() : false;
+	}
+
+	@Override
+	public void setInCriticalPath(boolean critical) {
+		if(isConnected()) getConnectedOutput().setInCriticalPath(critical);
 	}
 }
