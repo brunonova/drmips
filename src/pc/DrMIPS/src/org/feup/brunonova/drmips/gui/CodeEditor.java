@@ -293,13 +293,12 @@ public class CodeEditor extends TextEditorPane {
 			summ += "<dt><br /><b>" + Lang.t("description") + ":</b></dt><dd>" + Lang.t("data_directive_description") +"</dd></dl>";
 			completeProvider.addCompletion(new BasicCompletion(completeProvider, ".data", desc, summ));
 
-			desc = Lang.t("data_directive");
-			summ = "<b><u><tt>.word </tt> (" + Lang.t("data_directive") + ")</u></b><br /><br /><dl>";
+			summ = "<b><u><tt>.word </tt> (" + Lang.t("directive") + ")</u></b><br /><br /><dl>";
 			summ += "<dt><b>" + Lang.t("usage") + ":</b></dt><dd><pre>.word 20, -13, 56, ...</pre></dd>";
 			summ += "<dt><br /><b>" + Lang.t("description") + ":</b></dt><dd>" + Lang.t("word_directive_description") +"</dd></dl>";
 			completeProvider.addCompletion(new BasicCompletion(completeProvider, ".word", desc, summ));
 
-			summ = "<b><u><tt>.space </tt> (" + Lang.t("data_directive") + ")</u></b><br /><br /><dl>";
+			summ = "<b><u><tt>.space </tt> (" + Lang.t("directive") + ")</u></b><br /><br /><dl>";
 			summ += "<dt><b>" + Lang.t("usage") + ":</b></dt><dd><pre>.space 16</pre></dd>";
 			summ += "<dt><br /><b>" + Lang.t("description") + ":</b></dt><dd>" + Lang.t("space_directive_description") +"</dd></dl>";
 			completeProvider.addCompletion(new BasicCompletion(completeProvider, ".space", desc, summ));
@@ -324,16 +323,26 @@ public class CodeEditor extends TextEditorPane {
 		Style preprocessor = scheme.getStyle(Token.PREPROCESSOR);
 		Style comment = scheme.getStyle(Token.COMMENT_EOL);
 		Style function = scheme.getStyle(Token.FUNCTION);
-		scheme.setStyle(Token.IDENTIFIER, new Style(dark ? Color.WHITE : Color.BLACK));
-		scheme.setStyle(Token.RESERVED_WORD, new Style(dark ? (new Color(128, 128, 255)) : (new Color(0, 0, 255)), null, reservedWord.font));
-		scheme.setStyle(Token.RESERVED_WORD_2, new Style(dark ? (new Color(255, 128, 255)) : (new Color(128, 0, 255)), null, reservedWord.font));
-		scheme.setStyle(Token.LITERAL_NUMBER_DECIMAL_INT, new Style(dark ? (new Color(150, 70, 255)) : (new Color(100, 0, 200))));
-		scheme.setStyle(Token.OPERATOR, new Style(dark ? (new Color(255, 128, 128)) : (new Color(128, 64, 64))));
-		scheme.setStyle(Token.PREPROCESSOR, new Style(preprocessor.foreground, null, reservedWord.font));
-		scheme.setStyle(Token.ERROR_CHAR, new Style(Color.RED));
-		scheme.setStyle(Token.ERROR_IDENTIFIER, new Style(Color.RED));
-		scheme.setStyle(Token.ERROR_NUMBER_FORMAT, new Style(Color.RED));
-		scheme.setStyle(Token.FUNCTION, new Style(function.foreground, null, comment.font));
+		scheme.setStyle(Token.IDENTIFIER /* reference to a label, possibly */,
+		                new Style(dark ? Color.WHITE : Color.BLACK));
+		scheme.setStyle(Token.RESERVED_WORD /* instruction */,
+		                new Style(dark ? (new Color(128, 128, 255)) : (new Color(0, 0, 255)), null, reservedWord.font));
+		scheme.setStyle(Token.RESERVED_WORD_2 /* pseudo-instruction */,
+		                new Style(dark ? (new Color(255, 128, 255)) : (new Color(128, 0, 255)), null, reservedWord.font));
+		scheme.setStyle(Token.LITERAL_NUMBER_DECIMAL_INT /* integer numeric value */,
+		                new Style(dark ? (new Color(150, 70, 255)) : (new Color(100, 0, 200))));
+		scheme.setStyle(Token.OPERATOR /* argument separators (commas and parentheses) */,
+		                new Style(dark ? (new Color(255, 128, 128)) : (new Color(128, 64, 64))));
+		scheme.setStyle(Token.PREPROCESSOR /* .text and .data directives */,
+		                new Style(preprocessor.foreground, null, reservedWord.font));
+		scheme.setStyle(Token.ERROR_CHAR /* invalid character (like special characters) */,
+		                new Style(Color.RED));
+		scheme.setStyle(Token.ERROR_IDENTIFIER /* invalid directive */,
+		                new Style(Color.RED));
+		scheme.setStyle(Token.ERROR_NUMBER_FORMAT /* invalid integer numeric value */,
+		                new Style(Color.RED));
+		scheme.setStyle(Token.FUNCTION /* a label */,
+		                new Style(function.foreground, null, comment.font));
 	}
 	
 	
