@@ -143,6 +143,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		txtCode.addCaretListener(new CodeEditorCaretListener());
 		desktop.registerDefaultFrameIcon(new ImageIcon(getClass().getResource("/res/icons/x16/drmips.png")));
 
+		mnuOpenLastFileAtStartup.setSelected(DrMIPS.prefs.getBoolean(DrMIPS.OPEN_LAST_FILE_AT_STARTUP_PREF, DrMIPS.DEFAULT_OPEN_LAST_FILE_AT_STARTUP));
 		mnuResetDataBeforeAssembling.setSelected(DrMIPS.prefs.getBoolean(DrMIPS.ASSEMBLE_RESET_PREF, DrMIPS.DEFAULT_ASSEMBLE_RESET));
 		mnuSwitchTheme.setSelected(DrMIPS.prefs.getBoolean(DrMIPS.DARK_THEME_PREF, DrMIPS.DEFAULT_DARK_THEME));
 		mnuInternalWindows.setSelected(DrMIPS.prefs.getBoolean(DrMIPS.INTERNAL_WINDOWS_PREF, DrMIPS.DEFAULT_INTERNAL_WINDOWS));
@@ -268,6 +269,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuNew = new javax.swing.JMenuItem();
         mnuOpen = new javax.swing.JMenuItem();
         mnuOpenRecent = new javax.swing.JMenu();
+        mnuOpenLastFileAtStartup = new javax.swing.JCheckBoxMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         mnuSave = new javax.swing.JMenuItem();
         mnuSaveAs = new javax.swing.JMenuItem();
@@ -760,6 +762,14 @@ public class FrmSimulator extends javax.swing.JFrame {
 
         mnuOpenRecent.setText("open_recent");
         mnuFile.add(mnuOpenRecent);
+
+        mnuOpenLastFileAtStartup.setText("open_last_file_at_startup");
+        mnuOpenLastFileAtStartup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuOpenLastFileAtStartupActionPerformed(evt);
+            }
+        });
+        mnuFile.add(mnuOpenLastFileAtStartup);
         mnuFile.add(jSeparator1);
 
         mnuSave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
@@ -1440,6 +1450,10 @@ public class FrmSimulator extends javax.swing.JFrame {
 			desktop.cascadeInternalFrames();
     }//GEN-LAST:event_mnuCascadeWindowsActionPerformed
 
+    private void mnuOpenLastFileAtStartupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuOpenLastFileAtStartupActionPerformed
+		DrMIPS.prefs.putBoolean(DrMIPS.OPEN_LAST_FILE_AT_STARTUP_PREF, mnuOpenLastFileAtStartup.isSelected());
+    }//GEN-LAST:event_mnuOpenLastFileAtStartupActionPerformed
+
 	/**
 	 * Sets the path of the opened file and updates the title bar and recent files.
 	 * @param path Path to the opened file.
@@ -1450,7 +1464,10 @@ public class FrmSimulator extends javax.swing.JFrame {
 		if(openFile != null) {
 			title = openFile.getName() + " (" + Util.getFilePath(openFile) + ") - " + title;
 			addRecentFile(file);
+			DrMIPS.prefs.put(DrMIPS.LAST_FILE_PREF, Util.getFilePath(file));
 		}
+		else
+			DrMIPS.prefs.remove(DrMIPS.LAST_FILE_PREF);
 		setTitle(title);
 	}
 	
@@ -1705,6 +1722,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		Lang.tButton(mnuNew, "new");
 		Lang.tButton(mnuOpen, "open");
 		Lang.tButton(mnuOpenRecent, "open_recent");
+		Lang.tButton(mnuOpenLastFileAtStartup, "open_last_file_at_startup");
 		Lang.tButton(mnuSave, "save");
 		Lang.tButton(mnuSaveAs, "save_as");
 		Lang.tButton(mnuPrint, "print");
@@ -2509,6 +2527,7 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JCheckBoxMenuItem mnuMarginLine;
     private javax.swing.JMenuItem mnuNew;
     private javax.swing.JMenuItem mnuOpen;
+    private javax.swing.JCheckBoxMenuItem mnuOpenLastFileAtStartup;
     private javax.swing.JMenu mnuOpenRecent;
     private javax.swing.JCheckBoxMenuItem mnuOverlayedData;
     private javax.swing.JMenuItem mnuPaste;

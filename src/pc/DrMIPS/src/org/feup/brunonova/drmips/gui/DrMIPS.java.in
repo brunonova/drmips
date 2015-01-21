@@ -99,6 +99,8 @@ public class DrMIPS {
 	public static final int DEFAULT_HEIGHT = 600;
 	/** Whether to show the margin line by default in the code editor. */
 	public static final boolean DEFAULT_MARGIN_LINE = false;
+	/** Whether to open the last file at startup. */
+	public static final boolean DEFAULT_OPEN_LAST_FILE_AT_STARTUP = false;
 	/** The key of the language preference. */
 	public static final String LANG_PREF = "lang";
 	/** The key of the last loaded CPU preference. */
@@ -153,8 +155,12 @@ public class DrMIPS {
 	public static final String WIDTH_PREF = "width";
 	/** The key to the window height preference. */
 	public static final String HEIGHT_PREF = "height";
-	/** The key to the show margin line  preference. */
+	/** The key to the show margin line preference. */
 	public static final String MARGIN_LINE_PREF = "margin_line";
+	/** The key to the last file preference. */
+	public static final String LAST_FILE_PREF = "last_file";
+	/** The key to the open last file at startup preference. */
+	public static final String OPEN_LAST_FILE_AT_STARTUP_PREF = "open_last_file_at_startup";
 
 	/** "Loading" dialog. */
 	private static DlgLoading dlgLoading = null;
@@ -266,7 +272,12 @@ public class DrMIPS {
 		
 		// Start the GUI
 		FrmSimulator frmSim;
-		frmSim = filename == null ? new FrmSimulator() : new FrmSimulator(filename);
+		if(filename == null && prefs.getBoolean(OPEN_LAST_FILE_AT_STARTUP_PREF, DEFAULT_OPEN_LAST_FILE_AT_STARTUP)) {
+			String f = prefs.get(LAST_FILE_PREF, null);
+			if(f != null && new File(f).isFile())
+				filename = f;
+		}
+		frmSim = (filename == null ? new FrmSimulator() : new FrmSimulator(filename));
 		frmSim.setVisible(true);
 		dlgLoading.dispose();
 	}

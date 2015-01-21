@@ -194,6 +194,14 @@
                 <Property name="text" type="java.lang.String" value="open_recent"/>
               </Properties>
             </Menu>
+            <MenuItem class="javax.swing.JCheckBoxMenuItem" name="mnuOpenLastFileAtStartup">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="open_last_file_at_startup"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuOpenLastFileAtStartupActionPerformed"/>
+              </Events>
+            </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator1">
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuSave">
