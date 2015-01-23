@@ -303,6 +303,10 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuArrowsInWires = new javax.swing.JCheckBoxMenuItem();
         mnuOverlayedData = new javax.swing.JCheckBoxMenuItem();
         jSeparator14 = new javax.swing.JPopupMenu.Separator();
+        mnuZoomIn = new javax.swing.JMenuItem();
+        mnuZoomOut = new javax.swing.JMenuItem();
+        mnuZoomNormal = new javax.swing.JMenuItem();
+        jSeparator17 = new javax.swing.JPopupMenu.Separator();
         mnuRestoreLatencies = new javax.swing.JMenuItem();
         mnuRemoveLatencies = new javax.swing.JMenuItem();
         jSeparator15 = new javax.swing.JPopupMenu.Separator();
@@ -996,6 +1000,35 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuDatapath.add(mnuOverlayedData);
         mnuDatapath.add(jSeparator14);
 
+        mnuZoomIn.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_PLUS, java.awt.event.InputEvent.CTRL_MASK));
+        mnuZoomIn.setText("zoom_in");
+        mnuZoomIn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuZoomInActionPerformed(evt);
+            }
+        });
+        mnuDatapath.add(mnuZoomIn);
+
+        mnuZoomOut.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_MINUS, java.awt.event.InputEvent.CTRL_MASK));
+        mnuZoomOut.setText("zoom_out");
+        mnuZoomOut.setEnabled(false);
+        mnuZoomOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuZoomOutActionPerformed(evt);
+            }
+        });
+        mnuDatapath.add(mnuZoomOut);
+
+        mnuZoomNormal.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_0, java.awt.event.InputEvent.CTRL_MASK));
+        mnuZoomNormal.setText("normal");
+        mnuZoomNormal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuZoomNormalActionPerformed(evt);
+            }
+        });
+        mnuDatapath.add(mnuZoomNormal);
+        mnuDatapath.add(jSeparator17);
+
         mnuRestoreLatencies.setText("restore_latencies");
         mnuRestoreLatencies.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1454,6 +1487,18 @@ public class FrmSimulator extends javax.swing.JFrame {
 		DrMIPS.prefs.putBoolean(DrMIPS.OPEN_LAST_FILE_AT_STARTUP_PREF, mnuOpenLastFileAtStartup.isSelected());
     }//GEN-LAST:event_mnuOpenLastFileAtStartupActionPerformed
 
+    private void mnuZoomInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuZoomInActionPerformed
+		zoomIn();
+    }//GEN-LAST:event_mnuZoomInActionPerformed
+
+    private void mnuZoomOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuZoomOutActionPerformed
+		zoomOut();
+    }//GEN-LAST:event_mnuZoomOutActionPerformed
+
+    private void mnuZoomNormalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuZoomNormalActionPerformed
+		zoomNormal();
+    }//GEN-LAST:event_mnuZoomNormalActionPerformed
+
 	/**
 	 * Sets the path of the opened file and updates the title bar and recent files.
 	 * @param path Path to the opened file.
@@ -1753,6 +1798,9 @@ public class FrmSimulator extends javax.swing.JFrame {
 		Lang.tButton(mnuBackStep, "back_step");
 		Lang.tButton(mnuStep, "step");
 		Lang.tButton(mnuRun, "run");
+		Lang.tButton(mnuZoomIn, "zoom_in");
+		Lang.tButton(mnuZoomOut, "zoom_out");
+		Lang.tButton(mnuZoomNormal, "normal");
 		Lang.tButton(mnuResetDataBeforeAssembling, "reset_data_before_assembling");
 		Lang.tButton(mnuCPU, "cpu");
 		Lang.tButton(mnuLoadCPU, "load");
@@ -2441,6 +2489,33 @@ public class FrmSimulator extends javax.swing.JFrame {
 		lblCaretPosition.setText(Lang.t("line", line) + ", " + Lang.t("column", col));
 	}
 
+	/**
+	 * Zooms the datapath in.
+	 */
+	private void zoomIn() {
+		datapath.increaseScale();
+		mnuZoomIn.setEnabled(datapath.canIncreaseScale());
+		mnuZoomOut.setEnabled(datapath.canDecreaseScale());
+	}
+
+	/**
+	 * Zooms the datapath out.
+	 */
+	private void zoomOut() {
+		datapath.decreaseScale();
+		mnuZoomIn.setEnabled(datapath.canIncreaseScale());
+		mnuZoomOut.setEnabled(datapath.canDecreaseScale());
+	}
+
+	/**
+	 * Sets the datapath zoom level to normal.
+	 */
+	private void zoomNormal() {
+		datapath.restoreDefaultScale();
+		mnuZoomIn.setEnabled(datapath.canIncreaseScale());
+		mnuZoomOut.setEnabled(datapath.canDecreaseScale());
+	}
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cmbAssembledCodeFormat;
     private javax.swing.JComboBox cmbDataMemoryFormat;
@@ -2481,6 +2556,7 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator14;
     private javax.swing.JPopupMenu.Separator jSeparator15;
     private javax.swing.JPopupMenu.Separator jSeparator16;
+    private javax.swing.JPopupMenu.Separator jSeparator17;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;
@@ -2556,6 +2632,9 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuUndoP;
     private javax.swing.JMenu mnuView;
     private javax.swing.JMenu mnuWindows;
+    private javax.swing.JMenuItem mnuZoomIn;
+    private javax.swing.JMenuItem mnuZoomNormal;
+    private javax.swing.JMenuItem mnuZoomOut;
     private javax.swing.JPanel pnlAssembledCode;
     private javax.swing.JPanel pnlCode;
     private javax.swing.JPanel pnlDataMemory;

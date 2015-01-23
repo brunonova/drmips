@@ -45,8 +45,10 @@ public class DatapathPanel extends JLayeredPane {
 	public static final double SCALE_MINIMUM = 1.0;
 	/** Maximum scale/zoom level allowed. */
 	public static final double SCALE_MAXIMUM = 3.0;
+	/** Default scale/zoom level. */
+	public static final double SCALE_DEFAULT = 1.0;
 	/** Default zoom in/out step. */
-	public static final double SCALE_STEP = 0.10;
+	public static final double SCALE_STEP = 0.1;
 
 	/** The main window where the datapath is. */
 	private FrmSimulator parent = null;
@@ -67,7 +69,7 @@ public class DatapathPanel extends JLayeredPane {
 	/** Whether to display in/out tips. */
 	private boolean showTips = true;
 	/** Current scale/zoom level of the datapath. */
-	public double scale = 1.0;
+	public double scale = SCALE_DEFAULT;
 	
 	/**
 	 * Creates the panel.
@@ -238,6 +240,7 @@ public class DatapathPanel extends JLayeredPane {
 			this.scale = SCALE_MAXIMUM;
 		else
 			this.scale = scale;
+		refreshScale();
 	}
 
 	/**
@@ -255,6 +258,13 @@ public class DatapathPanel extends JLayeredPane {
 	}
 
 	/**
+	 * Restores the default scale/zoom level.
+	 */
+	public void restoreDefaultScale() {
+		setScale(1.0);
+	}
+
+	/**
 	 * Returns whether the scale/zoom level can be increased.
 	 * @return Whether it's possible to zoom in.
 	 */
@@ -268,6 +278,18 @@ public class DatapathPanel extends JLayeredPane {
 	 */
 	public boolean canDecreaseScale() {
 		return (getScale() - SCALE_STEP) >= SCALE_MINIMUM;
+	}
+
+	/**
+	 * "Refreshes" the positions and sizes of the datapath graphical objects.
+	 */
+	public void refreshScale() {
+		setPreferredSizeScaled();
+		for(DatapathComponent comp: components.values())
+			comp.setLocationAndLizeScaled();
+		for(Wire w: wires)
+			w.setTipsLocationScaled();
+		SwingUtilities.updateComponentTreeUI(this);
 	}
 
 	/**
