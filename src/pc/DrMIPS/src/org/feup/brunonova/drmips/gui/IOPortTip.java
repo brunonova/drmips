@@ -21,6 +21,7 @@ package org.feup.brunonova.drmips.gui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
+import java.awt.Point;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -48,6 +49,16 @@ public class IOPortTip extends JLabel {
 	 * @param y The y coordinate of the tip's position in the <tt>attachedComponent</tt>.
 	 */
 	public IOPortTip(String text, String tooltip, int x, int y) {
+		this(text, tooltip);
+		setLocation(x, y);
+	}
+
+	/**
+	 * Constructor.
+	 * @param text The initial text of the tip (value in the input/output?).
+	 * @param tooltip The tooltip of the tip (identifier of the input/output?).
+	 */
+	public IOPortTip(String text, String tooltip) {
 		super(text);
 		setFont(FONT);
 		setForeground(TEXT_COLOR);
@@ -55,9 +66,19 @@ public class IOPortTip extends JLabel {
 		setOpaque(true);
 		setBorder(BorderFactory.createLineBorder(BORDER_COLOR));
 		setToolTipText(tooltip);
-		setLocation(x - 3, y + 1);
 		setVerticalAlignment(SwingConstants.CENTER);
 		resize();
+	}
+
+	@Override
+	public final void setLocation(int x, int y) {
+		// Shift the tip 3 pixels left and 1 pixel down.
+		super.setLocation(x - 3, y + 1);
+	}
+
+	@Override
+	public final void setLocation(Point p) {
+		setLocation(p.x, p.y);
 	}
 
 	@Override

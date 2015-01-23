@@ -71,8 +71,7 @@ public final class DatapathComponent extends JLabel implements MouseListener {
 		setOpaque(true);
 		setBackground(Color.WHITE);
 		setLayout(new BorderLayout());
-		setLocation(component.getPosition().x, component.getPosition().y);
-		setSize(component.getSize().width, component.getSize().height);
+		setLocationAndLizeScaled();
 		
 		setText("<html><pre>" + component.getDisplayName() + "</pre></html>");
 		setHorizontalAlignment(JLabel.CENTER);
@@ -106,6 +105,16 @@ public final class DatapathComponent extends JLabel implements MouseListener {
 	 */
 	public Component getComponent() {
 		return component;
+	}
+
+	/**
+	 * Sets the location and size of the component, scaled to the current zoom level.
+	 */
+	protected final void setLocationAndLizeScaled() {
+		setLocation((int)(component.getPosition().x * datapath.getScale()),
+		            (int)(component.getPosition().y * datapath.getScale()));
+		setSize((int)(component.getSize().width * datapath.getScale()),
+		        (int)(component.getSize().height * datapath.getScale()));
 	}
 	
 	/**

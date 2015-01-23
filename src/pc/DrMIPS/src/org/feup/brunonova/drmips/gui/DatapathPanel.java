@@ -18,7 +18,6 @@
 
 package org.feup.brunonova.drmips.gui;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Polygon;
 import java.util.LinkedList;
@@ -42,6 +41,13 @@ import org.feup.brunonova.drmips.simulator.util.Point;
  * @author Bruno Nova
  */
 public class DatapathPanel extends JLayeredPane {
+	/** Minimum scale/zoom level allowed. */
+	public static final double SCALE_MINIMUM = 1.0;
+	/** Maximum scale/zoom level allowed. */
+	public static final double SCALE_MAXIMUM = 3.0;
+	/** Default zoom in/out step. */
+	public static final double SCALE_STEP = 0.10;
+
 	/** The main window where the datapath is. */
 	private FrmSimulator parent = null;
 	/** The CPU being displayed. */
@@ -60,6 +66,8 @@ public class DatapathPanel extends JLayeredPane {
 	private boolean performanceMode = false;
 	/** Whether to display in/out tips. */
 	private boolean showTips = true;
+	/** Current scale/zoom level of the datapath. */
+	public double scale = 1.0;
 	
 	/**
 	 * Creates the panel.
@@ -86,9 +94,8 @@ public class DatapathPanel extends JLayeredPane {
 		components = new TreeMap<String, DatapathComponent>();
 		wires = new LinkedList<Wire>();
 		this.cpu = cpu;
-		Dimension size = cpu.getSize();
 		setLocation(0, 0);
-		setPreferredSize(new java.awt.Dimension(size.width, size.height));
+		setPreferredSizeScaled();
 		
 		// Add each component
 		Component[] comps = cpu.getComponents();
@@ -211,6 +218,66 @@ public class DatapathPanel extends JLayeredPane {
 		}
 	}
 
+	/**
+	 * Returns the current scale/zoom level of the datapath.
+	 * @return Datapath scale.
+	 */
+	public double getScale() {
+		return scale;
+	}
+
+	/**
+	 * Updates the scale/zoom level of the datapath to the specified value.
+	 * The value must be between {@link #SCALE_MINIMUM} and {@link #SCALE_MAXIMUM}.
+	 * @param scale New scale.
+	 */
+	public void setScale(double scale) {
+		if(scale < SCALE_MINIMUM)
+			this.scale = SCALE_MINIMUM;
+		else if(scale > SCALE_MAXIMUM)
+			this.scale = SCALE_MAXIMUM;
+		else
+			this.scale = scale;
+	}
+
+	/**
+	 * Increases the scale/zoom level by {@link #SCALE_STEP} ammount, if possible.
+	 */
+	public void increaseScale() {
+		setScale(getScale() + SCALE_STEP);
+	}
+
+	/**
+	 * Decreases the scale/zoom level by {@link #SCALE_STEP} ammount, if possible.
+	 */
+	public void decreaseScale() {
+		setScale(getScale() - SCALE_STEP);
+	}
+
+	/**
+	 * Returns whether the scale/zoom level can be increased.
+	 * @return Whether it's possible to zoom in.
+	 */
+	public boolean canIncreaseScale() {
+		return (getScale() + SCALE_STEP) <= SCALE_MAXIMUM;
+	}
+
+	/**
+	 * Returns whether the scale/zoom level can be decreased.
+	 * @return Whether it's possible to zoom out.
+	 */
+	public boolean canDecreaseScale() {
+		return (getScale() - SCALE_STEP) >= SCALE_MINIMUM;
+	}
+
+	/**
+	 * Sets the preferred size of the datapath, scaled to the current zoom level.
+	 */
+	private void setPreferredSizeScaled() {
+		Dimension size = cpu.getSize();
+		setPreferredSize(new java.awt.Dimension((int)(size.width * getScale()), (int)(size.height * getScale())));
+	}
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -251,9 +318,20 @@ public class DatapathPanel extends JLayeredPane {
 			end = out.getConnectedInput().getComponent().getInputPosition(out.getConnectedInput());
 			points = out.getIntermediatePoints();
 			if(out.shouldShowTip())
-				add(outTip = new IOPortTip("0", out.getId(), start.x, start.y), JLayeredPane.PALETTE_LAYER);
+				add(outTip = new IOPortTip("0", out.getId()), JLayeredPane.PALETTE_LAYER);
 			if(out.isConnected() && out.getConnectedInput().shouldShowTip())
-				add(inTip = new IOPortTip("0", out.getConnectedInput().getId(), end.x, end.y), JLayeredPane.PALETTE_LAYER);
+				add(inTip = new IOPortTip("0", out.getConnectedInput().getId()), JLayeredPane.PALETTE_LAYER);
+			setTipsLocationScaled();
+		}
+
+		/**
+		 * Sets the location of the in/out tips, scaled to the current zoom level.
+		 */
+		public final void setTipsLocationScaled() {
+			if(outTip != null)
+				outTip.setLocation((int)(start.x * scale), (int)(start.y * scale));
+			if(inTip != null)
+				inTip.setLocation((int)(end.x * scale), (int)(end.y * scale));
 		}
 		
 		/**
@@ -300,14 +378,17 @@ public class DatapathPanel extends JLayeredPane {
 				else
 					g.setColor(Util.wireColor);
 				
-				Point s = start;
+				Point s = new Point((int)(start.x * scale), (int)(start.y * scale));
+				Point p;
 				for(Point e: points) {
-					g.drawLine(s.x, s.y, e.x, e.y);
-					s = e;
+					p = new Point((int)(e.x * scale), (int)(e.y * scale));
+					g.drawLine(s.x, s.y, p.x, p.y);
+					s = p;
 				}
-				g.drawLine(s.x, s.y, end.x, end.y);
+				p = new Point((int)(end.x * scale), (int)(end.y * scale));
+				g.drawLine(s.x, s.y, p.x, p.y);
 				if(showArrows)
-					drawArrowTip(g, s.x, s.y, end.x, end.y, 6);
+					drawArrowTip(g, s.x, s.y, p.x, p.y, 6);
 			}
 		}
 		
