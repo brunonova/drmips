@@ -19,6 +19,7 @@
 package org.feup.brunonova.drmips.gui;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -318,31 +319,39 @@ public class CodeEditor extends TextEditorPane {
 		setCurrentLineHighlightColor(dark ? (new Color(32, 32, 32)) : (new Color(255, 255, 170)));
 		setSelectionColor(dark ? (new Color(64, 64, 64)) : (new Color(200, 200, 255)));
 		setMarginLineColor(dark ? Color.DARK_GRAY : Color.LIGHT_GRAY);
-		
-		Style reservedWord = scheme.getStyle(Token.RESERVED_WORD);
-		Style preprocessor = scheme.getStyle(Token.PREPROCESSOR);
-		Style comment = scheme.getStyle(Token.COMMENT_EOL);
-		Style function = scheme.getStyle(Token.FUNCTION);
-		scheme.setStyle(Token.IDENTIFIER /* reference to a label, possibly */,
-		                new Style(dark ? Color.WHITE : Color.BLACK));
-		scheme.setStyle(Token.RESERVED_WORD /* instruction */,
-		                new Style(dark ? (new Color(128, 128, 255)) : (new Color(0, 0, 255)), null, reservedWord.font));
-		scheme.setStyle(Token.RESERVED_WORD_2 /* pseudo-instruction */,
-		                new Style(dark ? (new Color(255, 128, 255)) : (new Color(128, 0, 255)), null, reservedWord.font));
-		scheme.setStyle(Token.LITERAL_NUMBER_DECIMAL_INT /* integer numeric value */,
-		                new Style(dark ? (new Color(150, 70, 255)) : (new Color(100, 0, 200))));
+
+		Font keywordFont = new Font(getDefaultFont().getFamily(), Font.BOLD, getDefaultFont().getSize());
+		Font commentFont = new Font(getDefaultFont().getFamily(), Font.ITALIC, getDefaultFont().getSize());
+		Style identifierStyle = new Style(dark ? Color.WHITE : Color.BLACK);
+		Style directiveStyle = new Style(dark ? new Color(0, 160, 160) : new Color(0, 128, 128), null, keywordFont);
+		Style errorStyle = new Style(Color.RED);
+
+		scheme.setStyle(Token.IDENTIFIER /* references to labels */,
+		                identifierStyle);
+		scheme.setStyle(Token.RESERVED_WORD /* instructions */,
+		                new Style(dark ? new Color(128, 128, 255) : new Color(0, 0, 255), null, keywordFont));
+		scheme.setStyle(Token.RESERVED_WORD_2 /* pseudo-instructions */,
+		                new Style(dark ? new Color(255, 128, 255) : new Color(128, 0, 255), null, keywordFont));
+		scheme.setStyle(Token.LITERAL_NUMBER_DECIMAL_INT /* integer numeric values */,
+		                identifierStyle);
 		scheme.setStyle(Token.OPERATOR /* argument separators (commas and parentheses) */,
-		                new Style(dark ? (new Color(255, 128, 128)) : (new Color(128, 64, 64))));
+		                identifierStyle);
 		scheme.setStyle(Token.PREPROCESSOR /* .text and .data directives */,
-		                new Style(preprocessor.foreground, null, reservedWord.font));
-		scheme.setStyle(Token.ERROR_CHAR /* invalid character (like special characters) */,
-		                new Style(Color.RED));
-		scheme.setStyle(Token.ERROR_IDENTIFIER /* invalid directive */,
-		                new Style(Color.RED));
-		scheme.setStyle(Token.ERROR_NUMBER_FORMAT /* invalid integer numeric value */,
-		                new Style(Color.RED));
-		scheme.setStyle(Token.FUNCTION /* a label */,
-		                new Style(function.foreground, null, comment.font));
+		                directiveStyle);
+		scheme.setStyle(Token.DATA_TYPE /* .word and .space directives */,
+		                directiveStyle);
+		scheme.setStyle(Token.ERROR_CHAR /* invalid characters (like special characters) */,
+		                errorStyle);
+		scheme.setStyle(Token.ERROR_IDENTIFIER /* invalid directives */,
+		                errorStyle);
+		scheme.setStyle(Token.ERROR_NUMBER_FORMAT /* invalid integer numeric values */,
+		                errorStyle);
+		scheme.setStyle(Token.FUNCTION /* labels */,
+		                new Style(dark ? new Color(160, 160, 160) : new Color(96, 96, 96), null, commentFont));
+		scheme.setStyle(Token.COMMENT_EOL /* comments */,
+		                new Style(dark ? new Color(0, 160, 0) : new Color(0, 128, 0), null, commentFont));
+		scheme.setStyle(Token.VARIABLE /* registers */,
+		                new Style(dark ? new Color(255, 128, 0) : new Color(192, 96, 0), null, keywordFont));
 	}
 	
 	
