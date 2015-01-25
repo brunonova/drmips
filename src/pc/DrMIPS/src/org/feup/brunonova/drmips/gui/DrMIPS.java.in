@@ -101,6 +101,8 @@ public class DrMIPS {
 	public static final boolean DEFAULT_MARGIN_LINE = false;
 	/** Whether to open the last file at startup. */
 	public static final boolean DEFAULT_OPEN_LAST_FILE_AT_STARTUP = false;
+	/** The default scale/zoom level of the datapath. */
+	public static final double DEFAULT_SCALE = 1.0;
 	/** The key of the language preference. */
 	public static final String LANG_PREF = "lang";
 	/** The key of the last loaded CPU preference. */
@@ -161,6 +163,8 @@ public class DrMIPS {
 	public static final String LAST_FILE_PREF = "last_file";
 	/** The key to the open last file at startup preference. */
 	public static final String OPEN_LAST_FILE_AT_STARTUP_PREF = "open_last_file_at_startup";
+	/** The key to the scale preference. */
+	public static final String SCALE_PREF = "scale";
 
 	/** "Loading" dialog. */
 	private static DlgLoading dlgLoading = null;

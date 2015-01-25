@@ -166,6 +166,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		mnuRemoveLatencies.setEnabled(mnuPerformanceMode.isSelected());
 		mnuRestoreLatencies.setEnabled(mnuPerformanceMode.isSelected());
 		refreshDatapathHelp();
+		updateZoomControlsEnabled();
 	}
 	
 	/**
@@ -2494,8 +2495,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 	 */
 	private void zoomIn() {
 		datapath.increaseScale();
-		mnuZoomIn.setEnabled(datapath.canIncreaseScale());
-		mnuZoomOut.setEnabled(datapath.canDecreaseScale());
+		updateZoomControlsEnabled();
 	}
 
 	/**
@@ -2503,8 +2503,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 	 */
 	private void zoomOut() {
 		datapath.decreaseScale();
-		mnuZoomIn.setEnabled(datapath.canIncreaseScale());
-		mnuZoomOut.setEnabled(datapath.canDecreaseScale());
+		updateZoomControlsEnabled();
 	}
 
 	/**
@@ -2512,6 +2511,13 @@ public class FrmSimulator extends javax.swing.JFrame {
 	 */
 	private void zoomNormal() {
 		datapath.restoreDefaultScale();
+		updateZoomControlsEnabled();
+	}
+
+	/**
+	 * Sets the zoom controls enabled or disabled according to the current zoom state.
+	 */
+	private void updateZoomControlsEnabled() {
 		mnuZoomIn.setEnabled(datapath.canIncreaseScale());
 		mnuZoomOut.setEnabled(datapath.canDecreaseScale());
 	}
