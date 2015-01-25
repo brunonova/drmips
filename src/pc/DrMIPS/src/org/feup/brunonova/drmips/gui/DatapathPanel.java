@@ -45,8 +45,6 @@ public class DatapathPanel extends JLayeredPane {
 	public static final double SCALE_MINIMUM = 1.0;
 	/** Maximum scale/zoom level allowed. */
 	public static final double SCALE_MAXIMUM = 3.0;
-	/** Default scale/zoom level. */
-	public static final double SCALE_DEFAULT = 1.0;
 	/** Default zoom in/out step. */
 	public static final double SCALE_STEP = 0.1;
 
@@ -69,13 +67,14 @@ public class DatapathPanel extends JLayeredPane {
 	/** Whether to display in/out tips. */
 	private boolean showTips = true;
 	/** Current scale/zoom level of the datapath. */
-	public double scale = SCALE_DEFAULT;
+	public double scale;
 	
 	/**
 	 * Creates the panel.
 	 */
 	public DatapathPanel() {
 		super();
+		scale = DrMIPS.prefs.getDouble(DrMIPS.SCALE_PREF, DrMIPS.DEFAULT_SCALE);
 	}
 	
 	/**
@@ -240,6 +239,7 @@ public class DatapathPanel extends JLayeredPane {
 			this.scale = SCALE_MAXIMUM;
 		else
 			this.scale = scale;
+		DrMIPS.prefs.putDouble(DrMIPS.SCALE_PREF, getScale());
 		refreshScale();
 	}
 
@@ -261,7 +261,7 @@ public class DatapathPanel extends JLayeredPane {
 	 * Restores the default scale/zoom level.
 	 */
 	public void restoreDefaultScale() {
-		setScale(1.0);
+		setScale(DrMIPS.DEFAULT_SCALE);
 	}
 
 	/**
