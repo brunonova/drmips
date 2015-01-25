@@ -103,6 +103,8 @@ public class DrMIPS {
 	public static final boolean DEFAULT_OPEN_LAST_FILE_AT_STARTUP = false;
 	/** The default scale/zoom level of the datapath. */
 	public static final double DEFAULT_SCALE = 1.0;
+	/** Whether to adjust automatically the scale/zoom level by default. */
+	public static final boolean DEFAULT_AUTO_SCALE = false;
 	/** The key of the language preference. */
 	public static final String LANG_PREF = "lang";
 	/** The key of the last loaded CPU preference. */
@@ -165,6 +167,8 @@ public class DrMIPS {
 	public static final String OPEN_LAST_FILE_AT_STARTUP_PREF = "open_last_file_at_startup";
 	/** The key to the scale preference. */
 	public static final String SCALE_PREF = "scale";
+	/** The key to the auto scale preference. */
+	public static final String AUTO_SCALE_PREF = "auto_scale";
 
 	/** "Loading" dialog. */
 	private static DlgLoading dlgLoading = null;
