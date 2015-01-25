@@ -508,6 +508,9 @@
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+PLUS"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/res/icons/x16/zoom-in.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="zoom_in"/>
               </Properties>
               <Events>
@@ -518,6 +521,9 @@
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+MINUS"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/res/icons/x16/zoom-out.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="zoom_out"/>
                 <Property name="enabled" type="boolean" value="false"/>
@@ -530,6 +536,9 @@
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+0"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/res/icons/x16/zoom-default.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="normal"/>
               </Properties>
