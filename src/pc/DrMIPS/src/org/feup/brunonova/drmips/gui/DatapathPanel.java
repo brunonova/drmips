@@ -42,9 +42,9 @@ import org.feup.brunonova.drmips.simulator.util.Point;
  */
 public class DatapathPanel extends JLayeredPane {
 	/** Minimum scale/zoom level allowed. */
-	public static final double SCALE_MINIMUM = 1.0;
+	public static final double SCALE_MINIMUM = 0.999; // floating-point values not precise
 	/** Maximum scale/zoom level allowed. */
-	public static final double SCALE_MAXIMUM = 3.0;
+	public static final double SCALE_MAXIMUM = 3.001; // floating-point values not precise
 	/** Default zoom in/out step. */
 	public static final double SCALE_STEP = 0.1;
 
@@ -266,7 +266,7 @@ public class DatapathPanel extends JLayeredPane {
 
 	/**
 	 * Returns whether the scale/zoom level can be increased.
-	 * @return Whether it's possible to zoom in.
+	 * @return <tt>true</tt> if it's possible to zoom in.
 	 */
 	public boolean canIncreaseScale() {
 		return (getScale() + SCALE_STEP) <= SCALE_MAXIMUM;
@@ -274,10 +274,18 @@ public class DatapathPanel extends JLayeredPane {
 
 	/**
 	 * Returns whether the scale/zoom level can be decreased.
-	 * @return Whether it's possible to zoom out.
+	 * @return <tt>true</tt> if it's possible to zoom out.
 	 */
 	public boolean canDecreaseScale() {
 		return (getScale() - SCALE_STEP) >= SCALE_MINIMUM;
+	}
+
+	/**
+	 * Returns whether the current scale/zoom level is the default one.
+	 * @return <tt>true</tt> if the current scale/zoom level is the default one.
+	 */
+	public boolean isDefaultScale() {
+		return getScale() == DrMIPS.DEFAULT_SCALE;
 	}
 
 	/**

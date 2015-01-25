@@ -166,7 +166,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		mnuRemoveLatencies.setEnabled(mnuPerformanceMode.isSelected());
 		mnuRestoreLatencies.setEnabled(mnuPerformanceMode.isSelected());
 		refreshDatapathHelp();
-		updateZoomControlsEnabled();
+		updateZoomStatus();
 	}
 	
 	/**
@@ -227,6 +227,12 @@ public class FrmSimulator extends javax.swing.JFrame {
         cmdStatistics = new javax.swing.JButton();
         cmdSupportedInstructions = new javax.swing.JButton();
         cmdHelp = new javax.swing.JButton();
+        jSeparator18 = new javax.swing.JToolBar.Separator();
+        cmdZoomIn = new javax.swing.JButton();
+        cmdZoomOut = new javax.swing.JButton();
+        cmdZoomNormal = new javax.swing.JButton();
+        jSeparator19 = new javax.swing.JToolBar.Separator();
+        lblZoom = new javax.swing.JLabel();
         pnlSplit = new javax.swing.JSplitPane();
         pnlLeft = new javax.swing.JTabbedPane();
         pnlCode = new javax.swing.JPanel();
@@ -266,7 +272,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         tblRegisters = new org.feup.brunonova.drmips.gui.RegistersTable();
         mnuBar = new javax.swing.JMenuBar();
-        mnuFile = new javax.swing.JMenu();
+        lbl = new javax.swing.JMenu();
         mnuNew = new javax.swing.JMenuItem();
         mnuOpen = new javax.swing.JMenuItem();
         mnuOpenRecent = new javax.swing.JMenu();
@@ -579,6 +585,46 @@ public class FrmSimulator extends javax.swing.JFrame {
             }
         });
         pnlToolBar.add(cmdHelp);
+        pnlToolBar.add(jSeparator18);
+
+        cmdZoomIn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x24/zoom-in.png"))); // NOI18N
+        cmdZoomIn.setFocusable(false);
+        cmdZoomIn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        cmdZoomIn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        cmdZoomIn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdZoomInActionPerformed(evt);
+            }
+        });
+        pnlToolBar.add(cmdZoomIn);
+
+        cmdZoomOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x24/zoom-out.png"))); // NOI18N
+        cmdZoomOut.setEnabled(false);
+        cmdZoomOut.setFocusable(false);
+        cmdZoomOut.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        cmdZoomOut.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        cmdZoomOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdZoomOutActionPerformed(evt);
+            }
+        });
+        pnlToolBar.add(cmdZoomOut);
+
+        cmdZoomNormal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x24/zoom-default.png"))); // NOI18N
+        cmdZoomNormal.setFocusable(false);
+        cmdZoomNormal.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        cmdZoomNormal.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        cmdZoomNormal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdZoomNormalActionPerformed(evt);
+            }
+        });
+        pnlToolBar.add(cmdZoomNormal);
+        pnlToolBar.add(jSeparator19);
+
+        lblZoom.setText("zoom: 100%");
+        lblZoom.setFocusable(false);
+        pnlToolBar.add(lblZoom);
 
         getContentPane().add(pnlToolBar, java.awt.BorderLayout.NORTH);
 
@@ -742,8 +788,8 @@ public class FrmSimulator extends javax.swing.JFrame {
 
         getContentPane().add(pnlSplit, java.awt.BorderLayout.CENTER);
 
-        mnuFile.setText("file");
-        mnuFile.setName(""); // NOI18N
+        lbl.setText("file");
+        lbl.setName(""); // NOI18N
 
         mnuNew.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         mnuNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/new.png"))); // NOI18N
@@ -753,7 +799,7 @@ public class FrmSimulator extends javax.swing.JFrame {
                 mnuNewActionPerformed(evt);
             }
         });
-        mnuFile.add(mnuNew);
+        lbl.add(mnuNew);
 
         mnuOpen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         mnuOpen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/open.png"))); // NOI18N
@@ -763,10 +809,10 @@ public class FrmSimulator extends javax.swing.JFrame {
                 mnuOpenActionPerformed(evt);
             }
         });
-        mnuFile.add(mnuOpen);
+        lbl.add(mnuOpen);
 
         mnuOpenRecent.setText("open_recent");
-        mnuFile.add(mnuOpenRecent);
+        lbl.add(mnuOpenRecent);
 
         mnuOpenLastFileAtStartup.setText("open_last_file_at_startup");
         mnuOpenLastFileAtStartup.addActionListener(new java.awt.event.ActionListener() {
@@ -774,8 +820,8 @@ public class FrmSimulator extends javax.swing.JFrame {
                 mnuOpenLastFileAtStartupActionPerformed(evt);
             }
         });
-        mnuFile.add(mnuOpenLastFileAtStartup);
-        mnuFile.add(jSeparator1);
+        lbl.add(mnuOpenLastFileAtStartup);
+        lbl.add(jSeparator1);
 
         mnuSave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         mnuSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/save.png"))); // NOI18N
@@ -785,7 +831,7 @@ public class FrmSimulator extends javax.swing.JFrame {
                 mnuSaveActionPerformed(evt);
             }
         });
-        mnuFile.add(mnuSave);
+        lbl.add(mnuSave);
 
         mnuSaveAs.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         mnuSaveAs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/save_as.png"))); // NOI18N
@@ -795,8 +841,8 @@ public class FrmSimulator extends javax.swing.JFrame {
                 mnuSaveAsActionPerformed(evt);
             }
         });
-        mnuFile.add(mnuSaveAs);
-        mnuFile.add(jSeparator2);
+        lbl.add(mnuSaveAs);
+        lbl.add(jSeparator2);
 
         mnuPrint.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         mnuPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/print.png"))); // NOI18N
@@ -807,8 +853,8 @@ public class FrmSimulator extends javax.swing.JFrame {
                 mnuPrintActionPerformed(evt);
             }
         });
-        mnuFile.add(mnuPrint);
-        mnuFile.add(jSeparator9);
+        lbl.add(mnuPrint);
+        lbl.add(jSeparator9);
 
         mnuExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
         mnuExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/exit.png"))); // NOI18N
@@ -818,9 +864,9 @@ public class FrmSimulator extends javax.swing.JFrame {
                 mnuExitActionPerformed(evt);
             }
         });
-        mnuFile.add(mnuExit);
+        lbl.add(mnuExit);
 
-        mnuBar.add(mnuFile);
+        mnuBar.add(lbl);
 
         mnuView.setText("view");
 
@@ -1503,6 +1549,18 @@ public class FrmSimulator extends javax.swing.JFrame {
 		zoomNormal();
     }//GEN-LAST:event_mnuZoomNormalActionPerformed
 
+    private void cmdZoomInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdZoomInActionPerformed
+		zoomIn();
+    }//GEN-LAST:event_cmdZoomInActionPerformed
+
+    private void cmdZoomOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdZoomOutActionPerformed
+		zoomOut();
+    }//GEN-LAST:event_cmdZoomOutActionPerformed
+
+    private void cmdZoomNormalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdZoomNormalActionPerformed
+		zoomNormal();
+    }//GEN-LAST:event_cmdZoomNormalActionPerformed
+
 	/**
 	 * Sets the path of the opened file and updates the title bar and recent files.
 	 * @param path Path to the opened file.
@@ -1767,7 +1825,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 	 * Translates the form's strings.
 	 */
 	protected final void translate() {
-		Lang.tButton(mnuFile, "file");
+		Lang.tButton(lbl, "file");
 		Lang.tButton(mnuNew, "new");
 		Lang.tButton(mnuOpen, "open");
 		Lang.tButton(mnuOpenRecent, "open_recent");
@@ -1862,6 +1920,10 @@ public class FrmSimulator extends javax.swing.JFrame {
 		cmdStatistics.setToolTipText(Lang.t("statistics"));
 		cmdSupportedInstructions.setToolTipText(Lang.t("supported_instructions"));
 		cmdHelp.setToolTipText(Lang.t("documentation"));
+		cmdZoomIn.setToolTipText(Lang.t("zoom_in"));
+		cmdZoomOut.setToolTipText(Lang.t("zoom_out"));
+		cmdZoomNormal.setToolTipText(Lang.t("normal"));
+		lblZoom.setText(Lang.t("zoom", (int)(datapath.getScale() * 100) + "%"));
 
 		updateCaretPosition();
 		lblRegFormat.setText(Lang.t("format") + ":");
@@ -2498,7 +2560,9 @@ public class FrmSimulator extends javax.swing.JFrame {
 	 */
 	private void zoomIn() {
 		datapath.increaseScale();
-		updateZoomControlsEnabled();
+		updateZoomStatus();
+		if(!mnuInternalWindows.isSelected())
+			tabDatapath.select();
 	}
 
 	/**
@@ -2506,7 +2570,9 @@ public class FrmSimulator extends javax.swing.JFrame {
 	 */
 	private void zoomOut() {
 		datapath.decreaseScale();
-		updateZoomControlsEnabled();
+		updateZoomStatus();
+		if(!mnuInternalWindows.isSelected())
+			tabDatapath.select();
 	}
 
 	/**
@@ -2514,15 +2580,22 @@ public class FrmSimulator extends javax.swing.JFrame {
 	 */
 	private void zoomNormal() {
 		datapath.restoreDefaultScale();
-		updateZoomControlsEnabled();
+		updateZoomStatus();
+		if(!mnuInternalWindows.isSelected())
+			tabDatapath.select();
 	}
 
 	/**
-	 * Sets the zoom controls enabled or disabled according to the current zoom state.
+	 * Updates the enabled/disabled state of zoom controls and the zoom level label.
 	 */
-	private void updateZoomControlsEnabled() {
+	private void updateZoomStatus() {
 		mnuZoomIn.setEnabled(datapath.canIncreaseScale());
 		mnuZoomOut.setEnabled(datapath.canDecreaseScale());
+		mnuZoomNormal.setEnabled(!datapath.isDefaultScale());
+		cmdZoomIn.setEnabled(mnuZoomIn.isEnabled());
+		cmdZoomOut.setEnabled(mnuZoomOut.isEnabled());
+		cmdZoomNormal.setEnabled(mnuZoomNormal.isEnabled());
+		lblZoom.setText(Lang.t("zoom", (int)(datapath.getScale() * 100) + "%"));
 	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -2543,6 +2616,9 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JButton cmdStatistics;
     private javax.swing.JButton cmdStep;
     private javax.swing.JButton cmdSupportedInstructions;
+    private javax.swing.JButton cmdZoomIn;
+    private javax.swing.JButton cmdZoomNormal;
+    private javax.swing.JButton cmdZoomOut;
     private org.feup.brunonova.drmips.gui.DatapathPanel datapath;
     private org.jscroll.JScrollDesktopPane desktop;
     private javax.swing.ButtonGroup grpLanguages;
@@ -2566,6 +2642,8 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator15;
     private javax.swing.JPopupMenu.Separator jSeparator16;
     private javax.swing.JPopupMenu.Separator jSeparator17;
+    private javax.swing.JToolBar.Separator jSeparator18;
+    private javax.swing.JToolBar.Separator jSeparator19;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;
@@ -2574,6 +2652,7 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator7;
     private javax.swing.JPopupMenu.Separator jSeparator8;
     private javax.swing.JPopupMenu.Separator jSeparator9;
+    private javax.swing.JMenu lbl;
     private javax.swing.JLabel lblAssembledCodeFormat;
     private javax.swing.JLabel lblCaretPosition;
     private javax.swing.JLabel lblDataMemoryFormat;
@@ -2583,6 +2662,7 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JLabel lblFile;
     private javax.swing.JLabel lblFileName;
     private javax.swing.JLabel lblRegFormat;
+    private javax.swing.JLabel lblZoom;
     private javax.swing.JMenuItem mnuAbout;
     private javax.swing.JCheckBoxMenuItem mnuArrowsInWires;
     private javax.swing.JMenuItem mnuAssemble;
@@ -2601,7 +2681,6 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JPopupMenu mnuEditP;
     private javax.swing.JMenu mnuExecute;
     private javax.swing.JMenuItem mnuExit;
-    private javax.swing.JMenu mnuFile;
     private javax.swing.JMenuItem mnuFindReplace;
     private javax.swing.JMenuItem mnuFindReplaceP;
     private javax.swing.JMenu mnuHelp;
