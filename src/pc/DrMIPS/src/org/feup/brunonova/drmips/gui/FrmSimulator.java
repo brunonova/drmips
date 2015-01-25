@@ -1002,6 +1002,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuDatapath.add(jSeparator14);
 
         mnuZoomIn.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_PLUS, java.awt.event.InputEvent.CTRL_MASK));
+        mnuZoomIn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/zoom-in.png"))); // NOI18N
         mnuZoomIn.setText("zoom_in");
         mnuZoomIn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1011,6 +1012,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuDatapath.add(mnuZoomIn);
 
         mnuZoomOut.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_MINUS, java.awt.event.InputEvent.CTRL_MASK));
+        mnuZoomOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/zoom-out.png"))); // NOI18N
         mnuZoomOut.setText("zoom_out");
         mnuZoomOut.setEnabled(false);
         mnuZoomOut.addActionListener(new java.awt.event.ActionListener() {
@@ -1021,6 +1023,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuDatapath.add(mnuZoomOut);
 
         mnuZoomNormal.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_0, java.awt.event.InputEvent.CTRL_MASK));
+        mnuZoomNormal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/zoom-default.png"))); // NOI18N
         mnuZoomNormal.setText("normal");
         mnuZoomNormal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
