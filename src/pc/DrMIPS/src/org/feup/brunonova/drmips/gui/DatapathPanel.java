@@ -42,9 +42,9 @@ import org.feup.brunonova.drmips.simulator.util.Point;
  */
 public class DatapathPanel extends JLayeredPane {
 	/** Minimum scale/zoom level allowed. */
-	public static final double SCALE_MINIMUM = 0.999; // floating-point values not precise
+	public static final double SCALE_MINIMUM = 1.0;
 	/** Maximum scale/zoom level allowed. */
-	public static final double SCALE_MAXIMUM = 3.001; // floating-point values not precise
+	public static final double SCALE_MAXIMUM = 3.0;
 	/** Default zoom in/out step. */
 	public static final double SCALE_STEP = 0.1;
 
@@ -239,7 +239,6 @@ public class DatapathPanel extends JLayeredPane {
 			this.scale = SCALE_MAXIMUM;
 		else
 			this.scale = scale;
-		DrMIPS.prefs.putDouble(DrMIPS.SCALE_PREF, getScale());
 		refreshScale();
 	}
 
@@ -269,7 +268,7 @@ public class DatapathPanel extends JLayeredPane {
 	 * @return <tt>true</tt> if it's possible to zoom in.
 	 */
 	public boolean canIncreaseScale() {
-		return (getScale() + SCALE_STEP) <= SCALE_MAXIMUM;
+		return getScale()  < SCALE_MAXIMUM;
 	}
 
 	/**
@@ -277,7 +276,7 @@ public class DatapathPanel extends JLayeredPane {
 	 * @return <tt>true</tt> if it's possible to zoom out.
 	 */
 	public boolean canDecreaseScale() {
-		return (getScale() - SCALE_STEP) >= SCALE_MINIMUM;
+		return getScale() > SCALE_MINIMUM;
 	}
 
 	/**
@@ -286,6 +285,34 @@ public class DatapathPanel extends JLayeredPane {
 	 */
 	public boolean isDefaultScale() {
 		return getScale() == DrMIPS.DEFAULT_SCALE;
+	}
+
+	/**
+	 * Returns the scale/zoom level that would make the datapath fit the panel it is in.
+	 * The returned scale won't exceed the minimum or the maximum limits.
+	 * @param size Size of the parent panel.
+	 * @return Scale/zoom level to make the datapath fit its parent.
+	 */
+	public double getScaleToFitPanel(java.awt.Dimension size) {
+		if(cpu != null) {
+			Dimension cpuSize = cpu.getSize();
+			double sw = (double)(size.width - 5) / (double)cpuSize.width;
+			double sh = (double)(size.height - 5) / (double)cpuSize.height;
+			double s = Math.min(sw, sh);
+			// check limits
+			return s < SCALE_MINIMUM ? SCALE_MINIMUM : (s > SCALE_MAXIMUM ? SCALE_MAXIMUM : s);
+		}
+		else
+			return SCALE_MINIMUM;
+	}
+
+	/**
+	 * Scale the datapath to make it as big as possible but fit the panel it is in.
+	 * The scale won't exceed the minimum or the maximum limits.
+	 * @param size Size of the parent panel.
+	 */
+	public void scaleToFitPanel(java.awt.Dimension size) {
+		setScale(getScaleToFitPanel(size));
 	}
 
 	/**
@@ -304,8 +331,10 @@ public class DatapathPanel extends JLayeredPane {
 	 * Sets the preferred size of the datapath, scaled to the current zoom level.
 	 */
 	private void setPreferredSizeScaled() {
-		Dimension size = cpu.getSize();
-		setPreferredSize(new java.awt.Dimension((int)(size.width * getScale()), (int)(size.height * getScale())));
+		if(cpu != null) {
+			Dimension size = cpu.getSize();
+			setPreferredSize(new java.awt.Dimension((int)(size.width * getScale()), (int)(size.height * getScale())));
+		}
 	}
 
 	@Override

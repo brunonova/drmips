@@ -166,6 +166,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		mnuRemoveLatencies.setEnabled(mnuPerformanceMode.isSelected());
 		mnuRestoreLatencies.setEnabled(mnuPerformanceMode.isSelected());
 		refreshDatapathHelp();
+		switchZoomAuto(DrMIPS.prefs.getBoolean(DrMIPS.AUTO_SCALE_PREF, DrMIPS.DEFAULT_AUTO_SCALE));
 		updateZoomStatus();
 	}
 	
@@ -231,6 +232,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         cmdZoomIn = new javax.swing.JButton();
         cmdZoomOut = new javax.swing.JButton();
         cmdZoomNormal = new javax.swing.JButton();
+        chkZoomAutoAdjust = new javax.swing.JToggleButton();
         jSeparator19 = new javax.swing.JToolBar.Separator();
         lblZoom = new javax.swing.JLabel();
         pnlSplit = new javax.swing.JSplitPane();
@@ -246,7 +248,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         cmbAssembledCodeFormat = new javax.swing.JComboBox();
         pnlDatapath = new javax.swing.JPanel();
         tblExec = new org.feup.brunonova.drmips.gui.ExecTable();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        datapathScroll = new javax.swing.JScrollPane();
         datapath = new org.feup.brunonova.drmips.gui.DatapathPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -313,6 +315,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuZoomIn = new javax.swing.JMenuItem();
         mnuZoomOut = new javax.swing.JMenuItem();
         mnuZoomNormal = new javax.swing.JMenuItem();
+        mnuZoomAutoAdjust = new javax.swing.JCheckBoxMenuItem();
         jSeparator17 = new javax.swing.JPopupMenu.Separator();
         mnuRestoreLatencies = new javax.swing.JMenuItem();
         mnuRemoveLatencies = new javax.swing.JMenuItem();
@@ -620,6 +623,17 @@ public class FrmSimulator extends javax.swing.JFrame {
             }
         });
         pnlToolBar.add(cmdZoomNormal);
+
+        chkZoomAutoAdjust.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x24/zoom-auto-adjust.png"))); // NOI18N
+        chkZoomAutoAdjust.setFocusable(false);
+        chkZoomAutoAdjust.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        chkZoomAutoAdjust.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        chkZoomAutoAdjust.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkZoomAutoAdjustActionPerformed(evt);
+            }
+        });
+        pnlToolBar.add(chkZoomAutoAdjust);
         pnlToolBar.add(jSeparator19);
 
         lblZoom.setText("zoom: 100%");
@@ -675,9 +689,14 @@ public class FrmSimulator extends javax.swing.JFrame {
         pnlDatapath.setLayout(new java.awt.BorderLayout());
         pnlDatapath.add(tblExec, java.awt.BorderLayout.NORTH);
 
-        jScrollPane1.setViewportView(datapath);
+        datapathScroll.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                datapathScrollComponentResized(evt);
+            }
+        });
+        datapathScroll.setViewportView(datapath);
 
-        pnlDatapath.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        pnlDatapath.add(datapathScroll, java.awt.BorderLayout.CENTER);
 
         jPanel2.setLayout(new java.awt.BorderLayout());
 
@@ -1077,6 +1096,15 @@ public class FrmSimulator extends javax.swing.JFrame {
             }
         });
         mnuDatapath.add(mnuZoomNormal);
+
+        mnuZoomAutoAdjust.setText("adjust_automatically");
+        mnuZoomAutoAdjust.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/zoom-auto-adjust.png"))); // NOI18N
+        mnuZoomAutoAdjust.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuZoomAutoAdjustActionPerformed(evt);
+            }
+        });
+        mnuDatapath.add(mnuZoomAutoAdjust);
         mnuDatapath.add(jSeparator17);
 
         mnuRestoreLatencies.setText("restore_latencies");
@@ -1561,6 +1589,21 @@ public class FrmSimulator extends javax.swing.JFrame {
 		zoomNormal();
     }//GEN-LAST:event_cmdZoomNormalActionPerformed
 
+    private void datapathScrollComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_datapathScrollComponentResized
+		if(mnuZoomAutoAdjust.isSelected()) {
+			datapath.scaleToFitPanel(datapathScroll.getSize());
+			updateZoomStatus();
+		}
+    }//GEN-LAST:event_datapathScrollComponentResized
+
+    private void mnuZoomAutoAdjustActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuZoomAutoAdjustActionPerformed
+		switchZoomAuto();
+    }//GEN-LAST:event_mnuZoomAutoAdjustActionPerformed
+
+    private void chkZoomAutoAdjustActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkZoomAutoAdjustActionPerformed
+		switchZoomAuto();
+    }//GEN-LAST:event_chkZoomAutoAdjustActionPerformed
+
 	/**
 	 * Sets the path of the opened file and updates the title bar and recent files.
 	 * @param path Path to the opened file.
@@ -1863,6 +1906,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		Lang.tButton(mnuZoomIn, "zoom_in");
 		Lang.tButton(mnuZoomOut, "zoom_out");
 		Lang.tButton(mnuZoomNormal, "normal");
+		Lang.tButton(mnuZoomAutoAdjust, "adjust_automatically");
 		Lang.tButton(mnuResetDataBeforeAssembling, "reset_data_before_assembling");
 		Lang.tButton(mnuCPU, "cpu");
 		Lang.tButton(mnuLoadCPU, "load");
@@ -1923,6 +1967,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		cmdZoomIn.setToolTipText(Lang.t("zoom_in"));
 		cmdZoomOut.setToolTipText(Lang.t("zoom_out"));
 		cmdZoomNormal.setToolTipText(Lang.t("normal"));
+		chkZoomAutoAdjust.setToolTipText(Lang.t("adjust_automatically"));
 		lblZoom.setText(Lang.t("zoom", (int)(datapath.getScale() * 100) + "%"));
 
 		updateCaretPosition();
@@ -2109,6 +2154,10 @@ public class FrmSimulator extends javax.swing.JFrame {
 		datapath.setShowArrows(mnuArrowsInWires.isSelected());
 		datapath.setPerformanceMode(mnuPerformanceMode.isSelected());
 		repaint();
+		if(mnuZoomAutoAdjust.isSelected()) {
+			datapath.scaleToFitPanel(datapathScroll.getSize());
+			updateZoomStatus();
+		}
 	}
 	
 	/**
@@ -2561,6 +2610,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 	private void zoomIn() {
 		datapath.increaseScale();
 		updateZoomStatus();
+		DrMIPS.prefs.putDouble(DrMIPS.SCALE_PREF, datapath.getScale());
 		if(!mnuInternalWindows.isSelected())
 			tabDatapath.select();
 	}
@@ -2571,6 +2621,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 	private void zoomOut() {
 		datapath.decreaseScale();
 		updateZoomStatus();
+		DrMIPS.prefs.putDouble(DrMIPS.SCALE_PREF, datapath.getScale());
 		if(!mnuInternalWindows.isSelected())
 			tabDatapath.select();
 	}
@@ -2581,24 +2632,52 @@ public class FrmSimulator extends javax.swing.JFrame {
 	private void zoomNormal() {
 		datapath.restoreDefaultScale();
 		updateZoomStatus();
+		DrMIPS.prefs.putDouble(DrMIPS.SCALE_PREF, datapath.getScale());
 		if(!mnuInternalWindows.isSelected())
 			tabDatapath.select();
 	}
 
 	/**
-	 * Updates the enabled/disabled state of zoom controls and the zoom level label.
+	 * Switches the "auto zoom" state.
+	 */
+	private void switchZoomAuto() {
+		boolean auto = !DrMIPS.prefs.getBoolean(DrMIPS.AUTO_SCALE_PREF, DrMIPS.DEFAULT_AUTO_SCALE);
+		switchZoomAuto(auto);
+		if(!mnuInternalWindows.isSelected())
+			tabDatapath.select();
+	}
+
+	/**
+	 * Enables or disables auto zoom.
+	 * @param auto Whether to enable or disable auto zoom.
+	 */
+	private void switchZoomAuto(boolean auto) {
+		DrMIPS.prefs.putBoolean(DrMIPS.AUTO_SCALE_PREF, auto);
+		if(auto)
+			datapath.scaleToFitPanel(datapathScroll.getSize());
+		else
+			datapath.setScale(DrMIPS.prefs.getDouble(DrMIPS.SCALE_PREF, DrMIPS.DEFAULT_SCALE));
+		updateZoomStatus();
+	}
+
+	/**
+	 * Updates the enabled/selected state of zoom controls and the zoom level label.
 	 */
 	private void updateZoomStatus() {
-		mnuZoomIn.setEnabled(datapath.canIncreaseScale());
-		mnuZoomOut.setEnabled(datapath.canDecreaseScale());
-		mnuZoomNormal.setEnabled(!datapath.isDefaultScale());
-		cmdZoomIn.setEnabled(mnuZoomIn.isEnabled());
-		cmdZoomOut.setEnabled(mnuZoomOut.isEnabled());
-		cmdZoomNormal.setEnabled(mnuZoomNormal.isEnabled());
+		boolean auto = DrMIPS.prefs.getBoolean(DrMIPS.AUTO_SCALE_PREF, DrMIPS.DEFAULT_AUTO_SCALE);
+		mnuZoomAutoAdjust.setSelected(auto);
+		chkZoomAutoAdjust.setSelected(auto);
+		mnuZoomIn.setEnabled(!auto && datapath.canIncreaseScale());
+		mnuZoomOut.setEnabled(!auto && datapath.canDecreaseScale());
+		mnuZoomNormal.setEnabled(!auto && !datapath.isDefaultScale());
+		cmdZoomIn.setEnabled(!auto && mnuZoomIn.isEnabled());
+		cmdZoomOut.setEnabled(!auto && mnuZoomOut.isEnabled());
+		cmdZoomNormal.setEnabled(!auto && mnuZoomNormal.isEnabled());
 		lblZoom.setText(Lang.t("zoom", (int)(datapath.getScale() * 100) + "%"));
 	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton chkZoomAutoAdjust;
     private javax.swing.JComboBox cmbAssembledCodeFormat;
     private javax.swing.JComboBox cmbDataMemoryFormat;
     private javax.swing.JComboBox cmbDatapathDataFormat;
@@ -2620,6 +2699,7 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JButton cmdZoomNormal;
     private javax.swing.JButton cmdZoomOut;
     private org.feup.brunonova.drmips.gui.DatapathPanel datapath;
+    private javax.swing.JScrollPane datapathScroll;
     private org.jscroll.JScrollDesktopPane desktop;
     private javax.swing.ButtonGroup grpLanguages;
     private javax.swing.JPanel jPanel1;
@@ -2629,7 +2709,6 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
@@ -2720,6 +2799,7 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuUndoP;
     private javax.swing.JMenu mnuView;
     private javax.swing.JMenu mnuWindows;
+    private javax.swing.JCheckBoxMenuItem mnuZoomAutoAdjust;
     private javax.swing.JMenuItem mnuZoomIn;
     private javax.swing.JMenuItem mnuZoomNormal;
     private javax.swing.JMenuItem mnuZoomOut;
