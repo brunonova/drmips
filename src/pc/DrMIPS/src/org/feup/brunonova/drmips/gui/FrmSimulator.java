@@ -694,6 +694,12 @@ public class FrmSimulator extends javax.swing.JFrame {
                 datapathScrollComponentResized(evt);
             }
         });
+
+        datapath.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                datapathMouseWheelMoved(evt);
+            }
+        });
         datapathScroll.setViewportView(datapath);
 
         pnlDatapath.add(datapathScroll, java.awt.BorderLayout.CENTER);
@@ -1603,6 +1609,20 @@ public class FrmSimulator extends javax.swing.JFrame {
     private void chkZoomAutoAdjustActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkZoomAutoAdjustActionPerformed
 		switchZoomAuto();
     }//GEN-LAST:event_chkZoomAutoAdjustActionPerformed
+
+    private void datapathMouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_datapathMouseWheelMoved
+		if(evt.isControlDown()) {
+			if(!mnuZoomAutoAdjust.isSelected()) {
+				// Zoom in/out
+				if(evt.getWheelRotation() < 0)
+					zoomIn();
+				else
+					zoomOut();
+			}
+		}
+		else
+			evt.getComponent().getParent().dispatchEvent(evt); // scroll up/down
+    }//GEN-LAST:event_datapathMouseWheelMoved
 
 	/**
 	 * Sets the path of the opened file and updates the title bar and recent files.
