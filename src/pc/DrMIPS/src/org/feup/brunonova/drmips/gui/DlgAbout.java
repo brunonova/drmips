@@ -183,6 +183,7 @@ public class DlgAbout extends javax.swing.JDialog {
 		String credits = AppInfo.getAuthorsAsText() + "\n\n"
 			+ Lang.t("external_resources") + ":\n"
 			+ "  AutoComplete (http://fifesoft.com/autocomplete/)\n"
+			+ "  GNOME Icons (http://ftp.gnome.org/pub/gnome/sources/gnome-icon-theme/)\n"
 			+ "  Humanity Icons (https://launchpad.net/humanity/)\n"
 			+ "  jScroll (http://jscroll.sourceforge.net/)\n"
 			+ "  JSON.org by Android (https://android.googlesource.com/platform/libcore/+log/master/json/)\n"
