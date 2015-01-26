@@ -1988,7 +1988,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		cmdZoomOut.setToolTipText(Lang.t("zoom_out"));
 		cmdZoomNormal.setToolTipText(Lang.t("normal"));
 		chkZoomAutoAdjust.setToolTipText(Lang.t("adjust_automatically"));
-		lblZoom.setText(Lang.t("zoom", (int)(datapath.getScale() * 100) + "%"));
+		lblZoom.setText(Lang.t("zoom", Math.round(datapath.getScale() * 100) + "%"));
 
 		updateCaretPosition();
 		lblRegFormat.setText(Lang.t("format") + ":");
@@ -2693,7 +2693,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		cmdZoomIn.setEnabled(!auto && mnuZoomIn.isEnabled());
 		cmdZoomOut.setEnabled(!auto && mnuZoomOut.isEnabled());
 		cmdZoomNormal.setEnabled(!auto && mnuZoomNormal.isEnabled());
-		lblZoom.setText(Lang.t("zoom", (int)(datapath.getScale() * 100) + "%"));
+		lblZoom.setText(Lang.t("zoom", Math.round(datapath.getScale() * 100) + "%"));
 	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
