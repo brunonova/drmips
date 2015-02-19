@@ -321,7 +321,7 @@ public class DatapathPanel extends JLayeredPane {
 	public void refreshScale() {
 		setPreferredSizeScaled();
 		for(DatapathComponent comp: components.values())
-			comp.setLocationAndLizeScaled();
+			comp.setLocationAndSizeScaled();
 		for(Wire w: wires)
 			w.setTipsLocationScaled();
 		SwingUtilities.updateComponentTreeUI(this);
