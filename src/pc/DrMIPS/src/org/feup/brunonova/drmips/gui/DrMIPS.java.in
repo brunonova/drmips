@@ -91,6 +91,8 @@ public class DrMIPS {
 	public static final boolean DEFAULT_PERFORMANCE_MODE = false;
 	/** Whether the in/out tips are shown by default. */
 	public static final boolean DEFAULT_OVERLAYED_DATA = true;
+	/** Whether the names in the in/out tips are shown by default. */
+	public static final boolean DEFAULT_OVERLAYED_SHOW_NAMES = false;
 	/** Whether the window show be started maximized by default. */
 	public static final boolean DEFAULT_MAXIMIZED = true;
 	/** The default width of the window. */
@@ -153,6 +155,8 @@ public class DrMIPS {
 	public static final String PERFORMANCE_TYPE_PREF = "performance_type";
 	/** The key of the overlayed data preference. */
 	public static final String OVERLAYED_DATA_PREF = "overlayed_data";
+	/** The key of the overlayed show names preference. */
+	public static final String OVERLAYED_SHOW_NAMES_PREF = "overlayed_show_names";
 	/** The key of the maximized preference. */
 	public static final String MAXIMIZED_PREF = "maximized";
 	/** The key to the window width preference. */

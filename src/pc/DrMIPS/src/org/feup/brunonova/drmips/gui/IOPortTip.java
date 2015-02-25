@@ -70,7 +70,7 @@ public class IOPortTip extends JLabel {
 		setOpaque(true);
 		setBorder(BorderFactory.createLineBorder(BORDER_COLOR));
 		setVerticalAlignment(SwingConstants.CENTER);
-		setText(value);
+		setValue(value);
 	}
 
 	@Override
@@ -84,11 +84,17 @@ public class IOPortTip extends JLabel {
 		setLocation(p.x, p.y);
 	}
 
-	@Override
-	public final void setText(String value) {
-		super.setText(value);
-		super.setToolTipText(id + ": " + value);
+	public final void setValue(String value, boolean showName) {
+		if(showName)
+			setText(id + ": " + value);
+		else
+			setText(value);
+		setToolTipText(id + ": " + value);
 		resize();
+	}
+
+	public final void setValue(String value) {
+		setValue(value, false);
 	}
 	
 	private void resize() {

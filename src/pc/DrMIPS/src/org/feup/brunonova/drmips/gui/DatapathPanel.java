@@ -66,6 +66,8 @@ public class DatapathPanel extends JLayeredPane {
 	private boolean performanceMode = false;
 	/** Whether to display in/out tips. */
 	private boolean showTips = true;
+	/** Whether to display the names in the in/out tips. */
+	private boolean showTipsNames = false;
 	/** Current scale/zoom level of the datapath. */
 	public double scale;
 	
@@ -161,11 +163,20 @@ public class DatapathPanel extends JLayeredPane {
 	}
 	
 	/**
-	 * Sets whether to show in/out tips..
+	 * Sets whether to show in/out tips.
 	 * @param show Whether to show the tips or not.
 	 */
 	public void setShowTips(boolean show) {
 		showTips = show;
+		refresh();
+	}
+
+	/**
+	 * Sets whether to show the names in the in/out tips.
+	 * @param show Whether to show the names or not.
+	 */
+	public void setShowTipsNames(boolean show) {
+		showTipsNames = show;
 		refresh();
 	}
 	
@@ -400,13 +411,13 @@ public class DatapathPanel extends JLayeredPane {
 			if(outTip != null) {
 				String v = performanceMode ? "" + out.getComponent().getAccumulatedLatency() :
 				                             Util.formatDataAccordingToFormat(out.getData(), dataFormat);
-				outTip.setText(v);
+				outTip.setValue(v, showTipsNames);
 				outTip.setVisible(showTips && (controlPathVisible || !out.isInControlPath()));
 			}
 			if(inTip != null && out.isConnected()) {
 				String v = performanceMode ? "" + out.getConnectedInput().getAccumulatedLatency() :
 				                             Util.formatDataAccordingToFormat(out.getConnectedInput().getData(), dataFormat);
-				inTip.setText(v);
+				inTip.setValue(v, showTipsNames);
 				inTip.setVisible(showTips && (controlPathVisible || !out.getConnectedInput().isInControlPath()));
 			}
 		}
