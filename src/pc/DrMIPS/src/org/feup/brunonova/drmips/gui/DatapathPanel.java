@@ -397,13 +397,17 @@ public class DatapathPanel extends JLayeredPane {
 		 * Refreshes the values on the in/out tips (if any).
 		 */
 		public void refreshTips() {
-			if(outTip != null) { 
-				outTip.setText(Util.formatDataAccordingToFormat(out.getData(), dataFormat));
-				outTip.setVisible(showTips && !performanceMode && (controlPathVisible || !out.isInControlPath()));
+			if(outTip != null) {
+				String v = performanceMode ? "" + out.getComponent().getAccumulatedLatency() :
+				                             Util.formatDataAccordingToFormat(out.getData(), dataFormat);
+				outTip.setText(v);
+				outTip.setVisible(showTips && (controlPathVisible || !out.isInControlPath()));
 			}
 			if(inTip != null && out.isConnected()) {
-				inTip.setText(Util.formatDataAccordingToFormat(out.getConnectedInput().getData(), dataFormat));
-				inTip.setVisible(showTips && !performanceMode && (controlPathVisible || !out.getConnectedInput().isInControlPath()));
+				String v = performanceMode ? "" + out.getConnectedInput().getAccumulatedLatency() :
+				                             Util.formatDataAccordingToFormat(out.getConnectedInput().getData(), dataFormat);
+				inTip.setText(v);
+				inTip.setVisible(showTips && (controlPathVisible || !out.getConnectedInput().isInControlPath()));
 			}
 		}
 		

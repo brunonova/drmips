@@ -162,7 +162,6 @@ public class FrmSimulator extends javax.swing.JFrame {
 		cmbDatapathPerformance.setVisible(mnuPerformanceMode.isSelected());
 		mnuOverlayedData.setSelected(DrMIPS.prefs.getBoolean(DrMIPS.OVERLAYED_DATA_PREF, DrMIPS.DEFAULT_OVERLAYED_DATA));
 		datapath.setShowTips(mnuOverlayedData.isSelected());
-		mnuOverlayedData.setEnabled(!mnuPerformanceMode.isSelected());
 		mnuRemoveLatencies.setEnabled(mnuPerformanceMode.isSelected());
 		mnuRestoreLatencies.setEnabled(mnuPerformanceMode.isSelected());
 		refreshDatapathHelp();
@@ -1484,7 +1483,6 @@ public class FrmSimulator extends javax.swing.JFrame {
 		cmbDatapathDataFormat.setVisible(!mnuPerformanceMode.isSelected());
 		lblDatapathPerformance.setVisible(mnuPerformanceMode.isSelected());
 		cmbDatapathPerformance.setVisible(mnuPerformanceMode.isSelected());
-		mnuOverlayedData.setEnabled(!mnuPerformanceMode.isSelected());
 		mnuRemoveLatencies.setEnabled(mnuPerformanceMode.isSelected());
 		mnuRestoreLatencies.setEnabled(mnuPerformanceMode.isSelected());
 		DrMIPS.prefs.putBoolean(DrMIPS.PERFORMANCE_MODE_PREF, mnuPerformanceMode.isSelected());
