@@ -40,34 +40,37 @@ public class IOPortTip extends JLabel {
 	private static final Color BACKGROUND_COLOR = new Color(255, 255, 128, 150);
 	/** The color of the tip's border. */
 	private static final Color BORDER_COLOR = new Color(128, 128, 0, 150);
+
+	/** Identifier of the input/output. */
+	private final String id;
 	
 	/**
 	 * Constructor.
-	 * @param text The initial text of the tip (value in the input/output?).
-	 * @param tooltip The tooltip of the tip (identifier of the input/output?).
+	 * @param id Identifier of the input/output.
+	 * @param value Value in the input/output.
 	 * @param x The x coordinate of the tip's position in the <tt>attachedComponent</tt>.
 	 * @param y The y coordinate of the tip's position in the <tt>attachedComponent</tt>.
 	 */
-	public IOPortTip(String text, String tooltip, int x, int y) {
-		this(text, tooltip);
+	public IOPortTip(String id, String value, int x, int y) {
+		this(value, id);
 		setLocation(x, y);
 	}
 
 	/**
 	 * Constructor.
-	 * @param text The initial text of the tip (value in the input/output?).
-	 * @param tooltip The tooltip of the tip (identifier of the input/output?).
+	 * @param id Identifier of the input/output.
+	 * @param value Value in the input/output.
 	 */
-	public IOPortTip(String text, String tooltip) {
-		super(text);
+	public IOPortTip(String id, String value) {
+		super();
+		this.id = id;
 		setFont(FONT);
 		setForeground(TEXT_COLOR);
 		setBackground(BACKGROUND_COLOR);
 		setOpaque(true);
 		setBorder(BorderFactory.createLineBorder(BORDER_COLOR));
-		setToolTipText(tooltip);
 		setVerticalAlignment(SwingConstants.CENTER);
-		resize();
+		setText(value);
 	}
 
 	@Override
@@ -82,8 +85,9 @@ public class IOPortTip extends JLabel {
 	}
 
 	@Override
-	public void setText(String text) {
-		super.setText(text);
+	public final void setText(String value) {
+		super.setText(value);
+		super.setToolTipText(id + ": " + value);
 		resize();
 	}
 	

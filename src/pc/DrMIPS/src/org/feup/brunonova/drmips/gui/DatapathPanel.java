@@ -377,9 +377,9 @@ public class DatapathPanel extends JLayeredPane {
 			end = out.getConnectedInput().getComponent().getInputPosition(out.getConnectedInput());
 			points = out.getIntermediatePoints();
 			if(out.shouldShowTip())
-				add(outTip = new IOPortTip("0", out.getId()), JLayeredPane.PALETTE_LAYER);
+				add(outTip = new IOPortTip(out.getId(), "0"), JLayeredPane.PALETTE_LAYER);
 			if(out.isConnected() && out.getConnectedInput().shouldShowTip())
-				add(inTip = new IOPortTip("0", out.getConnectedInput().getId()), JLayeredPane.PALETTE_LAYER);
+				add(inTip = new IOPortTip(out.getConnectedInput().getId(), "0"), JLayeredPane.PALETTE_LAYER);
 			setTipsLocationScaled();
 		}
 
