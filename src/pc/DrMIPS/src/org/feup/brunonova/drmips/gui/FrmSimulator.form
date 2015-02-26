@@ -608,6 +608,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuStatistics">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="F6"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="statistics"/>
               </Properties>
               <Events>
@@ -720,6 +723,9 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mnuLoadCPU">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Shift+Ctrl+O"/>
+                </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/res/icons/x16/load_cpu.png"/>
                 </Property>
@@ -738,6 +744,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuSupportedInstructions">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Shift+F1"/>
+                </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/res/icons/x16/info.png"/>
                 </Property>

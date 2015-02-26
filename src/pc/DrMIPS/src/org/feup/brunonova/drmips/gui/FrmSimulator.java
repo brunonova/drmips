@@ -1160,6 +1160,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuDatapath.add(mnuRemoveLatencies);
         mnuDatapath.add(jSeparator15);
 
+        mnuStatistics.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, 0));
         mnuStatistics.setText("statistics");
         mnuStatistics.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1238,6 +1239,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 
         mnuCPU.setText("cpu");
 
+        mnuLoadCPU.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         mnuLoadCPU.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/load_cpu.png"))); // NOI18N
         mnuLoadCPU.setText("load");
         mnuLoadCPU.addActionListener(new java.awt.event.ActionListener() {
@@ -1251,6 +1253,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuCPU.add(mnuLoadRecentCPU);
         mnuCPU.add(jSeparator13);
 
+        mnuSupportedInstructions.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, java.awt.event.InputEvent.SHIFT_MASK));
         mnuSupportedInstructions.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/icons/x16/info.png"))); // NOI18N
         mnuSupportedInstructions.setText("supported_instructions");
         mnuSupportedInstructions.addActionListener(new java.awt.event.ActionListener() {
