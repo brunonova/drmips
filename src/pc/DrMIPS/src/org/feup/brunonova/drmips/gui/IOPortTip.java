@@ -84,6 +84,11 @@ public class IOPortTip extends JLabel {
 		setLocation(p.x, p.y);
 	}
 
+	/**
+	 * Updates the value of the tip.
+	 * @param value New value (as a String formatted in bin/dec/hex).
+	 * @param showName Whether to display the name of the input/output as well.
+	 */
 	public final void setValue(String value, boolean showName) {
 		if(showName)
 			setText(id + ": " + value);
@@ -93,6 +98,10 @@ public class IOPortTip extends JLabel {
 		resize();
 	}
 
+	/**
+	 * Updates the value of the tip.
+	 * @param value New value (as a String formatted in bin/dec/hex).
+	 */
 	public final void setValue(String value) {
 		setValue(value, false);
 	}

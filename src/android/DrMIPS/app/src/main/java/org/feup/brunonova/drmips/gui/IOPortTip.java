@@ -36,20 +36,20 @@ import android.widget.Toast;
  * @author Bruno Nova
  */
 public class IOPortTip extends TextView implements View.OnClickListener {
-	/** The tooltip of the tip (identifier of the input/output?). */
-	private String tooltip;
+	/** Identifier of the input/output. */
+	private final String id;
 	
 	/**
 	 * Constructor.
 	 * @param context The context of the tip.
-	 * @param text The initial text of the tip (value in the input/output?).
-	 * @param tooltip The tooltip of the tip (identifier of the input/output?).
+	 * @param id Identifier of the input/output.
+	 * @param value Value in the input/output.
 	 * @param x The x coordinate of the tip's position in the <tt>attachedComponent</tt>.
 	 * @param y The y coordinate of the tip's position in the <tt>attachedComponent</tt>.
 	 */
-	public IOPortTip(Context context, String text, String tooltip, int x, int y) {
+	public IOPortTip(Context context, String id, String value, int x, int y) {
 		super(context);
-		this.tooltip = tooltip;
+		this.id = id;
 		setTypeface(Typeface.MONOSPACE);
 		setTextColor(Color.BLACK);
 		setBackgroundResource(R.drawable.tip_back);
@@ -63,10 +63,31 @@ public class IOPortTip extends TextView implements View.OnClickListener {
 		setLayoutParams(params);
 		
 		setOnClickListener(this);
+		setValue(value);
+	}
+
+	/**
+	 * Updates the value of the tip.
+	 * @param value New value (as a String formatted in bin/dec/hex).
+	 * @param showName Whether to display the name of the input/output as well.
+	 */
+	public final void setValue(String value, boolean showName) {
+		if(showName)
+			setText(id + ": " + value);
+		else
+			setText(value);
+	}
+
+	/**
+	 * Updates the value of the tip.
+	 * @param value New value (as a String formatted in bin/dec/hex).
+	 */
+	public final void setValue(String value) {
+		setValue(value, false);
 	}
 
 	@Override
 	public void onClick(View v) {
-		Toast.makeText(getContext(), tooltip, Toast.LENGTH_SHORT).show();
+		Toast.makeText(getContext(), id + ": " + getText(), Toast.LENGTH_SHORT).show();
 	}
 }
