@@ -121,7 +121,7 @@
     <string name="arrows_in_wires">Arrows in wires</string>
     <string name="performance_mode">Performance mode</string>
     <string name="long_press_to_change">long-press to change</string>
-    <string name="overlayed_data">Overlayed data</string>
+    <string name="overlayed_data">Data in inputs and outputs</string>
     <string name="restart">Restart</string>
     <string name="run">Run</string>
     <string name="possible_infinite_loop">Possible infinite loop detected (more than #1 cycles executed)!</string>
