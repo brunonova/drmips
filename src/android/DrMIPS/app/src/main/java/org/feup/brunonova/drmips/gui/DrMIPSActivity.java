@@ -171,7 +171,6 @@ public class DrMIPSActivity extends Activity {
 		mnuPerformanceMode.setChecked(DrMIPS.getApplication().getPreferences().getBoolean(DrMIPS.PERFORMANCE_MODE_PREF, DrMIPS.DEFAULT_PERFORMANCE_MODE));
 		mnuOverlayedData = menu.findItem(R.id.mnuOverlayedData);
 		mnuOverlayedData.setChecked(DrMIPS.getApplication().getPreferences().getBoolean(DrMIPS.OVERLAYED_DATA_PREF, DrMIPS.DEFAULT_OVERLAYED_DATA));
-		mnuOverlayedData.setVisible(!mnuPerformanceMode.isChecked());
 		mnuRemoveLatencies = menu.findItem(R.id.mnuRemoveLatencies);
 		mnuRemoveLatencies.setVisible(mnuPerformanceMode.isChecked());
 		mnuRestoreLatencies = menu.findItem(R.id.mnuRestoreLatencies);
@@ -716,7 +715,6 @@ public class DrMIPSActivity extends Activity {
 		cmbDatapathFormat.setVisibility(mnuPerformanceMode.isChecked() ? View.GONE : View.VISIBLE);
 		lblDatapathPerformance.setVisibility(!mnuPerformanceMode.isChecked() ? View.GONE : View.VISIBLE);
 		cmbDatapathPerformance.setVisibility(!mnuPerformanceMode.isChecked() ? View.GONE : View.VISIBLE);
-		if(mnuOverlayedData != null) mnuOverlayedData.setVisible(!mnuPerformanceMode.isChecked());
 		if(mnuRemoveLatencies != null) mnuRemoveLatencies.setVisible(mnuPerformanceMode.isChecked());
 		if(mnuRestoreLatencies != null) mnuRestoreLatencies.setVisible(mnuPerformanceMode.isChecked());
 	}

@@ -26,6 +26,7 @@ import java.util.TreeMap;
 import org.feup.brunonova.drmips.R;
 import org.feup.brunonova.drmips.simulator.mips.CPU;
 import org.feup.brunonova.drmips.simulator.mips.Component;
+import org.feup.brunonova.drmips.simulator.mips.Input;
 import org.feup.brunonova.drmips.simulator.mips.Output;
 import org.feup.brunonova.drmips.simulator.mips.components.Concatenator;
 import org.feup.brunonova.drmips.simulator.mips.components.Distributor;
@@ -268,13 +269,18 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 		 * Refreshes the values on the in/out tips (if any).
 		 */
 		public void refreshTips() {
-			if(outTip != null) { 
-				outTip.setValue(Util.formatDataAccordingToFormat(out.getData(), activity.getDatapathFormat()));
-				outTip.setVisibility((showTips && !performanceMode && (controlPathVisible || !out.isInControlPath())) ? VISIBLE : GONE);
+			if(outTip != null) {
+				String v = performanceMode ? "" + out.getComponent().getAccumulatedLatency() :
+				                             Util.formatDataAccordingToFormat(out.getData(), activity.getDatapathFormat());
+				outTip.setValue(v);
+				outTip.setVisibility((showTips && (controlPathVisible || !out.isInControlPath())) ? VISIBLE : GONE);
 			}
 			if(inTip != null && out.isConnected()) {
-				inTip.setValue(Util.formatDataAccordingToFormat(out.getConnectedInput().getData(), activity.getDatapathFormat()));
-				inTip.setVisibility((showTips && !performanceMode && (controlPathVisible || !out.getConnectedInput().isInControlPath())) ? VISIBLE : GONE);
+				Input in = out.getConnectedInput();
+				String v = performanceMode ? "" + in.getAccumulatedLatency() :
+				                             Util.formatDataAccordingToFormat(in.getData(), activity.getDatapathFormat());
+				inTip.setValue(v);
+				inTip.setVisibility((showTips && (controlPathVisible || !in.isInControlPath())) ? VISIBLE : GONE);
 			}
 		}
 		
