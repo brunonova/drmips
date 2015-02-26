@@ -33,7 +33,7 @@ import javax.swing.SwingConstants;
  */
 public class IOPortTip extends JLabel {
 	/** The font used for the text. */
-	private static final Font FONT = new Font(Font.MONOSPACED, Font.PLAIN, 8);
+	private static final Font FONT = new Font(Font.MONOSPACED, Font.PLAIN, 9);
 	/** The color of the tip's text. */
 	private static final Color TEXT_COLOR = Color.BLACK;
 	/** The color of the tip's background. */
