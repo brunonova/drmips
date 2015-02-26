@@ -165,6 +165,9 @@ public class FrmSimulator extends javax.swing.JFrame {
 		mnuOverlayedShowNames.setEnabled(mnuOverlayedData.isSelected());
 		mnuOverlayedShowNames.setSelected(DrMIPS.prefs.getBoolean(DrMIPS.OVERLAYED_SHOW_NAMES_PREF, DrMIPS.DEFAULT_OVERLAYED_SHOW_NAMES));
 		datapath.setShowTipsNames(mnuOverlayedShowNames.isSelected());
+		mnuOverlayedShowForAll.setEnabled(mnuOverlayedData.isSelected());
+		mnuOverlayedShowForAll.setSelected(DrMIPS.prefs.getBoolean(DrMIPS.OVERLAYED_SHOW_FOR_ALL_PREF, DrMIPS.DEFAULT_OVERLAYED_SHOW_FOR_ALL));
+		datapath.setShowTipsForAllComps(mnuOverlayedShowForAll.isSelected());
 		mnuRemoveLatencies.setEnabled(mnuPerformanceMode.isSelected());
 		mnuRestoreLatencies.setEnabled(mnuPerformanceMode.isSelected());
 		refreshDatapathHelp();
@@ -315,6 +318,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuOverlayed = new javax.swing.JMenu();
         mnuOverlayedData = new javax.swing.JCheckBoxMenuItem();
         mnuOverlayedShowNames = new javax.swing.JCheckBoxMenuItem();
+        mnuOverlayedShowForAll = new javax.swing.JCheckBoxMenuItem();
         jSeparator14 = new javax.swing.JPopupMenu.Separator();
         mnuZoomIn = new javax.swing.JMenuItem();
         mnuZoomOut = new javax.swing.JMenuItem();
@@ -1055,7 +1059,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         });
         mnuDatapath.add(mnuControlPath);
 
-        mnuArrowsInWires.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mnuArrowsInWires.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         mnuArrowsInWires.setSelected(true);
         mnuArrowsInWires.setText("arrows_in_wires");
         mnuArrowsInWires.addActionListener(new java.awt.event.ActionListener() {
@@ -1085,6 +1089,15 @@ public class FrmSimulator extends javax.swing.JFrame {
             }
         });
         mnuOverlayed.add(mnuOverlayedShowNames);
+
+        mnuOverlayedShowForAll.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mnuOverlayedShowForAll.setText("show_for_all_components");
+        mnuOverlayedShowForAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuOverlayedShowForAllActionPerformed(evt);
+            }
+        });
+        mnuOverlayed.add(mnuOverlayedShowForAll);
 
         mnuDatapath.add(mnuOverlayed);
         mnuDatapath.add(jSeparator14);
@@ -1515,6 +1528,7 @@ public class FrmSimulator extends javax.swing.JFrame {
     private void mnuOverlayedDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuOverlayedDataActionPerformed
 		datapath.setShowTips(mnuOverlayedData.isSelected());
 		mnuOverlayedShowNames.setEnabled(mnuOverlayedData.isSelected());
+		mnuOverlayedShowForAll.setEnabled(mnuOverlayedData.isSelected());
 		DrMIPS.prefs.putBoolean(DrMIPS.OVERLAYED_DATA_PREF, mnuOverlayedData.isSelected());
     }//GEN-LAST:event_mnuOverlayedDataActionPerformed
 
@@ -1645,6 +1659,11 @@ public class FrmSimulator extends javax.swing.JFrame {
 		datapath.setShowTipsNames(mnuOverlayedShowNames.isSelected());
 		DrMIPS.prefs.putBoolean(DrMIPS.OVERLAYED_SHOW_NAMES_PREF, mnuOverlayedShowNames.isSelected());
     }//GEN-LAST:event_mnuOverlayedShowNamesActionPerformed
+
+    private void mnuOverlayedShowForAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuOverlayedShowForAllActionPerformed
+		datapath.setShowTipsForAllComps(mnuOverlayedShowForAll.isSelected());
+		DrMIPS.prefs.putBoolean(DrMIPS.OVERLAYED_SHOW_FOR_ALL_PREF, mnuOverlayedShowForAll.isSelected());
+    }//GEN-LAST:event_mnuOverlayedShowForAllActionPerformed
 
 	/**
 	 * Sets the path of the opened file and updates the title bar and recent files.
@@ -1935,6 +1954,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		Lang.tButton(mnuOverlayed, "overlayed_data");
 		Lang.tButton(mnuOverlayedData, "enable");
 		Lang.tButton(mnuOverlayedShowNames, "show_names");
+		Lang.tButton(mnuOverlayedShowForAll, "show_for_all_components");
 		Lang.tButton(mnuInternalWindows, "internal_windows");
 		Lang.tButton(mnuSwitchTheme, "dark_theme");
 		Lang.tButton(mnuMarginLine, "show_margin_line");
@@ -2818,6 +2838,7 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JMenu mnuOpenRecent;
     private javax.swing.JMenu mnuOverlayed;
     private javax.swing.JCheckBoxMenuItem mnuOverlayedData;
+    private javax.swing.JCheckBoxMenuItem mnuOverlayedShowForAll;
     private javax.swing.JCheckBoxMenuItem mnuOverlayedShowNames;
     private javax.swing.JMenuItem mnuPaste;
     private javax.swing.JMenuItem mnuPasteP;

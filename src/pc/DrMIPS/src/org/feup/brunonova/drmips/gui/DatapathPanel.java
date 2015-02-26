@@ -28,8 +28,10 @@ import javax.swing.JLayeredPane;
 import javax.swing.SwingUtilities;
 import org.feup.brunonova.drmips.simulator.mips.CPU;
 import org.feup.brunonova.drmips.simulator.mips.Component;
+import org.feup.brunonova.drmips.simulator.mips.Input;
 import org.feup.brunonova.drmips.simulator.mips.Output;
 import org.feup.brunonova.drmips.simulator.mips.components.Concatenator;
+import org.feup.brunonova.drmips.simulator.mips.components.Constant;
 import org.feup.brunonova.drmips.simulator.mips.components.Distributor;
 import org.feup.brunonova.drmips.simulator.mips.components.Fork;
 import org.feup.brunonova.drmips.simulator.util.Dimension;
@@ -68,6 +70,8 @@ public class DatapathPanel extends JLayeredPane {
 	private boolean showTips = true;
 	/** Whether to display the names in the in/out tips. */
 	private boolean showTipsNames = false;
+	/** Whether to display the tips for (almost) all components. */
+	private boolean showTipsForAllComps = false;
 	/** Current scale/zoom level of the datapath. */
 	public double scale;
 	
@@ -177,6 +181,15 @@ public class DatapathPanel extends JLayeredPane {
 	 */
 	public void setShowTipsNames(boolean show) {
 		showTipsNames = show;
+		refresh();
+	}
+
+	/**
+	 * Sets whether to show the in/out tips for (almost) all components.
+	 * @param show Whether to show for all components.
+	 */
+	public void setShowTipsForAllComps(boolean show) {
+		showTipsForAllComps = show;
 		refresh();
 	}
 	
@@ -387,10 +400,25 @@ public class DatapathPanel extends JLayeredPane {
 			start = out.getComponent().getOutputPosition(out);
 			end = out.getConnectedInput().getComponent().getInputPosition(out.getConnectedInput());
 			points = out.getIntermediatePoints();
-			if(out.shouldShowTip())
+			createTips();
+		}
+
+		/**
+		 * Creates the in/out data tips.
+		 */
+		private void createTips() {
+			Component outComp = out.getComponent();
+			if(!(outComp instanceof Fork || outComp instanceof Concatenator ||
+			     outComp instanceof Distributor || outComp instanceof Constant)) {
 				add(outTip = new IOPortTip(out.getId(), "0"), JLayeredPane.PALETTE_LAYER);
-			if(out.isConnected() && out.getConnectedInput().shouldShowTip())
-				add(inTip = new IOPortTip(out.getConnectedInput().getId(), "0"), JLayeredPane.PALETTE_LAYER);
+			}
+			if(out.isConnected()) {
+				Component inComp = out.getConnectedInput().getComponent();
+				if(!(inComp instanceof Fork || inComp instanceof Concatenator ||
+				     inComp instanceof Distributor || inComp instanceof Constant)) {
+					add(inTip = new IOPortTip(out.getConnectedInput().getId(), "0"), JLayeredPane.PALETTE_LAYER);
+				}
+			}
 			setTipsLocationScaled();
 		}
 
@@ -412,13 +440,14 @@ public class DatapathPanel extends JLayeredPane {
 				String v = performanceMode ? "" + out.getComponent().getAccumulatedLatency() :
 				                             Util.formatDataAccordingToFormat(out.getData(), dataFormat);
 				outTip.setValue(v, showTipsNames);
-				outTip.setVisible(showTips && (controlPathVisible || !out.isInControlPath()));
+				outTip.setVisible(showTips && (out.shouldShowTip() || showTipsForAllComps) && (controlPathVisible || !out.isInControlPath()));
 			}
 			if(inTip != null && out.isConnected()) {
-				String v = performanceMode ? "" + out.getConnectedInput().getAccumulatedLatency() :
-				                             Util.formatDataAccordingToFormat(out.getConnectedInput().getData(), dataFormat);
+				Input in = out.getConnectedInput();
+				String v = performanceMode ? "" + in.getAccumulatedLatency() :
+				                             Util.formatDataAccordingToFormat(in.getData(), dataFormat);
 				inTip.setValue(v, showTipsNames);
-				inTip.setVisible(showTips && (controlPathVisible || !out.getConnectedInput().isInControlPath()));
+				inTip.setVisible(showTips && (in.shouldShowTip() || showTipsForAllComps) && (controlPathVisible || !in.isInControlPath()));
 			}
 		}
 		
