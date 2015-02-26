@@ -259,9 +259,9 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 			end = out.getConnectedInput().getComponent().getInputPosition(out.getConnectedInput());
 			points = out.getIntermediatePoints();
 			if(out.shouldShowTip())
-				addView(outTip = new IOPortTip(getContext(), "0", out.getId(), start.x, start.y));
+				addView(outTip = new IOPortTip(getContext(), out.getId(), "0", start.x, start.y));
 			if(out.isConnected() && out.getConnectedInput().shouldShowTip())
-				addView(inTip = new IOPortTip(getContext(), "0", out.getConnectedInput().getId(), end.x, end.y));
+				addView(inTip = new IOPortTip(getContext(), out.getConnectedInput().getId(), "0", end.x, end.y));
 		}
 		
 		/**
@@ -269,11 +269,11 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 		 */
 		public void refreshTips() {
 			if(outTip != null) { 
-				outTip.setText(Util.formatDataAccordingToFormat(out.getData(), activity.getDatapathFormat()));
+				outTip.setValue(Util.formatDataAccordingToFormat(out.getData(), activity.getDatapathFormat()));
 				outTip.setVisibility((showTips && !performanceMode && (controlPathVisible || !out.isInControlPath())) ? VISIBLE : GONE);
 			}
 			if(inTip != null && out.isConnected()) {
-				inTip.setText(Util.formatDataAccordingToFormat(out.getConnectedInput().getData(), activity.getDatapathFormat()));
+				inTip.setValue(Util.formatDataAccordingToFormat(out.getConnectedInput().getData(), activity.getDatapathFormat()));
 				inTip.setVisibility((showTips && !performanceMode && (controlPathVisible || !out.getConnectedInput().isInControlPath())) ? VISIBLE : GONE);
 			}
 		}
