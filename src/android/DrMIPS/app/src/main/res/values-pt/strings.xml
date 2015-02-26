@@ -120,7 +120,7 @@
     <string name="arrows_in_wires">Setas nas ligações</string>
     <string name="performance_mode">Modo de desempenho</string>
     <string name="long_press_to_change">mantenha premido para alterar</string>
-    <string name="overlayed_data">Dados sobrepostos</string>
+    <string name="overlayed_data">Dados nas entradas e saídas</string>
     <string name="restart">Reiniciar</string>
     <string name="run">Executar</string>
     <string name="possible_infinite_loop">Possível ciclo infinito detectado (mais de #1 ciclos executados)!</string>
