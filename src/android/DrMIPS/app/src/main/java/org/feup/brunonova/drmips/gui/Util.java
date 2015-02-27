@@ -19,7 +19,6 @@
 package org.feup.brunonova.drmips.gui;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
 import android.util.TypedValue;
 

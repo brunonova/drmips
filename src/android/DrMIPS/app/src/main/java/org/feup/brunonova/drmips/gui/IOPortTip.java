@@ -20,6 +20,7 @@ package org.feup.brunonova.drmips.gui;
 
 import org.feup.brunonova.drmips.R;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -35,6 +36,7 @@ import android.widget.Toast;
  * 
  * @author Bruno Nova
  */
+@SuppressLint("ViewConstructor")
 public class IOPortTip extends TextView implements View.OnClickListener {
 	/** Identifier of the input/output. */
 	private final String id;
