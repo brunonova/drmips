@@ -161,5 +161,6 @@
     <string name="credits">Credits</string>
 	<string name="enable">Enable</string>
 	<string name="show_names">Show names</string>
+	<string name="show_for_all_components">Show for all components</string>
 
 </resources>

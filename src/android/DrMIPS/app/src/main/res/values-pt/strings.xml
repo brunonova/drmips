@@ -160,5 +160,6 @@
     <string name="cpi">CPI:</string>
 	<string name="enable">Activar</string>
 	<string name="show_names">Mostrar os nomes</string>
+	<string name="show_for_all_components">Mostrar para todos os componentes</string>
 
 </resources>

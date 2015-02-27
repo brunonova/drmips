@@ -23,6 +23,7 @@
 				<menu>
 					<item android:id="@+id/mnuOverlayedData" android:orderInCategory="100" android:checkable="true" android:checked="true" android:title="@string/enable"/>
 					<item android:id="@+id/mnuOverlayedShowNames" android:orderInCategory="100" android:checkable="true" android:checked="false" android:title="@string/show_names"/>
+					<item android:id="@+id/mnuOverlayedShowForAll" android:orderInCategory="100" android:checkable="true" android:checked="false" android:title="@string/show_for_all_components"/>
 				</menu>
 			</item>
             <item android:id="@+id/mnuRestoreLatencies" android:title="@string/restore_latencies" android:orderInCategory="100"/>
