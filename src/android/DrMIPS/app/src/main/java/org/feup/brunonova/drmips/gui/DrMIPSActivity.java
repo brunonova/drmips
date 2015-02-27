@@ -252,6 +252,8 @@ public class DrMIPSActivity extends Activity {
 			datapath.setShowArrows(DrMIPS.getApplication().getPreferences().getBoolean(DrMIPS.SHOW_ARROWS_PREF, DrMIPS.DEFAULT_SHOW_ARROWS));
 			datapath.setPerformanceMode(DrMIPS.getApplication().getPreferences().getBoolean(DrMIPS.PERFORMANCE_MODE_PREF, DrMIPS.DEFAULT_PERFORMANCE_MODE));
 			datapath.setShowTips(DrMIPS.getApplication().getPreferences().getBoolean(DrMIPS.OVERLAYED_DATA_PREF, DrMIPS.DEFAULT_OVERLAYED_DATA));
+			datapath.setShowTipsNames(DrMIPS.getApplication().getPreferences().getBoolean(DrMIPS.OVERLAYED_SHOW_NAMES_PREF, DrMIPS.DEFAULT_OVERLAYED_SHOW_NAMES));
+			datapath.setShowTipsForAllComps(DrMIPS.getApplication().getPreferences().getBoolean(DrMIPS.OVERLAYED_SHOW_FOR_ALL_PREF, DrMIPS.DEFAULT_OVERLAYED_SHOW_FOR_ALL));
 			refreshExecTable();
 			refreshAssembledCodeTable();
 			refreshRegistersTable();
@@ -1058,6 +1060,8 @@ public class DrMIPSActivity extends Activity {
 		datapath.setShowArrows(DrMIPS.getApplication().getPreferences().getBoolean(DrMIPS.SHOW_ARROWS_PREF, DrMIPS.DEFAULT_SHOW_ARROWS));
 		datapath.setPerformanceMode(DrMIPS.getApplication().getPreferences().getBoolean(DrMIPS.PERFORMANCE_MODE_PREF, DrMIPS.DEFAULT_PERFORMANCE_MODE));
 		datapath.setShowTips(DrMIPS.getApplication().getPreferences().getBoolean(DrMIPS.OVERLAYED_DATA_PREF, DrMIPS.DEFAULT_OVERLAYED_DATA));
+		datapath.setShowTipsNames(DrMIPS.getApplication().getPreferences().getBoolean(DrMIPS.OVERLAYED_SHOW_NAMES_PREF, DrMIPS.DEFAULT_OVERLAYED_SHOW_NAMES));
+		datapath.setShowTipsForAllComps(DrMIPS.getApplication().getPreferences().getBoolean(DrMIPS.OVERLAYED_SHOW_FOR_ALL_PREF, DrMIPS.DEFAULT_OVERLAYED_SHOW_FOR_ALL));
 		
 		lblCPUFilename.setText(cpu.getFile().getName());
 		SharedPreferences.Editor editor = DrMIPS.getApplication().getPreferences().edit();
