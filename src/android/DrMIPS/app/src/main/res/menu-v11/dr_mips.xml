@@ -9,11 +9,11 @@
             <item android:id="@+id/mnuDelete" android:orderInCategory="100" android:title="@string/delete" android:showAsAction="never" android:onClick="mnuDeleteOnClick" android:icon="?deleteIcon" android:visible="false"/>
         </menu>
     </item>
-    <item android:id="@+id/mnuAssemble" android:orderInCategory="100" android:icon="?assembleIcon" android:showAsAction="ifRoom" android:onClick="mnuAssembleOnClick" android:title="@string/assemble"></item>
-    <item android:id="@+id/mnuRestart" android:onClick="mnuRestartOnClick" android:title="@string/restart" android:orderInCategory="100" android:showAsAction="never" android:icon="?restartIcon"></item>
-    <item android:id="@+id/mnuBackStep" android:orderInCategory="100" android:icon="?backstepIcon" android:onClick="mnuBackStepOnClick" android:visible="false" android:title="@string/back_step" android:showAsAction="always"></item>
-    <item android:id="@+id/mnuStep" android:orderInCategory="100" android:icon="?stepIcon" android:showAsAction="always" android:onClick="mnuStepOnClick" android:visible="false" android:title="@string/step"></item>
-    <item android:id="@+id/mnuRun" android:orderInCategory="100" android:icon="?runIcon" android:showAsAction="never" android:onClick="mnuRunOnClick" android:visible="false" android:title="@string/run"></item>
+    <item android:id="@+id/mnuAssemble" android:orderInCategory="100" android:icon="?assembleIcon" android:showAsAction="ifRoom" android:onClick="mnuAssembleOnClick" android:title="@string/assemble"/>
+    <item android:id="@+id/mnuRestart" android:onClick="mnuRestartOnClick" android:title="@string/restart" android:orderInCategory="100" android:showAsAction="never" android:icon="?restartIcon"/>
+    <item android:id="@+id/mnuBackStep" android:orderInCategory="100" android:icon="?backstepIcon" android:onClick="mnuBackStepOnClick" android:visible="false" android:title="@string/back_step" android:showAsAction="always"/>
+    <item android:id="@+id/mnuStep" android:orderInCategory="100" android:icon="?stepIcon" android:showAsAction="always" android:onClick="mnuStepOnClick" android:visible="false" android:title="@string/step"/>
+    <item android:id="@+id/mnuRun" android:orderInCategory="100" android:icon="?runIcon" android:showAsAction="never" android:onClick="mnuRunOnClick" android:visible="false" android:title="@string/run"/>
     <item android:id="@+id/mnuDatapath" android:title="@string/datapath" android:orderInCategory="100" android:showAsAction="never">
         <menu>
             <item android:id="@+id/mnuPerformanceMode" android:checked="false" android:orderInCategory="100" android:onClick="mnuPerformanceModeOnClick" android:checkable="true" android:title="@string/performance_mode" android:showAsAction="never"/>
@@ -30,8 +30,8 @@
             <item android:id="@+id/mnuStatistics" android:onClick="mnuStatisticsOnClick" android:title="@string/statistics" android:orderInCategory="100" android:showAsAction="never"/>
         </menu>
     </item>
-    <item android:id="@+id/mnuLoadCPU" android:icon="?loadIcon" android:orderInCategory="100" android:title="@string/load_cpu" android:showAsAction="never" android:onClick="mnuLoadCPUOnClick"></item>
-    <item android:id="@+id/mnuSwitchTheme" android:showAsAction="never" android:title="@string/dark_theme" android:onClick="mnuSwitchThemeOnClick" android:checked="false" android:orderInCategory="100" android:checkable="true" android:icon="?themeIcon"></item>
-    <item android:id="@+id/mnuAbout" android:orderInCategory="100" android:title="@string/about" android:showAsAction="never" android:onClick="mnuAboutOnClick" android:icon="?aboutIcon"></item>
+    <item android:id="@+id/mnuLoadCPU" android:icon="?loadIcon" android:orderInCategory="100" android:title="@string/load_cpu" android:showAsAction="never" android:onClick="mnuLoadCPUOnClick"/>
+    <item android:id="@+id/mnuSwitchTheme" android:showAsAction="never" android:title="@string/dark_theme" android:onClick="mnuSwitchThemeOnClick" android:checked="false" android:orderInCategory="100" android:checkable="true" android:icon="?themeIcon"/>
+    <item android:id="@+id/mnuAbout" android:orderInCategory="100" android:title="@string/about" android:showAsAction="never" android:onClick="mnuAboutOnClick" android:icon="?aboutIcon"/>
 
 </menu>

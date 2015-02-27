@@ -9,11 +9,11 @@
             <item android:id="@+id/mnuDelete" android:orderInCategory="100" android:title="@string/delete" android:icon="@drawable/ic_action_delete_light" android:visible="false"/>
         </menu>
     </item>
-    <item android:id="@+id/mnuAssemble" android:orderInCategory="100" android:icon="@drawable/ic_action_assemble_light" android:title="@string/assemble"></item>
-    <item android:id="@+id/mnuRestart" android:title="@string/restart" android:orderInCategory="100" android:icon="@drawable/ic_action_restart_light"></item>
-    <item android:id="@+id/mnuBackStep" android:orderInCategory="100" android:icon="@drawable/ic_action_backstep_light" android:visible="false" android:title="@string/back_step"></item>
-    <item android:id="@+id/mnuStep" android:orderInCategory="100" android:icon="@drawable/ic_action_step_light" android:visible="false" android:title="@string/step"></item>
-    <item android:id="@+id/mnuRun" android:orderInCategory="100" android:icon="@drawable/ic_action_run_light" android:visible="false" android:title="@string/run"></item>
+    <item android:id="@+id/mnuAssemble" android:orderInCategory="100" android:icon="@drawable/ic_action_assemble_light" android:title="@string/assemble"/>
+    <item android:id="@+id/mnuRestart" android:title="@string/restart" android:orderInCategory="100" android:icon="@drawable/ic_action_restart_light"/>
+    <item android:id="@+id/mnuBackStep" android:orderInCategory="100" android:icon="@drawable/ic_action_backstep_light" android:visible="false" android:title="@string/back_step"/>
+    <item android:id="@+id/mnuStep" android:orderInCategory="100" android:icon="@drawable/ic_action_step_light" android:visible="false" android:title="@string/step"/>
+    <item android:id="@+id/mnuRun" android:orderInCategory="100" android:icon="@drawable/ic_action_run_light" android:visible="false" android:title="@string/run"/>
     <item android:id="@+id/mnuDatapath" android:title="@string/datapath" android:orderInCategory="100">
         <menu>
             <item android:id="@+id/mnuPerformanceMode" android:checked="false" android:orderInCategory="100" android:checkable="true" android:title="@string/performance_mode"/>
@@ -30,8 +30,8 @@
             <item android:id="@+id/mnuStatistics" android:title="@string/statistics" android:orderInCategory="100"/>
         </menu>
     </item>
-    <item android:id="@+id/mnuLoadCPU" android:icon="@drawable/ic_action_load_light" android:orderInCategory="100" android:title="@string/load_cpu"></item>
-    <item android:id="@+id/mnuSwitchTheme" android:title="@string/dark_theme" android:checked="false" android:orderInCategory="100" android:checkable="true" android:icon="@drawable/ic_action_theme_light"></item>
-    <item android:id="@+id/mnuAbout" android:orderInCategory="100" android:title="@string/about" android:icon="@drawable/ic_action_about_light"></item>
+    <item android:id="@+id/mnuLoadCPU" android:icon="@drawable/ic_action_load_light" android:orderInCategory="100" android:title="@string/load_cpu"/>
+    <item android:id="@+id/mnuSwitchTheme" android:title="@string/dark_theme" android:checked="false" android:orderInCategory="100" android:checkable="true" android:icon="@drawable/ic_action_theme_light"/>
+    <item android:id="@+id/mnuAbout" android:orderInCategory="100" android:title="@string/about" android:icon="@drawable/ic_action_about_light"/>
 
 </menu>
