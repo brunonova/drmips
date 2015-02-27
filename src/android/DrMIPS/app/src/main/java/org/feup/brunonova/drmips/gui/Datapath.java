@@ -29,6 +29,7 @@ import org.feup.brunonova.drmips.simulator.mips.Component;
 import org.feup.brunonova.drmips.simulator.mips.Input;
 import org.feup.brunonova.drmips.simulator.mips.Output;
 import org.feup.brunonova.drmips.simulator.mips.components.Concatenator;
+import org.feup.brunonova.drmips.simulator.mips.components.Constant;
 import org.feup.brunonova.drmips.simulator.mips.components.Distributor;
 import org.feup.brunonova.drmips.simulator.mips.components.Fork;
 import org.feup.brunonova.drmips.simulator.util.Dimension;
@@ -73,6 +74,8 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 	private boolean showTips = true;
 	/** Whether to display the names in the in/out tips. */
 	private boolean showTipsNames = false;
+	/** Whether to display the tips for (almost) all components. */
+	private boolean showTipsForAllComps = false;
 	
 	/**
 	 * Creates the datapath.
@@ -182,7 +185,16 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 		showTipsNames = show;
 		refresh();
 	}
-	
+
+	/**
+	 * Sets whether to show the in/out tips for (almost) all components.
+	 * @param show Whether to show for all components.
+	 */
+	public void setShowTipsForAllComps(boolean show) {
+		showTipsForAllComps = show;
+		refresh();
+	}
+
 	/**
 	 * Returns the datapath component with the specified identifier.
 	 * @param id Identifier of the component.
@@ -270,12 +282,31 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 			start = out.getComponent().getOutputPosition(out);
 			end = out.getConnectedInput().getComponent().getInputPosition(out.getConnectedInput());
 			points = out.getIntermediatePoints();
+			createTips();
 			if(out.shouldShowTip())
 				addView(outTip = new IOPortTip(getContext(), out.getId(), "0", start.x, start.y));
 			if(out.isConnected() && out.getConnectedInput().shouldShowTip())
 				addView(inTip = new IOPortTip(getContext(), out.getConnectedInput().getId(), "0", end.x, end.y));
 		}
-		
+
+		/**
+		 * Creates the in/out data tips.
+		 */
+		private void createTips() {
+			Component outComp = out.getComponent();
+			if(!(outComp instanceof Fork || outComp instanceof Concatenator ||
+				outComp instanceof Distributor || outComp instanceof Constant)) {
+				addView(outTip = new IOPortTip(getContext(), out.getId(), "0", start.x, start.y));
+			}
+			if(out.isConnected()) {
+				Component inComp = out.getConnectedInput().getComponent();
+				if(!(inComp instanceof Fork || inComp instanceof Concatenator ||
+					inComp instanceof Distributor || inComp instanceof Constant)) {
+					addView(inTip = new IOPortTip(getContext(), out.getConnectedInput().getId(), "0", end.x, end.y));
+				}
+			}
+		}
+
 		/**
 		 * Refreshes the values on the in/out tips (if any).
 		 */
@@ -284,14 +315,14 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 				String v = performanceMode ? "" + out.getComponent().getAccumulatedLatency() :
 				                             Util.formatDataAccordingToFormat(out.getData(), activity.getDatapathFormat());
 				outTip.setValue(v, showTipsNames);
-				outTip.setVisibility((showTips && (controlPathVisible || !out.isInControlPath())) ? VISIBLE : GONE);
+				outTip.setVisibility((showTips && (out.shouldShowTip() || showTipsForAllComps) && (controlPathVisible || !out.isInControlPath())) ? VISIBLE : GONE);
 			}
 			if(inTip != null && out.isConnected()) {
 				Input in = out.getConnectedInput();
 				String v = performanceMode ? "" + in.getAccumulatedLatency() :
 				                             Util.formatDataAccordingToFormat(in.getData(), activity.getDatapathFormat());
 				inTip.setValue(v, showTipsNames);
-				inTip.setVisibility((showTips && (controlPathVisible || !in.isInControlPath())) ? VISIBLE : GONE);
+				inTip.setVisibility((showTips && (in.shouldShowTip() || showTipsForAllComps) && (controlPathVisible || !in.isInControlPath())) ? VISIBLE : GONE);
 			}
 		}
 		
