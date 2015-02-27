@@ -110,10 +110,6 @@ public class DrMIPS extends Application {
 	private File cpuDir = null;
 	/** File representation that points to the user created assembly code files directory. */
 	private File codeDir = null;
-	/** The application's version code. */
-	private int versionCode = 0;
-	/** The application's version name. */
-	private String versionName = "";
 	/** The currently loaded CPU. */
 	private CPU cpu = null;
 	
@@ -122,15 +118,7 @@ public class DrMIPS extends Application {
 		super.onCreate();
 		app = this;
 		context = getApplicationContext();
-		
-		try { // Find application's version
-			PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
-			versionCode = info.versionCode;
-			versionName = info.versionName;
-		} catch (NameNotFoundException e) {
-			Log.e(getClass().getName(), "Failed to get app version!", e);
-		}
-		
+
 		createDefaultFiles();
 	}
 	
@@ -225,15 +213,7 @@ public class DrMIPS extends Application {
 	public File getCodeDir() {
 		return codeDir;
 	}
-	
-	/**
-	 * Returns the application's version code.
-	 * @return The application's version code.
-	 */
-	public int getVersionCode() {
-		return versionCode;
-	}
-	
+
 	/**
 	 * Returns the application's preferences.
 	 * @return App's preferences.
@@ -254,18 +234,29 @@ public class DrMIPS extends Application {
 			filesDir = context.getFilesDir(); // Apparently can return null, at least in the emulator
 			Toast.makeText(getContext(), R.string.sdcard_not_available, Toast.LENGTH_SHORT).show();
 		}
-		
+		if(filesDir == null)
+			filesDir = context.getCacheDir(); // if it's null for some reason, use the cache directory
+
 		// Create internal directories
-		cpuDir = new File(filesDir.getAbsoluteFile() + File.separator + "cpu");
-		codeDir = new File(filesDir.getAbsolutePath()+ File.separator + "code");
+		cpuDir = new File(filesDir.getAbsolutePath() + File.separator + "cpu");
+		codeDir = new File(filesDir.getAbsolutePath() + File.separator + "code");
 		if(!cpuDir.exists() && !cpuDir.mkdir()) Log.e(getClass().getName(), "Failed to create CPUs directory!");
 		if(!codeDir.exists() && !codeDir.mkdir()) Log.e(getClass().getName(), "Failed to create code directory!");
-		
+
+		// Find application's version
+		int versionCode = 0;
+		try {
+			PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
+			versionCode = info.versionCode;
+		} catch (NameNotFoundException e) {
+			Log.e(getClass().getName(), "Failed to get app version!", e);
+		}
+
 		// Find if the app was upgraded (because the default files could have been upgraded too)
 		boolean upgraded = versionCode > getPreferences().getInt(LAST_VERSION_PREF, -1);
 		SharedPreferences.Editor editor = getPreferences().edit();
 		editor.putInt(LAST_VERSION_PREF, versionCode); // save new "last version"
-		editor.commit();
+		editor.apply();
 		
 		// Copy default CPU files to the memory
 		File unicycleCPU = new File(cpuDir.getAbsoluteFile() + File.separator + "unicycle.cpu");
@@ -319,7 +310,7 @@ public class DrMIPS extends Application {
 			try {
 				if(in != null) in.close();
 				if(out != null) out.close();
-			} catch(Exception ex) { }
+			} catch(Exception ignored) { }
 		}
 	}
 }

@@ -35,6 +35,7 @@ import org.feup.brunonova.drmips.simulator.mips.components.Fork;
 import org.feup.brunonova.drmips.simulator.util.Dimension;
 import org.feup.brunonova.drmips.simulator.util.Point;
 
+import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -49,6 +50,7 @@ import android.widget.RelativeLayout;
  * 
  * @author Bruno Nova
  */
+@SuppressLint("ViewConstructor")
 public class Datapath extends RelativeLayout implements View.OnClickListener, View.OnLongClickListener {
 	/** The graphical components. */
 	private Map<String, DatapathComponent> components;

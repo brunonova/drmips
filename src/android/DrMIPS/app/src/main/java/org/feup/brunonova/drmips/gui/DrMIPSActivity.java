@@ -58,7 +58,6 @@ import android.text.InputType;
 import android.text.TextUtils.TruncateAt;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -122,10 +121,10 @@ public class DrMIPSActivity extends Activity {
 	private TabHost tabHost;
 	private EditText txtCode, txtFilename, txtRegisterValue, txtDataMemoryValue, txtLatency;
 	private TextView lblFilename, lblCPUFilename, lblDatapathFormat, lblDatapathPerformance;
-	private MenuItem mnuDelete = null, mnuStep = null, mnuBackStep = null, mnuSwitchTheme = null, mnuControlPath = null,
-	                 mnuArrowsInWires = null, mnuPerformanceMode = null, mnuOverlayedData = null, mnuOverlayedShowNames = null,
-	                 mnuOverlayedShowForAll = null, mnuRestart = null, mnuRun = null, mnuRestoreLatencies = null,
-	                 mnuRemoveLatencies = null;
+	private MenuItem mnuDelete = null, mnuStep = null, mnuBackStep = null, mnuControlPath = null,
+	                 mnuArrowsInWires = null, mnuPerformanceMode = null, mnuOverlayedData = null,
+	                 mnuOverlayedShowNames = null, mnuOverlayedShowForAll = null, mnuRestart = null,
+	                 mnuRun = null, mnuRestoreLatencies = null, mnuRemoveLatencies = null;
 	private ImageButton cmdStep;
 	private TableLayout tblAssembledCode, tblRegisters, tblDataMemory, tblExec;
 	private Spinner cmbAssembledCodeFormat, cmbRegistersFormat, cmbDataMemoryFormat, cmbDatapathFormat, cmbDatapathPerformance;
@@ -164,7 +163,7 @@ public class DrMIPSActivity extends Activity {
 		mnuBackStep = menu.findItem(R.id.mnuBackStep);
 		mnuRestart = menu.findItem(R.id.mnuRestart);
 		mnuRun = menu.findItem(R.id.mnuRun);
-		mnuSwitchTheme = menu.findItem(R.id.mnuSwitchTheme);
+		MenuItem mnuSwitchTheme = menu.findItem(R.id.mnuSwitchTheme);
 		mnuSwitchTheme.setChecked(DrMIPS.getApplication().getCurrentTheme() == R.style.DarkTheme);
 		mnuControlPath = menu.findItem(R.id.mnuControlPath);
 		mnuControlPath.setChecked(DrMIPS.getApplication().getPreferences().getBoolean(DrMIPS.SHOW_CONTROL_PATH_PREF, DrMIPS.DEFAULT_SHOW_CONTROL_PATH));
@@ -238,7 +237,7 @@ public class DrMIPSActivity extends Activity {
 	public void onBackPressed() {
 		showDialog(CONFIRM_EXIT_DIALOG);
 	}
-	
+
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		if(savedInstanceState != null && DrMIPS.getApplication().hasCPU()) {
@@ -676,7 +675,7 @@ public class DrMIPSActivity extends Activity {
 		// Save the new theme in the preferences
 		SharedPreferences.Editor editor = DrMIPS.getApplication().getPreferences().edit();
 		editor.putInt(DrMIPS.THEME_PREF, newTheme);
-		editor.commit();
+		editor.apply();
 		
 		// Restart the activity
 		if(Build.VERSION.SDK_INT >= 11)
@@ -710,19 +709,19 @@ public class DrMIPSActivity extends Activity {
 	
 	public void mnuControlPathOnClick(MenuItem menu) {
 		mnuControlPath.setChecked(!mnuControlPath.isChecked());
-		DrMIPS.getApplication().getPreferences().edit().putBoolean(DrMIPS.SHOW_CONTROL_PATH_PREF, mnuControlPath.isChecked()).commit();
+		DrMIPS.getApplication().getPreferences().edit().putBoolean(DrMIPS.SHOW_CONTROL_PATH_PREF, mnuControlPath.isChecked()).apply();
 		datapath.setControlPathVisible(mnuControlPath.isChecked());
 	}
 	
 	public void mnuArrowsInWiresOnClick(MenuItem menu) {
 		mnuArrowsInWires.setChecked(!mnuArrowsInWires.isChecked());
-		DrMIPS.getApplication().getPreferences().edit().putBoolean(DrMIPS.SHOW_ARROWS_PREF, mnuArrowsInWires.isChecked()).commit();
+		DrMIPS.getApplication().getPreferences().edit().putBoolean(DrMIPS.SHOW_ARROWS_PREF, mnuArrowsInWires.isChecked()).apply();
 		datapath.setShowArrows(mnuArrowsInWires.isChecked());
 	}
 	
 	public void mnuPerformanceModeOnClick(MenuItem menu) {
 		mnuPerformanceMode.setChecked(!mnuPerformanceMode.isChecked());
-		DrMIPS.getApplication().getPreferences().edit().putBoolean(DrMIPS.PERFORMANCE_MODE_PREF, mnuPerformanceMode.isChecked()).commit();
+		DrMIPS.getApplication().getPreferences().edit().putBoolean(DrMIPS.PERFORMANCE_MODE_PREF, mnuPerformanceMode.isChecked()).apply();
 		datapath.setPerformanceMode(mnuPerformanceMode.isChecked());
 		lblDatapathFormat.setVisibility(mnuPerformanceMode.isChecked() ? View.GONE : View.VISIBLE);
 		cmbDatapathFormat.setVisibility(mnuPerformanceMode.isChecked() ? View.GONE : View.VISIBLE);
@@ -735,19 +734,19 @@ public class DrMIPSActivity extends Activity {
 	public void mnuOverlayedDataOnClick(MenuItem menu) {
 		mnuOverlayedData.setChecked(!mnuOverlayedData.isChecked());
 		mnuOverlayedShowNames.setVisible(mnuOverlayedData.isChecked());
-		DrMIPS.getApplication().getPreferences().edit().putBoolean(DrMIPS.OVERLAYED_DATA_PREF, mnuOverlayedData.isChecked()).commit();
+		DrMIPS.getApplication().getPreferences().edit().putBoolean(DrMIPS.OVERLAYED_DATA_PREF, mnuOverlayedData.isChecked()).apply();
 		datapath.setShowTips(mnuOverlayedData.isChecked());
 	}
 
 	public void mnuOverlayedShowNamesOnClick(MenuItem menu) {
 		mnuOverlayedShowNames.setChecked(!mnuOverlayedShowNames.isChecked());
-		DrMIPS.getApplication().getPreferences().edit().putBoolean(DrMIPS.OVERLAYED_SHOW_NAMES_PREF, mnuOverlayedShowNames.isChecked()).commit();
+		DrMIPS.getApplication().getPreferences().edit().putBoolean(DrMIPS.OVERLAYED_SHOW_NAMES_PREF, mnuOverlayedShowNames.isChecked()).apply();
 		datapath.setShowTipsNames(mnuOverlayedShowNames.isChecked());
 	}
 
 	public void mnuOverlayedShowForAllOnClick(MenuItem menu) {
 		mnuOverlayedShowForAll.setChecked(!mnuOverlayedShowForAll.isChecked());
-		DrMIPS.getApplication().getPreferences().edit().putBoolean(DrMIPS.OVERLAYED_SHOW_FOR_ALL_PREF, mnuOverlayedShowForAll.isChecked()).commit();
+		DrMIPS.getApplication().getPreferences().edit().putBoolean(DrMIPS.OVERLAYED_SHOW_FOR_ALL_PREF, mnuOverlayedShowForAll.isChecked()).apply();
 		datapath.setShowTipsForAllComps(mnuOverlayedShowForAll.isChecked());
 	}
 
@@ -892,7 +891,7 @@ public class DrMIPSActivity extends Activity {
 			if(mnuDelete != null) mnuDelete.setVisible(false);
 			editor.remove(DrMIPS.LAST_FILE_PREF);
 		}
-		editor.commit();
+		editor.apply();
 	}
 
 	/**
@@ -1066,7 +1065,7 @@ public class DrMIPSActivity extends Activity {
 		lblCPUFilename.setText(cpu.getFile().getName());
 		SharedPreferences.Editor editor = DrMIPS.getApplication().getPreferences().edit();
 		editor.putString(DrMIPS.LAST_CPU_PREF, file.getName());
-		editor.commit();
+		editor.apply();
 	}
 	
 	/**
@@ -1749,28 +1748,28 @@ public class DrMIPSActivity extends Activity {
 			if(parent == cmbAssembledCodeFormat) { 
 				refreshAssembledCodeTable();
 				editor.putInt(DrMIPS.ASSEMBLED_CODE_FORMAT_PREF, cmbAssembledCodeFormat.getSelectedItemPosition());
-				editor.commit();
+				editor.apply();
 			}
 			else if(parent == cmbRegistersFormat) {
 				refreshRegistersTableValues();
 				editor.putInt(DrMIPS.REGISTER_FORMAT_PREF, cmbRegistersFormat.getSelectedItemPosition());
-				editor.commit();
+				editor.apply();
 			}
 			else if(parent == cmbDataMemoryFormat) {
 				refreshDataMemoryTableValues();
 				editor.putInt(DrMIPS.DATA_MEMORY_FORMAT_PREF, cmbDataMemoryFormat.getSelectedItemPosition());
-				editor.commit();
+				editor.apply();
 			}
 			else if(parent == cmbDatapathFormat) {
 				if(datapath != null) datapath.refresh();
 				editor.putInt(DrMIPS.DATAPATH_DATA_FORMAT_PREF, cmbDatapathFormat.getSelectedItemPosition());
-				editor.commit();
+				editor.apply();
 			}
 			else if(parent == cmbDatapathPerformance) {
 				getCPU().setPerformanceInstructionDependent(cmbDatapathPerformance.getSelectedItemPosition() == Util.INSTRUCTION_PERFORMANCE_TYPE_INDEX);
 				if(datapath != null) datapath.refresh();
 				editor.putInt(DrMIPS.PERFORMANCE_TYPE_PREF, cmbDatapathPerformance.getSelectedItemPosition());
-				editor.commit();
+				editor.apply();
 			}
 		}
 

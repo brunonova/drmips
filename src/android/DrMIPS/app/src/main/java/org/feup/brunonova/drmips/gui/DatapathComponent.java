@@ -31,6 +31,7 @@ import org.feup.brunonova.drmips.simulator.mips.components.Distributor;
 import org.feup.brunonova.drmips.simulator.mips.components.ExtendedALU;
 import org.feup.brunonova.drmips.simulator.mips.components.Fork;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -46,6 +47,7 @@ import android.widget.TextView;
  * 
  * @author Bruno Nova
  */
+@SuppressLint("ViewConstructor")
 public class DatapathComponent extends TextView {
 	/** The activity that the component belongs to. */
 	private DrMIPSActivity activity;
@@ -102,7 +104,7 @@ public class DatapathComponent extends TextView {
 	 * @param dialog The dialog.
 	 */
 	protected void refreshDescriptionDialog(Dialog dialog) {
-		String title = "";
+		String title;
 		
 		// Title
 		int nameId = getContext().getResources().getIdentifier(component.getNameKey(), "string", getContext().getPackageName());
