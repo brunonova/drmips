@@ -71,6 +71,8 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 	private Component latencyComponent = null;
 	/** Whether to display in/out tips. */
 	private boolean showTips = true;
+	/** Whether to display the names in the in/out tips. */
+	private boolean showTipsNames = false;
 	
 	/**
 	 * Creates the datapath.
@@ -164,11 +166,20 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 	}
 	
 	/**
-	 * Sets whether to show in/out tips..
+	 * Sets whether to show in/out tips.
 	 * @param show Whether to show the tips or not.
 	 */
 	public void setShowTips(boolean show) {
 		showTips = show;
+		refresh();
+	}
+
+	/**
+	 * Sets whether to show the names in the in/out tips.
+	 * @param show Whether to show the names or not.
+	 */
+	public void setShowTipsNames(boolean show) {
+		showTipsNames = show;
 		refresh();
 	}
 	
@@ -272,14 +283,14 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 			if(outTip != null) {
 				String v = performanceMode ? "" + out.getComponent().getAccumulatedLatency() :
 				                             Util.formatDataAccordingToFormat(out.getData(), activity.getDatapathFormat());
-				outTip.setValue(v);
+				outTip.setValue(v, showTipsNames);
 				outTip.setVisibility((showTips && (controlPathVisible || !out.isInControlPath())) ? VISIBLE : GONE);
 			}
 			if(inTip != null && out.isConnected()) {
 				Input in = out.getConnectedInput();
 				String v = performanceMode ? "" + in.getAccumulatedLatency() :
 				                             Util.formatDataAccordingToFormat(in.getData(), activity.getDatapathFormat());
-				inTip.setValue(v);
+				inTip.setValue(v, showTipsNames);
 				inTip.setVisibility((showTips && (controlPathVisible || !in.isInControlPath())) ? VISIBLE : GONE);
 			}
 		}

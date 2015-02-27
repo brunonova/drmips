@@ -158,5 +158,7 @@
     <string name="performance">Desempenho:</string>
     <string name="credits">Créditos</string>
     <string name="cpi">CPI:</string>
+	<string name="enable">Activar</string>
+	<string name="show_names">Mostrar os nomes</string>
 
 </resources>

@@ -122,7 +122,9 @@ public class DrMIPSActivity extends Activity {
 	private TabHost tabHost;
 	private EditText txtCode, txtFilename, txtRegisterValue, txtDataMemoryValue, txtLatency;
 	private TextView lblFilename, lblCPUFilename, lblDatapathFormat, lblDatapathPerformance;
-	private MenuItem mnuDelete = null, mnuStep = null, mnuBackStep = null, mnuSwitchTheme = null, mnuControlPath = null, mnuArrowsInWires = null, mnuPerformanceMode = null, mnuOverlayedData = null, mnuRestart = null, mnuRun = null, mnuRestoreLatencies = null, mnuRemoveLatencies = null;
+	private MenuItem mnuDelete = null, mnuStep = null, mnuBackStep = null, mnuSwitchTheme = null, mnuControlPath = null,
+	                 mnuArrowsInWires = null, mnuPerformanceMode = null, mnuOverlayedData = null, mnuOverlayedShowNames = null,
+	                 mnuRestart = null, mnuRun = null, mnuRestoreLatencies = null, mnuRemoveLatencies = null;
 	private ImageButton cmdStep;
 	private TableLayout tblAssembledCode, tblRegisters, tblDataMemory, tblExec;
 	private Spinner cmbAssembledCodeFormat, cmbRegistersFormat, cmbDataMemoryFormat, cmbDatapathFormat, cmbDatapathPerformance;
@@ -171,6 +173,9 @@ public class DrMIPSActivity extends Activity {
 		mnuPerformanceMode.setChecked(DrMIPS.getApplication().getPreferences().getBoolean(DrMIPS.PERFORMANCE_MODE_PREF, DrMIPS.DEFAULT_PERFORMANCE_MODE));
 		mnuOverlayedData = menu.findItem(R.id.mnuOverlayedData);
 		mnuOverlayedData.setChecked(DrMIPS.getApplication().getPreferences().getBoolean(DrMIPS.OVERLAYED_DATA_PREF, DrMIPS.DEFAULT_OVERLAYED_DATA));
+		mnuOverlayedShowNames = menu.findItem(R.id.mnuOverlayedShowNames);
+		mnuOverlayedShowNames.setChecked(DrMIPS.getApplication().getPreferences().getBoolean(DrMIPS.OVERLAYED_SHOW_NAMES_PREF, DrMIPS.DEFAULT_OVERLAYED_SHOW_NAMES));
+		mnuOverlayedShowNames.setVisible(mnuOverlayedData.isChecked());
 		mnuRemoveLatencies = menu.findItem(R.id.mnuRemoveLatencies);
 		mnuRemoveLatencies.setVisible(mnuPerformanceMode.isChecked());
 		mnuRestoreLatencies = menu.findItem(R.id.mnuRestoreLatencies);
@@ -201,6 +206,7 @@ public class DrMIPSActivity extends Activity {
 			case R.id.mnuArrowsInWires: mnuArrowsInWiresOnClick(item); return true;
 			case R.id.mnuPerformanceMode: mnuPerformanceModeOnClick(item); return true;
 			case R.id.mnuOverlayedData: mnuOverlayedDataOnClick(item); return true;
+			case R.id.mnuOverlayedShowNames: mnuOverlayedShowNamesOnClick(item); return true;
 			case R.id.mnuRestoreLatencies: mnuRestoreLatenciesOnClick(item); return true;
 			case R.id.mnuRemoveLatencies: mnuRemoveLatenciesOnClick(item); return true;
 			case R.id.mnuRestart: mnuRestartOnClick(item); return true;
@@ -721,8 +727,15 @@ public class DrMIPSActivity extends Activity {
 	
 	public void mnuOverlayedDataOnClick(MenuItem menu) {
 		mnuOverlayedData.setChecked(!mnuOverlayedData.isChecked());
+		mnuOverlayedShowNames.setVisible(mnuOverlayedData.isChecked());
 		DrMIPS.getApplication().getPreferences().edit().putBoolean(DrMIPS.OVERLAYED_DATA_PREF, mnuOverlayedData.isChecked()).commit();
 		datapath.setShowTips(mnuOverlayedData.isChecked());
+	}
+
+	public void mnuOverlayedShowNamesOnClick(MenuItem menu) {
+		mnuOverlayedShowNames.setChecked(!mnuOverlayedShowNames.isChecked());
+		DrMIPS.getApplication().getPreferences().edit().putBoolean(DrMIPS.OVERLAYED_SHOW_NAMES_PREF, mnuOverlayedShowNames.isChecked()).commit();
+		datapath.setShowTipsNames(mnuOverlayedShowNames.isChecked());
 	}
 	
 	public void mnuRestoreLatenciesOnClick(MenuItem menu) {

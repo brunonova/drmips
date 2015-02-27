@@ -159,5 +159,7 @@
     <string name="register_not_editable">Register #1 is not editable!</string>
     <string name="performance">Performance:</string>
     <string name="credits">Credits</string>
+	<string name="enable">Enable</string>
+	<string name="show_names">Show names</string>
 
 </resources>

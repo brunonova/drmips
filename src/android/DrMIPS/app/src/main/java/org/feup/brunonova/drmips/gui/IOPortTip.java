@@ -38,6 +38,8 @@ import android.widget.Toast;
 public class IOPortTip extends TextView implements View.OnClickListener {
 	/** Identifier of the input/output. */
 	private final String id;
+	/** The "tooltip" to display when pressed. */
+	private String tooltip;
 	
 	/**
 	 * Constructor.
@@ -76,6 +78,7 @@ public class IOPortTip extends TextView implements View.OnClickListener {
 			setText(id + ": " + value);
 		else
 			setText(value);
+		tooltip = id + ": " + value;
 	}
 
 	/**
@@ -88,6 +91,6 @@ public class IOPortTip extends TextView implements View.OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		Toast.makeText(getContext(), id + ": " + getText(), Toast.LENGTH_SHORT).show();
+		Toast.makeText(getContext(), tooltip, Toast.LENGTH_SHORT).show();
 	}
 }

@@ -75,6 +75,8 @@ public class DrMIPS extends Application {
 	public static final String PERFORMANCE_TYPE_PREF = "performance_type";
 	/** The key of the overlayed data preference. */
 	public static final String OVERLAYED_DATA_PREF = "overlayed_data";
+	/** The key of the overlayed show names preference. */
+	public static final String OVERLAYED_SHOW_NAMES_PREF = "overlayed_show_names";
 	/** The default format with which the registers are displayed. */
 	public static final int DEFAULT_REGISTER_FORMAT = Util.DECIMAL_FORMAT_INDEX;
 	/** The default format with which the datapath data is displayed. */
@@ -91,6 +93,8 @@ public class DrMIPS extends Application {
 	public static final boolean DEFAULT_PERFORMANCE_MODE = false;
 	/** Whether the in/out tips are shown by default. */
 	public static final boolean DEFAULT_OVERLAYED_DATA = true;
+	/** Whether the names in the in/out tips are shown by default. */
+	public static final boolean DEFAULT_OVERLAYED_SHOW_NAMES = false;
 	
 	/** The current application. */
 	private static DrMIPS app = null;
