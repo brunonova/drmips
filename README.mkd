@@ -27,8 +27,8 @@ To compile it:
 1.  Run `cmake .`, `ccmake .` or `cmake-gui .` from the root directory of the
     repository to generate the makefiles.
 
-    You may also (and it's recommended to) run one of the above commands from a
-    separate build-directory.
+    You could instead (and it's recommended to) run one of the above commands
+    from a separate build-directory.
     To do that, create a new folder (named *build*, for example) in the root
     directory of the repository and run `cmake ..`, `ccmake ..` or `cmake-gui ..`
     from that folder.
