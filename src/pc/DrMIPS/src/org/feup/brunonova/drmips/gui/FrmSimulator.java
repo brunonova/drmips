@@ -2534,6 +2534,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 
 		mnuWindows.setEnabled(true);
 		SwingUtilities.updateComponentTreeUI(this);
+		txtCode.requestFocus(); // make sure a component has focus so shortcut keys work
 	}
 	
 	/**
@@ -2558,6 +2559,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 
 		mnuWindows.setEnabled(false);
 		SwingUtilities.updateComponentTreeUI(this);
+		txtCode.requestFocus(); // make sure a component has focus so shortcut keys work
 	}
 	
 	/**
