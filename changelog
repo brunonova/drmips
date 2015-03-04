@@ -1,53 +1,91 @@
+Version 1.3.0 (XXXX-XX-XX)
+--------------------------
+
+* Improved the readability and color scheme of the simulator (Bug #17)
+* The assembled code table is now scrolled automatically to the instruction(s)
+  currently being executed
+* The inputs/outputs that are in the critical path are now highlighted in the
+  tooltips of the components while in performance mode
+* Added an option to display the names in the input/output tips
+* Added an option to display the input/output tips for all components
+* The input/output tips are now visible in performance mode as well
+* PC version:
+    - Added zoom controls to the datapath, including an auto-resize
+      option (Bug #9)
+    - Improved the "internal windows" mode by using jScroll. It now has
+      scrollbars, a toolbar to select windows, and options to tile and cascade
+      windows (Bug #18)
+    - On exit, the simulator will now remember whether the window was maximized
+      and its non-maximized size
+    - Added an option to show an 80 columns margin line in the code editor
+    - Added a status bar to the code editor that displays the caret's position
+    - Added an option to open the last file at startup
+    - The "print" feature now prints with the correct colors (Bug #3)
+    - Fixed wrong title being displayed in GNOME 3 (Bug #15). The fix doesn't
+      work in older GNOME versions
+* Android version:
+    - Converted the Android project to Android Studio
+
+
 Version 1.2.3 (2014-09-26)
 --------------------------
 
-* JTattoo, RSyntaxTextArea and Autocomplete libraries are now compiled from
-    source and included inside of the JAR file of the PC version
-* Updated JTattoo library
-* Removed an Android library that was not being used
+* PC version:
+    - JTattoo, RSyntaxTextArea and Autocomplete libraries are now compiled from
+      source and included inside of the JAR file
+    - Updated JTattoo library
+* Android version:
+    - Removed an Android library that was not being used
+
 
 Version 1.2.2 (2014-06-13)
 --------------------------
 
 * Support Java 6
 
+
 Version 1.2.1 (2014-06-09)
 --------------------------
 
-* Added Portuguese translation of the configuration manual
 * Improved the descriptions of the components
 * Renamed the identifiers of the components and inputs
 * Replaced JSON.org library with a free version
+* PC version:
+    - Added Portuguese translation of the configuration manual
+
 
 Version 1.2.0 (2014-05-21)
 --------------------------
 
 * Fixed a bug where the calculation of the critical path would fail when
-    the latencies of all components were 0
+  the latencies of all components were 0
 * Separated the cross-platform simulator code from the PC and Android
-    projects into a new project
+  projects into a new project
 * Some refactoring
+
 
 Version 1.1.1 (2014-03-28)
 --------------------------
 
 * Added credits to the "about" dialogs
-* Added some command-line arguments to the PC version
 * Switched to CMake build system to compile the simulator from the
-    command-line
+  command-line
+* PC version:
+    - Added some command-line arguments
+
 
 Version 1.1.0 (2014-01-08)
 --------------------------
 
-* The critical path of the current instruction can now be displayed
-  
-    The global critical path of the CPU is still available
+* The critical path of the current instruction can now be displayed.
+  The global critical path of the CPU is still available
+
 
 Version 1.0.6 (2013-12-18)
 --------------------------
 
-* Fixed problems with Windows network (UNC) paths in the
-  PC version (Issue #1)
+* PC version:
+    - Fixed problems with Windows network (UNC) paths (Bug #1)
 
 
 Version 1.0.5 (2013-12-12)
@@ -69,8 +107,9 @@ Version 1.0.3 (2013-11-29)
 * The tooltip of the ALU in the datapath now displays the operation it's
   performing
 * Updated the latencies of the components to more "realistic" values
-* Added a user manual in English and Portuguese to the PC version
-* Corrected some translations in the PC version
+* PC version:
+    - Added a user manual in English and Portuguese
+    - Corrected some translations
 
 
 Version 1.0.2 (2013-10-13)
@@ -78,10 +117,10 @@ Version 1.0.2 (2013-10-13)
 
 * Added an option to view some execution statistics
 * Added an option to remove the latencies of all components (set them to zero)
-* Added a button to view the list of instructions supported by the CPU to the
-  PC version
-* Improved the internationalization feature of the PC version
-* Updated the libraries used in the PC version
+* PC version:
+    - Added a button to view the list of instructions supported by the CPU
+    - Improved the internationalization feature
+    - Updated the libraries used
 
 
 Version 1.0.1 (2013-09-13)
