@@ -145,26 +145,6 @@ public class Util {
 	}
 	
 	/**
-	 * Returns the path of the specified file.
-	 * <p>The function tries to return the canonical path of the file (unique path,
-	 * follows symlinks, etc.) but, if not possible, returns the absolute path (the
-	 * same file can have many absolute paths).<br />
-	 * This function was created to avoid writing try...catch every time, since
-	 * <tt>File.getAbsoluteFile()</tt> can throw an exception.</p>
-	 * @param file The desired file.
-	 * @return The complete path to the file.
-	 */
-	public static String getFilePath(File file) {
-		try {
-			return file.getCanonicalPath();
-		}
-		catch(Exception e) {
-			LOG.log(Level.WARNING, "error getting canonical path for file " + file, e);
-			return file.getAbsolutePath();
-		}
-	}
-	
-	/**
 	 * Sets the program's light look and feel.
 	 */
 	public static void setLightLookAndFeel() {
