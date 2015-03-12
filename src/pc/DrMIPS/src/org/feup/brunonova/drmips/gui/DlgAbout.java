@@ -71,6 +71,7 @@ public class DlgAbout extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("about_program");
+        setPreferredSize(new java.awt.Dimension(400, 270));
         setResizable(false);
 
         lblVersion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
