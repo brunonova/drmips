@@ -199,7 +199,8 @@ public class DrMIPS {
 			+ "\n"
 			+ "Options:\n"
 			+ "  -h, --help   display this help and exit\n"
-			+ "  --version    display version information and exit");
+			+ "  --version    display version information and exit\n"
+			+ "  --no-opengl  disable hardware acceleration with OpenGL");
 		System.exit(0);
 	}
 	
@@ -209,9 +210,15 @@ public class DrMIPS {
 			+ "License: " + AppInfo.LICENSE_SHORT);
 		System.exit(0);
 	}
+
+	private static void enableOpenGl() {
+		// Hardware acceleration using OpenGL
+		System.setProperty("sun.java2d.opengl", "True");
+	}
 	
 	public static void main(String[] args) {
 		String filename = null;
+		boolean useOpenGl = true;
 		
 		// Parse command-line arguments
 		for(String arg: args) {
@@ -219,6 +226,8 @@ public class DrMIPS {
 				displayHelpAndExit();
 			else if(arg.equals("--version"))
 				displayVersionAndExit();
+			else if(arg.equals("--no-opengl"))
+				useOpenGl = false;
 			else if(arg.startsWith("-")) {
 				System.err.println("Invalid argument " + arg + "!");
 				System.exit(1);
@@ -227,6 +236,10 @@ public class DrMIPS {
 				filename = arg;
 		}
 		
+		// Try to enable OpenGL hardware acceleration, unless requested not to
+		if(useOpenGl)
+			enableOpenGl();
+
 		try { // Display a "loading" dialog
 			SwingUtilities.invokeAndWait(new Runnable() {
 				@Override
