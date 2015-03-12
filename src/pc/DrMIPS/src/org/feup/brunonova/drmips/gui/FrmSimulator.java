@@ -1676,9 +1676,9 @@ public class FrmSimulator extends javax.swing.JFrame {
 		openFile = file;
 		String title = AppInfo.NAME;
 		if(openFile != null) {
-			title = openFile.getName() + " (" + Util.getFilePath(openFile) + ") - " + title;
+			title = openFile.getName() + " (" + openFile.getAbsolutePath() + ") - " + title;
 			addRecentFile(file);
-			DrMIPS.prefs.put(DrMIPS.LAST_FILE_PREF, Util.getFilePath(file));
+			DrMIPS.prefs.put(DrMIPS.LAST_FILE_PREF, file.getAbsolutePath());
 		}
 		else
 			DrMIPS.prefs.remove(DrMIPS.LAST_FILE_PREF);
@@ -1720,7 +1720,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 			filename = DrMIPS.prefs.get(pref + i, null);
 			if(filename != null) {
 				f = new File(filename);
-				if(f.exists() && !Util.getFilePath(file).equals(Util.getFilePath(f)))
+				if(f.exists() && !file.getAbsolutePath().equals(f.getAbsolutePath()))
 					files.add(f);
 				DrMIPS.prefs.remove(pref + i);
 			}
@@ -1728,7 +1728,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		
 		// Save new and old filenames
 		for(int i = 0; i < files.size(); i++)
-			DrMIPS.prefs.put(pref + i, Util.getFilePath(files.get(i)));
+			DrMIPS.prefs.put(pref + i, files.get(i).getAbsolutePath());
 	}
 	
 	/**
@@ -1745,7 +1745,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 			if(filename != null) {
 				file = new File(filename);
 				if(file.exists()) {
-					menuItem = new JMenuItem(Util.getFilePath(file));
+					menuItem = new JMenuItem(file.getAbsolutePath());
 					menuItem.addActionListener(new RecentFileActionListener(file));
 					mnuOpenRecent.add(menuItem);
 				}
@@ -1767,7 +1767,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 			if(filename != null) {
 				file = new File(filename);
 				if(file.exists()) {
-					menuItem = new JMenuItem(Util.getFilePath(file));
+					menuItem = new JMenuItem(file.getAbsolutePath());
 					menuItem.addActionListener(new RecentCPUActionListener(file));
 					mnuLoadRecentCPU.add(menuItem);
 				}
@@ -2944,7 +2944,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
-				loadCPU(Util.getFilePath(file));
+				loadCPU(file.getAbsolutePath());
 				if(!mnuInternalWindows.isSelected())
 					tabDatapath.select();
 			}
