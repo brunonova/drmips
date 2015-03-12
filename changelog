@@ -23,6 +23,8 @@ Version 1.3.0 (XXXX-XX-XX)
     - The "print" feature now prints with the correct colors (Bug #3)
     - Fixed wrong title being displayed in GNOME 3 (Bug #15). The fix doesn't
       work in older GNOME versions
+    - OpenGL hardware acceleration enabled, which should improve the performace,
+      particularly in Linux
 * Android version:
     - Converted the Android project to Android Studio
 
