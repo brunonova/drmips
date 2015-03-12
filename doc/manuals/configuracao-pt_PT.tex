@@ -1,5 +1,5 @@
 % Manual that describes how to create/edit/configure the .cpu and .set files 
-% used by the simulator (en).
+% used by the simulator (pt_PT).
 
 \documentclass[11pt,a4paper,twoside,titlepage]{report}
 
@@ -57,7 +57,26 @@
 \maketitle
 \tableofcontents
 
-\chapter{Ficheiro de CPU}
+
+\chapter{Introdução}
+
+\section*{}
+
+O DrMIPS fornece vários caminhos de dados uniciclo e \emph{pipeline} do MIPS.
+Estes caminhos de dados são definidos em ficheiros JSON (\url{http://json.org/}),
+e têm a extensão \verb+.cpu+.
+Estes ficheiros de CPU podem ser modificados, e novos podem ser criados.
+
+Os conjuntos de instruções usados pelos caminhos de dados são também definidos
+em ficheiros JSON, usando a extensão \verb+.set+.
+Estes podem também ser criados e modificados.
+
+Este manual explica, com algum detalhe, a sintaxe de ambos estes ficheiros.
+O Capítulo~\ref{ch:cpu} explica a sintaxe dos ficheiros de CPU enquanto que
+o Capítulo~\ref{ch:set} explica a sintaxe dos ficheiros de instruções.
+
+
+\chapter{Ficheiro de CPU} \label{ch:cpu}
 
 \section*{}
 
@@ -65,7 +84,7 @@ As diferentes versões do processador MIPS são definidas em ficheiros de CPU.
 Estes podem ser editados/configurados e novos podem ser criados.
 Este capítulo explica a sintaxe destes ficheiros.
 
-Os ficheiros de CPU são formatados em JSON (\url{http://json.org/}).
+Os ficheiros de CPU são formatados em JSON.
 Um exemplo parcial de um ficheiros de CPU é mostrado abaixo:
 
 \lstinputlisting{listings/cpu.cpu}
@@ -472,7 +491,7 @@ O valor é o caminho \textbf{relativo} para ficheiro de instruções desejado.
 Estes ficheiros são explicados no próximo capítulo.
 
 
-\chapter{Ficheiro de instruções}
+\chapter{Ficheiro de instruções} \label{ch:set}
 
 \section*{}
 
@@ -481,8 +500,7 @@ são definidos em ficheiros de instruções.
 Estes podem ser editados/configurados e novos podem ser criados.
 Este capítulo explica a sintaxe destes ficheiros.
 
-Tal como os ficheiros de CPU, os ficheiros de instruções são formatados em
-JSON (\url{http://json.org/}).
+Tal como os ficheiros de CPU, os ficheiros de instruções são formatados em JSON.
 Um exemplo parcial de um ficheiro de instruções é mostrado abaixo:
 
 \lstinputlisting{listings/set.set}

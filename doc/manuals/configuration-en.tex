@@ -57,7 +57,26 @@
 \maketitle
 \tableofcontents
 
-\chapter{CPU file}
+
+\chapter{Introduction}
+
+\section*{}
+
+DrMIPS provides several unicycle and pipeline MIPS datapaths.
+These datapaths are defined in JSON (\url{http://json.org/}) files, and
+have the \verb+.cpu+ extension.
+These CPU files can be modified, and new ones can be created.
+
+The instruction sets used by the datapaths are also defined in JSON files,
+having the \verb+.set+ extension.
+These can also be created and modified.
+
+This manual explains, with some detail, the syntax of both of these files.
+Chapter~\ref{ch:cpu} explains the syntax of the CPU files while
+Chapter~\ref{ch:set} explains the syntax of the instruction set files.
+
+
+\chapter{CPU file} \label{ch:cpu}
 
 \section*{}
 
@@ -65,7 +84,7 @@ The different versions of the MIPS CPU are defined in CPU files.
 These can be edited/configured and additional ones can be created.
 This chapter explains the syntax of these files.
 
-The CPU files are formatted in JSON (\url{http://json.org/}).
+The CPU files are formatted in JSON.
 A partial example of a CPU file is shown below:
 
 \lstinputlisting{listings/cpu.cpu}
@@ -469,7 +488,7 @@ The value is the \textbf{relative} path to the desired instruction set file.
 These files are explained in the next chapter.
 
 
-\chapter{Instruction set file}
+\chapter{Instruction set file} \label{ch:set}
 
 \section*{}
 
@@ -478,8 +497,7 @@ are defined in instruction set files.
 These can be edited/configured and additional ones can be created.
 This chapter explains the syntax of these files.
 
-Like the CPU files, the instruction set files are formatted in 
-JSON (\url{http://json.org/}).
+Like the CPU files, the instruction set files are formatted in JSON.
 A partial example of an instruction set file is shown below:
 
 \lstinputlisting{listings/set.set}
