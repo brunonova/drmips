@@ -49,9 +49,6 @@
 	morekeywords={*,var,template,new}
 }
 
-\definecolor{orange}{RGB}{255,128,0}
-\definecolor{cyan2}{RGB}{0,170,230}
-
 \newcommand{\menupath}[1]{\textbf{\emph{#1}}}
 
 
@@ -146,16 +143,11 @@ pipeline são realçadas com diferentes cores, cada uma representando uma uma et
 diferente.
 As diferentes cores significam:
 \begin{itemize}
-	\item \textbf{\textcolor{cyan2}{Azul}}: Etapa \textbf{I}nstruction 
-		\textbf{F}etch (\textbf{IF}).
-	\item \textbf{\textcolor{green}{Verde}}: Etapa \textbf{I}nstruction 
-		\textbf{D}ecode (\textbf{ID}).
-	\item \textbf{\textcolor{magenta}{Magenta}}: Etapa \textbf{Ex}ecute 
-		(\textbf{EX}).
-	\item \textbf{\textcolor{orange}{Laranja}}: Etapa \textbf{Mem}ory access
-		(\textbf{MEM}).
-	\item \textbf{\textcolor{red}{Vermelho}}: Etapa \textbf{W}rite \textbf{B}ack 
-		(\textbf{WB}).
+	\item \textbf{Azul}: Etapa \textbf{I}nstruction \textbf{F}etch (\textbf{IF}).
+	\item \textbf{Verde}: Etapa \textbf{I}nstruction \textbf{D}ecode (\textbf{ID}).
+	\item \textbf{Amarelo}: Etapa \textbf{Ex}ecute (\textbf{EX}).
+	\item \textbf{Vermelho}: Etapa \textbf{Mem}ory access (\textbf{MEM}).
+	\item \textbf{Magenta}: Etapa \textbf{W}rite \textbf{B}ack (\textbf{WB}).
 \end{itemize}
 
 Ao pairar o cursor do rato sobre uma instrução na tabela irá exibir uma dica.
@@ -185,12 +177,12 @@ na memória de dados.
 Os valores que estão actualmente a ser acedidos são realçados em diferentes 
 cores. As cores significam:
 \begin{itemize}
-	\item \textbf{\textcolor{green}{Verde}}: o registo/endereço está a ser lido
-		no banco de registos/memória de dados.
-	\item \textbf{\textcolor{red}{Vermelho}}: o registo/endereço está a ser
-		escrito no bando de registos/memória de dados.
-	\item \textbf{\textcolor{orange}{Laranja}}: o registo/endereço está a ser
-		lido e escrito no mesmo ciclo no banco de registos/memória de dados.
+	\item \textbf{Verde}: o registo/endereço está a ser lido no banco de
+		registos/memória de dados.
+	\item \textbf{Vermelho}: o registo/endereço está a ser escrito no banco de
+		registos/memória de dados.
+	\item \textbf{Amarelo}: o registo/endereço está a ser lido e escrito no mesmo
+		ciclo no banco de registos/memória de dados.
 \end{itemize}
 
 Pode editar o valor de qualquer registo ou endereço de memória fazendo 
@@ -205,7 +197,7 @@ Se não quiser que isto aconteça, desmarque
 \menupath{Executar > Reiniciar dados antes de gerar cód. máquina} no menu.
 
 
-\subsection{Caminho de dados}
+\subsection{Caminho de Dados}
 
 A representação gráfica do caminho de dados do processador é exibida aqui.
 É aqui que pode ver como o CPU funciona internamente.
@@ -253,21 +245,31 @@ executadas são mostradas. Elas são realçadas com as mesmas cores explicadas
 na sub-secção~\ref{sec:assembled}.
 
 O caminho de dados é mostrado por baixo das instruções.
-Os componentes são representados por rectângulos ou quadrados e os fios por
+Os componentes são representados por rectângulos ou quadrados, e os fios por
 linhas que terminam em setas.
-Os fios relevantes que estão no caminho de controlo são mostrados em azul.
+Os fios que estão no caminho de controlo são mostrados em azul.
+O caminho de controlo pode ser ocultado se desmarcar
+\menupath{Caminho de dados > Caminho de controlo} no menu.
+
 Fios que são considerados irrelevantes no ciclo de relógio actual são 
 mostrados em cinzento.
 Um fio é considerado irrelevante se for um sinal de controlo colocado a
 \verb+0+, se o seu valor for ignorado por um componente, se for a saída da
 \emph{unidade de detecção de conflitos} e não estiver a ocorrer um
 protelamento, etc.
+Pode ocultar as setas no fim dos fios desmarcando
+\menupath{Caminho de dados > Setas nos fios} no menu.
 
 Os valores em algumas entradas e saídas importantes de alguns componentes são
 mostrados no caminho de dados como umas pequenas ``dicas'' com 
 fundo amarelo.
 Pode pairar o cursor do rato sobre estas ``dicas'' para descobrir qual é o
 identificador da entrada/saída.
+O menu \menupath{Caminho de dados > Dados nas entradas e saídas} contém algumas
+opções para controlar estas ``dicas'': \menupath{Activar} para as mostrar/ocultar,
+\menupath{Mostrar os nomes} para mostrar os nomes das entradas/saídas e
+\menupath{Mostrar para todos os componentes} para mostrar as ``dicas'' em todos
+os componentes.
 
 Ao pairar o cursor do rato sobre um componente, uma dica com alguns detalhes
 sobre o mesmo será mostrada \footnote{Na versão para Android, toque no
@@ -275,12 +277,13 @@ componente para ver a sua dica.}.
 A dica apresenta o nome do componente, uma descrição do que faz e os valores
 em todas as entradas e saídas.
 
-Pode ocultar o caminho de controlo desmarcando
-\menupath{Caminho de dados > Caminho de controlo}.
-Pode ocultar as setas no fim dos fios desmarcando
-\menupath{Caminho de dados > Setas nos fios}.
-E pode ocultar as ``dicas'' das entradas/saídas desmarcando
-\menupath{Caminho de dados > Dados sobrepostos}.
+O caminho de dados pode ser ampliado e reduzido. Isto pode ser feito pelas
+opções \menupath{Caminho de dados > Ampliar},
+\menupath{Caminho de dados > Reduzir} e \menupath{Caminho de dados > Normal}
+no menu ou pelos respectivos botões na barra de ferramentas.
+O nível de ampliação pode também ser ajustado automaticamente para ocupar todo
+o espaço disponível ao usar a opção
+\menupath{Caminho de dados > Ajustar automaticamente}.
 
 \bigskip
 

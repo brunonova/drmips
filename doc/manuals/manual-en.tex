@@ -49,9 +49,6 @@
 	morekeywords={*,var,template,new}
 }
 
-\definecolor{orange}{RGB}{255,128,0}
-\definecolor{cyan2}{RGB}{0,170,230}
-
 \newcommand{\menupath}[1]{\textbf{\emph{#1}}}
 
 
@@ -62,7 +59,8 @@
 \tableofcontents
 \newpage
 
-\section{User Interface Composition}
+
+\section{Composition of the User Interface}
 
 The graphical user interface of the DrMIPS simulator is composed by the menu 
 bar, the toolbar and the area where the main contents of the simulator 
@@ -144,16 +142,11 @@ pipeline are highlighted in different colors, each one representing a
 different stage.
 The different colors mean:
 \begin{itemize}
-	\item \textbf{\textcolor{cyan2}{Blue}}: \textbf{I}nstruction 
-		\textbf{F}etch (\textbf{IF}) stage.
-	\item \textbf{\textcolor{green}{Green}}: \textbf{I}nstruction 
-		\textbf{D}ecode (\textbf{ID}) stage.
-	\item \textbf{\textcolor{magenta}{Magenta}}: \textbf{Ex}ecute 
-		(\textbf{EX}) stage.
-	\item \textbf{\textcolor{orange}{Orange}}: \textbf{Mem}ory access
-		(\textbf{MEM}) stage.
-	\item \textbf{\textcolor{red}{Red}}: \textbf{W}rite \textbf{B}ack 
-		(\textbf{WB}) stage.
+	\item \textbf{Blue}: \textbf{I}nstruction \textbf{F}etch (\textbf{IF}) stage.
+	\item \textbf{Green}: \textbf{I}nstruction \textbf{D}ecode (\textbf{ID}) stage.
+	\item \textbf{Yellow}: \textbf{Ex}ecute (\textbf{EX}) stage.
+	\item \textbf{Red}: \textbf{Mem}ory access (\textbf{MEM}) stage.
+	\item \textbf{Magenta}: \textbf{W}rite \textbf{B}ack (\textbf{WB}) stage.
 \end{itemize}
 
 Hovering the mouse cursor over an instruction in the table will present a
@@ -182,12 +175,12 @@ memory.
 The values that are currently being accessed are highlighted in different 
 colors. The colors mean:
 \begin{itemize}
-	\item \textbf{\textcolor{green}{Green}}: the register/address is being 
-		read by the register bank/data memory.
-	\item \textbf{\textcolor{red}{Red}}: the register/address is being written 
-		to the register bank/data memory.
-	\item \textbf{\textcolor{orange}{Orange}}: the register/address is being 
-		read and written in the same cycle in the register bank/data memory.
+	\item \textbf{Green}: the register/address is being read by the register
+		bank/data memory.
+	\item \textbf{Red}: the register/address is being written to the register
+		bank/data memory.
+	\item \textbf{Yellow}: the register/address is being read and written in
+		the same cycle in the register bank/data memory.
 \end{itemize}
 
 You can edit the value of any register or memory address by double-clicking
@@ -249,19 +242,28 @@ being executed are displayed. They are highlighted with the same colors
 explained in subsection~\ref{sec:assembled}.
 
 The datapath is displayed below the instructions.
-The components are represented by rectangles or squares and the wires by
+The components are represented by rectangles or squares, and the wires by
 lines that end with arrows.
-Relevant wires that are in the control path are shown in blue.
+Wires that are in the control path are shown in blue.
+The control path can be hidden by unchecking
+\menupath{Datapath > Control path} in the menu.
+
 Wires that are considered irrelevant in the current clock cycle are shown
 in gray.
 A wire is considered irrelevant if it's a control signal set to \verb+0+,
 if its value is ignored by a component, if it's the output of the
 \emph{hazard detection unit} and a stall isn't occurring, etc.
+You can hide the arrows in the end of the wires by unchecking
+\menupath{Datapath > Arrows in wires}.
 
 The values at some important inputs and outputs of some components are
-shown in the datapath as small ``data tips'' with yellow background.
-You can hover the mouse cursor over these ``data tips'' to find out what
+shown in the datapath as small ``tips'' with yellow background.
+You can hover the mouse cursor over these ``tips'' to find out what
 is the identifier of the input/output.
+The \menupath{Datapath > Data in inputs and outputs} menu contains some
+options to control these ``tips'': \menupath{Enable} to show/hide them,
+\menupath{Show names} to display the names of the inputs/outputs and
+\menupath{Show for all components} to display the ``tips'' in all components.
 
 By hovering the mouse cursor over a component, a tooltip with some details
 about it will be displayed \footnote{In the Android version, press the 
@@ -269,12 +271,14 @@ component to see its tooltip.}.
 The tooltip presents the name of the component, a description of what it
 does and the values at all the inputs and outputs.
 
-You can hide the control path by unchecking 
-\menupath{Datapath > Control path} in the menu.
-You can hide the arrows in the end of the wires by unchecking
-\menupath{Datapath > Arrows in wires}.
-And you can hide the input/output ``data tips'' by unchecking
-\menupath{Datapath > Overlayed data} in the menu.
+The datapath can be zoomed in and out. This can be accomplished by the
+\menupath{Datapath > Zoom in}, \menupath{Datapath > Zoom out} and
+\menupath{Datapath > Normal} options in the menu or by the respective
+buttons in the toolbar.
+The zoom level can also be adjusted automatically to fit all of the
+available space by using the \menupath{Datapath > Adjust automatically}
+option.
+
 
 \bigskip
 
