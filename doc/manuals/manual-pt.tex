@@ -1,6 +1,6 @@
 % Short manual that explains the end user how to use the simulator (pt).
 
-\documentclass[11pt,a4paper,twoside,titlepage]{article}
+\documentclass[11pt,a4paper,twoside,titlepage]{report}
 
 \usepackage[utf8x]{inputenc}
 \usepackage[portuguese]{babel}
@@ -57,10 +57,23 @@
 
 \maketitle
 \tableofcontents
-\newpage
 
 
-\section{Composição da Interface Gráfica}
+\chapter{Introdução}
+
+O DrMIPS é um simulador do processador MIPS.
+Ele permite seguir a execução de um programa em \emph{assembly}
+passo-a-passo. Uma representação gráfica do caminho de dados permite ver
+como o processador funciona internamente.
+
+Este manual é um curto guia de como usar o simulador, focando-se
+na versão para PC.
+O Capítulo~\ref{ch:composition} fornece uma visão geral da interface gráfica.
+O Capítulo~\ref{ch:tabs_windows} explica a interface dos separadores/janelas
+do simulador e como os utilizar.
+
+
+\chapter{Composição da Interface Gráfica} \label{ch:composition}
 
 A interface gráfica do simulador DrMIPS é composta pela barra de menus, pela
 barra de ferramentas e pela área onde os conteúdos principais do simulador são
@@ -97,9 +110,9 @@ Os separadores ou janelas mostrados são:
 \end{itemize}
 
 
-\section{Separadores/Janelas}
+\chapter{Separadores/Janelas} \label{ch:tabs_windows}
 
-\subsection{Código}
+\section{Código}
 
 Este é o editor de código, onde pode escrever um programa em \emph{assembly}.
 O editor mostra os números das linhas e realça a sintaxe válida.
@@ -130,7 +143,7 @@ Se o programa estiver correcto, nenhuma mensagem será mostrada e pode prossegui
 para o executar.
 
 
-\subsection{Código Máquina} \label{sec:assembled}
+\section{Código Máquina} \label{sec:assembled}
 
 Após o código máquina ser gerado com sucesso, as instruções máquina
 resultantes serão mostradas aqui numa tabela.
@@ -168,7 +181,7 @@ executar o programa inteiro e \menupath{Reiniciar} para reverter para a primeira
 instrução.
 
 
-\subsection{Registos e Memória de Dados}
+\section{Registos e Memória de Dados}
 
 Estes dois separadores/janelas são bastante semelhantes.
 O separador/janela dos registos mostra os valores dos registos e do contador do
@@ -198,7 +211,7 @@ Se não quiser que isto aconteça, desmarque
 \menupath{Executar > Reiniciar dados antes de gerar cód. máquina} no menu.
 
 
-\subsection{Caminho de Dados}
+\section{Caminho de Dados}
 
 A representação gráfica do caminho de dados do processador é exibida aqui.
 É aqui que pode ver como o CPU funciona internamente.

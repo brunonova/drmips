@@ -1,6 +1,6 @@
 % Short manual that explains the end user how to use the simulator (en).
 
-\documentclass[11pt,a4paper,twoside,titlepage]{article}
+\documentclass[11pt,a4paper,twoside,titlepage]{report}
 
 \usepackage[utf8x]{inputenc}
 \usepackage[english]{babel}
@@ -57,10 +57,23 @@
 
 \maketitle
 \tableofcontents
-\newpage
 
 
-\section{Composition of the User Interface}
+\chapter{Introduction}
+
+DrMIPS is a simulator of the MIPS processor.
+It allows you to follow the execution of an assembly program step-by-step.
+A graphical representation of the datapath allows you to see how the
+processor works internally.
+
+This manual is a short guide on how to use the simulator, focusing
+on the PC version.
+Chapter~\ref{ch:composition} provides an overview of the user interface.
+Chapter~\ref{ch:tabs_windows} explains the interface of the tabs/windows
+of the simulator and how to use them.
+
+
+\chapter{Composition of the User Interface} \label{ch:composition}
 
 The graphical user interface of the DrMIPS simulator is composed by the menu 
 bar, the toolbar and the area where the main contents of the simulator 
@@ -94,9 +107,9 @@ The tabs or windows displayed are:
 \end{itemize}
 
 
-\section{Tabs/Windows}
+\chapter{Tabs/Windows} \label{ch:tabs_windows}
 
-\subsection{Code}
+\section{Code}
 
 This is the code editor, where you can write an assembly program.
 The editor displays the numbers of the lines and highlights the valid syntax.
@@ -128,7 +141,7 @@ If the program is correct, no error message is displayed and you can then
 proceed to execute it.
 
 
-\subsection{Assembled} \label{sec:assembled}
+\section{Assembled} \label{sec:assembled}
 
 After the code is successfully assembled, the resulting machine code 
 instructions will be displayed here in a table.
@@ -165,7 +178,7 @@ to revert one instruction, \menupath{Run} to execute the entire program and
 \menupath{Restart} to revert to the first instruction.
 
 
-\subsection{Registers and Data Memory}
+\section{Registers and Data Memory}
 
 These two tabs/windows are very similar.
 The registers tab/window displays the values of the registers and the program
@@ -194,7 +207,7 @@ If you don't want that to happen, uncheck
 \menupath{Execute > Reset data before assembling} in the menu.
 
 
-\subsection{Datapath}
+\section{Datapath}
 
 The graphical representation of the processor's datapath is displayed here.
 This is where you can see how the CPU works internally.
