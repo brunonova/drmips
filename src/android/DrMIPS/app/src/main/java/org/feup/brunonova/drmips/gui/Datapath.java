@@ -285,10 +285,6 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 			end = out.getConnectedInput().getComponent().getInputPosition(out.getConnectedInput());
 			points = out.getIntermediatePoints();
 			createTips();
-			if(out.shouldShowTip())
-				addView(outTip = new IOPortTip(getContext(), out.getId(), "0", start.x, start.y));
-			if(out.isConnected() && out.getConnectedInput().shouldShowTip())
-				addView(inTip = new IOPortTip(getContext(), out.getConnectedInput().getId(), "0", end.x, end.y));
 		}
 
 		/**
