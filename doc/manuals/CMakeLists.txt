@@ -11,7 +11,7 @@ if(NOT DONE_FIRST_RUN)
 endif()
 
 # TeX files (without the extension)
-set(SRC configuration-en configuracao-pt_PT manual-en manual-pt_PT)
+set(SRC configuration-en configuracao-pt manual-en manual-pt)
 
 # Other resource files
 file(GLOB RES RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "listings/*")
