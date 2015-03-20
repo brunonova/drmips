@@ -42,4 +42,4 @@ add_custom_command(TARGET "${PROJECT_NAME}Simulator" POST_BUILD
 
 # Add copied DrMIPSSimulator.jar files to the "clean" target
 set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES
-                         "${CMAKE_SOURCE_DIR}/src/pc/${PROJECT_NAME}/lib/${PROJECT_NAME}Simulator.jar;${CMAKE_SOURCE_DIR}/src/android/${PROJECT_NAME}/libs/${PROJECT_NAME}Simulator.jar") 
+                         "${CMAKE_SOURCE_DIR}/src/pc/${PROJECT_NAME}/lib/${PROJECT_NAME}Simulator.jar;${CMAKE_SOURCE_DIR}/src/android/${PROJECT_NAME}/app/libs/${PROJECT_NAME}Simulator.jar") 
