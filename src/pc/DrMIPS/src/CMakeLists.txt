@@ -10,10 +10,12 @@ configure_file("org/feup/brunonova/drmips/gui/DrMIPS.java.in"
 
 # List of Java source files
 file(GLOB_RECURSE SRC RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "org/*.java" "com/jtattoo/plaf/*"
-                               "org/fife/io/*" "org/fife/print/*" "org/fife/ui/*" "org/fife/util/*")
+                               "org/fife/io/*" "org/fife/print/*" "org/fife/ui/*"
+                               "org/fife/util/*" "joptsimple/*.java")
 
 # List of resource files
-file(GLOB_RECURSE RES RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "res/*" "org/*.properties")
+file(GLOB_RECURSE RES RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "res/*"
+                               "org/*.properties" "joptsimple/*.properties")
 
 # List of libraries (without the path)
 set(LIBS DrMIPSSimulator.jar)
