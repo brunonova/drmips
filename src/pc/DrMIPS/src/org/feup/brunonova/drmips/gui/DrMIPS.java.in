@@ -98,6 +98,7 @@ public class DrMIPS {
 	public static final String OPEN_LAST_FILE_AT_STARTUP_PREF = "open_last_file_at_startup";
 	public static final String SCALE_PREF = "scale";
 	public static final String AUTO_SCALE_PREF = "auto_scale";
+	public static final String OPENGL_PREF = "use_opengl";
 
 	// Default values of the preferences
 	public static final int DEFAULT_REGISTER_FORMAT = Util.DECIMAL_FORMAT_INDEX;
@@ -126,6 +127,7 @@ public class DrMIPS {
 	public static final boolean DEFAULT_OPEN_LAST_FILE_AT_STARTUP = false;
 	public static final double DEFAULT_SCALE = 1.0;
 	public static final boolean DEFAULT_AUTO_SCALE = false;
+	public static final boolean DEFAULT_OPENGL = false;
 
 	/** "Loading" dialog. */
 	private static DlgLoading dlgLoading = null;
@@ -167,7 +169,7 @@ public class DrMIPS {
 	
 	public static void main(String[] args) {
 		String filename = null;
-		boolean useOpenGl = true;
+		boolean useOpenGl = prefs.getBoolean(OPENGL_PREF, DEFAULT_OPENGL);
 		
 		// Parse command-line arguments
 		OptionParser parser = new OptionParser();
@@ -175,7 +177,8 @@ public class DrMIPS {
 		                                   .ofType(String.class).describedAs("file");
 		parser.acceptsAll(Arrays.asList("h", "help"), "display this help and exit").forHelp();
 		parser.accepts("version", "display version information and exit");
-		parser.accepts("no-opengl", "disable hardware acceleration with OpenGL");
+		parser.accepts("opengl", "enable OpenGL hardware acceleration");
+		parser.accepts("no-opengl", "disable OpenGL hardware acceleration");
 
 		OptionSet options = parser.parse(args);
 		List<String> otherArgs = options.valuesOf(fileArg);
@@ -183,8 +186,13 @@ public class DrMIPS {
 			displayHelpAndExit(parser);
 		else if(options.has("version"))
 			displayVersionAndExit();
-		if(options.has("no-opengl"))
+		if(options.has("no-opengl")) {
 			useOpenGl = false;
+			prefs.putBoolean(OPENGL_PREF, useOpenGl);
+		} else if(options.has("opengl")) {
+			useOpenGl = true;
+			prefs.putBoolean(OPENGL_PREF, useOpenGl);
+		}
 		if(!otherArgs.isEmpty()) {
 			if(otherArgs.size() == 1)
 				filename = otherArgs.get(0);
