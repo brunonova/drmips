@@ -57,126 +57,70 @@ public class DrMIPS {
 	public static final String DOC_DIR = "doc";
 	/** Absolute path to the fallback documentation directory (when installed in a separate directory). */
 	public static final String DOC_DIR2 = "@DRMIPS_MANUALS_DIR_ABSOLUTE@";
-	/** The default format with which the registers are displayed. */
-	public static final int DEFAULT_REGISTER_FORMAT = Util.DECIMAL_FORMAT_INDEX;
-	/** The default format with which the datapath data is displayed. */
-	public static final int DEFAULT_DATAPATH_DATA_FORMAT = Util.DECIMAL_FORMAT_INDEX;
-	/** The default format with which the assembled code data is displayed. */
-	public static final int DEFAULT_ASSEMBLED_CODE_FORMAT = Util.DECIMAL_FORMAT_INDEX;
-	/** The default format with which the data memory values are displayed. */
-	public static final int DEFAULT_DATA_MEMORY_FORMAT = Util.DECIMAL_FORMAT_INDEX;
-	/** The default performance mode type. */
-	public static final int DEFAULT_PERFORMANCE_TYPE = Util.CPU_PERFORMANCE_TYPE_INDEX;
-	/** The default side of the code tab. */
-	public static final int DEFAULT_CODE_TAB_SIDE = Util.LEFT;
-	/** The default side of the datapath tab. */
-	public static final int DEFAULT_DATAPATH_TAB_SIDE = Util.LEFT;
-	/** The default side of the registers tab. */
-	public static final int DEFAULT_REGISTERS_TAB_SIDE = Util.RIGHT;
-	/** The default side of the assembled code tab. */
-	public static final int DEFAULT_ASSEMBLED_CODE_TAB_SIDE = Util.LEFT;
-	/** The default side of the data memory tab. */
-	public static final int DEFAULT_DATA_MEMORY_TAB_SIDE = Util.LEFT;
-	/** The default status of the "reset data before assembling" checkbox. */
-	public static final boolean DEFAULT_ASSEMBLE_RESET = true;
-	/** The default theme. */
-	public static final boolean DEFAULT_DARK_THEME = false;
-	/** The default tabs/windows layout used. */
-	public static final boolean DEFAULT_INTERNAL_WINDOWS = false;
-	/** Whether the control path is shown by default. */
-	public static final boolean DEFAULT_SHOW_CONTROL_PATH = true;
-	/** Whether arrows are shown on the wires by default. */
-	public static final boolean DEFAULT_SHOW_ARROWS = true;
-	/** Whether the performance mode is enabled by default. */
-	public static final boolean DEFAULT_PERFORMANCE_MODE = false;
-	/** Whether the in/out tips are shown by default. */
-	public static final boolean DEFAULT_OVERLAYED_DATA = true;
-	/** Whether the names in the in/out tips are shown by default. */
-	public static final boolean DEFAULT_OVERLAYED_SHOW_NAMES = false;
-	/** Whether the in/out tips should be displayed for (almost) all components by default. */
-	public static final boolean DEFAULT_OVERLAYED_SHOW_FOR_ALL = false;
-	/** Whether the window show be started maximized by default. */
-	public static final boolean DEFAULT_MAXIMIZED = true;
-	/** The default width of the window. */
-	public static final int DEFAULT_WIDTH = 800;
-	/** The default height of the window. */
-	public static final int DEFAULT_HEIGHT = 600;
-	/** Whether to show the margin line by default in the code editor. */
-	public static final boolean DEFAULT_MARGIN_LINE = false;
-	/** Whether to open the last file at startup. */
-	public static final boolean DEFAULT_OPEN_LAST_FILE_AT_STARTUP = false;
-	/** The default scale/zoom level of the datapath. */
-	public static final double DEFAULT_SCALE = 1.0;
-	/** Whether to adjust automatically the scale/zoom level by default. */
-	public static final boolean DEFAULT_AUTO_SCALE = false;
-	/** The key of the language preference. */
+
+	// Names of the preferences
 	public static final String LANG_PREF = "lang";
-	/** The key of the last loaded CPU preference. */
 	public static final String LAST_CPU_PREF = "last_cpu";
-	/** The prefix of the recent files preferences. */
 	public static final String RECENT_FILES_PREF = "recent";
-	/** The maximum number of recent files to track. */
 	public static final int MAX_RECENT_FILES = 10;
-	/** The prefix of the recent CPUs preferences. */
 	public static final String RECENT_CPUS_PREF = "recent_cpu";
-	/** The maximum number of recent CPUs to track. */
 	public static final int MAX_RECENT_CPUS = 10;
-	/** The key of the registers display format preference. */
 	public static final String REGISTER_FORMAT_PREF = "reg_format";
-	/** The key of the datapath display data format preference. */
 	public static final String DATAPATH_DATA_FORMAT_PREF = "datapath_format";
-	/** The key of the assembled code display data format preference. */
 	public static final String ASSEMBLED_CODE_FORMAT_PREF = "assembled_code_format";
-	/** The key of the data memory display data format preference. */
 	public static final String DATA_MEMORY_FORMAT_PREF = "data_memory_format";
-	/** The key of the code tab side preference. */
 	public static final String CODE_TAB_SIDE_PREF = "code_tab_side";
-	/** The key of the datapath tab side preference. */
 	public static final String DATAPATH_TAB_SIDE_PREF = "datapath_tab_side";
-	/** The key of the registers tab side preference. */
 	public static final String REGISTERS_TAB_SIDE_PREF = "reg_tab_side";
-	/** The key of the assembled code tab side preference. */
 	public static final String ASSEMBLED_CODE_TAB_SIDE_PREF = "assembled_code_tab_side";
-	/** The key of the data memory tab side preference. */
 	public static final String DATA_MEMORY_TAB_SIDE_PREF = "data_mem_tab_side";
-	/** The key of the divider location preference. */
 	public static final String DIVIDER_LOCATION_PREF = "div_location";
-	/** The key of the assemble reset preference. */
 	public static final String ASSEMBLE_RESET_PREF = "assemble_reset";
-	/** The key of the dark theme preference. */
 	public static final String DARK_THEME_PREF = "dark_theme";
-	/** The key of the internal windows preference. */
 	public static final String INTERNAL_WINDOWS_PREF = "internal_windows";
-	/** The key of the show control path preference. */
 	public static final String SHOW_CONTROL_PATH_PREF = "show_control_path";
-	/** The key of the show arrows preference. */
 	public static final String SHOW_ARROWS_PREF = "show_arrows";
-	/** The key of the performance mode preference. */
 	public static final String PERFORMANCE_MODE_PREF = "performance_mode";
-	/** The key of the performance mode type preference. */
 	public static final String PERFORMANCE_TYPE_PREF = "performance_type";
-	/** The key of the overlayed data preference. */
 	public static final String OVERLAYED_DATA_PREF = "overlayed_data";
-	/** The key of the overlayed show names preference. */
 	public static final String OVERLAYED_SHOW_NAMES_PREF = "overlayed_show_names";
-	/** The key of the overlayed show for all components preference. */
 	public static final String OVERLAYED_SHOW_FOR_ALL_PREF = "overlayed_show_for_all";
-	/** The key of the maximized preference. */
 	public static final String MAXIMIZED_PREF = "maximized";
-	/** The key to the window width preference. */
 	public static final String WIDTH_PREF = "width";
-	/** The key to the window height preference. */
 	public static final String HEIGHT_PREF = "height";
-	/** The key to the show margin line preference. */
 	public static final String MARGIN_LINE_PREF = "margin_line";
-	/** The key to the last file preference. */
 	public static final String LAST_FILE_PREF = "last_file";
-	/** The key to the open last file at startup preference. */
 	public static final String OPEN_LAST_FILE_AT_STARTUP_PREF = "open_last_file_at_startup";
-	/** The key to the scale preference. */
 	public static final String SCALE_PREF = "scale";
-	/** The key to the auto scale preference. */
 	public static final String AUTO_SCALE_PREF = "auto_scale";
+
+	// Default values of the preferences
+	public static final int DEFAULT_REGISTER_FORMAT = Util.DECIMAL_FORMAT_INDEX;
+	public static final int DEFAULT_DATAPATH_DATA_FORMAT = Util.DECIMAL_FORMAT_INDEX;
+	public static final int DEFAULT_ASSEMBLED_CODE_FORMAT = Util.DECIMAL_FORMAT_INDEX;
+	public static final int DEFAULT_DATA_MEMORY_FORMAT = Util.DECIMAL_FORMAT_INDEX;
+	public static final int DEFAULT_PERFORMANCE_TYPE = Util.CPU_PERFORMANCE_TYPE_INDEX;
+	public static final int DEFAULT_CODE_TAB_SIDE = Util.LEFT;
+	public static final int DEFAULT_DATAPATH_TAB_SIDE = Util.LEFT;
+	public static final int DEFAULT_REGISTERS_TAB_SIDE = Util.RIGHT;
+	public static final int DEFAULT_ASSEMBLED_CODE_TAB_SIDE = Util.LEFT;
+	public static final int DEFAULT_DATA_MEMORY_TAB_SIDE = Util.LEFT;
+	public static final boolean DEFAULT_ASSEMBLE_RESET = true;
+	public static final boolean DEFAULT_DARK_THEME = false;
+	public static final boolean DEFAULT_INTERNAL_WINDOWS = false;
+	public static final boolean DEFAULT_SHOW_CONTROL_PATH = true;
+	public static final boolean DEFAULT_SHOW_ARROWS = true;
+	public static final boolean DEFAULT_PERFORMANCE_MODE = false;
+	public static final boolean DEFAULT_OVERLAYED_DATA = true;
+	public static final boolean DEFAULT_OVERLAYED_SHOW_NAMES = false;
+	public static final boolean DEFAULT_OVERLAYED_SHOW_FOR_ALL = false;
+	public static final boolean DEFAULT_MAXIMIZED = true;
+	public static final int DEFAULT_WIDTH = 800;
+	public static final int DEFAULT_HEIGHT = 600;
+	public static final boolean DEFAULT_MARGIN_LINE = false;
+	public static final boolean DEFAULT_OPEN_LAST_FILE_AT_STARTUP = false;
+	public static final double DEFAULT_SCALE = 1.0;
+	public static final boolean DEFAULT_AUTO_SCALE = false;
 
 	/** "Loading" dialog. */
 	private static DlgLoading dlgLoading = null;
