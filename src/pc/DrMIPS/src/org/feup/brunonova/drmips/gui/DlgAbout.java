@@ -186,6 +186,7 @@ public class DlgAbout extends javax.swing.JDialog {
 			+ "  AutoComplete (http://fifesoft.com/autocomplete/)\n"
 			+ "  GNOME Icons (http://ftp.gnome.org/pub/gnome/sources/gnome-icon-theme/)\n"
 			+ "  Humanity Icons (https://launchpad.net/humanity/)\n"
+			+ "  JOpt Simple (https://pholser.github.io/jopt-simple/)\n"
 			+ "  jScroll (http://jscroll.sourceforge.net/)\n"
 			+ "  JSON.org by Android (https://android.googlesource.com/platform/libcore/+log/master/json/)\n"
 			+ "  JTattoo (http://www.jtattoo.net/)\n"
