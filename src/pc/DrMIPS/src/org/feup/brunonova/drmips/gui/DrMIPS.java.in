@@ -27,12 +27,17 @@ package org.feup.brunonova.drmips.gui;
 
 import java.io.File;
 import java.net.URI;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
+import joptsimple.OptionParser;
+import joptsimple.OptionSet;
+import joptsimple.OptionSpec;
 import org.feup.brunonova.drmips.simulator.AppInfo;
 
 
@@ -127,7 +132,7 @@ public class DrMIPS {
 	/** Class logger. */
 	private static final Logger LOG = Logger.getLogger(DrMIPS.class.getName());
 	
-	private static void displayHelpAndExit() {
+	private static void displayHelpAndExit(OptionParser parser) {
 		// The help text will contain a "Usage" line. The default value of the line is:
 		//   Usage: java -jar DrMIPS.jar [options] [file]
 		// If the simulator will be started from a launcher script/program, you may
@@ -138,13 +143,13 @@ public class DrMIPS {
 		//   Usage: drmips [options] [file]
 		String prog_name = System.getProperty("program.name", "java -jar " + AppInfo.NAME + ".jar");
 		
-		System.out.println(AppInfo.NAME + " - " + AppInfo.DESCRIPTION + "\n"
-			+ "Usage: " + prog_name + " [options] [file]\n"
-			+ "\n"
-			+ "Options:\n"
-			+ "  -h, --help   display this help and exit\n"
-			+ "  --version    display version information and exit\n"
-			+ "  --no-opengl  disable hardware acceleration with OpenGL");
+		System.out.println(AppInfo.NAME + " - " + AppInfo.DESCRIPTION);
+		System.out.println("Usage: " + prog_name + " [options] [file]\n");
+		try {
+			parser.printHelpOn(System.out);
+		} catch (Exception ex) {
+			LOG.log(Level.SEVERE, "failed to print help: {0}", ex.getMessage());
+		}
 		System.exit(0);
 	}
 	
@@ -165,19 +170,28 @@ public class DrMIPS {
 		boolean useOpenGl = true;
 		
 		// Parse command-line arguments
-		for(String arg: args) {
-			if(arg.equals("-h") || arg.equals("--help"))
-				displayHelpAndExit();
-			else if(arg.equals("--version"))
-				displayVersionAndExit();
-			else if(arg.equals("--no-opengl"))
-				useOpenGl = false;
-			else if(arg.startsWith("-")) {
-				System.err.println("Invalid argument " + arg + "!");
+		OptionParser parser = new OptionParser();
+		OptionSpec<String> fileArg = parser.nonOptions("code file to open")
+		                                   .ofType(String.class).describedAs("file");
+		parser.acceptsAll(Arrays.asList("h", "help"), "display this help and exit").forHelp();
+		parser.accepts("version", "display version information and exit");
+		parser.accepts("no-opengl", "disable hardware acceleration with OpenGL");
+
+		OptionSet options = parser.parse(args);
+		List<String> otherArgs = options.valuesOf(fileArg);
+		if(options.has("help"))
+			displayHelpAndExit(parser);
+		else if(options.has("version"))
+			displayVersionAndExit();
+		if(options.has("no-opengl"))
+			useOpenGl = false;
+		if(!otherArgs.isEmpty()) {
+			if(otherArgs.size() == 1)
+				filename = otherArgs.get(0);
+			else {
+				System.err.println("Only one file name should be supplied!");
 				System.exit(1);
 			}
-			else
-				filename = arg;
 		}
 		
 		// Try to enable OpenGL hardware acceleration, unless requested not to
