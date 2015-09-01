@@ -150,7 +150,7 @@ public class DrMIPS {
 		try {
 			parser.printHelpOn(System.out);
 		} catch (Exception ex) {
-			LOG.log(Level.SEVERE, "failed to print help: {0}", ex.getMessage());
+			LOG.log(Level.SEVERE, "failed to print help", ex);
 		}
 		System.exit(0);
 	}
@@ -171,35 +171,43 @@ public class DrMIPS {
 		String filename = null;
 		boolean useOpenGl = prefs.getBoolean(OPENGL_PREF, DEFAULT_OPENGL);
 		
-		// Parse command-line arguments
-		OptionParser parser = new OptionParser();
-		OptionSpec<String> fileArg = parser.nonOptions("code file to open")
-		                                   .ofType(String.class).describedAs("file");
-		parser.acceptsAll(Arrays.asList("h", "help"), "display this help and exit").forHelp();
-		parser.accepts("version", "display version information and exit");
-		parser.accepts("opengl", "enable OpenGL hardware acceleration");
-		parser.accepts("no-opengl", "disable OpenGL hardware acceleration");
+		// Setup the default exception handler
+		Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler());
 
-		OptionSet options = parser.parse(args);
-		List<String> otherArgs = options.valuesOf(fileArg);
-		if(options.has("help"))
-			displayHelpAndExit(parser);
-		else if(options.has("version"))
-			displayVersionAndExit();
-		if(options.has("no-opengl")) {
-			useOpenGl = false;
-			prefs.putBoolean(OPENGL_PREF, useOpenGl);
-		} else if(options.has("opengl")) {
-			useOpenGl = true;
-			prefs.putBoolean(OPENGL_PREF, useOpenGl);
-		}
-		if(!otherArgs.isEmpty()) {
-			if(otherArgs.size() == 1)
-				filename = otherArgs.get(0);
-			else {
-				System.err.println("Only one file name should be supplied!");
-				System.exit(1);
+		// Parse command-line arguments
+		try {
+			OptionParser parser = new OptionParser();
+			OptionSpec<String> fileArg = parser.nonOptions("code file to open")
+											   .ofType(String.class).describedAs("file");
+			parser.acceptsAll(Arrays.asList("h", "help"), "display this help and exit").forHelp();
+			parser.accepts("version", "display version information and exit");
+			parser.accepts("opengl", "enable OpenGL hardware acceleration");
+			parser.accepts("no-opengl", "disable OpenGL hardware acceleration");
+
+			OptionSet options = parser.parse(args);
+			List<String> otherArgs = options.valuesOf(fileArg);
+			if(options.has("help"))
+				displayHelpAndExit(parser);
+			else if(options.has("version"))
+				displayVersionAndExit();
+			if(options.has("no-opengl")) {
+				useOpenGl = false;
+				prefs.putBoolean(OPENGL_PREF, useOpenGl);
+			} else if(options.has("opengl")) {
+				useOpenGl = true;
+				prefs.putBoolean(OPENGL_PREF, useOpenGl);
 			}
+			if(!otherArgs.isEmpty()) {
+				if(otherArgs.size() == 1)
+					filename = otherArgs.get(0);
+				else {
+					System.err.println("Only one file name should be supplied!");
+					System.exit(1);
+				}
+			}
+		} catch(Exception ex) {
+			System.err.println("Error parsing arguments: " + ex.getMessage());
+			System.exit(1);
 		}
 		
 		// Try to enable OpenGL hardware acceleration, unless requested not to
@@ -217,6 +225,9 @@ public class DrMIPS {
 			});		
 		} catch (Exception ex) {
 			LOG.log(Level.WARNING, "error displaying \"loading\" dialog", ex);
+			if(dlgLoading != null)
+				dlgLoading.dispose();
+			dlgLoading = null;
 		}
 		
 		// Find the path to the program
@@ -240,12 +251,14 @@ public class DrMIPS {
 			Util.setDarkLookAndFeel();
 		else
 			Util.setLightLookAndFeel();
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				SwingUtilities.updateComponentTreeUI(dlgLoading);
-			}
-		});
+		if(dlgLoading != null) {
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					SwingUtilities.updateComponentTreeUI(dlgLoading);
+				}
+			});
+		}
 		
 		// Load the strings
 		if(!Lang.loadPreferredLanguage()) {
@@ -254,12 +267,14 @@ public class DrMIPS {
 		}
 		
 		// Translate the "loading" window
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				dlgLoading.setProgressBarText(Lang.t("loading"));
-			}
-		});
+		if(dlgLoading != null) {
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					dlgLoading.setProgressBarText(Lang.t("loading"));
+				}
+			});
+		}
 		
 		// Change tooltip delays
 		ToolTipManager.sharedInstance().setInitialDelay(TOOLTIP_INITIAL_DELAY);
@@ -274,6 +289,17 @@ public class DrMIPS {
 		}
 		frmSim = (filename == null ? new FrmSimulator() : new FrmSimulator(filename));
 		frmSim.setVisible(true);
-		dlgLoading.dispose();
+
+		if(dlgLoading != null)
+			dlgLoading.dispose();
+	}
+
+	private static class ExceptionHandler implements Thread.UncaughtExceptionHandler {
+		@Override
+		public void uncaughtException(Thread t, Throwable ex) {
+			LOG.log(Level.SEVERE, "error starting simulator", ex);
+			JOptionPane.showMessageDialog(null, "Fatal error!\n" + ex, AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
+			System.exit(1);
+		}
 	}
 }
