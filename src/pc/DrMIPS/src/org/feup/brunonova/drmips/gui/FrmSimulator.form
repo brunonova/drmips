@@ -335,6 +335,14 @@
                 <Property name="text" type="java.lang.String" value="language"/>
               </Properties>
             </Menu>
+            <MenuItem class="javax.swing.JCheckBoxMenuItem" name="mnuOpenGL">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="opengl_acceleration"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuOpenGLActionPerformed"/>
+              </Events>
+            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="mnuEdit">
