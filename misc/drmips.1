@@ -1,7 +1,7 @@
 .\"                                      Hey, EMACS: -*- nroff -*-
 .\" (C) Copyright 2013-2015 Bruno Nova <brunomb.nova@gmail.com>,
 .\"
-.TH DRMIPS 1 "March 12, 2015"
+.TH DRMIPS 1 "September 1, 2015"
 .SH NAME
 drmips \- educational MIPS simulator
 .SH SYNOPSIS
@@ -21,14 +21,17 @@ This command starts the PC version of the simulator. You can pass a
 as argument to open it in the simulator.
 .SH OPTIONS
 .TP
+.B \-\-opengl
+Enable OpenGL hardware acceleration.
+.TP
+.B \-\-no\-opengl
+Disable OpenGL hardware acceleration.
+.TP
 .B \-h, \-\-help
 Display help and exit.
 .TP
 .B \-\-version
 Display version information and exit.
-.TP
-.B \-\-no\-opengl
-Disable hardware acceleration with OpenGL.
 .TP
 .B FILE
 Optional file to open.
