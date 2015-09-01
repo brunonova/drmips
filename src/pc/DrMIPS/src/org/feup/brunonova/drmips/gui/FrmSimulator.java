@@ -149,6 +149,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		mnuInternalWindows.setSelected(DrMIPS.prefs.getBoolean(DrMIPS.INTERNAL_WINDOWS_PREF, DrMIPS.DEFAULT_INTERNAL_WINDOWS));
 		if(mnuInternalWindows.isSelected()) switchToInternalWindows();
 		mnuMarginLine.setSelected(DrMIPS.prefs.getBoolean(DrMIPS.MARGIN_LINE_PREF, DrMIPS.DEFAULT_MARGIN_LINE));
+		mnuOpenGL.setSelected(DrMIPS.prefs.getBoolean(DrMIPS.OPENGL_PREF, DrMIPS.DEFAULT_OPENGL));
 		txtCode.setMarginLineEnabled(mnuMarginLine.isSelected());
 		mnuControlPath.setSelected(DrMIPS.prefs.getBoolean(DrMIPS.SHOW_CONTROL_PATH_PREF, DrMIPS.DEFAULT_SHOW_CONTROL_PATH));
 		datapath.setControlPathVisible(mnuControlPath.isSelected());
@@ -301,6 +302,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuMarginLine = new javax.swing.JCheckBoxMenuItem();
         jSeparator16 = new javax.swing.JPopupMenu.Separator();
         mnuLanguage = new javax.swing.JMenu();
+        mnuOpenGL = new javax.swing.JCheckBoxMenuItem();
         mnuEdit = new javax.swing.JMenu();
         mnuUndo = new javax.swing.JMenuItem();
         mnuRedo = new javax.swing.JMenuItem();
@@ -954,6 +956,14 @@ public class FrmSimulator extends javax.swing.JFrame {
 
         mnuLanguage.setText("language");
         mnuView.add(mnuLanguage);
+
+        mnuOpenGL.setText("opengl_acceleration");
+        mnuOpenGL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuOpenGLActionPerformed(evt);
+            }
+        });
+        mnuView.add(mnuOpenGL);
 
         mnuBar.add(mnuView);
 
@@ -1668,6 +1678,29 @@ public class FrmSimulator extends javax.swing.JFrame {
 		DrMIPS.prefs.putBoolean(DrMIPS.OVERLAYED_SHOW_FOR_ALL_PREF, mnuOverlayedShowForAll.isSelected());
     }//GEN-LAST:event_mnuOverlayedShowForAllActionPerformed
 
+    private void mnuOpenGLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuOpenGLActionPerformed
+		boolean useOpenGl = DrMIPS.prefs.getBoolean(DrMIPS.OPENGL_PREF, DrMIPS.DEFAULT_OPENGL);
+		int res;
+
+		if(!useOpenGl) {
+			res = JOptionPane.showConfirmDialog(this, Lang.t("enable_opengl_msg"), AppInfo.NAME, JOptionPane.OK_CANCEL_OPTION);
+			if(res == JOptionPane.OK_OPTION) {
+				DrMIPS.prefs.putBoolean(DrMIPS.OPENGL_PREF, true);
+				mnuOpenGL.setEnabled(false);
+			} else {
+				mnuOpenGL.setSelected(useOpenGl);
+			}
+		} else {
+			res = JOptionPane.showConfirmDialog(this, Lang.t("disable_opengl_msg"), AppInfo.NAME, JOptionPane.OK_CANCEL_OPTION);
+			if(res == JOptionPane.OK_OPTION) {
+				DrMIPS.prefs.putBoolean(DrMIPS.OPENGL_PREF, false);
+				mnuOpenGL.setEnabled(false);
+			} else {
+				mnuOpenGL.setSelected(useOpenGl);
+			}
+		}
+    }//GEN-LAST:event_mnuOpenGLActionPerformed
+
 	/**
 	 * Sets the path of the opened file and updates the title bar and recent files.
 	 * @param path Path to the opened file.
@@ -1964,6 +1997,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		Lang.tButton(mnuWindows, "windows");
 		Lang.tButton(mnuTileWindows, "tile");
 		Lang.tButton(mnuCascadeWindows, "cascade");
+		Lang.tButton(mnuOpenGL, "opengl_acceleration");
 		Lang.tButton(mnuExecute, "execute");
 		Lang.tButton(mnuAssemble, "assemble");
 		Lang.tButton(mnuRestart, "restart");
@@ -2839,6 +2873,7 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JCheckBoxMenuItem mnuMarginLine;
     private javax.swing.JMenuItem mnuNew;
     private javax.swing.JMenuItem mnuOpen;
+    private javax.swing.JCheckBoxMenuItem mnuOpenGL;
     private javax.swing.JCheckBoxMenuItem mnuOpenLastFileAtStartup;
     private javax.swing.JMenu mnuOpenRecent;
     private javax.swing.JMenu mnuOverlayed;
