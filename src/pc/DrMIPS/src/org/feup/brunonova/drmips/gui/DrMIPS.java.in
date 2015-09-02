@@ -131,6 +131,10 @@ public class DrMIPS {
 
 	/** "Loading" dialog. */
 	private static DlgLoading dlgLoading = null;
+	/** Main window. */
+	private static FrmSimulator frmSim = null;
+	/** Optional filename to open. */
+	private static String filename = null;
 	/** Class logger. */
 	private static final Logger LOG = Logger.getLogger(DrMIPS.class.getName());
 	
@@ -168,11 +172,26 @@ public class DrMIPS {
 	}
 	
 	public static void main(String[] args) {
-		String filename = null;
 		boolean useOpenGl = prefs.getBoolean(OPENGL_PREF, DEFAULT_OPENGL);
 		
 		// Setup the default exception handler
 		Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler());
+
+		// Find the path to the program
+		try {
+			URI uri = DrMIPS.class.getProtectionDomain().getCodeSource().getLocation().toURI(); // get the path to the jar (if running from a jar)
+			String p = uri.toString();
+			p = p.startsWith("file://") ? p.substring(5) : uri.getPath(); // uri to String (careful with Windows network (UNC) paths)
+			if(p.toLowerCase().endsWith(".jar")) { // if running from a jar, get the path of the parent dir
+				File f = (new File(p)).getParentFile();
+				if(f != null) path = f.getCanonicalPath();
+				LOG.log(Level.INFO, "running from jar file; path to jar folder: {0}", path);
+			}
+			else
+				LOG.info("not running from jar file");
+		} catch (Exception ex) {
+			LOG.log(Level.WARNING, "error finding the path of the program", ex);
+		}
 
 		// Parse command-line arguments
 		try {
@@ -219,84 +238,51 @@ public class DrMIPS {
 		if(useOpenGl)
 			enableOpenGl();
 
-		try { // Display a "loading" dialog
-			SwingUtilities.invokeAndWait(new Runnable() {
-				@Override
-				public void run() {
-					dlgLoading = new DlgLoading();
-					dlgLoading.setVisible(true);
-					Util.centerWindow(dlgLoading);
-				}
-			});		
-		} catch (Exception ex) {
-			LOG.log(Level.WARNING, "error displaying \"loading\" dialog", ex);
-			if(dlgLoading != null)
-				dlgLoading.dispose();
-			dlgLoading = null;
-		}
-		
-		// Find the path to the program
-		try {
-			URI uri = DrMIPS.class.getProtectionDomain().getCodeSource().getLocation().toURI(); // get the path to the jar (if running from a jar)
-			String p = uri.toString();
-			p = p.startsWith("file://") ? p.substring(5) : uri.getPath(); // uri to String (careful with Windows network (UNC) paths)
-			if(p.toLowerCase().endsWith(".jar")) { // if running from a jar, get the path of the parent dir
-				File f = (new File(p)).getParentFile();
-				if(f != null) path = f.getCanonicalPath();
-				LOG.log(Level.INFO, "running from jar file; path to jar folder: {0}", path);
-			}
-			else
-				LOG.info("not running from jar file");
-		} catch (Exception ex) {
-			LOG.log(Level.WARNING, "error finding the path of the program", ex);
-		}
-		
-		// Set the theme
-		if(prefs.getBoolean(DARK_THEME_PREF, DEFAULT_DARK_THEME))
-			Util.setDarkLookAndFeel();
-		else
-			Util.setLightLookAndFeel();
-		if(dlgLoading != null) {
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					SwingUtilities.updateComponentTreeUI(dlgLoading);
-				}
-			});
-		}
-		
-		// Load the strings
-		if(!Lang.loadPreferredLanguage()) {
-			JOptionPane.showMessageDialog(null, "Error opening language file " + Lang.getLanguage() + "!", AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
-			System.exit(1);
-		}
-		
-		// Translate the "loading" window
-		if(dlgLoading != null) {
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					dlgLoading.setProgressBarText(Lang.t("loading"));
-				}
-			});
-		}
-		
-		// Change tooltip delays
-		ToolTipManager.sharedInstance().setInitialDelay(TOOLTIP_INITIAL_DELAY);
-		ToolTipManager.sharedInstance().setDismissDelay(TOOLTIP_DISMISS_DELAY);
-		
 		// Start the GUI
-		FrmSimulator frmSim;
-		if(filename == null && prefs.getBoolean(OPEN_LAST_FILE_AT_STARTUP_PREF, DEFAULT_OPEN_LAST_FILE_AT_STARTUP)) {
-			String f = prefs.get(LAST_FILE_PREF, null);
-			if(f != null && new File(f).isFile())
-				filename = f;
-		}
-		frmSim = (filename == null ? new FrmSimulator() : new FrmSimulator(filename));
-		frmSim.setVisible(true);
+		SwingUtilities.invokeLater(new StartGUIRunnable());
+	}
 
-		if(dlgLoading != null)
+	private static class StartGUIRunnable implements Runnable {
+		@Override
+		public void run() {
+			// Change tooltip delays
+			ToolTipManager.sharedInstance().setInitialDelay(TOOLTIP_INITIAL_DELAY);
+			ToolTipManager.sharedInstance().setDismissDelay(TOOLTIP_DISMISS_DELAY);
+
+			// Display a "loading" dialog
+			dlgLoading = new DlgLoading();
+			dlgLoading.setVisible(true);
+			Util.centerWindow(dlgLoading);
+			dlgLoading.paint(dlgLoading.getGraphics());
+
+			// Set the theme
+			if(prefs.getBoolean(DARK_THEME_PREF, DEFAULT_DARK_THEME))
+				Util.setDarkLookAndFeel();
+			else
+				Util.setLightLookAndFeel();
+			SwingUtilities.updateComponentTreeUI(dlgLoading);
+
+			// Load the strings
+			if(!Lang.loadPreferredLanguage()) {
+				JOptionPane.showMessageDialog(null, "Error opening language file " + Lang.getLanguage() + "!", AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
+				System.exit(1);
+			}
+
+			// Translate the "loading" window
+			dlgLoading.setLoadingText(Lang.t("loading"));
+			dlgLoading.paint(dlgLoading.getGraphics());
+
+			// Start the main window
+			if(filename == null && prefs.getBoolean(OPEN_LAST_FILE_AT_STARTUP_PREF, DEFAULT_OPEN_LAST_FILE_AT_STARTUP)) {
+				String f = prefs.get(LAST_FILE_PREF, null);
+				if(f != null && new File(f).isFile())
+					filename = f;
+			}
+			frmSim = (filename == null ? new FrmSimulator() : new FrmSimulator(filename));
+			frmSim.setVisible(true);
+
 			dlgLoading.dispose();
+		}
 	}
 
 	private static class ExceptionHandler implements Thread.UncaughtExceptionHandler {
@@ -304,7 +290,8 @@ public class DrMIPS {
 		public void uncaughtException(Thread t, Throwable ex) {
 			LOG.log(Level.SEVERE, "error starting simulator", ex);
 			JOptionPane.showMessageDialog(null, "Fatal error!\n" + ex, AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
-			System.exit(1);
+			if(frmSim == null || !frmSim.isVisible())
+				System.exit(1);
 		}
 	}
 }
