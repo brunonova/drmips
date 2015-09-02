@@ -34,11 +34,11 @@ public class DlgLoading extends javax.swing.JDialog {
 	}
 	
 	/**
-	 * Updates the text on the progress bar.
+	 * Updates the text on the "Loading..." label.
 	 * @param text New text.
 	 */
-	public void setProgressBarText(String text) {
-		pbLoading.setString(text);
+	public void setLoadingText(String text) {
+		lblLoading.setText(text);
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class DlgLoading extends javax.swing.JDialog {
 
         lblIcon = new javax.swing.JLabel();
         lblName = new javax.swing.JLabel();
-        pbLoading = new javax.swing.JProgressBar();
+        lblLoading = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle(AppInfo.NAME);
@@ -68,17 +68,17 @@ public class DlgLoading extends javax.swing.JDialog {
         lblName.setText(AppInfo.NAME + " " + AppInfo.VERSION);
         getContentPane().add(lblName, java.awt.BorderLayout.CENTER);
 
-        pbLoading.setIndeterminate(true);
-        pbLoading.setString("Loading...");
-        pbLoading.setStringPainted(true);
-        getContentPane().add(pbLoading, java.awt.BorderLayout.SOUTH);
+        lblLoading.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblLoading.setText("Loading...");
+        lblLoading.setEnabled(false);
+        getContentPane().add(lblLoading, java.awt.BorderLayout.SOUTH);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lblIcon;
+    private javax.swing.JLabel lblLoading;
     private javax.swing.JLabel lblName;
-    private javax.swing.JProgressBar pbLoading;
     // End of variables declaration//GEN-END:variables
 }

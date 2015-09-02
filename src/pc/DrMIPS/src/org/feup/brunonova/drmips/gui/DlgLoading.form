@@ -59,11 +59,11 @@
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="javax.swing.JProgressBar" name="pbLoading">
+    <Component class="javax.swing.JLabel" name="lblLoading">
       <Properties>
-        <Property name="indeterminate" type="boolean" value="true"/>
-        <Property name="string" type="java.lang.String" value="Loading..."/>
-        <Property name="stringPainted" type="boolean" value="true"/>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Loading..."/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
