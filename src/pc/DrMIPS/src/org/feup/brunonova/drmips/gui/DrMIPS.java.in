@@ -183,6 +183,7 @@ public class DrMIPS {
 			parser.accepts("version", "display version information and exit");
 			parser.accepts("opengl", "enable OpenGL hardware acceleration");
 			parser.accepts("no-opengl", "disable OpenGL hardware acceleration");
+			parser.accepts("reset", "reset all settings to their defaults");
 
 			OptionSet options = parser.parse(args);
 			List<String> otherArgs = options.valuesOf(fileArg);
@@ -190,6 +191,10 @@ public class DrMIPS {
 				displayHelpAndExit(parser);
 			else if(options.has("version"))
 				displayVersionAndExit();
+			if(options.has("reset")) {
+				prefs.clear();
+				useOpenGl = DEFAULT_OPENGL;
+			}
 			if(options.has("no-opengl")) {
 				useOpenGl = false;
 				prefs.putBoolean(OPENGL_PREF, useOpenGl);
