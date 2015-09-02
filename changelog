@@ -1,3 +1,15 @@
+Version 1.3.1 (2015-09-02)
+--------------------------
+
+* PC version:
+    - Disabled OpenGL hardware acceleration by default, and added an option to
+      enable it (Bug #20)
+    - Switched to JOpt Simple to parse command-line arguments
+    - Added the "--reset" command-line argument that resets all settings to
+      their defaults
+    - Handle uncaught exceptions properly
+
+
 Version 1.3.0 (2015-03-18)
 --------------------------
 
