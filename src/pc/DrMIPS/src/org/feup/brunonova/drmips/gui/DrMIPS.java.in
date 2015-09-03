@@ -177,22 +177,6 @@ public class DrMIPS {
 		// Setup the default exception handler
 		Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler());
 
-		// Find the path to the program
-		try {
-			URI uri = DrMIPS.class.getProtectionDomain().getCodeSource().getLocation().toURI(); // get the path to the jar (if running from a jar)
-			String p = uri.toString();
-			p = p.startsWith("file://") ? p.substring(5) : uri.getPath(); // uri to String (careful with Windows network (UNC) paths)
-			if(p.toLowerCase().endsWith(".jar")) { // if running from a jar, get the path of the parent dir
-				File f = (new File(p)).getParentFile();
-				if(f != null) path = f.getCanonicalPath();
-				LOG.log(Level.INFO, "running from jar file; path to jar folder: {0}", path);
-			}
-			else
-				LOG.info("not running from jar file");
-		} catch (Exception ex) {
-			LOG.log(Level.WARNING, "error finding the path of the program", ex);
-		}
-
 		// Parse command-line arguments
 		try {
 			OptionParser parser = new OptionParser();
@@ -237,6 +221,22 @@ public class DrMIPS {
 		// Try to enable OpenGL hardware acceleration, unless requested not to
 		if(useOpenGl)
 			enableOpenGl();
+
+		// Find the path to the program
+		try {
+			URI uri = DrMIPS.class.getProtectionDomain().getCodeSource().getLocation().toURI(); // get the path to the jar (if running from a jar)
+			String p = uri.toString();
+			p = p.startsWith("file://") ? p.substring(5) : uri.getPath(); // uri to String (careful with Windows network (UNC) paths)
+			if(p.toLowerCase().endsWith(".jar")) { // if running from a jar, get the path of the parent dir
+				File f = (new File(p)).getParentFile();
+				if(f != null) path = f.getCanonicalPath();
+				LOG.log(Level.INFO, "running from jar file; path to jar folder: {0}", path);
+			}
+			else
+				LOG.info("not running from jar file");
+		} catch (Exception ex) {
+			LOG.log(Level.WARNING, "error finding the path of the program", ex);
+		}
 
 		// Start the GUI
 		SwingUtilities.invokeLater(new StartGUIRunnable());
