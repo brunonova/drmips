@@ -19,6 +19,36 @@ use, redistribute, modify and improve it (under certain conditions). Feel free
 to contribute!
 
 
+### Features
+
+*   For both PCs and Android devices
+*   Simulate both unicycle and pipeline versions of the MIPS processor
+*   Datapath displayed graphically
+*   Step-by-step execution and back step
+*   Edit registers and data memory during execution
+*   Performance mode, where the latencies are simulated and the critical path of
+    the processor is shown
+*   Highly configurable datapaths and instruction sets, and additional ones can
+    be created
+*   Fairly intuitive and easy to use
+*   Integrated code editor, with syntax highlighting and autocomplete in the PC
+    version
+*   Display values in binary, decimal or hexadecimal
+*   Light and a dark themes
+*   Display contents of the simulator as tabs or windows in the PC version
+*   Free and open-source
+
+
+### Papers
+
+* Bruno Nova, João C. Ferreira and António Araújo,
+  ["Tool to Support Computer Architecture Teaching and Learning"][paper_cispee], 
+  *1st International Conference of the Portuguese Society for Engineering Education (CISPEE)*, 
+  2013.
+
+
+
+[paper_cispee]: papers/cispee13_24.pdf "Paper: Tool to Support Computer Architecture Teaching and Learning"
 
 [FEUP]: http://www.fe.up.pt/ "Faculdade de Engenharia da Universidade do Porto"
 [MIPS]: http://en.wikipedia.org/wiki/MIPS_architecture "MIPS architecture - Wikipedia"
