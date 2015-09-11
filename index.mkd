@@ -1,0 +1,25 @@
+---
+layout: default
+---
+
+### DrMIPS
+
+DrMIPS is a graphical simulator of the [MIPS][MIPS] processor to support computer 
+architecture teaching and learning. It is intuitive, versatile and configurable.
+
+The simulator is available not only for personal computers but also for Android 
+devices, especially tablets.
+
+DrMIPS was created under the Master's dissertation entitled 
+*Tool to Support Computer Architecture Teaching and Learning* at 
+[FEUP][FEUP].
+
+DrMIPS is open-source and licensed under the [GPLv3][gpl3], so you are free to 
+use, redistribute, modify and improve it (under certain conditions). Feel free
+to contribute!
+
+
+
+[FEUP]: http://www.fe.up.pt/ "Faculdade de Engenharia da Universidade do Porto"
+[MIPS]: http://en.wikipedia.org/wiki/MIPS_architecture "MIPS architecture - Wikipedia"
+[gpl3]: http://www.gnu.org/licenses/gpl-3.0.html "GNU General Public License v3"
