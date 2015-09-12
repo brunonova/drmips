@@ -1,0 +1,22 @@
+# List of screenshots
+# The screenshots must be in images/screens and the respective thumbnails
+# in images/thumbs. The file name must be the same in both folders.
+
+- id: screens_pc
+  title: PC version
+  images:
+    - file: pc1.png
+      desc: The simulator using the internal windows mode and light theme
+    - file: pc2.png
+      desc: The code editor (with autocomplete suggestions being displayed) and the registers table
+    - file: pc3.png
+      desc: Pipeline datapath during a stall, using the dark theme and tabbed mode
+    - file: pc4.png
+      desc: Simulator in Portuguese, showing the datapath in performance mode
+- id: screens_android
+  title: Android version
+  images:
+    - file: android1.png
+      desc: Android version using light theme on a tablet
+    - file: android2.png
+      desc: Android version using dark theme on a smartphone

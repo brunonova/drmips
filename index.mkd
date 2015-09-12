@@ -40,19 +40,21 @@ to contribute!
 
 ### Screenshots
 
-<div id="screens_pc">
-  PC version:<br />
-  <a href="images/screens/pc1.png" title="The simulator using the internal windows mode and light theme"><img src="images/thumbs/pc1.png"></a>
-  <a href="images/screens/pc2.png" title="The code editor (with autocomplete suggestions being displayed) and the registers table"><img src="images/thumbs/pc2.png"></a>
-  <a href="images/screens/pc3.png" title="Pipeline datapath during a stall, using the dark theme and tabbed mode"><img src="images/thumbs/pc3.png"></a>
-  <a href="images/screens/pc4.png" title="Simulator in Portuguese, showing the datapath in performance mode"><img src="images/thumbs/pc4.png"></a>
-</div>
+{% for type in site.data.screens %}
+  <div id="{{ type.id }}">
+    {{ type.title }}:<br />
+    {% for img in type.images %}
+      <a href="images/screens/{{ img.file }}" title="{{ img.desc }}"><img src="images/thumbs/{{ img.file }}" /></a>
+    {% endfor %}
+  </div>
+{% endfor %}
 
-<div id="screens_android">
-  Android version:<br />
-  <a href="images/screens/android1.png" title="Android version using light theme on a tablet"><img src="images/thumbs/android1.png"></a>
-  <a href="images/screens/android2.png" title="Android version using dark theme on a smartphone"><img src="images/thumbs/android2.png"></a>
-</div>
+<script src="javascripts/baguetteBox.min.js" async></script>
+<script>
+  {% for type in site.data.screens %}
+    baguetteBox.run("#{{ type.id }}", {});
+  {% endfor %}
+</script>
 
 
 ### Papers
@@ -61,13 +63,6 @@ to contribute!
     ["Tool to Support Computer Architecture Teaching and Learning"][paper_cispee], 
     *1st International Conference of the Portuguese Society for Engineering Education (CISPEE)*, 
     2013.
-
-
-<script src="javascripts/baguetteBox.min.js" async></script>
-<script>
-  baguetteBox.run('#screens_pc', {});
-  baguetteBox.run('#screens_android', {});
-</script>
 
 
 
