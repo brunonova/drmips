@@ -1,0 +1,15 @@
+baseurl: /drmips
+
+# Custom variables
+title: DrMIPS
+tagline: Educational MIPS simulator
+repourl: https://github.com/brunonova/drmips
+author:
+  username: brunonova
+  name: Bruno Nova
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
