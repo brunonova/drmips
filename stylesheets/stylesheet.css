@@ -313,6 +313,10 @@ Full-Width Styles
   text-shadow: #111 0px 0px 10px;
 }
 
+#project_title a {
+  color: #fff;
+}
+
 #project_tagline {
   color: #fff;
   font-size: 24px;
