@@ -292,6 +292,26 @@ Full-Width Styles
   border-bottom-right-radius: 2px;
 }
 
+#download_buttons {
+  text-align: center;
+}
+
+.download_button {
+  display: inline;
+  padding: 10px 10px 10px 40px;
+  margin-right: 10px;
+  color: #fff;
+  background: url('../images/icon_download.png') #40a040 no-repeat 5px 50%;
+  font-weight: 700;
+  box-shadow: 0 0 10px rgba(0,0,0,.5);
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
+.download_button:hover {
+  background: url('../images/icon_download.png') #50c050 no-repeat 5px 50%;
+}
+
 #header_wrap {
   background: #212121;
   background: -moz-linear-gradient(top, #373737, #212121);
