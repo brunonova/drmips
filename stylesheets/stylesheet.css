@@ -297,7 +297,7 @@ Full-Width Styles
   margin-bottom: 20px;
 }
 
-.download_button {
+#download_buttons a {
   display: inline;
   padding: 10px 10px 10px 40px;
   margin-right: 10px;
@@ -309,7 +309,7 @@ Full-Width Styles
   border-bottom-right-radius: 2px;
 }
 
-.download_button:hover {
+#download_buttons a:hover {
   background: url('../images/icon_download.png') #50c050 no-repeat 5px 50%;
 }
 
