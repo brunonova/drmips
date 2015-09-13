@@ -18,6 +18,7 @@
     <!-- HEADER -->
     <div id="header_wrap" class="outer">
         <header class="inner">
+          {% if page.title %}<a id="back_banner" href="{{ site.baseurl }}/">Back</a>{% endif %}
           <a id="forkme_banner" href="{{ site.repourl }}">View on GitHub</a>
 
           <h1 id="project_title"><a href="{{ site.baseurl }}/">{{ site.title }}</a></h1>
