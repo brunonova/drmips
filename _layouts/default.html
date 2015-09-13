@@ -6,11 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="description" content="{{ site.title }} : {{ site.tagline }}">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-    <link rel="stylesheet" href="stylesheets/baguetteBox.min.css">
-    <link rel="icon" type="image/png" href="images/drmips.png" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ site.baseurl }}/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="{{ site.baseurl }}/stylesheets/baguetteBox.min.css">
+    <link rel="icon" type="image/png" href="{{ site.baseurl }}/images/drmips.png" />
 
-    <title>{{ site.title }}</title>
+    <title>{{ site.title }}{% if page.title %} :: {{ page.title }}{% endif %}</title>
   </head>
 
   <body>
@@ -20,7 +20,7 @@
         <header class="inner">
           <a id="forkme_banner" href="{{ site.repourl }}">View on GitHub</a>
 
-          <h1 id="project_title"><a href="{{ site.baseurl }}">{{ site.title }}</a></h1>
+          <h1 id="project_title"><a href="{{ site.baseurl }}/">{{ site.title }}</a></h1>
           <h2 id="project_tagline">{{ site.tagline }}</h2>
         </header>
     </div>

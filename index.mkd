@@ -76,6 +76,9 @@ to contribute!
 You can find the changelog and older releases in the project's
 [Releases page][releases].
 
+Check [this page][install] for instructions on how to install and run the
+simulator.
+
 
 ### Be informed of new releases
 
@@ -111,6 +114,7 @@ You can read the full license text [here][gpl3].
 
 
 [paper_cispee]: papers/cispee13_24.pdf "Paper: Tool to Support Computer Architecture Teaching and Learning"
+[install]: install/ "Installation instructions"
 [releases]: {{ site.repourl }}/releases "DrMIPS releases"
 [rel_feed]: {{ site.repourl }}/releases.atom "DrMIPS releases feed"
 [issues]: {{ site.repourl }}/issues "DrMIPS issue tracker"
