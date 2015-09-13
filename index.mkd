@@ -18,6 +18,25 @@ use, redistribute, modify and improve it (under certain conditions). Feel free
 to contribute!
 
 
+### Screenshots
+
+{% for type in site.data.screens %}
+  <div id="{{ type.id }}">
+    {{ type.title }}:<br />
+    {% for img in type.images %}
+      <a href="images/screens/{{ img.file }}" title="{{ img.desc }}"><img src="images/thumbs/{{ img.file }}" /></a>
+    {% endfor %}
+  </div>
+{% endfor %}
+
+<script src="javascripts/baguetteBox.min.js" async></script>
+<script>
+  {% for type in site.data.screens %}
+    baguetteBox.run("#{{ type.id }}", {});
+  {% endfor %}
+</script>
+
+
 ### Features
 
 *   For both PCs and Android devices
@@ -36,25 +55,6 @@ to contribute!
 *   Light and a dark themes
 *   Display contents of the simulator as tabs or windows in the PC version
 *   Free and open-source
-
-
-### Screenshots
-
-{% for type in site.data.screens %}
-  <div id="{{ type.id }}">
-    {{ type.title }}:<br />
-    {% for img in type.images %}
-      <a href="images/screens/{{ img.file }}" title="{{ img.desc }}"><img src="images/thumbs/{{ img.file }}" /></a>
-    {% endfor %}
-  </div>
-{% endfor %}
-
-<script src="javascripts/baguetteBox.min.js" async></script>
-<script>
-  {% for type in site.data.screens %}
-    baguetteBox.run("#{{ type.id }}", {});
-  {% endfor %}
-</script>
 
 
 ### Papers
