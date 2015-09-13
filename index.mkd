@@ -73,7 +73,22 @@ to contribute!
   <a class="download_button" href="{{ site.repourl }}/releases/download/v1.3.1/DrMIPS_v1.3.1.tar.xz">Source code (.tar.xz)</a>
 </div>
 
-### License
+You can find the changelog and older releases in the project's
+[Releases page][releases].
+
+
+### Be informed of new releases
+
+You can be notified of the release of new versions of the simulator by
+subscribing to the project's [Releases feed][rel_feed].
+
+
+### Reporting bugs
+
+You can report bugs or ask questions in the project's [Issue tracker][issues].
+
+
+## License
 
     DrMIPS - Educational MIPS simulator
     Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
@@ -91,9 +106,14 @@ to contribute!
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+You can read the full license text [here][gpl3].
+
 
 
 [paper_cispee]: papers/cispee13_24.pdf "Paper: Tool to Support Computer Architecture Teaching and Learning"
+[releases]: {{ site.repourl }}/releases "DrMIPS releases"
+[rel_feed]: {{ site.repourl }}/releases.atom "DrMIPS releases feed"
+[issues]: {{ site.repourl }}/issues "DrMIPS issue tracker"
 
 [FEUP]: http://www.fe.up.pt/ "Faculdade de Engenharia da Universidade do Porto"
 [MIPS]: http://en.wikipedia.org/wiki/MIPS_architecture "MIPS architecture - Wikipedia"
