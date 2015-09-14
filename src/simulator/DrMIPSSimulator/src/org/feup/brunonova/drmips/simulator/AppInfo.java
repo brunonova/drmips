@@ -32,7 +32,7 @@ public class AppInfo {
 	/** Version of the application. */
 	public static final String VERSION = "1.3.1";
 	/** Homepage of the application. */
-	public static final String HOMEPAGE = "https://bitbucket.org/brunonova/drmips";
+	public static final String HOMEPAGE = "http://brunonova.github.io/drmips/";
 	/** Name of the main author (creator) of the application. */
 	public static final String MAIN_AUTHOR_NAME = "Bruno Nova";
 	/** E-mail address of the main author (creator) of the application. */
