@@ -1,7 +1,5 @@
 language: java
 
 script:
-  - mkdir build
-  - cd build
-  - cmake ..
-  - make
+  - mkdir build && cd build && cmake ..
+  - cd build && make
