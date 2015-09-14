@@ -50,13 +50,6 @@ to contribute!
   </div>
 {% endfor %}
 
-<script src="javascripts/baguetteBox.min.js" async></script>
-<script>
-  {% for type in site.data.screens %}
-    baguetteBox.run("#{{ type.id }}", {});
-  {% endfor %}
-</script>
-
 
 ### Papers
 
