@@ -10,9 +10,3 @@ android:
 author:
   username: brunonova
   name: Bruno Nova
-
-defaults:
-  - scope:
-      path: ""
-    values:
-      layout: default
