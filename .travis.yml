@@ -1,5 +1,7 @@
 language: java
 
 script:
-  - mkdir build && cd build && cmake -DDRMIPS_BUILD_MANUALS=off ..
-  - cd build && make
+  - mkdir build 
+  - cd build
+  - cmake -DDRMIPS_BUILD_MANUALS=off ..
+  - make
