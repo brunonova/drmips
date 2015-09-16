@@ -16,7 +16,9 @@ DrMIPS was created under the Master's dissertation entitled
 
 DrMIPS is open-source and licensed under the [GPLv3][gpl3], so you are free to 
 use, redistribute, modify and improve it (under certain conditions). Feel free
-to contribute!
+to [contribute][contribute]!
+
+You can find the download links below.
 
 
 ### Features
@@ -125,6 +127,7 @@ You can read the full license text [here][gpl3].
 [releases]: {{ site.repourl }}/releases "DrMIPS releases"
 [rel_feed]: {{ site.repourl }}/releases.atom "DrMIPS releases feed"
 [issues]: {{ site.repourl }}/issues "DrMIPS issue tracker"
+[contribute]: {{ site.repourl }}/blob/master/CONTRIBUTING.md
 
 [FEUP]: http://www.fe.up.pt/ "Faculdade de Engenharia da Universidade do Porto"
 [MIPS]: http://en.wikipedia.org/wiki/MIPS_architecture "MIPS architecture - Wikipedia"
