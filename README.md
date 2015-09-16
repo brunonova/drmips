@@ -22,7 +22,7 @@ You can download the latest version of the simulator from the
 
 ## Compiling from source
 
-Check the [INSTALL.md](install) file for instruction on how to compile the
+Check the [INSTALL.md][install] file for instruction on how to compile the
 simulator from source.
 
 
