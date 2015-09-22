@@ -1,6 +1,9 @@
 DrMIPS
 ======
 
+[![Build Status](https://travis-ci.org/brunonova/drmips.svg?branch=master)](https://travis-ci.org/brunonova/drmips)
+[![GPLv3 license](http://img.shields.io/badge/license-GPLv3-brightgreen.svg)][gpl3]
+
 DrMIPS is a graphical simulator of the [MIPS][MIPS] processor to support
 computer architecture teaching and learning. It is intuitive, versatile and
 configurable.
