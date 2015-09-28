@@ -60,6 +60,10 @@ You can find the download links below.
     ["Tool to Support Computer Architecture Teaching and Learning"][paper_cispee], 
     *1st International Conference of the Portuguese Society for Engineering Education (CISPEE)*, 
     2013.
+*   Bruno Nova, António Araújo and João C. Ferreira,
+    ["Ferramenta de Apoio ao Ensino e Aprendizagem de Arquitectura de Computadores"][paper_ticai],
+    *TICAI 2013-2014: TICs para el Aprendizaje de la Ingeniería*,
+    2014.
 
 
 ## Download
@@ -122,6 +126,7 @@ You can read the full license text [here][gpl3].
 
 
 [paper_cispee]: papers/cispee13_24.pdf "Paper: Tool to Support Computer Architecture Teaching and Learning"
+[paper_ticai]: papers/ticai13-14_cap2.pdf "Paper: Ferramenta de Apoio ao Ensino e Aprendizagem de Arquitectura de Computadores"
 [install]: install/ "Installation instructions"
 [linux]: linux/ "Linux packages"
 [releases]: {{ site.repourl }}/releases "DrMIPS releases"
