@@ -71,9 +71,9 @@ You can find the download links below.
 Current version: **{{ site.cur_ver }}**
 
 <div id="download_buttons">
-  <a href="{{ site.repourl }}/releases/download/{{ site.cur_ver }}/DrMIPS_{{ site.cur_ver }}.zip">PC version (.zip)</a>
-  <a href="{{ site.repourl }}/releases/download/{{ site.cur_ver }}/DrMIPS_{{ site.cur_ver }}.apk">Android version (.apk)</a>
-  <a href="{{ site.repourl }}/releases/download/{{ site.cur_ver }}/DrMIPS_{{ site.cur_ver }}.tar.xz">Source code (.tar.xz)</a>
+  <a id="download_pc" href="{{ site.repourl }}/releases/download/{{ site.cur_ver }}/DrMIPS_{{ site.cur_ver }}.zip">PC version (.zip)</a>
+  <a id="download_android" href="{{ site.repourl }}/releases/download/{{ site.cur_ver }}/DrMIPS_{{ site.cur_ver }}.apk">Android version (.apk)</a>
+  <a id="download_source" href="{{ site.repourl }}/releases/download/{{ site.cur_ver }}/DrMIPS_{{ site.cur_ver }}.tar.xz">Source code (.tar.xz)</a>
 </div>
 
 You can find the changelog and older releases in the project's
