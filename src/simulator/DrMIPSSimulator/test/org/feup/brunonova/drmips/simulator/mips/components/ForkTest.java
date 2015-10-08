@@ -36,14 +36,14 @@ public class ForkTest {
 	}
 
 	private void tComp(int size, List<String> outIds, int inValue) throws InvalidCPUException {
-		Fork f = new Fork("Fork", 0, new Point(0, 0), size, "in", outIds);
+		Fork c = new Fork("test", 0, new Point(0, 0), size, "in", outIds);
 
-		f.getInput().setValue(inValue);
-		f.execute();
+		c.getInput().setValue(inValue);
+		c.execute();
 
 		Data expectedData = new Data(size, inValue);
 		for(String out: outIds) {
-			assertEquals(expectedData, f.getOutput(out).getData());
+			assertEquals(expectedData, c.getOutput(out).getData());
 		}
 	}
 }

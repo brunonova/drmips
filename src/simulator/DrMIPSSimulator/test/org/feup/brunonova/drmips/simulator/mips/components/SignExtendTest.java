@@ -24,17 +24,21 @@ import org.feup.brunonova.drmips.simulator.util.Point;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class NotTest {
+public class SignExtendTest {
 	@Test
 	public void testComponent() throws InvalidCPUException {
-		tComp(1, 0);
-		tComp(0, 1);
+		tComp(0xffffffff, 32, 0xffff, 16, 32);
+		tComp(0xf, 4, 0xf, 4, 4);
+		tComp(0xffffffff, 32, 0x7fffffff, 31, 32);
+		tComp(0x3fffffff, 32, 0x3fffffff, 31, 32);
+		tComp(0xffffffff, 32, 0x1, 1, 32);
+		tComp(0, 32, 0, 1, 32);
 	}
 
-	private void tComp(int expected, int in) throws InvalidCPUException {
-		Not c = new Not("test", 0, new Point(0, 0), "in", "out");
-		c.getInput().setValue(in);
+	private void tComp(int expectedValue, int expectedSize, int inValue, int inSize, int outSize) throws InvalidCPUException {
+		SignExtend c = new SignExtend("test", 0, new Point(0, 0), "in", inSize, "out", outSize);
+		c.getInput().setValue(inValue);
 		c.execute();
-		assertEquals(new Data(1, expected), c.getOutput().getData());
+		assertEquals(new Data(expectedSize, expectedValue), c.getOutput().getData());
 	}
 }

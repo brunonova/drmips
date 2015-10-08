@@ -37,7 +37,7 @@ public class ConcatenatorTest {
 	}
 
 	private void tComp(int expectedSize, int expectedValue, int in1Size, int in2Size, int in1Value, int in2Value) throws InvalidCPUException {
-		Concatenator c = new Concatenator("concat", 0, new Point(0, 0), "in1", in1Size, "in2", in2Size, "out");
+		Concatenator c = new Concatenator("test", 0, new Point(0, 0), "in1", in1Size, "in2", in2Size, "out");
 
 		c.getInput1().setValue(in1Value);
 		c.getInput2().setValue(in2Value);
