@@ -19,22 +19,24 @@
 package org.feup.brunonova.drmips.simulator.mips.components;
 
 import org.feup.brunonova.drmips.simulator.exceptions.InvalidCPUException;
-import org.feup.brunonova.drmips.simulator.mips.Data;
 import org.feup.brunonova.drmips.simulator.util.Point;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class NotTest {
+public class XorTest {
 	@Test
 	public void testComponent() throws InvalidCPUException {
-		tComp(1, 0);
-		tComp(0, 1);
+		tComp(0, 0, 0);
+		tComp(1, 0, 1);
+		tComp(1, 1, 0);
+		tComp(0, 1, 1);
 	}
 
-	private void tComp(int expected, int in) throws InvalidCPUException {
-		Not c = new Not("test", 0, new Point(0, 0), "in", "out");
-		c.getInput().setValue(in);
+	private void tComp(int expected, int in1, int in2) throws InvalidCPUException {
+		Xor c = new Xor("test", 0, new Point(0, 0), "in1", "in2", "out");
+		c.getInput1().setValue(in1);
+		c.getInput2().setValue(in2);
 		c.execute();
-		assertEquals(new Data(1, expected), c.getOutput().getData());
+		assertEquals(expected, c.getOutput().getValue());
 	}
 }

@@ -24,17 +24,20 @@ import org.feup.brunonova.drmips.simulator.util.Point;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class NotTest {
+public class ShiftLeftTest {
 	@Test
 	public void testComponent() throws InvalidCPUException {
-		tComp(1, 0);
-		tComp(0, 1);
+		tComp(0, 0, 4, 8, 2);
+		tComp(0x80, 0x1, 8, 8, 7);
+		tComp(0xc0, 0x3, 2, 10, 6);
+		tComp(0x80000000, 0x1, 32, 32, 31);
+		tComp(0x10, 0x5, 4, 6, 4);
 	}
 
-	private void tComp(int expected, int in) throws InvalidCPUException {
-		Not c = new Not("test", 0, new Point(0, 0), "in", "out");
-		c.getInput().setValue(in);
+	private void tComp(int expected, int inValue, int inSize, int outSize, int ammount) throws InvalidCPUException {
+		ShiftLeft c = new ShiftLeft("test", 0, new Point(0, 0), "in", inSize, "out", outSize, ammount);
+		c.getInput().setValue(inValue);
 		c.execute();
-		assertEquals(new Data(1, expected), c.getOutput().getData());
+		assertEquals(new Data(outSize, expected), c.getOutput().getData());
 	}
 }
