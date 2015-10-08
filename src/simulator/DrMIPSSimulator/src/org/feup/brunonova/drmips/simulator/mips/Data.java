@@ -245,7 +245,7 @@ public final class Data implements Cloneable {
 	public boolean equals(Object obj) {
 		if(obj instanceof Data) {
 			Data d = (Data)obj;
-			return d.getSize() == getSize() && d.getValue() == d.getValue();
+			return d.getSize() == getSize() && d.getValue() == getValue();
 		}
 		else
 			return false;
