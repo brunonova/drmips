@@ -3,11 +3,6 @@ if(NOT DONE_FIRST_RUN)
 	# Allow in-source builds
 	set(LATEX_OUTPUT_PATH "${CMAKE_CURRENT_BINARY_DIR}/build" CACHE STRING
 	                      "Specifies the location to place LaTeX output." FORCE)
-	# Reduce output of latex/pdflatex by default
-	set(PDFLATEX_COMPILER_FLAGS "-interaction=batchmode" CACHE STRING
-	                            "Flags passed to pdflatex." FORCE)
-	set(LATEX_COMPILER_FLAGS "-interaction=batchmode" CACHE STRING
-	                         "Flags passed to latex." FORCE)
 endif()
 
 # TeX files (without the extension)
