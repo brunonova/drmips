@@ -82,6 +82,9 @@ You can find the changelog and older releases in the project's
 Check [this page][install] for instructions on how to install and run the
 simulator.
 
+If you know what PGP is, you can find the signatures of the downloadable files
+in the [Releases page][releases], and you can download my PGP key [here][pgp];
+
 
 ### Packages for Linux
 
@@ -127,6 +130,7 @@ You can read the full license text [here][gpl3].
 
 [paper_cispee]: papers/cispee13_24.pdf "Paper: Tool to Support Computer Architecture Teaching and Learning"
 [paper_ticai]: papers/ticai13-14_cap2.pdf "Paper: Ferramenta de Apoio ao Ensino e Aprendizagem de Arquitectura de Computadores"
+[pgp]: brunonova.asc "Bruno Nova's PGP key"
 [install]: install/ "Installation instructions"
 [linux]: linux/ "Linux packages"
 [releases]: {{ site.repourl }}/releases "DrMIPS releases"
