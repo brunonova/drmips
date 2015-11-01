@@ -16,22 +16,16 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.feup.brunonova.drmips.simulator.mips.components;
+package org.feup.brunonova.drmips.simulator;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 /**
- * This test suite runs all of the tests of this package.
+ * This test suite runs all of the tests of the simulator.
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({SignExtendTest.class,
-                     NotTest.class,
-					 XorTest.class,
-					 ShiftLeftTest.class,
-					 ZeroExtendTest.class,
-					 ConcatenatorTest.class,
-					 ForkTest.class})
+@Suite.SuiteClasses({org.feup.brunonova.drmips.simulator.mips.components.TestSuite.class})
 public class TestSuite {
 
 }
