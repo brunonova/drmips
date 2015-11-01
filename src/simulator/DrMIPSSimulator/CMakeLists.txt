@@ -1,5 +1,8 @@
 # Subdirectory
 add_subdirectory(src)
+if(DRMIPS_BUILD_TESTS)
+	add_subdirectory(test)
+endif()
 
 # Configurations
 set(PC_CPU_PATH "${CMAKE_SOURCE_DIR}/src/pc/${PROJECT_NAME}/cpu")
