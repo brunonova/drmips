@@ -5,3 +5,4 @@ script:
   - cd build
   - cmake -DDRMIPS_BUILD_MANUALS=off ..
   - make
+  - make test
