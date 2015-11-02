@@ -18,25 +18,24 @@
 
 package org.feup.brunonova.drmips.simulator.mips.components;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.feup.brunonova.drmips.simulator.exceptions.InvalidCPUException;
+import org.feup.brunonova.drmips.simulator.mips.Data;
+import org.feup.brunonova.drmips.simulator.util.Point;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-/**
- * This test suite runs all of the tests of this package.
- */
-@RunWith(Suite.class)
-@Suite.SuiteClasses({AddTest.class,
-                     AndTest.class,
-                     ConcatenatorTest.class,
-                     ConstantTest.class,
-                     ForkTest.class,
-                     MultiplexerTest.class,
-                     NotTest.class,
-                     OrTest.class,
-                     ShiftLeftTest.class,
-                     SignExtendTest.class,
-                     XorTest.class,
-                     ZeroExtendTest.class})
-public class TestSuite {
+public class ConstantTest {
+	@Test
+	public void testComponent() throws InvalidCPUException {
+		tComp(0, 1);
+		tComp(1, 1);
+		tComp(0xffff, 16);
+		tComp(0xffffffff, 32);
+	}
 
+	private void tComp(int inValue, int inSize) throws InvalidCPUException {
+		Constant c = new Constant("test", 0, new Point(0, 0), "out", inValue, inSize);
+		c.execute();
+		assertEquals(new Data(inSize, inValue), c.getOutput().getData());
+	}
 }
