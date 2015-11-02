@@ -28,6 +28,17 @@ if(${DRMIPS_BUILD_PC_VERSION} OR ${DRMIPS_BUILD_ANDROID_VERSION} OR ${DRMIPS_BUI
 	include(UseJava)
 endif()
 
+# Find JUnit
+find_file(JUNIT_PATH NAMES "junit4.jar" PATHS "${JAVA_LIB_INSTALL_DIR}" "/usr/share/java"
+                     DOC "Path to the JUnit library.")
+mark_as_advanced(JUNIT_PATH)
+if(JUNIT_PATH)
+	option(DRMIPS_BUILD_TESTS "Build the unit tests of the simulator and enable testing?" ON)
+	message(STATUS "Found JUnit: ${JUNIT_PATH}")
+else()
+	message(WARNING "JUnit not found.")
+endif()
+
 if(${DRMIPS_BUILD_ANDROID_VERSION})
 	find_package(Android REQUIRED)
 endif()
