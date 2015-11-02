@@ -31,7 +31,7 @@ add_custom_target(android_debug
 add_custom_target(android_release
                   COMMAND "${ANDROID_GRADLEW}" ${ANDROID_GRADLEW_FLAGS} assembleRelease
                   COMMAND "${JARSIGNER_TOOL}" ${JARSIGNER_TOOL_FLAGS}
-                          "-keystore" "${DRMIPS_ANDROID_KEYSTORE_PATH}"
+                          -keystore "${DRMIPS_ANDROID_KEYSTORE_PATH}"
                           "${ANDROID_UNSIGNED_APK_PATH}" "${DRMIPS_ANDROID_KEYSTORE_ALIAS}"
                   COMMAND "${ZIPALIGN_TOOL}" ${ZIPALIGN_TOOL_FLAGS} "${ANDROID_UNSIGNED_APK_PATH}"
                           "${ANDROID_RELEASE_APK_PATH}"
