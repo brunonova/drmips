@@ -7,6 +7,8 @@ file(GLOB_RECURSE SRC RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "org/*.java")
 # Jar compilation target
 add_jar("${PROJECT_NAME}Simulator" ${SRC})
 add_custom_target(simulator DEPENDS "${PROJECT_NAME}Simulator") # add meta-target "simulator"
+get_property(SIMULATOR_JAR_PATH TARGET "${PROJECT_NAME}Simulator" PROPERTY JAR_FILE)
+set(SIMULATOR_JAR_PATH "${SIMULATOR_JAR_PATH}" PARENT_SCOPE)
 
 # Javadoc target
 if(DRMIPS_BUILD_SIMULATOR_JAVADOC)
