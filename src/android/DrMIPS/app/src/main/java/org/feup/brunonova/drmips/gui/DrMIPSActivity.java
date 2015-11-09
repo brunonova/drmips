@@ -30,6 +30,7 @@ import java.io.OutputStreamWriter;
 import java.util.Arrays;
 
 import org.feup.brunonova.drmips.R;
+import org.feup.brunonova.drmips.gui.dialogs.AboutDialogFragment;
 import org.feup.brunonova.drmips.simulator.AppInfo;
 import org.feup.brunonova.drmips.simulator.exceptions.InfiniteLoopException;
 import org.feup.brunonova.drmips.simulator.exceptions.InvalidCPUException;
@@ -47,6 +48,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -80,7 +82,6 @@ import android.widget.Toast;
 
 public class DrMIPSActivity extends Activity {
 	// Identifiers of the dialogs
-	public static final int ABOUT_DIALOG = 1;
 	public static final int SAVE_DIALOG = 2;
 	public static final int CONFIRM_REPLACE_DIALOG = 3;
 	public static final int CONFIRM_DELETE_DIALOG = 4;
@@ -239,35 +240,6 @@ public class DrMIPSActivity extends Activity {
 	@Override
 	protected Dialog onCreateDialog(int id, Bundle args) {
 		switch(id) {
-			case ABOUT_DIALOG: 
-				String msg = getString(R.string.by) + ": " + AppInfo.MAIN_AUTHOR_NAME_EMAIL
-					+ "\n" + getString(R.string.for_dissertation)
-					+ "\n" + AppInfo.MAIN_AUTHOR_INSTITUTION;
-				return new AlertDialog.Builder(this)
-					.setTitle(AppInfo.NAME + " " + AppInfo.VERSION)
-					.setMessage(msg)
-					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.dismiss();
-						}
-					})
-					.setNeutralButton(R.string.license, new DialogInterface.OnClickListener() {
-						@SuppressWarnings("deprecation")
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							showDialog(LICENSE_DIALOG);
-						}
-					})
-					.setNegativeButton(R.string.credits, new DialogInterface.OnClickListener() {
-						@SuppressWarnings("deprecation")
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							showDialog(CREDITS_DIALOG);
-						}
-					})
-					.create();
-				
 			case SAVE_DIALOG:
 				txtFilename = new EditText(this);
 				txtFilename.setHint(R.string.filename);
@@ -594,9 +566,9 @@ public class DrMIPSActivity extends Activity {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	public void mnuAboutOnClick(MenuItem menu) {
-		showDialog(ABOUT_DIALOG);
+		DialogFragment dialog = new AboutDialogFragment();
+		dialog.show(getFragmentManager(), "AboutDialogFragment");
 	}
 
 	public void mnuNewOnClick(MenuItem menu) {
