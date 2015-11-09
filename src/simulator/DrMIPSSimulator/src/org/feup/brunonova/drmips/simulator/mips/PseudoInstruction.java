@@ -38,7 +38,7 @@ public class PseudoInstruction extends AbstractInstruction {
 	 */
 	public PseudoInstruction(String mnemonic) throws InvalidInstructionSetException {
 		super(mnemonic);
-		instructions = new LinkedList<String>();
+		instructions = new LinkedList<>();
 	}
 	
 	/**
@@ -71,7 +71,7 @@ public class PseudoInstruction extends AbstractInstruction {
 	 * Returns whether the number of arguments is valid.
 	 * <p>That is, if the number of arguments defined in the "args" array in the JSON file
 	 * is equal or greater than the indexes of the arguments referenced by #1, #2, etc. in
-	 * the "to" array.<br />
+	 * the "to" array.<br>
 	 * This validity should be checked after loading the pseudo-instruction from the JSON
 	 * file.</p>
 	 * @return <tt>True</tt> if valid, <tt>false</tt> otherwise.

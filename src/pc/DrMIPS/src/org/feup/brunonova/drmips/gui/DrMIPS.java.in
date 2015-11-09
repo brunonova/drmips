@@ -171,6 +171,7 @@ public class DrMIPS {
 		System.setProperty("sun.java2d.opengl", "True");
 	}
 	
+	@SuppressWarnings("UseSpecificCatch")
 	public static void main(String[] args) {
 		boolean useOpenGl = prefs.getBoolean(OPENGL_PREF, DEFAULT_OPENGL);
 		

@@ -38,9 +38,9 @@ public class PC extends Component implements IsSynchronous {
 	private final Input input, write;
 	private final Output output;
 	private Data address;
-	private final Stack<Integer> states = new Stack<Integer>(); // previous adresses
+	private final Stack<Integer> states = new Stack<>(); // previous adresses
 	private int currentInstructionIndex = -1;
-	private final Stack<Integer> instructions = new Stack<Integer>(); // previous instructions
+	private final Stack<Integer> instructions = new Stack<>(); // previous instructions
 	
 	/**
 	 * Program Counter constructor.

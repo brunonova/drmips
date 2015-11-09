@@ -50,7 +50,7 @@ public class AssembledInstruction {
 		this.data = data;
 		this.codeLine = codeLine;
 		this.line = lineNumber;
-		labels = new LinkedList<String>();
+		labels = new LinkedList<>();
 	}
 	
 	/**

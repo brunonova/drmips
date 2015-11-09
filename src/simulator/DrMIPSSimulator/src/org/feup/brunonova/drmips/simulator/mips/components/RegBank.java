@@ -42,7 +42,7 @@ public class RegBank extends Component implements IsSynchronous {
 	private final Data[] registers;
 	private final Set<Integer> constantRegisters; // indexes of the constant registers
 	private final boolean forwarding; // use internal forwarding?
-	private final Stack<int[]> states = new Stack<int[]>(); // previous values
+	private final Stack<int[]> states = new Stack<>(); // previous values
 
 	/**
 	 * Register bank constructor.
@@ -87,7 +87,7 @@ public class RegBank extends Component implements IsSynchronous {
 			throw new InvalidCPUException("Invalid number of registers (must be a power of 2)!");
 		
 		this.forwarding = forwarding;
-		constantRegisters = new HashSet<Integer>();
+		constantRegisters = new HashSet<>();
 		
 		// Initialize registers
 		int requiredBits = Data.requiredNumberOfBits(numRegisters - 1);

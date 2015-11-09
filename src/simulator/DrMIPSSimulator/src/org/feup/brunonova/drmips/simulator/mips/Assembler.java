@@ -62,16 +62,16 @@ public class Assembler {
 	 */
 	protected void assembleCode(String code) throws SyntaxErrorException {
 		String[] codeLines = code.split("\n");
-		List<CodeLine> lines = new ArrayList<CodeLine>();
-		List<AssembledInstruction> instructions = new ArrayList<AssembledInstruction>();
+		List<CodeLine> lines = new ArrayList<>();
+		List<AssembledInstruction> instructions = new ArrayList<>();
 		int index, lineNumber, currentDataAddress = 0;
 		String codeLine, label, mnemonic, type;
 		String[] split, args, values;
 		List<String> interpretedLines;
-		textLabels = new TreeMap<String, Integer>();
-		dataLabels = new TreeMap<String, Integer>();
+		textLabels = new TreeMap<>();
+		dataLabels = new TreeMap<>();
 		Segment currentSegment = Segment.TEXT;
-		List<SyntaxErrorException> errors = new LinkedList<SyntaxErrorException>();
+		List<SyntaxErrorException> errors = new LinkedList<>();
 		
 		// Parse each line
 		for(int i = 0; i < codeLines.length; i++) {
@@ -103,25 +103,24 @@ public class Assembler {
 						split = codeLine.split("\\s+", 2); // split data type (directive) and values (\\s+ matches whitespace characters)
 						type = split[0].trim().toLowerCase();
 						values = (split.length == 2) ? split[1].trim().split(",") : new String[0]; // split values, if any
-
-						if(type.equals(".word")) {
-							for(String value: values) {
-								currentDataAddress = alignAddressToWord(currentDataAddress);
-								cpu.getDataMemory().setData(currentDataAddress, parseIntArg(value.trim(), lineNumber));
-								currentDataAddress += 4;
-							}
+						switch (type) {
+							case ".word":
+								for(String value: values) {
+									currentDataAddress = alignAddressToWord(currentDataAddress);
+									cpu.getDataMemory().setData(currentDataAddress, parseIntArg(value.trim(), lineNumber));
+									currentDataAddress += 4;
+								}	break;
+							case ".space":
+								if(values.length != 1)
+									throw new SyntaxErrorException(SyntaxErrorException.Type.WRONG_NUMBER_OF_ARGUMENTS, lineNumber, "" + 1, "" + values.length);
+								else {
+									int arg = parseIntArg(values[0].trim(), lineNumber);
+									if(arg < 0) throw new SyntaxErrorException(SyntaxErrorException.Type.INVALID_POSITIVE_INT_ARG, lineNumber, values[0].trim());
+									currentDataAddress += arg;
+								}	break;
+							default:
+								throw new SyntaxErrorException(SyntaxErrorException.Type.UNKNOWN_DATA_DIRECTIVE, lineNumber, type);
 						}
-						else if(type.equals(".space")) {
-							if(values.length != 1)
-								throw new SyntaxErrorException(SyntaxErrorException.Type.WRONG_NUMBER_OF_ARGUMENTS, lineNumber, "" + 1, "" + values.length);
-							else {
-								int arg = parseIntArg(values[0].trim(), lineNumber);
-								if(arg < 0) throw new SyntaxErrorException(SyntaxErrorException.Type.INVALID_POSITIVE_INT_ARG, lineNumber, values[0].trim());
-								currentDataAddress += arg;
-							}
-						}
-						else
-							throw new SyntaxErrorException(SyntaxErrorException.Type.UNKNOWN_DATA_DIRECTIVE, lineNumber, type);
 					}
 				}
 				else { // line in text segment (replace pseudo-instructions and find labels' line numbers)
@@ -203,7 +202,7 @@ public class Assembler {
 			return interpretPseudoInstruction(mnemonic, args, 1);
 		}
 		catch(Exception e) {
-			return new LinkedList<String>();
+			return new LinkedList<>();
 		}
 	}
 	
@@ -213,7 +212,7 @@ public class Assembler {
 	 * @return All valid labels.
 	 */
 	public Set<String> getCodeLabels(String code) {
-		Set<String> labels = new TreeSet<String>();
+		Set<String> labels = new TreeSet<>();
 		String[] lines = code.split("\n");
 		String label;
 		int i;
@@ -238,7 +237,7 @@ public class Assembler {
 	 * @return The replacing instructions.
 	 */
 	private List<String> interpretPseudoInstruction(String mnemonic, String[] args, int lineNumber) throws SyntaxErrorException {
-		List<String> instructions = new ArrayList<String>();
+		List<String> instructions = new ArrayList<>();
 		PseudoInstruction pseudo = cpu.getInstructionSet().getPseudoInstruction(mnemonic);
 		String[] split;
 		String m;

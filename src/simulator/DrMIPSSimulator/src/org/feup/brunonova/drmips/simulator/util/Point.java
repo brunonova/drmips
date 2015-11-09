@@ -91,11 +91,6 @@ public final class Point {
 	}
 
 	@Override
-	protected Point clone() {
-		return new Point(this);
-	}
-
-	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof Point){
 			Point p = (Point)obj;
@@ -103,5 +98,13 @@ public final class Point {
 		}
 		else
 			return false;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 3;
+		hash = 97 * hash + this.x;
+		hash = 97 * hash + this.y;
+		return hash;
 	}
 }

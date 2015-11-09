@@ -194,6 +194,7 @@ public class DlgAbout extends javax.swing.JDialog {
 		JOptionPane.showMessageDialog(this, credits, Lang.t("credits"), JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_cmdCreditsActionPerformed
 
+	@SuppressWarnings("UseSpecificCatch")
     private void lblHomepageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHomepageMouseClicked
 		if(evt.getButton() == MouseEvent.BUTTON1) {
 			try {
@@ -206,6 +207,7 @@ public class DlgAbout extends javax.swing.JDialog {
 		}
     }//GEN-LAST:event_lblHomepageMouseClicked
 
+	@SuppressWarnings("UseSpecificCatch")
     private void lblAuthorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAuthorMouseClicked
 		if(evt.getButton() == MouseEvent.BUTTON1) {
 			try {

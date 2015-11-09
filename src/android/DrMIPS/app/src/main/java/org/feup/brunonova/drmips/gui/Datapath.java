@@ -87,8 +87,8 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 		super(activity);
 		this.activity = activity;
 		CPU cpu = activity.getCPU();
-		components = new TreeMap<String, DatapathComponent>();
-		wires = new LinkedList<Wire>();
+		components = new TreeMap<>();
+		wires = new LinkedList<>();
 		setWillNotDraw(false); // enable draw
 		
 		wireColor = Util.getThemeColor(getContext(), R.attr.wireColor);
@@ -321,21 +321,6 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 				                             Util.formatDataAccordingToFormat(in.getData(), activity.getDatapathFormat());
 				inTip.setValue(v, showTipsNames);
 				inTip.setVisibility((showTips && (in.shouldShowTip() || showTipsForAllComps) && (controlPathVisible || !in.isInControlPath())) ? VISIBLE : GONE);
-			}
-		}
-		
-
-		/**
-		 * Removes the in/out tips (if any).
-		 */
-		public void removeTips() {
-			if(outTip != null) {
-				removeView(outTip);
-				outTip = null;
-			}
-			if(inTip != null) {
-				removeView(inTip);
-				inTip = null;
 			}
 		}
 		

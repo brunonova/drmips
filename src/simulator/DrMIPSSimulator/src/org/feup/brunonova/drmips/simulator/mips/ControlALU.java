@@ -61,9 +61,9 @@ public class ControlALU {
 		this.aluOpSize = aluOpSize;
 		this.funcSize = funcSize;
 		this.controlSize = controlSize;
-		control = new TreeMap<Inputs, Map<String, Integer>>();
-		out = new TreeMap<String, Integer>();
-		operations = new TreeMap<Integer, Operation>();
+		control = new TreeMap<>();
+		out = new TreeMap<>();
+		operations = new TreeMap<>();
 	}
 	
 	/**
@@ -80,7 +80,7 @@ public class ControlALU {
 			o.put(outId, outValue);
 		}
 		else {
-			o = new TreeMap<String, Integer>();
+			o = new TreeMap<>();
 			o.put(outId, outValue);
 			control.put(i, o);
 		}
@@ -102,7 +102,7 @@ public class ControlALU {
 			o.put(outId, outValue);
 		}
 		else {
-			o = new TreeMap<String, Integer>();
+			o = new TreeMap<>();
 			o.put(outId, outValue);
 			control.put(i, o);
 		}

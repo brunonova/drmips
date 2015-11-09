@@ -41,7 +41,7 @@ public class Instruction extends AbstractInstruction {
 	 */
 	protected Instruction(String mnemonic, InstructionType type) throws InvalidInstructionSetException {
 		super(mnemonic);
-		fields = new HashMap<InstructionType.Field, FieldValue>();
+		fields = new HashMap<>();
 		setType(type);
 	}
 	

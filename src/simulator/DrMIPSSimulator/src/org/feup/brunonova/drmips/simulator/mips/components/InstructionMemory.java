@@ -50,7 +50,7 @@ public class InstructionMemory extends Component {
 	 */
 	public InstructionMemory(String id, int latency, Point position, String inId, String outId) throws InvalidCPUException {
 		super(id, latency, "Instruction\nMemory", "instruction_memory", "instruction_memory_description", position, new Dimension(80, 100));
-		instructions = new ArrayList<AssembledInstruction>();
+		instructions = new ArrayList<>();
 		input = addInput(inId, new Data());
 		output = addOutput(outId, new Data());
 	}

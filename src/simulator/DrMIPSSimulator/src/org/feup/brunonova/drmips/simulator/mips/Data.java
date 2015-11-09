@@ -70,7 +70,7 @@ public final class Data implements Cloneable {
 	 * Creates a bit mask with 1's in the specified interval.
 	 * <p>The mask will have 1's in the bits between <tt>minBit</tt> and
 	 * <tt>maxBit</tt>, both parameters included in the range, and 0's in the
-	 * other bits.<br/>
+	 * other bits.<br>
 	 * The less significant bit is 0 and the most significant bit is <tt>MSB</tt>.</p>
 	 * @param maxBit The highest (leftmost) bit of the mask.
 	 * @param minBit The lowest  (rightmost) bit of the mask.

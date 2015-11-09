@@ -62,9 +62,9 @@ public class InstructionSet {
 	 * @throws NumberFormatException If an opcode is not a number.
 	 */
 	public InstructionSet(String path) throws IOException, JSONException, InvalidInstructionSetException, ArrayIndexOutOfBoundsException, NumberFormatException {
-		types = new ArrayList<InstructionType>();
-		instructions = new TreeMap<String, Instruction>();
-		pseudoInstructions = new TreeMap<String, PseudoInstruction>();
+		types = new ArrayList<>();
+		instructions = new TreeMap<>();
+		pseudoInstructions = new TreeMap<>();
 		control = new Control();
 		parseFile(path);
 	}

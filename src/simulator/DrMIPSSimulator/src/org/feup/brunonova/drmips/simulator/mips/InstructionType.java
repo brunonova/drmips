@@ -25,7 +25,7 @@ import org.feup.brunonova.drmips.simulator.exceptions.InvalidInstructionSetExcep
 /**
  * Class that represents a MIPS instruction type, with several fields.
  * <p>Fields should be added with <tt>addField()</tt> and then the validity o
- * the type should be checked with <tt>isValid()</tt>.<br />
+ * the type should be checked with <tt>isValid()</tt>.<br>
  * The first field is always considered the opcode field.</p>
  * 
  * @author Bruno Nova
@@ -45,7 +45,7 @@ public class InstructionType {
 	 */
 	public InstructionType(String id) throws InvalidInstructionSetException {
 		setId(id);
-		fields = new ArrayList<Field>();
+		fields = new ArrayList<>();
 	}
 	
 	/**

@@ -98,8 +98,8 @@ public class DatapathPanel extends JLayeredPane {
 	public void setCPU(CPU cpu) {
 		removeTips();
 		removeAll();
-		components = new TreeMap<String, DatapathComponent>();
-		wires = new LinkedList<Wire>();
+		components = new TreeMap<>();
+		wires = new LinkedList<>();
 		this.cpu = cpu;
 		setLocation(0, 0);
 		setPreferredSizeScaled();
