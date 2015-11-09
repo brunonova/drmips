@@ -18,8 +18,8 @@ if(DRMIPS_BUILD_PC_VERSION OR DRMIPS_BUILD_ANDROID_VERSION OR DRMIPS_BUILD_SIMUL
 else()
 	set(DRMIPS_BUILD_SIMULATOR OFF)
 endif()
-# force javac to use UTF-8 encoding and set JDK/JRE 6 as the target
-set(CMAKE_JAVA_COMPILE_FLAGS -encoding UTF-8 -source 1.6 -target 1.6)
+# force javac to use UTF-8 encoding and set JDK/JRE 7 as the target
+set(CMAKE_JAVA_COMPILE_FLAGS -encoding UTF-8 -source 1.7 -target 1.7)
 # Reduce output of latex/pdflatex by default
 set(PDFLATEX_COMPILER_FLAGS -interaction=batchmode CACHE STRING
                             "Flags passed to pdflatex.")
