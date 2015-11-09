@@ -31,6 +31,7 @@ import java.util.Arrays;
 
 import org.feup.brunonova.drmips.R;
 import org.feup.brunonova.drmips.gui.dialogs.AboutDialogFragment;
+import org.feup.brunonova.drmips.gui.dialogs.ConfirmExitDialogFragment;
 import org.feup.brunonova.drmips.simulator.AppInfo;
 import org.feup.brunonova.drmips.simulator.exceptions.InfiniteLoopException;
 import org.feup.brunonova.drmips.simulator.exceptions.InvalidCPUException;
@@ -91,10 +92,7 @@ public class DrMIPSActivity extends Activity {
 	public static final int DATAPATH_HELP_DIALOG = 8;
 	public static final int COMPONENT_DESCRIPTION_DIALOG = 9;
 	public static final int CHANGE_LATENCY_DIALOG = 10;
-	public static final int CONFIRM_EXIT_DIALOG = 11;
-	public static final int LICENSE_DIALOG = 12;
 	public static final int STATISTICS_DIALOG = 13;
-	public static final int CREDITS_DIALOG = 14;
 	
 	/** The file currently open (if <tt>null</tt> no file is open). */
 	private File openFile = null;
@@ -207,7 +205,7 @@ public class DrMIPSActivity extends Activity {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onBackPressed() {
-		showDialog(CONFIRM_EXIT_DIALOG);
+		new ConfirmExitDialogFragment().show(getFragmentManager(), "confirm-exit-dialog");
 	}
 
 	@Override
@@ -430,16 +428,14 @@ public class DrMIPSActivity extends Activity {
 						public void onClick(DialogInterface dialog, int which) {
 							try {
 								int lat = Integer.parseInt(txtLatency.getText().toString());
-								if(lat >= 0) {
+								if (lat >= 0) {
 									datapath.getLatencyComponent().setLatency(lat);
 									getCPU().calculatePerformance();
 									datapath.refresh();
 									datapath.invalidate();
-								}
-								else
+								} else
 									Toast.makeText(DrMIPSActivity.this, R.string.invalid_value, Toast.LENGTH_SHORT).show();
-							}
-							catch(NumberFormatException ex) {
+							} catch (NumberFormatException ex) {
 								Toast.makeText(DrMIPSActivity.this, R.string.invalid_value, Toast.LENGTH_SHORT).show();
 							}
 						}
@@ -452,52 +448,10 @@ public class DrMIPSActivity extends Activity {
 					})
 					.create();
 				
-			case CONFIRM_EXIT_DIALOG:
-				return new AlertDialog.Builder(this)
-					.setMessage(R.string.confirm_exit)
-					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.dismiss();
-							finish();
-						}
-					})
-					.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.dismiss();
-						}
-					})
-					.create();
-				
-			case LICENSE_DIALOG: 
-				return new AlertDialog.Builder(this)
-					.setTitle(R.string.license)
-					.setMessage(AppInfo.LICENSE)
-					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.dismiss();
-						}
-					})
-					.create();
-				
 			case STATISTICS_DIALOG:
 				return new AlertDialog.Builder(this)
 					.setTitle(R.string.statistics)
 					.setView(getLayoutInflater().inflate(R.layout.statistics_dialog, null))
-					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.dismiss();
-						}
-					})
-					.create();
-			
-			case CREDITS_DIALOG:
-				return new AlertDialog.Builder(this)
-					.setTitle(R.string.credits)
-					.setMessage(AppInfo.getAuthorsAsText())
 					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
@@ -567,8 +521,7 @@ public class DrMIPSActivity extends Activity {
 	}
 
 	public void mnuAboutOnClick(MenuItem menu) {
-		DialogFragment dialog = new AboutDialogFragment();
-		dialog.show(getFragmentManager(), "AboutDialogFragment");
+		new AboutDialogFragment().show(getFragmentManager(), "about-dialog");
 	}
 
 	public void mnuNewOnClick(MenuItem menu) {
