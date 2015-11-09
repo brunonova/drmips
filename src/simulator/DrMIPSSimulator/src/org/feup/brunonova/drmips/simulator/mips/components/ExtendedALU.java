@@ -31,7 +31,7 @@ import org.feup.brunonova.drmips.simulator.util.Point;
  */
 public class ExtendedALU extends ALU implements IsSynchronous {
 	private final Data hi, lo;
-	private final Stack<int[]> states = new Stack<int[]>(); // previous values
+	private final Stack<int[]> states = new Stack<>(); // previous values
 	
 	/**
 	 * ALU constructor.

@@ -32,13 +32,13 @@ import javax.swing.UIManager;
 
 /**
  * Class that loads a language file to allow translating individual strings.
- * <p>First <tt>load()</tt> the file then get the translated string with <tt>t()</tt>.<br />
- * The language file's lines should be in the form <tt>key=string</tt>.<br />
- * Invalid lines or lines starting with '#' are ignored silently.<br />
+ * <p>First <tt>load()</tt> the file then get the translated string with <tt>t()</tt>.<br>
+ * The language file's lines should be in the form <tt>key=string</tt>.<br>
+ * Invalid lines or lines starting with '#' are ignored silently.<br>
  * A '&' indicates that the next character can be used as a button mnemonic (write
  * "&&" to display a '&').</p>
  * 
- * <p>The default (en) language file has the name "lang.properties".<br />
+ * <p>The default (en) language file has the name "lang.properties".<br>
  * Translated language files should have a name of the kind "lang_LANGUAGE.properties",
  * where LANGUAGE should be one of:
  * <ul>
@@ -406,7 +406,7 @@ public class Lang {
 	 * This method is called automatically by <tt>getAvailableLanguages()</tt>.
 	 */
 	private static void fillAvailableLanguages() {
-		availableLanguages = new TreeSet<String>();
+		availableLanguages = new TreeSet<>();
 		availableLanguages.add(DEFAULT_LANGUAGE); // add default language
 		
 		// Find all the language files

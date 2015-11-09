@@ -48,7 +48,7 @@ public class Distributor extends Component {
 	public Distributor(String id, int latency, Point position, String inId, int inSize) throws InvalidCPUException {
 		super(id, latency, "", "distributor", "distributor_description", position, new Dimension(5, 30));
 		input = addInput(inId, new Data(inSize));
-		outParameters = new LinkedList<OutputParameters>();
+		outParameters = new LinkedList<>();
 	}
 	
 	/**

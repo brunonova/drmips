@@ -189,7 +189,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 	 * Obtains the icon (in different sizes) for the window.
 	 */
 	private void obtainIcons() {
-		icons = new LinkedList<Image>();
+		icons = new LinkedList<>();
 		int[] sizes = {16, 24, 32, 48, 64, 96, 128, 256, 512};
 		for(int size: sizes)
 			icons.add((new ImageIcon(getClass().getResource("/res/icons/x" + size + "/drmips.png"))).getImage());
@@ -1315,6 +1315,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		(new DlgAbout(this)).setVisible(true);
     }//GEN-LAST:event_mnuAboutActionPerformed
 
+	@SuppressWarnings("UseSpecificCatch")
     private void mnuLoadCPUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuLoadCPUActionPerformed
 		try {
 			if(cpuFileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
@@ -1743,7 +1744,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 	 * @param maxFiles The maximum number of files to save.
 	 */
 	private void addRecentFileToPrefs(File file, String pref, int maxFiles) {
-		List<File> files = new LinkedList<File>();
+		List<File> files = new LinkedList<>();
 		files.add(file);
 		File f;
 		String filename;
@@ -1873,10 +1874,10 @@ public class FrmSimulator extends javax.swing.JFrame {
 		try {
 			String code = "", line;
 			
-			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF8"));
-			while((line = reader.readLine()) != null)
-				code += line + "\n";
-			reader.close();
+			try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF8"))) {
+				while((line = reader.readLine()) != null)
+					code += line + "\n";
+			}
 			
 			txtCode.setText(code);
 			txtCode.discardAllEdits();
@@ -2264,6 +2265,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 	/**
 	 * Loads the last used CPU file or the default one.
 	 */
+	@SuppressWarnings("UseSpecificCatch")
 	private void loadFirstCPU() {
 		try { // try to load the CPU in the preferences
 			loadCPU(DrMIPS.prefs.get(DrMIPS.LAST_CPU_PREF, DrMIPS.path + File.separator + DrMIPS.DEFAULT_CPU));
@@ -2977,6 +2979,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		}
 		
 		@Override
+		@SuppressWarnings("UseSpecificCatch")
 		public void actionPerformed(ActionEvent e) {
 			try {
 				loadCPU(file.getAbsolutePath());

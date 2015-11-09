@@ -40,7 +40,7 @@ public class MultiplexerTest {
 	}
 
 	private void tComp(int expected, int size, List<Integer> in, int sel) throws InvalidCPUException {
-		List<String> inIds = new ArrayList<String>();
+		List<String> inIds = new ArrayList<>();
 		for(int i = 0; i < in.size(); i++) {
 			inIds.add(i + "");
 		}

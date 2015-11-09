@@ -56,7 +56,7 @@ public class Multiplexer extends Component {
 		selector = addInput(selId, new Data((inIds.size() > 0) ? Data.requiredNumberOfBits(inIds.size() - 1) : 1), IOPort.Direction.NORTH);
 		output = addOutput(outId, new Data(size));
 		
-		inputs = new ArrayList<Input>(inIds.size());
+		inputs = new ArrayList<>(inIds.size());
 		for(String inId: inIds)
 			inputs.add(addInput(inId, new Data(size)));
 	}
@@ -74,7 +74,7 @@ public class Multiplexer extends Component {
 
 	@Override
 	protected List<Input> getLatencyInputs() {
-		ArrayList<Input> inList = new ArrayList<Input>();
+		ArrayList<Input> inList = new ArrayList<>();
 		// always add control input
 		inList.add(getSelector());
 		// add the selected input to the list of inputs that

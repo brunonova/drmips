@@ -32,8 +32,8 @@ import org.feup.brunonova.drmips.simulator.util.Point;
  * Class that represents an output of a component.
  * 
  * <p>Each output belongs to a component, has an identifier and has some
- * data with a size (number of bits) and value.<br />
- * The output can be connected to the input of another component.<br />
+ * data with a size (number of bits) and value.<br>
+ * The output can be connected to the input of another component.<br>
  * <b>To change the Data value, call this class's <tt>setValue()</tt> instead of
  * <tt>getData().setValue()</tt>, or else the connected input value won't be
  * updated!</b></p>
@@ -87,7 +87,7 @@ public final class Output extends IOPort {
 	 */
 	public Output(Component component, String id, Data data, Direction direction, boolean showTip) throws InvalidCPUException {
 		super(component, id, data, direction, showTip);
-		points = new LinkedList<Point>();
+		points = new LinkedList<>();
 	}
 	
 	/**

@@ -22,10 +22,10 @@ package org.feup.brunonova.drmips.simulator.mips;
  * Interface that declares that a component is synchronous.
  * 
  * <p>Synchronous components must implement <tt>executeSynchronous()</tt>, besides 
- * what is required by the Component base class.<br /><br />
+ * what is required by the Component base class.<br><br>
  * Synchronous components also have an internal state, and must implement
  * <tt>pushState()</tt>, <tt>popState()</tt>, <tt>hasSavedStates()</tt>,
- * <tt>clearSavedStates()</tt> and <tt>resetFirstState()</tt>.<br />
+ * <tt>clearSavedStates()</tt> and <tt>resetFirstState()</tt>.<br>
  * These methods are called automatically to save the internal state of the component 
  * (to a stack, for example) or to restore the previous state.</p>
  * 

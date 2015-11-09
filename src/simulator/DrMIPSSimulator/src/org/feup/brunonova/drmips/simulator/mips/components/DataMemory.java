@@ -43,7 +43,7 @@ public class DataMemory extends Component implements IsSynchronous {
 	private final Input address, writeData, memRead, memWrite;
 	private final Output output;
 	private int[] memory;
-	private final Stack<int[]> states = new Stack<int[]>(); // previous values
+	private final Stack<int[]> states = new Stack<>(); // previous values
 	
 	/**
 	 * Data memory contructor.

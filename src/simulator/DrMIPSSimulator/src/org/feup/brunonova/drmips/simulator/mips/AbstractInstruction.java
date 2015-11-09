@@ -49,7 +49,7 @@ public abstract class AbstractInstruction {
 	 * @throws InvalidInstructionSetException If <tt>mnemonic</tt> is empty.
 	 */
 	protected AbstractInstruction(String mnemonic) throws InvalidInstructionSetException {
-		arguments = new ArrayList<ArgumentType>();
+		arguments = new ArrayList<>();
 		setMnemonic(mnemonic);
 	}
 	
@@ -106,6 +106,7 @@ public abstract class AbstractInstruction {
 	/**
 	 * Adds an argument to the instruction.
 	 * @param argument The type of the argument, as a String.
+	 * @throws InvalidInstructionSetException If the type is invalid.
 	 */
 	public void addArgument(String argument) throws InvalidInstructionSetException {
 		try {

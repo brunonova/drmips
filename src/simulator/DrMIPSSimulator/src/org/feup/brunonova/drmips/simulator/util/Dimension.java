@@ -91,11 +91,6 @@ public final class Dimension {
 	}
 
 	@Override
-	protected Dimension clone() {
-		return new Dimension(this);
-	}
-
-	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof Dimension){
 			Dimension d = (Dimension)obj;
@@ -103,5 +98,13 @@ public final class Dimension {
 		}
 		else
 			return false;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 5;
+		hash = 61 * hash + this.width;
+		hash = 61 * hash + this.height;
+		return hash;
 	}
 }

@@ -38,8 +38,8 @@ public class Control {
 	 * Creates a new control object.
 	 */
 	public Control() {
-		map = new TreeMap<Integer, Map<String, Integer>>();
-		out = new TreeMap<String, Integer>();
+		map = new TreeMap<>();
+		out = new TreeMap<>();
 	}
 	
 	/**

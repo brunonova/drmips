@@ -52,7 +52,7 @@ public class And extends SimpleBinaryOperationComponent {
 
 	@Override
 	protected List<Input> getLatencyInputs() {
-		ArrayList<Input> inList = new ArrayList<Input>();
+		ArrayList<Input> inList = new ArrayList<>();
 		int val1 = getInput1().getValue();
 		int val2 = getInput2().getValue();
 		if (val1 == val2) {  // inputs have identical logic values

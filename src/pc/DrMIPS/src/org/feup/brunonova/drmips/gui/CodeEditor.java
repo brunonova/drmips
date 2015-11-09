@@ -52,14 +52,14 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 
 /**
  * The code editor of the simulator.
- * <p>The class extends the <tt>TextEditorPane</tt> from RSyntaxTextArea component.<br />
+ * <p>The class extends the <tt>TextEditorPane</tt> from RSyntaxTextArea component.<br>
  * RSyntaxTextArea: <a href="http://fifesoft.com/rsyntaxtextarea/">http://fifesoft.com/rsyntaxtextarea/</a></p>
  * 
  * @author Bruno Nova
  */
 public class CodeEditor extends TextEditorPane {
 	/** The icon used to display errors in the line numbers column. */
-	public static final Icon errorIcon = new ImageIcon(CodeEditor.class.getResource("/res/icons/x16/error.png"));
+	public static final Icon ERROR_ICON = new ImageIcon(CodeEditor.class.getResource("/res/icons/x16/error.png"));
 		
 	/** The editor's scroll pane. */
 	private RTextScrollPane scrollPane;
@@ -125,7 +125,7 @@ public class CodeEditor extends TextEditorPane {
 	 */
 	public void addErrorIcon(int line) {
 		try {
-			scrollPane.getGutter().addLineTrackingIcon(line - 1, errorIcon);
+			scrollPane.getGutter().addLineTrackingIcon(line - 1, ERROR_ICON);
 		} catch (BadLocationException ex) {
 			LOG.log(Level.WARNING, "error adding error icon to line " + line, ex);
 		}
@@ -138,7 +138,7 @@ public class CodeEditor extends TextEditorPane {
 	 */
 	public void addErrorIcon(int line, String tip) {
 		try {
-			scrollPane.getGutter().addLineTrackingIcon(line - 1, errorIcon, tip);
+			scrollPane.getGutter().addLineTrackingIcon(line - 1, ERROR_ICON, tip);
 		} catch (BadLocationException ex) {
 			LOG.log(Level.WARNING, "error adding error icon to line " + line, ex);
 		}
@@ -361,7 +361,7 @@ public class CodeEditor extends TextEditorPane {
 	 * auto-complete possibilities.</p>
 	 */
 	private class MIPSCompletionProvider extends DefaultCompletionProvider {
-		private List<BasicCompletion> labelCompletions = new LinkedList<BasicCompletion>();
+		private final List<BasicCompletion> labelCompletions = new LinkedList<>();
 			
 		/**
 		 * Creates the provider.
@@ -407,7 +407,7 @@ public class CodeEditor extends TextEditorPane {
 	*/
    public class MIPSTokenMaker extends AbstractTokenMaker {
 	   /** The CPU with the supported instructions and registers. */
-	   private CPU cpu;
+	   private final CPU cpu;
 
 	   /**
 		* Creates the token maker.

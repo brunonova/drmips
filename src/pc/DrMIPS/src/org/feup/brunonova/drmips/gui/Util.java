@@ -146,6 +146,7 @@ public class Util {
 	/**
 	 * Sets the program's light look and feel.
 	 */
+	@SuppressWarnings("UseSpecificCatch")
 	public static void setLightLookAndFeel() {
 		try {
 			Properties props = new Properties();
@@ -162,6 +163,7 @@ public class Util {
 	/**
 	 * Sets the program's dark look and feel.
 	 */
+	@SuppressWarnings("UseSpecificCatch")
 	public static void setDarkLookAndFeel() {
 		try {
 			Properties props = new Properties();

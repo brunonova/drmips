@@ -30,7 +30,7 @@ import org.feup.brunonova.drmips.simulator.util.Point;
 /**
  * Abstract base class to represent the MIPS CPU internal components.
  * 
- * <p>Each component has at least an ID, inputs and outputs.<br />
+ * <p>Each component has at least an ID, inputs and outputs.<br>
  * Each input and output has an identifier and an integer (32 bit) value.</p>
  * 
  * <p>Derived classes should call <tt>super(...)</tt> on their constructors and
@@ -96,13 +96,13 @@ public abstract class Component {
 		setDescriptionKey(descriptionKey);
 		setPosition(position);
 		setSize(size);
-		in = new TreeMap<String, Input>();
-		out = new TreeMap<String, Output>();
+		in = new TreeMap<>();
+		out = new TreeMap<>();
 	}
 	
 	/**
 	 * "Executes" the normal action of the component in a clock cycle.
-	 * <p>Derived classes must implement this method.<br />
+	 * <p>Derived classes must implement this method.<br>
 	 * This method is executed automatically when an input is changed.</p>
 	 */
 	public abstract void execute();
@@ -115,7 +115,7 @@ public abstract class Component {
 	 * @param description The custom description.
 	 */
 	public void addCustomDescriptions(String language, String description) {
-		if(customDescriptions == null) customDescriptions = new TreeMap<String, String>();
+		if(customDescriptions == null) customDescriptions = new TreeMap<>();
 		customDescriptions.put(language.trim().toLowerCase(), description);
 	}
 	
@@ -422,7 +422,7 @@ public abstract class Component {
 	 * @return List of inputs.
 	 */
 	public final List<Input> getInputs() {
-		return new ArrayList<Input>(in.values());
+		return new ArrayList<>(in.values());
 	}
 	
 	/**
@@ -432,7 +432,7 @@ public abstract class Component {
 	 * @return List of inputs.
 	 */
 	protected List<Input> getLatencyInputs() {
-		return new ArrayList<Input>(in.values());
+		return new ArrayList<>(in.values());
 	}
 	/**
 	 * Adds an output with an initial value.
@@ -496,7 +496,7 @@ public abstract class Component {
 	 * @return List of outputs.
 	 */
 	public final List<Output> getOutputs() {
-		return new ArrayList<Output>(out.values());
+		return new ArrayList<>(out.values());
 	}
 	
 	/**
@@ -505,7 +505,7 @@ public abstract class Component {
 	 * @return Inputs and outputs on that direction/side.
 	 */
 	public final List<IOPort> getIOPortsInDirection(IOPort.Direction direction) {
-		List<IOPort> ports = new LinkedList<IOPort>();
+		List<IOPort> ports = new LinkedList<>();
 		
 		for(Input i: getInputs())
 			if(i.getDirection() == direction)

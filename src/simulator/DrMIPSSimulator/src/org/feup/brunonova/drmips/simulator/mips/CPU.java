@@ -124,8 +124,8 @@ public class CPU {
 	 * Constructor that should by called by other constructors.
 	 */
 	protected CPU() {
-		components = new TreeMap<String, Component>();
-		synchronousComponents = new LinkedList<Component>();
+		components = new TreeMap<>();
+		synchronousComponents = new LinkedList<>();
 		assembler = new Assembler(this);
 	}
 	
@@ -282,7 +282,7 @@ public class CPU {
 	 * @return Input(s) with the highest accumulated latency.
 	 */
 	private List<Input> findHighetsAccumulatedLatencyInputs(boolean instructionDependent) {
-		List<Input> maxIns = new LinkedList<Input>();
+		List<Input> maxIns = new LinkedList<>();
 		int maxLatency = -1;
 		Collection<Component> comps = isPerformanceInstructionDependent() ? synchronousComponents : components.values();
 		for(Component c: comps) {
@@ -870,24 +870,26 @@ public class CPU {
 		}
 		else if(component instanceof PipelineRegister) {
 			String id = component.getId().trim().toUpperCase();
-			if(id.equals("IF/ID")) {
-				if(ifIdReg != null) throw new InvalidCPUException("Only one IF/ID pipeline register allowed!");
-				ifIdReg = (PipelineRegister)component;
+			switch (id) {
+				case "IF/ID":
+					if(ifIdReg != null) throw new InvalidCPUException("Only one IF/ID pipeline register allowed!");
+					ifIdReg = (PipelineRegister)component;
+					break;
+				case "ID/EX":
+					if(idExReg != null) throw new InvalidCPUException("Only one ID/EX pipeline register allowed!");
+					idExReg = (PipelineRegister)component;
+					break;
+				case "EX/MEM":
+					if(exMemReg != null) throw new InvalidCPUException("Only one EX/MEM pipeline register allowed!");
+					exMemReg = (PipelineRegister)component;
+					break;
+				case "MEM/WB":
+					if(memWbReg != null) throw new InvalidCPUException("Only one MEM/WB pipeline register allowed!");
+					memWbReg = (PipelineRegister)component;
+					break;
+				default:
+					throw new InvalidCPUException("A pipeline register's identifier must be one of {IF/ID, ID/EX, EX/MEM, MEM/WB}!");
 			}
-			else if(id.equals("ID/EX")) {
-				if(idExReg != null) throw new InvalidCPUException("Only one ID/EX pipeline register allowed!");
-				idExReg = (PipelineRegister)component;
-			}
-			else if(id.equals("EX/MEM")) {
-				if(exMemReg != null) throw new InvalidCPUException("Only one EX/MEM pipeline register allowed!");
-				exMemReg = (PipelineRegister)component;
-			}
-			else if(id.equals("MEM/WB")) {
-				if(memWbReg != null) throw new InvalidCPUException("Only one MEM/WB pipeline register allowed!");
-				memWbReg = (PipelineRegister)component;
-			}
-			else
-				throw new InvalidCPUException("A pipeline register's identifier must be one of {IF/ID, ID/EX, EX/MEM, MEM/WB}!");
 		}
 	}
 	
@@ -1156,7 +1158,7 @@ public class CPU {
 					break;
 				case IMEM: cpu.addComponent(component = new InstructionMemory(id, latency, pos, comp.getString("in"), comp.getString("out"))); break;
 				case FORK:
-					ids = new LinkedList<String>();
+					ids = new LinkedList<>();
 					outs = comp.optJSONArray("out");
 					for(int x = 0; x < outs.length(); x++)
 						ids.add(outs.getString(x));
@@ -1178,7 +1180,7 @@ public class CPU {
 					cpu.addComponent(component = dist);
 					break;
 				case MUX:
-					ids = new LinkedList<String>();
+					ids = new LinkedList<>();
 					ins = comp.optJSONArray("in");
 					for(int x = 0; x < ins.length(); x++)
 						ids.add(ins.getString(x));
@@ -1194,7 +1196,7 @@ public class CPU {
 				case EXT_ALU: cpu.addComponent(component = new ExtendedALU(id, latency, pos, comp.getString("in1"), comp.getString("in2"), comp.getString("control"), comp.getString("out"), comp.getString("zero"))); break;
 				case DMEM: cpu.addComponent(component = new DataMemory(id, latency, pos, comp.getInt("size"), comp.getString("address"), comp.getString("write_data"), comp.getString("out"), comp.getString("mem_read"), comp.getString("mem_write"))); break;
 				case PIPEREG:
-					Map<String, Integer> regs = new TreeMap<String, Integer>();
+					Map<String, Integer> regs = new TreeMap<>();
 					JSONObject r = comp.optJSONObject("regs");
 					if(r != null) {
 						Iterator<String> k = r.keys();
@@ -1262,7 +1264,7 @@ public class CPU {
 	private static void parseJSONRegNames(CPU cpu, JSONArray regs) throws JSONException, InvalidCPUException {
 		if(regs.length() != cpu.getRegBank().getNumberOfRegisters())
 			throw new InvalidCPUException("Not all registers have been specified in the registers block!");
-		cpu.registerNames = new ArrayList<String>(cpu.getRegBank().getNumberOfRegisters());
+		cpu.registerNames = new ArrayList<>(cpu.getRegBank().getNumberOfRegisters());
 		String id;
 		
 		for(int i = 0; i < regs.length(); i++) {

@@ -29,7 +29,7 @@ import org.feup.brunonova.drmips.simulator.util.Point;
 /**
  * This component concatenates the values of the two inputs.
  * <p>The 1st input is concatenated in the most significant bits, while the 2nd is
- * concatenated to the less significant bits.<br />
+ * concatenated to the less significant bits.<br>
  * Concatenating 111 with 0000, in that order, would give 1110000</p>
  * 
  * @author Bruno Nova
