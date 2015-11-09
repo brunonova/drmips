@@ -192,35 +192,6 @@ public class DrMIPSActivity extends Activity {
 	}
 	
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) { // for Android 2.3.3 and below
-		switch(item.getItemId()) {
-			case R.id.mnuNew: mnuNewOnClick(item); return true;
-			case R.id.mnuOpen: mnuOpenOnClick(item); return true;
-			case R.id.mnuSave: mnuSaveOnClick(item); return true;
-			case R.id.mnuSaveAs: mnuSaveAsOnClick(item); return true;
-			case R.id.mnuDelete: mnuDeleteOnClick(item); return true;
-			case R.id.mnuAssemble: mnuAssembleOnClick(item); return true;
-			case R.id.mnuStep: mnuStepOnClick(item); return true;
-			case R.id.mnuBackStep: mnuBackStepOnClick(item); return true;
-			case R.id.mnuLoadCPU: mnuLoadCPUOnClick(item); return true;
-			case R.id.mnuSwitchTheme: mnuSwitchThemeOnClick(item); return true;
-			case R.id.mnuAbout: mnuAboutOnClick(item); return true;
-			case R.id.mnuControlPath: mnuControlPathOnClick(item); return true;
-			case R.id.mnuArrowsInWires: mnuArrowsInWiresOnClick(item); return true;
-			case R.id.mnuPerformanceMode: mnuPerformanceModeOnClick(item); return true;
-			case R.id.mnuOverlayedData: mnuOverlayedDataOnClick(item); return true;
-			case R.id.mnuOverlayedShowNames: mnuOverlayedShowNamesOnClick(item); return true;
-			case R.id.mnuOverlayedShowForAll: mnuOverlayedShowForAllOnClick(item); return true;
-			case R.id.mnuRestoreLatencies: mnuRestoreLatenciesOnClick(item); return true;
-			case R.id.mnuRemoveLatencies: mnuRemoveLatenciesOnClick(item); return true;
-			case R.id.mnuRestart: mnuRestartOnClick(item); return true;
-			case R.id.mnuRun: mnuRunOnClick(item); return true;
-			case R.id.mnuStatistics: mnuStatisticsOnClick(item); return true;
-			default: return super.onOptionsItemSelected(item);
-		}
-	}
-	
-	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		if(outState != null) {
 			outState.putBoolean("step_enabled", cmdStep.getVisibility() == View.VISIBLE); // save simulation controls state
@@ -701,10 +672,6 @@ public class DrMIPSActivity extends Activity {
 	
 	public void cmdStepOnClick(View view) {
 		step();
-	}
-	
-	public void cmdBackStepOnClick(View view) {
-		backStep();
 	}
 	
 	public void mnuControlPathOnClick(MenuItem menu) {
