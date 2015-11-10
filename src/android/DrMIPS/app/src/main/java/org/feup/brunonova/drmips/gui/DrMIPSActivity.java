@@ -32,6 +32,7 @@ import java.util.Arrays;
 import org.feup.brunonova.drmips.R;
 import org.feup.brunonova.drmips.gui.dialogs.AboutDialogFragment;
 import org.feup.brunonova.drmips.gui.dialogs.ConfirmExitDialogFragment;
+import org.feup.brunonova.drmips.gui.dialogs.StatisticsDialogFragment;
 import org.feup.brunonova.drmips.simulator.AppInfo;
 import org.feup.brunonova.drmips.simulator.exceptions.InfiniteLoopException;
 import org.feup.brunonova.drmips.simulator.exceptions.InvalidCPUException;
@@ -91,8 +92,6 @@ public class DrMIPSActivity extends Activity {
 	public static final int CODE_HELP_DIALOG = 7;
 	public static final int DATAPATH_HELP_DIALOG = 8;
 	public static final int COMPONENT_DESCRIPTION_DIALOG = 9;
-	public static final int CHANGE_LATENCY_DIALOG = 10;
-	public static final int STATISTICS_DIALOG = 13;
 	
 	/** The file currently open (if <tt>null</tt> no file is open). */
 	private File openFile = null;
@@ -118,7 +117,7 @@ public class DrMIPSActivity extends Activity {
 	private Datapath datapath = null;
 	
 	private TabHost tabHost;
-	private EditText txtCode, txtFilename, txtRegisterValue, txtDataMemoryValue, txtLatency;
+	private EditText txtCode, txtFilename, txtRegisterValue, txtDataMemoryValue;
 	private TextView lblFilename, lblCPUFilename, lblDatapathFormat, lblDatapathPerformance;
 	private MenuItem mnuDelete = null, mnuStep = null, mnuBackStep = null, mnuControlPath = null,
 	                 mnuArrowsInWires = null, mnuPerformanceMode = null, mnuOverlayedData = null,
@@ -197,7 +196,6 @@ public class DrMIPSActivity extends Activity {
 			outState.putInt("tab", tabHost.getCurrentTab()); // save current tab
 			if(fileToSave != null) outState.putSerializable("fileToSave", fileToSave);
 			outState.putInt("editIndex", editIndex);
-			if(datapath != null && datapath.getLatencyComponent() != null) outState.putString("latencyComponent", datapath.getLatencyComponent().getId());
 		}
 		super.onSaveInstanceState(outState);
 	}
@@ -230,7 +228,6 @@ public class DrMIPSActivity extends Activity {
 			
 			fileToSave = (File)savedInstanceState.getSerializable("fileToSave");
 			editIndex = savedInstanceState.getInt("editIndex", 0);
-			if(datapath != null && savedInstanceState.containsKey("latencyComponent")) datapath.setLatencyComponent(getCPU().getComponent(savedInstanceState.getString("latencyComponent")));
 		}
 		super.onRestoreInstanceState(savedInstanceState);
 	}
@@ -416,50 +413,6 @@ public class DrMIPSActivity extends Activity {
 					})
 					.create();
 				
-			case CHANGE_LATENCY_DIALOG:
-				txtLatency = new EditText(this);
-				txtLatency.setHint(R.string.latency);
-				txtLatency.setInputType(InputType.TYPE_CLASS_NUMBER);
-				return new AlertDialog.Builder(this)
-					.setTitle("Latency")
-					.setView(txtLatency)
-					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							try {
-								int lat = Integer.parseInt(txtLatency.getText().toString());
-								if (lat >= 0) {
-									datapath.getLatencyComponent().setLatency(lat);
-									getCPU().calculatePerformance();
-									datapath.refresh();
-									datapath.invalidate();
-								} else
-									Toast.makeText(DrMIPSActivity.this, R.string.invalid_value, Toast.LENGTH_SHORT).show();
-							} catch (NumberFormatException ex) {
-								Toast.makeText(DrMIPSActivity.this, R.string.invalid_value, Toast.LENGTH_SHORT).show();
-							}
-						}
-					})
-					.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.dismiss();
-						}
-					})
-					.create();
-				
-			case STATISTICS_DIALOG:
-				return new AlertDialog.Builder(this)
-					.setTitle(R.string.statistics)
-					.setView(getLayoutInflater().inflate(R.layout.statistics_dialog, null))
-					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.dismiss();
-						}
-					})
-					.create();
-				
 			default: return null;
 		}
 	}
@@ -500,22 +453,6 @@ public class DrMIPSActivity extends Activity {
 					DatapathComponent c = datapath.getComponent(args.getString("id"));
 					if(c != null) c.refreshDescriptionDialog(dialog);
 				}
-				break;
-			case CHANGE_LATENCY_DIALOG:
-				if(datapath != null && datapath.getLatencyComponent() != null) {
-					dialog.setTitle(getResources().getString(R.string.latency_of_x).replace("#1", datapath.getLatencyComponent().getId()));
-					txtLatency.setText("" + datapath.getLatencyComponent().getLatency());
-				}
-				break;
-			case STATISTICS_DIALOG:
-				((TextView)dialog.findViewById(R.id.lblClockPeriodVal)).setText(getCPU().getClockPeriod() + " " + CPU.LATENCY_UNIT);
-				((TextView)dialog.findViewById(R.id.lblClockFrequencyVal)).setText(getCPU().getClockFrequencyInAdequateUnit());
-				((TextView)dialog.findViewById(R.id.lblExecutedCyclesVal)).setText(getCPU().getNumberOfExecutedCycles() + "");
-				((TextView)dialog.findViewById(R.id.lblExecutionTimeVal)).setText(getCPU().getExecutionTime() + " " + CPU.LATENCY_UNIT);
-				((TextView)dialog.findViewById(R.id.lblExecutedInstructionsVal)).setText(getCPU().getNumberOfExecutedInstructions() + "");
-				((TextView)dialog.findViewById(R.id.lblCPIVal)).setText(getCPU().getCPIAsString());
-				((TextView)dialog.findViewById(R.id.lblForwardsVal)).setText(getCPU().getNumberOfForwards() + "");
-				((TextView)dialog.findViewById(R.id.lblStallsVal)).setText(getCPU().getNumberOfStalls() + "");
 				break;
 		}
 	}
@@ -654,7 +591,7 @@ public class DrMIPSActivity extends Activity {
 	
 	@SuppressWarnings("deprecation")
 	public void mnuStatisticsOnClick(MenuItem menu) {
-		showDialog(STATISTICS_DIALOG);
+		new StatisticsDialogFragment().show(getFragmentManager(), "statistics-dialog");
 	}
 	
 	public void mnuRestartOnClick(MenuItem menu) {

@@ -30,6 +30,8 @@ import org.feup.brunonova.drmips.simulator.AppInfo;
 public class LicenseDialogFragment extends DialogFragment implements DialogInterface.OnClickListener {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		super.onCreateDialog(savedInstanceState);
+
 		return new AlertDialog.Builder(getActivity())
 			.setTitle(R.string.license)
 			.setMessage(AppInfo.LICENSE)

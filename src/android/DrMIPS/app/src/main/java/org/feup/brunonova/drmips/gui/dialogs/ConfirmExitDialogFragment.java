@@ -29,6 +29,8 @@ import org.feup.brunonova.drmips.R;
 public class ConfirmExitDialogFragment extends DialogFragment implements DialogInterface.OnClickListener {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		super.onCreateDialog(savedInstanceState);
+
 		return new AlertDialog.Builder(getActivity())
 			.setMessage(R.string.confirm_exit)
 			.setPositiveButton(android.R.string.ok, this)
