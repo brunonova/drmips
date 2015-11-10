@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.feup.brunonova.drmips.R;
+import org.feup.brunonova.drmips.gui.dialogs.ChangeLatencyDialogFragment;
 import org.feup.brunonova.drmips.simulator.mips.CPU;
 import org.feup.brunonova.drmips.simulator.mips.Component;
 import org.feup.brunonova.drmips.simulator.mips.Input;
@@ -70,8 +71,6 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 	private boolean showArrows = true;
 	/** The information to show (data when <tt>false</tt> or performance when <tt>true</tt>). */
 	private boolean performanceMode = false;
-	/** The component that is having its latency changed. */
-	private Component latencyComponent = null;
 	/** Whether to display in/out tips. */
 	private boolean showTips = true;
 	/** Whether to display the names in the in/out tips. */
@@ -205,23 +204,7 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 	public DatapathComponent getComponent(String id) {
 		return components.get(id);
 	}
-	
-	/**
-	 * Returns the component that is having its latency changed.
-	 * @return The component that is having its latency changed, or <tt>null</tt> if none.
-	 */
-	public Component getLatencyComponent() {
-		return latencyComponent;
-	}
-	
-	/**
-	 * Sets the component that is having its latency changed.
-	 * @param component Reference to the new component.
-	 */
-	public void setLatencyComponent(Component component) {
-		latencyComponent = component;
-	}
-	
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onClick(View v) {
@@ -238,8 +221,7 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 	public boolean onLongClick(View v) {
 		if(v instanceof DatapathComponent && isInPerformanceMode()) {
 			DatapathComponent c = (DatapathComponent)v;
-			setLatencyComponent(c.getComponent());
-			activity.showDialog(DrMIPSActivity.CHANGE_LATENCY_DIALOG);
+			ChangeLatencyDialogFragment.newInstance(c.getComponent().getId()).show(activity.getFragmentManager(), "change-latency-dialog");
 			return true;
 		}
 		else

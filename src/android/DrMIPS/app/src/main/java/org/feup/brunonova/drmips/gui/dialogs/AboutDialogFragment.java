@@ -30,6 +30,8 @@ import org.feup.brunonova.drmips.simulator.AppInfo;
 public class AboutDialogFragment extends DialogFragment implements DialogInterface.OnClickListener {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		super.onCreateDialog(savedInstanceState);
+
 		String msg = getString(R.string.by) + ": " + AppInfo.MAIN_AUTHOR_NAME_EMAIL
 			+ "\n" + getString(R.string.for_dissertation)
 			+ "\n" + AppInfo.MAIN_AUTHOR_INSTITUTION;
