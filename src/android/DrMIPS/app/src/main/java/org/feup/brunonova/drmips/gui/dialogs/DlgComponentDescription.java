@@ -43,14 +43,12 @@ import org.feup.brunonova.drmips.simulator.mips.components.ALU;
 import org.feup.brunonova.drmips.simulator.mips.components.ExtendedALU;
 
 public class DlgComponentDescription extends DialogFragment implements DialogInterface.OnClickListener {
-	private View rootView;
-	private boolean performanceMode = false;
-	private int datapathFormat = DrMIPS.DEFAULT_DATAPATH_DATA_FORMAT;
-
-	public static DlgComponentDescription newInstance(String componentId) {
+	public static DlgComponentDescription newInstance(String componentId, boolean performanceMode, int datapathFormat) {
 		DlgComponentDescription dialog = new DlgComponentDescription();
 		Bundle args = new Bundle();
 		args.putString("id", componentId);
+		args.putBoolean("performanceMode", performanceMode);
+		args.putInt("datapathFormat", datapathFormat);
 		dialog.setArguments(args);
 		return dialog;
 	}
@@ -60,40 +58,16 @@ public class DlgComponentDescription extends DialogFragment implements DialogInt
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		super.onCreateDialog(savedInstanceState);
 
-		rootView = getActivity().getLayoutInflater().inflate(R.layout.component_details, null);
+		View layout = getActivity().getLayoutInflater().inflate(R.layout.component_details, null);
 		AlertDialog dialog = new AlertDialog.Builder(getActivity())
 			.setTitle("Component description")
-			.setView(rootView)
+			.setView(layout)
 			.setPositiveButton(android.R.string.ok, this)
 			.create();
 
-		Bundle args = getArguments();
-		if(args.containsKey("id")) {
-			DrMIPSActivity activity = (DrMIPSActivity) getActivity();
-			Component component = activity.getCPU().getComponent(args.getString("id"));
-			if(savedInstanceState != null && savedInstanceState.containsKey("performanceMode")) {
-				performanceMode = savedInstanceState.getBoolean("performanceMode");
-			} else if(activity.getDatapath() != null){
-				performanceMode = activity.getDatapath().isInPerformanceMode();
-			}
-			if(savedInstanceState != null && savedInstanceState.containsKey("datapathFormat")) {
-				datapathFormat = savedInstanceState.getInt("datapathFormat");
-			} else {
-				datapathFormat = activity.getDatapathFormat();
-			}
-			setValues(dialog, activity, component);
-		}
+		setContents(dialog, layout);
 
 		return dialog;
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-
-		// Save some values because the datapath may not be available yet when the dialog is created
-		outState.putBoolean("performanceMode", performanceMode);
-		outState.putInt("datapathFormat", datapathFormat);
 	}
 
 	@Override
@@ -101,8 +75,14 @@ public class DlgComponentDescription extends DialogFragment implements DialogInt
 		dismiss();
 	}
 
-	private void setValues(Dialog dialog, DrMIPSActivity activity, Component component) {
+	private void setContents(Dialog dialog, View rootView) {
 		String title;
+		Bundle args = getArguments();
+		if(!args.containsKey("id")) return;
+		DrMIPSActivity activity = (DrMIPSActivity)getActivity();
+		Component component = activity.getCPU().getComponent(args.getString("id"));
+		boolean performanceMode = args.getBoolean("performanceMode", false);
+		int datapathFormat = args.getInt("datapathFormat", DrMIPS.DEFAULT_DATAPATH_DATA_FORMAT);
 
 		// Title
 		int nameId = activity.getResources().getIdentifier(component.getNameKey(), "string", activity.getPackageName());

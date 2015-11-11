@@ -18,32 +18,6 @@
 
 package org.feup.brunonova.drmips.gui;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.Arrays;
-
-import org.feup.brunonova.drmips.R;
-import org.feup.brunonova.drmips.gui.dialogs.DlgAbout;
-import org.feup.brunonova.drmips.gui.dialogs.DlgConfirmExit;
-import org.feup.brunonova.drmips.gui.dialogs.DlgStatistics;
-import org.feup.brunonova.drmips.simulator.exceptions.InfiniteLoopException;
-import org.feup.brunonova.drmips.simulator.exceptions.InvalidCPUException;
-import org.feup.brunonova.drmips.simulator.exceptions.InvalidInstructionSetException;
-import org.feup.brunonova.drmips.simulator.exceptions.SyntaxErrorException;
-import org.feup.brunonova.drmips.simulator.mips.AssembledInstruction;
-import org.feup.brunonova.drmips.simulator.mips.CPU;
-import org.feup.brunonova.drmips.simulator.mips.Data;
-import org.feup.brunonova.drmips.simulator.mips.Instruction;
-import org.feup.brunonova.drmips.simulator.mips.PseudoInstruction;
-import org.json.JSONException;
-
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -80,15 +54,39 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.feup.brunonova.drmips.R;
+import org.feup.brunonova.drmips.gui.dialogs.DlgAbout;
+import org.feup.brunonova.drmips.gui.dialogs.DlgCodeHelp;
+import org.feup.brunonova.drmips.gui.dialogs.DlgConfirmExit;
+import org.feup.brunonova.drmips.gui.dialogs.DlgDatapathHelp;
+import org.feup.brunonova.drmips.gui.dialogs.DlgEditDataMemory;
+import org.feup.brunonova.drmips.gui.dialogs.DlgStatistics;
+import org.feup.brunonova.drmips.simulator.exceptions.InfiniteLoopException;
+import org.feup.brunonova.drmips.simulator.exceptions.InvalidCPUException;
+import org.feup.brunonova.drmips.simulator.exceptions.InvalidInstructionSetException;
+import org.feup.brunonova.drmips.simulator.exceptions.SyntaxErrorException;
+import org.feup.brunonova.drmips.simulator.mips.AssembledInstruction;
+import org.feup.brunonova.drmips.simulator.mips.CPU;
+import org.feup.brunonova.drmips.simulator.mips.Data;
+import org.json.JSONException;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.Arrays;
+
 public class DrMIPSActivity extends Activity {
 	// Identifiers of the dialogs
 	public static final int SAVE_DIALOG = 2;
 	public static final int CONFIRM_REPLACE_DIALOG = 3;
 	public static final int CONFIRM_DELETE_DIALOG = 4;
 	public static final int EDIT_REGISTER_DIALOG = 5;
-	public static final int EDIT_DATA_MEMORY_DIALOG = 6;
-	public static final int CODE_HELP_DIALOG = 7;
-	public static final int DATAPATH_HELP_DIALOG = 8;
 	
 	/** The file currently open (if <tt>null</tt> no file is open). */
 	private File openFile = null;
@@ -114,7 +112,7 @@ public class DrMIPSActivity extends Activity {
 	private Datapath datapath = null;
 	
 	private TabHost tabHost;
-	private EditText txtCode, txtFilename, txtRegisterValue, txtDataMemoryValue;
+	private EditText txtCode, txtFilename, txtRegisterValue;
 	private TextView lblFilename, lblCPUFilename, lblDatapathFormat, lblDatapathPerformance;
 	private MenuItem mnuDelete = null, mnuStep = null, mnuBackStep = null, mnuControlPath = null,
 	                 mnuArrowsInWires = null, mnuPerformanceMode = null, mnuOverlayedData = null,
@@ -197,7 +195,6 @@ public class DrMIPSActivity extends Activity {
 		super.onSaveInstanceState(outState);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onBackPressed() {
 		new DlgConfirmExit().show(getFragmentManager(), "confirm-exit-dialog");
@@ -339,65 +336,6 @@ public class DrMIPSActivity extends Activity {
 					})
 					.create();
 				
-			case EDIT_DATA_MEMORY_DIALOG:
-				txtDataMemoryValue = new EditText(this);
-				txtDataMemoryValue.setHint(R.string.value);
-				txtDataMemoryValue.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-				return new AlertDialog.Builder(this)
-					.setTitle("Edit memory")
-					.setView(txtDataMemoryValue)
-					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							String value = txtDataMemoryValue.getText().toString().trim();
-							int val;
-							if(!value.isEmpty()) {
-								try {
-									if(editIndex >= 0 && editIndex < getCPU().getDataMemory().getMemorySize()) {
-										val = Integer.parseInt(value);
-										getCPU().getDataMemory().setDataInIndex(editIndex, val);
-										refreshDataMemoryTableValues();
-										if(datapath != null) datapath.refresh();
-									}
-								}
-								catch(NumberFormatException ex) {
-									Toast.makeText(DrMIPSActivity.this, R.string.invalid_value, Toast.LENGTH_SHORT).show();
-								}
-							}
-						}
-					})
-					.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.dismiss();
-						}
-					})
-					.create();
-				
-			case CODE_HELP_DIALOG:
-				return new AlertDialog.Builder(this)
-					.setTitle(R.string.supported_instructions)
-					.setView(getLayoutInflater().inflate(R.layout.code_help, null))
-					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.dismiss();
-						}
-					})
-					.create();
-				
-			case DATAPATH_HELP_DIALOG:
-				return new AlertDialog.Builder(this)
-					.setTitle("Datapath help")
-					.setView(getLayoutInflater().inflate(R.layout.datapath_help, null))
-					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.dismiss();
-						}
-					})
-					.create();
-				
 			default: return null;
 		}
 	}
@@ -422,16 +360,6 @@ public class DrMIPSActivity extends Activity {
 			case EDIT_REGISTER_DIALOG:
 				dialog.setTitle(getString(R.string.edit_value).replace("#1", args.containsKey("name") ? args.getString("name") : CPU.REGISTER_PREFIX + "" + editIndex));
 				txtRegisterValue.setText("" + args.getInt("value", 0));
-				break;
-			case EDIT_DATA_MEMORY_DIALOG:
-				dialog.setTitle(getString(R.string.edit_value).replace("#1", "" + args.getInt("address", 0)));
-				txtDataMemoryValue.setText("" + args.getInt("value", 0));
-				break;
-			case CODE_HELP_DIALOG:
-				refreshCodeHelpDialog(dialog);
-				break;
-			case DATAPATH_HELP_DIALOG:
-				refreshDatapathHelp(dialog);
 				break;
 		}
 	}
@@ -568,7 +496,6 @@ public class DrMIPSActivity extends Activity {
 		datapath.refresh();
 	}
 	
-	@SuppressWarnings("deprecation")
 	public void mnuStatisticsOnClick(MenuItem menu) {
 		new DlgStatistics().show(getFragmentManager(), "statistics-dialog");
 	}
@@ -590,14 +517,12 @@ public class DrMIPSActivity extends Activity {
 		Toast.makeText(this, getCPU().getFile().getAbsolutePath(), Toast.LENGTH_LONG).show();
 	}
 	
-	@SuppressWarnings("deprecation")
 	public void cmdCodeHelpOnClick(View view) {
-		showDialog(CODE_HELP_DIALOG);
+		new DlgCodeHelp().show(getFragmentManager(), "code-help-dialog");
 	}
 	
-	@SuppressWarnings("deprecation")
 	public void cmdDatapathHelpOnClick(View view) {
-		showDialog(DATAPATH_HELP_DIALOG);
+		DlgDatapathHelp.newInstance(getDatapath().isInPerformanceMode()).show(getFragmentManager(), "datapath-help-dialog");
 	}
 
 	/**
@@ -1240,7 +1165,7 @@ public class DrMIPSActivity extends Activity {
 	/**
 	 * Refreshes the values of the registers table.
 	 */
-	private void refreshDataMemoryTableValues() {
+	public void refreshDataMemoryTableValues() {
 		CPU cpu = getCPU();
 		if(cpu.hasDataMemory()) {
 			TextView address, value;
@@ -1270,42 +1195,6 @@ public class DrMIPSActivity extends Activity {
 					row.setBackgroundResource(0); // remove background color
 			}
 			tblDataMemory.requestLayout();
-		}
-	}
-	
-	/**
-	 * Updates the code help alert dialog.
-	 * @param dialog The dialog.
-	 */
-	private void refreshCodeHelpDialog(Dialog dialog) {
-		TableLayout tblInstructions = (TableLayout)dialog.findViewById(R.id.tblInstructions);
-		TableLayout tblPseudos = (TableLayout)dialog.findViewById(R.id.tblPseudos);
-		TableRow row;
-		TextView inst, desc;
-		tblInstructions.removeAllViews();
-		tblPseudos.removeAllViews();
-		CPU cpu = getCPU();
-		
-		for(Instruction i: cpu.getInstructionSet().getInstructions()) {
-			row = new TableRow(this);
-			inst = new TextView(this);
-			inst.setText(i.getUsage() + " ");
-			row.addView(inst);
-			desc = new TextView(this);
-			desc.setText("# " + (i.hasDescription() ? i.getDescription() : "-"));
-			row.addView(desc);
-			tblInstructions.addView(row);
-		}
-		
-		for(PseudoInstruction i: cpu.getInstructionSet().getPseudoInstructions()) {
-			row = new TableRow(this);
-			inst = new TextView(this);
-			inst.setText(i.getUsage() + " ");
-			row.addView(inst);
-			desc = new TextView(this);
-			desc.setText("# " + (i.hasDescription() ? i.getDescription() : "-"));
-			row.addView(desc);
-			tblPseudos.addView(row);
 		}
 	}
 	
@@ -1460,27 +1349,6 @@ public class DrMIPSActivity extends Activity {
 		return (i != null) ? i.getCodeLine() : "";
 	}
 	
-	/**
-	 * Refreshes the datapath help dialog.
-	 * @param dialog The dialog
-	 */
-	private void refreshDatapathHelp(Dialog dialog) {
-		if(datapath.isInPerformanceMode()) {
-			dialog.setTitle(R.string.performance_mode);
-			dialog.findViewById(R.id.rowControlPathWire).setVisibility(View.VISIBLE);
-			dialog.findViewById(R.id.rowIrrelevantWire).setVisibility(View.VISIBLE);
-			dialog.findViewById(R.id.rowWireInCriticalPath).setVisibility(View.VISIBLE);
-			dialog.findViewById(R.id.lblAdvisedDisplayControlPath).setVisibility(View.VISIBLE);
-		}
-		else {
-			dialog.setTitle(R.string.data_mode);
-			dialog.findViewById(R.id.rowControlPathWire).setVisibility(View.VISIBLE);
-			dialog.findViewById(R.id.rowIrrelevantWire).setVisibility(View.VISIBLE);
-			dialog.findViewById(R.id.rowWireInCriticalPath).setVisibility(View.GONE);
-			dialog.findViewById(R.id.lblAdvisedDisplayControlPath).setVisibility(View.GONE);
-		}
-	}	
-	
 	private class CPUFileFilter implements FilenameFilter {
 		@Override
 		public boolean accept(File dir, String filename) {
@@ -1530,19 +1398,13 @@ public class DrMIPSActivity extends Activity {
 	}
 	
 	private class DataMemoryRowOnLongClickListener implements OnLongClickListener {
-		@SuppressWarnings("deprecation")
 		@Override
 		public boolean onLongClick(View v) {
 			int index = tblDataMemory.indexOfChild(v) - 1;
 			if(index >= 0 && index < getCPU().getDataMemory().getMemorySize()) {
 				int address = index * (Data.DATA_SIZE / 8);
 				int value = getCPU().getDataMemory().getDataInIndex(index);
-				
-				editIndex = index;
-				Bundle args = new Bundle();
-				args.putInt("address", address);
-				args.putInt("value", value);
-				showDialog(EDIT_DATA_MEMORY_DIALOG, args);
+				DlgEditDataMemory.newInstance(index, address, value).show(getFragmentManager(), "edit-data-memory-dialog");
 			}
 			return true;
 		}

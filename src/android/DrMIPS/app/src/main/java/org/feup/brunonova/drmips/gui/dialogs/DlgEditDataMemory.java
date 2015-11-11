@@ -29,15 +29,16 @@ import android.widget.Toast;
 
 import org.feup.brunonova.drmips.R;
 import org.feup.brunonova.drmips.gui.DrMIPSActivity;
-import org.feup.brunonova.drmips.simulator.mips.Component;
 
-public class DlgChangeLatency extends DialogFragment implements DialogInterface.OnClickListener {
-	private EditText txtLatency;
+public class DlgEditDataMemory extends DialogFragment implements DialogInterface.OnClickListener {
+	private EditText txtDataMemoryValue;
 
-	public static DlgChangeLatency newInstance(String componentId) {
-		DlgChangeLatency dialog = new DlgChangeLatency();
+	public static DlgEditDataMemory newInstance(int index, int address, int value) {
+		DlgEditDataMemory dialog = new DlgEditDataMemory();
 		Bundle args = new Bundle();
-		args.putString("id", componentId);
+		args.putInt("index", index);
+		args.putInt("address", address);
+		args.putInt("value", value);
 		dialog.setArguments(args);
 		return dialog;
 	}
@@ -47,21 +48,18 @@ public class DlgChangeLatency extends DialogFragment implements DialogInterface.
 		super.onCreateDialog(savedInstanceState);
 
 		Bundle args = getArguments();
-		DrMIPSActivity activity = (DrMIPSActivity)getActivity();
-		Component component = activity.getCPU().getComponent(args.getString("id", ""));
-		txtLatency = new EditText(getActivity());
-		txtLatency.setHint(R.string.latency);
-		txtLatency.setInputType(InputType.TYPE_CLASS_NUMBER);
-		if(savedInstanceState != null && savedInstanceState.containsKey("latency")) {
-			txtLatency.setText(savedInstanceState.getString("latency"));
-		}
-		else {
-			if(component != null) txtLatency.setText("" + component.getLatency());
+		txtDataMemoryValue = new EditText(getActivity());
+		txtDataMemoryValue.setHint(R.string.value);
+		txtDataMemoryValue.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+		if(savedInstanceState != null && savedInstanceState.containsKey("val")) {
+			txtDataMemoryValue.setText(savedInstanceState.getString("val"));
+		} else {
+			txtDataMemoryValue.setText("" + args.getInt("value", 0));
 		}
 
 		return new AlertDialog.Builder(getActivity())
-			.setTitle(getResources().getString(R.string.latency_of_x).replace("#1", args.getString("id", "")))
-			.setView(txtLatency)
+			.setTitle(getString(R.string.edit_value).replace("#1", "" + args.getInt("address", 0)))
+			.setView(txtDataMemoryValue)
 			.setPositiveButton(android.R.string.ok, this)
 			.setNegativeButton(android.R.string.cancel, this)
 			.create();
@@ -70,32 +68,32 @@ public class DlgChangeLatency extends DialogFragment implements DialogInterface.
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		outState.putString("latency", txtLatency.getText().toString());
+		outState.putString("val", txtDataMemoryValue.getText().toString());
 	}
 
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
 		switch(which) {
 			case AlertDialog.BUTTON_POSITIVE: // OK
-				try {
-					Bundle args = getArguments();
-					DrMIPSActivity activity = (DrMIPSActivity)getActivity();
-					Component component = activity.getCPU().getComponent(args.getString("id", ""));
+				String value = txtDataMemoryValue.getText().toString().trim();
+				int val;
+				if(!value.isEmpty()) {
+					try {
+						Bundle args = getArguments();
+						DrMIPSActivity activity = (DrMIPSActivity)getActivity();
+						int index = args.getInt("index");
 
-					int lat = Integer.parseInt(txtLatency.getText().toString());
-					if(lat >= 0 && component != null) {
-						component.setLatency(lat);
-						activity.getCPU().calculatePerformance();
-						activity.getDatapath().refresh();
-						activity.getDatapath().invalidate();
-					} else {
+						if(index >= 0 && index < activity.getCPU().getDataMemory().getMemorySize()) {
+							val = Integer.parseInt(value);
+							activity.getCPU().getDataMemory().setDataInIndex(index, val);
+							activity.refreshDataMemoryTableValues();
+							if(activity.getDatapath() != null) activity.getDatapath().refresh();
+						}
+					} catch(NumberFormatException ex) {
 						Toast.makeText(getActivity(), R.string.invalid_value, Toast.LENGTH_SHORT).show();
 					}
-				} catch(NumberFormatException ex) {
-					Toast.makeText(getActivity(), R.string.invalid_value, Toast.LENGTH_SHORT).show();
 				}
 				break;
-
 			case AlertDialog.BUTTON_NEGATIVE: // Cancel
 				dismiss();
 				break;
