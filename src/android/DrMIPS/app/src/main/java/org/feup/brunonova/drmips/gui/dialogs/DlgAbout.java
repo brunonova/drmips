@@ -27,20 +27,36 @@ import android.os.Bundle;
 import org.feup.brunonova.drmips.R;
 import org.feup.brunonova.drmips.simulator.AppInfo;
 
-public class CreditsDialogFragment extends DialogFragment implements DialogInterface.OnClickListener {
+public class DlgAbout extends DialogFragment implements DialogInterface.OnClickListener {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		super.onCreateDialog(savedInstanceState);
 
+		String msg = getString(R.string.by) + ": " + AppInfo.MAIN_AUTHOR_NAME_EMAIL
+			+ "\n" + getString(R.string.for_dissertation)
+			+ "\n" + AppInfo.MAIN_AUTHOR_INSTITUTION;
+
 		return new AlertDialog.Builder(getActivity())
-			.setTitle(R.string.credits)
-			.setMessage(AppInfo.getAuthorsAsText())
+			.setTitle(AppInfo.NAME + " " + AppInfo.VERSION)
+			.setMessage(msg)
 			.setPositiveButton(android.R.string.ok, this)
+			.setNeutralButton(R.string.license, this)
+			.setNegativeButton(R.string.credits, this)
 			.create();
 	}
 
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
-		dismiss();
+		switch(which) {
+			case AlertDialog.BUTTON_POSITIVE: // OK
+				dismiss();
+				break;
+			case AlertDialog.BUTTON_NEUTRAL: // License
+				new DlgLicense().show(getFragmentManager(), "license-dialog");
+				break;
+			case AlertDialog.BUTTON_NEGATIVE: // Credits
+				new DlgCredits().show(getFragmentManager(), "credits-dialog");
+				break;
+		}
 	}
 }

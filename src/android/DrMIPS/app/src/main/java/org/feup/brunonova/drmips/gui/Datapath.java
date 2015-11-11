@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.feup.brunonova.drmips.R;
-import org.feup.brunonova.drmips.gui.dialogs.ChangeLatencyDialogFragment;
+import org.feup.brunonova.drmips.gui.dialogs.DlgChangeLatency;
 import org.feup.brunonova.drmips.simulator.mips.CPU;
 import org.feup.brunonova.drmips.simulator.mips.Component;
 import org.feup.brunonova.drmips.simulator.mips.Input;
@@ -221,7 +221,7 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 	public boolean onLongClick(View v) {
 		if(v instanceof DatapathComponent && isInPerformanceMode()) {
 			DatapathComponent c = (DatapathComponent)v;
-			ChangeLatencyDialogFragment.newInstance(c.getComponent().getId()).show(activity.getFragmentManager(), "change-latency-dialog");
+			DlgChangeLatency.newInstance(c.getComponent().getId()).show(activity.getFragmentManager(), "change-latency-dialog");
 			return true;
 		}
 		else

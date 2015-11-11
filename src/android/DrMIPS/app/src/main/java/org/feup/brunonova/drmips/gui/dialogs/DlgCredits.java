@@ -25,29 +25,22 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import org.feup.brunonova.drmips.R;
+import org.feup.brunonova.drmips.simulator.AppInfo;
 
-public class ConfirmExitDialogFragment extends DialogFragment implements DialogInterface.OnClickListener {
+public class DlgCredits extends DialogFragment implements DialogInterface.OnClickListener {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		super.onCreateDialog(savedInstanceState);
 
 		return new AlertDialog.Builder(getActivity())
-			.setMessage(R.string.confirm_exit)
+			.setTitle(R.string.credits)
+			.setMessage(AppInfo.getAuthorsAsText())
 			.setPositiveButton(android.R.string.ok, this)
-			.setNegativeButton(android.R.string.cancel, this)
 			.create();
 	}
 
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
-		switch(which) {
-			case AlertDialog.BUTTON_POSITIVE: // OK
-				dismiss();
-				getActivity().finish();
-				break;
-			case AlertDialog.BUTTON_NEGATIVE: // Cancel
-				dismiss();
-				break;
-		}
+		dismiss();
 	}
 }
