@@ -196,16 +196,16 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 		refresh();
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onClick(View v) {
 		if(v instanceof DatapathComponent) {
 			DatapathComponent comp = (DatapathComponent)v;
-			DlgComponentDescription.newInstance(comp.getComponent().getId()).show(activity.getFragmentManager(), "component-description-dialog");
+			DlgComponentDescription.newInstance(comp.getComponent().getId(), isInPerformanceMode(),
+			                                    activity.getDatapathFormat()).show(activity.getFragmentManager(),
+			                                                                       "component-description-dialog");
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onLongClick(View v) {
 		if(v instanceof DatapathComponent && isInPerformanceMode()) {
