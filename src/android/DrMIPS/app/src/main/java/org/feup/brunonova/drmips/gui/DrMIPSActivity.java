@@ -30,10 +30,9 @@ import java.io.OutputStreamWriter;
 import java.util.Arrays;
 
 import org.feup.brunonova.drmips.R;
-import org.feup.brunonova.drmips.gui.dialogs.AboutDialogFragment;
-import org.feup.brunonova.drmips.gui.dialogs.ConfirmExitDialogFragment;
-import org.feup.brunonova.drmips.gui.dialogs.StatisticsDialogFragment;
-import org.feup.brunonova.drmips.simulator.AppInfo;
+import org.feup.brunonova.drmips.gui.dialogs.DlgAbout;
+import org.feup.brunonova.drmips.gui.dialogs.DlgConfirmExit;
+import org.feup.brunonova.drmips.gui.dialogs.DlgStatistics;
 import org.feup.brunonova.drmips.simulator.exceptions.InfiniteLoopException;
 import org.feup.brunonova.drmips.simulator.exceptions.InvalidCPUException;
 import org.feup.brunonova.drmips.simulator.exceptions.InvalidInstructionSetException;
@@ -50,7 +49,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -203,7 +201,7 @@ public class DrMIPSActivity extends Activity {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onBackPressed() {
-		new ConfirmExitDialogFragment().show(getFragmentManager(), "confirm-exit-dialog");
+		new DlgConfirmExit().show(getFragmentManager(), "confirm-exit-dialog");
 	}
 
 	@Override
@@ -458,7 +456,7 @@ public class DrMIPSActivity extends Activity {
 	}
 
 	public void mnuAboutOnClick(MenuItem menu) {
-		new AboutDialogFragment().show(getFragmentManager(), "about-dialog");
+		new DlgAbout().show(getFragmentManager(), "about-dialog");
 	}
 
 	public void mnuNewOnClick(MenuItem menu) {
@@ -591,7 +589,7 @@ public class DrMIPSActivity extends Activity {
 	
 	@SuppressWarnings("deprecation")
 	public void mnuStatisticsOnClick(MenuItem menu) {
-		new StatisticsDialogFragment().show(getFragmentManager(), "statistics-dialog");
+		new DlgStatistics().show(getFragmentManager(), "statistics-dialog");
 	}
 	
 	public void mnuRestartOnClick(MenuItem menu) {

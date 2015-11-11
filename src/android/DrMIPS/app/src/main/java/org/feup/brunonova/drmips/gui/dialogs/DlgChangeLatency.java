@@ -31,11 +31,11 @@ import org.feup.brunonova.drmips.R;
 import org.feup.brunonova.drmips.gui.DrMIPSActivity;
 import org.feup.brunonova.drmips.simulator.mips.Component;
 
-public class ChangeLatencyDialogFragment extends DialogFragment implements DialogInterface.OnClickListener {
+public class DlgChangeLatency extends DialogFragment implements DialogInterface.OnClickListener {
 	private EditText txtLatency;
 
-	public static ChangeLatencyDialogFragment newInstance(String componentId) {
-		ChangeLatencyDialogFragment dialog = new ChangeLatencyDialogFragment();
+	public static DlgChangeLatency newInstance(String componentId) {
+		DlgChangeLatency dialog = new DlgChangeLatency();
 		Bundle args = new Bundle();
 		args.putString("id", componentId);
 		dialog.setArguments(args);
