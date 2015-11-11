@@ -32,19 +32,13 @@ import org.feup.brunonova.drmips.gui.DrMIPSActivity;
 import org.feup.brunonova.drmips.simulator.mips.CPU;
 
 public class DlgStatistics extends DialogFragment implements DialogInterface.OnClickListener {
-	@Override
 	@SuppressLint("InflateParams")
+	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		super.onCreateDialog(savedInstanceState);
 
+		CPU cpu = ((DrMIPSActivity)getActivity()).getCPU();
 		View layout = getActivity().getLayoutInflater().inflate(R.layout.statistics_dialog, null);
-		AlertDialog dialog =  new AlertDialog.Builder(getActivity())
-			.setTitle(R.string.statistics)
-			.setView(layout)
-			.setPositiveButton(android.R.string.ok, this)
-			.create();
-
-		final CPU cpu = ((DrMIPSActivity)getActivity()).getCPU();
 		((TextView)layout.findViewById(R.id.lblClockPeriodVal)).setText(cpu.getClockPeriod() + " " + CPU.LATENCY_UNIT);
 		((TextView)layout.findViewById(R.id.lblClockFrequencyVal)).setText(cpu.getClockFrequencyInAdequateUnit());
 		((TextView)layout.findViewById(R.id.lblExecutedCyclesVal)).setText(cpu.getNumberOfExecutedCycles() + "");
@@ -54,7 +48,11 @@ public class DlgStatistics extends DialogFragment implements DialogInterface.OnC
 		((TextView)layout.findViewById(R.id.lblForwardsVal)).setText(cpu.getNumberOfForwards() + "");
 		((TextView)layout.findViewById(R.id.lblStallsVal)).setText(cpu.getNumberOfStalls() + "");
 
-		return dialog;
+		return new AlertDialog.Builder(getActivity())
+			.setTitle(R.string.statistics)
+			.setView(layout)
+			.setPositiveButton(android.R.string.ok, this)
+			.create();
 	}
 
 	@Override

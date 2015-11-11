@@ -89,7 +89,6 @@ public class DrMIPSActivity extends Activity {
 	public static final int EDIT_DATA_MEMORY_DIALOG = 6;
 	public static final int CODE_HELP_DIALOG = 7;
 	public static final int DATAPATH_HELP_DIALOG = 8;
-	public static final int COMPONENT_DESCRIPTION_DIALOG = 9;
 	
 	/** The file currently open (if <tt>null</tt> no file is open). */
 	private File openFile = null;
@@ -399,18 +398,6 @@ public class DrMIPSActivity extends Activity {
 					})
 					.create();
 				
-			case COMPONENT_DESCRIPTION_DIALOG:
-				return new AlertDialog.Builder(this)
-					.setTitle("Component description")
-					.setView(getLayoutInflater().inflate(R.layout.component_details, null))
-					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.dismiss();
-						}
-					})
-					.create();
-				
 			default: return null;
 		}
 	}
@@ -445,12 +432,6 @@ public class DrMIPSActivity extends Activity {
 				break;
 			case DATAPATH_HELP_DIALOG:
 				refreshDatapathHelp(dialog);
-				break;
-			case COMPONENT_DESCRIPTION_DIALOG:
-				if(args.containsKey("id") && datapath != null) {
-					DatapathComponent c = datapath.getComponent(args.getString("id"));
-					if(c != null) c.refreshDescriptionDialog(dialog);
-				}
 				break;
 		}
 	}
