@@ -18,13 +18,18 @@
 
 package org.feup.brunonova.drmips.gui;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import android.annotation.SuppressLint;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
+import android.graphics.Path;
+import android.view.View;
+import android.widget.RelativeLayout;
 
 import org.feup.brunonova.drmips.R;
 import org.feup.brunonova.drmips.gui.dialogs.DlgChangeLatency;
+import org.feup.brunonova.drmips.gui.dialogs.DlgComponentDescription;
 import org.feup.brunonova.drmips.simulator.mips.CPU;
 import org.feup.brunonova.drmips.simulator.mips.Component;
 import org.feup.brunonova.drmips.simulator.mips.Input;
@@ -36,15 +41,10 @@ import org.feup.brunonova.drmips.simulator.mips.components.Fork;
 import org.feup.brunonova.drmips.simulator.util.Dimension;
 import org.feup.brunonova.drmips.simulator.util.Point;
 
-import android.annotation.SuppressLint;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Paint.Style;
-import android.graphics.Path;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.RelativeLayout;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Special component that handles the display of the CPU datapath.
@@ -196,23 +196,12 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 		refresh();
 	}
 
-	/**
-	 * Returns the datapath component with the specified identifier.
-	 * @param id Identifier of the component.
-	 * @return The desired datapath component, or <tt>null</tt> if it doesn't exist.
-	 */
-	public DatapathComponent getComponent(String id) {
-		return components.get(id);
-	}
-
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onClick(View v) {
 		if(v instanceof DatapathComponent) {
 			DatapathComponent comp = (DatapathComponent)v;
-			Bundle args = new Bundle();
-			args.putString("id", comp.getComponent().getId());
-			activity.showDialog(DrMIPSActivity.COMPONENT_DESCRIPTION_DIALOG, args);
+			DlgComponentDescription.newInstance(comp.getComponent().getId()).show(activity.getFragmentManager(), "component-description-dialog");
 		}
 	}
 	
