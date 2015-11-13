@@ -31,9 +31,21 @@ import org.feup.brunonova.drmips.R;
 import org.feup.brunonova.drmips.gui.DrMIPSActivity;
 import org.feup.brunonova.drmips.simulator.mips.Component;
 
+/**
+ * Dialog fragment to change the latency of a component.
+ *
+ * Use the method {@link #newInstance} to create the dialog.
+ *
+ * @author Bruno Nova
+ */
 public class DlgChangeLatency extends DialogFragment implements DialogInterface.OnClickListener {
 	private EditText txtLatency;
 
+	/**
+	 * Creates a new dialog.
+	 * @param componentId The ID of the component.
+	 * @return The dialog.
+	 */
 	public static DlgChangeLatency newInstance(String componentId) {
 		DlgChangeLatency dialog = new DlgChangeLatency();
 		Bundle args = new Bundle();

@@ -28,7 +28,19 @@ import android.view.View;
 
 import org.feup.brunonova.drmips.R;
 
+/**
+ * Datapath Help dialog fragment.
+ *
+ * Use the method {@link #newInstance} to create the dialog.
+ *
+ * @author Bruno Nova
+ */
 public class DlgDatapathHelp extends DialogFragment implements DialogInterface.OnClickListener {
+	/**
+	 * Creates a new dialog.
+	 * @param performanceMode Whether the datapath is in performance mode.
+	 * @return The dialog
+	 */
 	public static DlgDatapathHelp newInstance(boolean performanceMode) {
 		DlgDatapathHelp dialog = new DlgDatapathHelp();
 		Bundle args = new Bundle();

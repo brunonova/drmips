@@ -29,7 +29,19 @@ import org.feup.brunonova.drmips.gui.DrMIPSActivity;
 
 import java.io.File;
 
+/**
+ * File replace confirmation dialog fragment.
+ *
+ * Use the method {@link #newInstance} to create the dialog.
+ *
+ * @author Bruno Nova
+ */
 public class DlgConfirmReplace extends DialogFragment implements DialogInterface.OnClickListener {
+	/**
+	 * Creates a new dialog.
+	 * @param path Path to the file to replace.
+	 * @return The dialog.
+	 */
 	public static DlgConfirmReplace newInstance(String path) {
 		DlgConfirmReplace dialog = new DlgConfirmReplace();
 		Bundle args = new Bundle();
@@ -64,6 +76,7 @@ public class DlgConfirmReplace extends DialogFragment implements DialogInterface
 					activity.saveFile(new File(path));
 				}
 				break;
+
 			case AlertDialog.BUTTON_NEGATIVE: // Cancel
 				dismiss();
 				break;

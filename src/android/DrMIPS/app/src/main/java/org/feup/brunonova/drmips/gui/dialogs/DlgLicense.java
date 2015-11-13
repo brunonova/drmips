@@ -27,7 +27,18 @@ import android.os.Bundle;
 import org.feup.brunonova.drmips.R;
 import org.feup.brunonova.drmips.simulator.AppInfo;
 
+/**
+ * License dialog fragment.
+ *
+ * Use the method {@link #newInstance} to create the dialog.
+ *
+ * @author Bruno Nova
+ */
 public class DlgLicense extends DialogFragment implements DialogInterface.OnClickListener {
+	/**
+	 * Creates a new dialog.
+	 * @return The dialog.
+	 */
 	public static DlgLicense newInstance() {
 		return new DlgLicense();
 	}

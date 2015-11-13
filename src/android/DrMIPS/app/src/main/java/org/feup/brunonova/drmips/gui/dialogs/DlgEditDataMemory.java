@@ -29,15 +29,28 @@ import android.widget.Toast;
 
 import org.feup.brunonova.drmips.R;
 import org.feup.brunonova.drmips.gui.DrMIPSActivity;
+import org.feup.brunonova.drmips.simulator.mips.Data;
 
+/**
+ * Dialog fragment to edit the value of a data memory address.
+ *
+ * Use the method {@link #newInstance} to create the dialog.
+ *
+ * @author Bruno Nova
+ */
 public class DlgEditDataMemory extends DialogFragment implements DialogInterface.OnClickListener {
 	private EditText txtDataMemoryValue;
 
-	public static DlgEditDataMemory newInstance(int index, int address, int value) {
+	/**
+	 * Creates a new dialog.
+	 * @param index Index of the memory address.
+	 * @param value The current value at the memory address.
+	 * @return The dialog.
+	 */
+	public static DlgEditDataMemory newInstance(int index, int value) {
 		DlgEditDataMemory dialog = new DlgEditDataMemory();
 		Bundle args = new Bundle();
 		args.putInt("index", index);
-		args.putInt("address", address);
 		args.putInt("value", value);
 		dialog.setArguments(args);
 		return dialog;
@@ -48,6 +61,7 @@ public class DlgEditDataMemory extends DialogFragment implements DialogInterface
 		super.onCreateDialog(savedInstanceState);
 
 		Bundle args = getArguments();
+		int address = args.getInt("index") * (Data.DATA_SIZE / 8);
 		txtDataMemoryValue = new EditText(getActivity());
 		txtDataMemoryValue.setHint(R.string.value);
 		txtDataMemoryValue.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
@@ -58,7 +72,7 @@ public class DlgEditDataMemory extends DialogFragment implements DialogInterface
 		}
 
 		return new AlertDialog.Builder(getActivity())
-			.setTitle(getString(R.string.edit_value).replace("#1", "" + args.getInt("address", 0)))
+			.setTitle(getString(R.string.edit_value).replace("#1", "" + address))
 			.setView(txtDataMemoryValue)
 			.setPositiveButton(android.R.string.ok, this)
 			.setNegativeButton(android.R.string.cancel, this)
@@ -94,6 +108,7 @@ public class DlgEditDataMemory extends DialogFragment implements DialogInterface
 					}
 				}
 				break;
+
 			case AlertDialog.BUTTON_NEGATIVE: // Cancel
 				dismiss();
 				break;
