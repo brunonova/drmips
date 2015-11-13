@@ -26,7 +26,18 @@ import android.os.Bundle;
 
 import org.feup.brunonova.drmips.R;
 
+/**
+ * Exit confirmation dialog fragment.
+ *
+ * Use the method {@link #newInstance} to create the dialog.
+ *
+ * @author Bruno Nova
+ */
 public class DlgConfirmExit extends DialogFragment implements DialogInterface.OnClickListener {
+	/**
+	 * Creates a new dialog.
+	 * @return The dialog.
+	 */
 	public static DlgConfirmExit newInstance() {
 		return new DlgConfirmExit();
 	}

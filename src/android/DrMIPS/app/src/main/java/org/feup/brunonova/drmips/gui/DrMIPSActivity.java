@@ -506,7 +506,7 @@ public class DrMIPSActivity extends Activity {
 	 */
 	private void deleteFile() {
 		if(openFile != null) {
-			DlgConfirmDelete.newInstance(openFile).show(getFragmentManager(), "confirm-delete-dialog");
+			DlgConfirmDelete.newInstance(openFile.getPath()).show(getFragmentManager(), "confirm-delete-dialog");
 		}
 	}
 	
@@ -1203,9 +1203,8 @@ public class DrMIPSActivity extends Activity {
 		public boolean onLongClick(View v) {
 			int index = tblDataMemory.indexOfChild(v) - 1;
 			if(index >= 0 && index < getCPU().getDataMemory().getMemorySize()) {
-				int address = index * (Data.DATA_SIZE / 8);
 				int value = getCPU().getDataMemory().getDataInIndex(index);
-				DlgEditDataMemory.newInstance(index, address, value).show(getFragmentManager(), "edit-data-memory-dialog");
+				DlgEditDataMemory.newInstance(index, value).show(getFragmentManager(), "edit-data-memory-dialog");
 			}
 			return true;
 		}

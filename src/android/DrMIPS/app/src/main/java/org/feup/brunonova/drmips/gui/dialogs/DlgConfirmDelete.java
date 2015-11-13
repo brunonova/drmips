@@ -30,11 +30,23 @@ import org.feup.brunonova.drmips.gui.DrMIPSActivity;
 
 import java.io.File;
 
+/**
+ * File deletion confirmation dialog fragment.
+ *
+ * Use the method {@link #newInstance} to create the dialog.
+ *
+ * @author Bruno Nova
+ */
 public class DlgConfirmDelete extends DialogFragment implements DialogInterface.OnClickListener {
-	public static DlgConfirmDelete newInstance(File file) {
+	/**
+	 * Creates a new dialog.
+	 * @param path Path of the file to delete.
+	 * @return The dialog.
+	 */
+	public static DlgConfirmDelete newInstance(String path) {
 		DlgConfirmDelete dialog = new DlgConfirmDelete();
 		Bundle args = new Bundle();
-		args.putString("path", file.getPath());
+		args.putString("path", path);
 		dialog.setArguments(args);
 		return dialog;
 	}
@@ -71,6 +83,7 @@ public class DlgConfirmDelete extends DialogFragment implements DialogInterface.
 						Toast.makeText(getActivity(), R.string.error_deleting_file, Toast.LENGTH_SHORT).show();
 				}
 				break;
+
 			case AlertDialog.BUTTON_NEGATIVE: // Cancel
 				dismiss();
 				break;

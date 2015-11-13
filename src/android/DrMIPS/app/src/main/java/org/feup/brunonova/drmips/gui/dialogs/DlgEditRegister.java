@@ -30,9 +30,23 @@ import android.widget.Toast;
 import org.feup.brunonova.drmips.R;
 import org.feup.brunonova.drmips.gui.DrMIPSActivity;
 
+/**
+ * Dialog fragment to edit the value of a register.
+ *
+ * Use the method {@link #newInstance} to create the dialog.
+ *
+ * @author Bruno Nova
+ */
 public class DlgEditRegister extends DialogFragment implements DialogInterface.OnClickListener {
 	private EditText txtRegisterValue;
 
+	/**
+	 * Creates a new dialog.
+	 * @param index The index of the register.
+	 * @param name The name of the register.
+	 * @param value The current value at the register.
+	 * @return The dialog.
+	 */
 	public static DlgEditRegister newInstance(int index, String name, int value) {
 		DlgEditRegister dialog = new DlgEditRegister();
 		Bundle args = new Bundle();
@@ -92,6 +106,7 @@ public class DlgEditRegister extends DialogFragment implements DialogInterface.O
 					}
 				}
 				break;
+
 			case AlertDialog.BUTTON_NEGATIVE: // Cancel
 				dismiss();
 				break;

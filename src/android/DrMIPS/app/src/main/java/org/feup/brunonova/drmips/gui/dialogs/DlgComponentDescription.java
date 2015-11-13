@@ -42,7 +42,21 @@ import org.feup.brunonova.drmips.simulator.mips.Output;
 import org.feup.brunonova.drmips.simulator.mips.components.ALU;
 import org.feup.brunonova.drmips.simulator.mips.components.ExtendedALU;
 
+/**
+ * Dialog fragment to view the description of a component.
+ *
+ * Use the method {@link #newInstance} to create the dialog.
+ *
+ * @author Bruno Nova
+ */
 public class DlgComponentDescription extends DialogFragment implements DialogInterface.OnClickListener {
+	/**
+	 * Creates a new dialog
+	 * @param componentId The ID of the component.
+	 * @param performanceMode Whether the datapath is in performance mode.
+	 * @param datapathFormat The data format that the datapath is currently in.
+	 * @return The dialog.
+	 */
 	public static DlgComponentDescription newInstance(String componentId, boolean performanceMode, int datapathFormat) {
 		DlgComponentDescription dialog = new DlgComponentDescription();
 		Bundle args = new Bundle();

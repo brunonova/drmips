@@ -30,7 +30,19 @@ import org.feup.brunonova.drmips.gui.DrMIPSActivity;
 
 import java.io.File;
 
+/**
+ * File Open dialog fragment.
+ *
+ * Use the method {@link #newInstance} to create the dialog.
+ *
+ * @author Bruno Nova
+ */
 public class DlgOpen extends DialogFragment implements DialogInterface.OnClickListener {
+	/**
+	 * Creates a new dialog.
+	 * @param files The names of the files that exist.
+	 * @return The dialog.
+	 */
 	public static DlgOpen newInstance(String[] files) {
 		DlgOpen dialog = new DlgOpen();
 		Bundle args = new Bundle();

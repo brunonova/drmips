@@ -31,7 +31,18 @@ import org.feup.brunonova.drmips.R;
 import org.feup.brunonova.drmips.gui.DrMIPSActivity;
 import org.feup.brunonova.drmips.simulator.mips.CPU;
 
+/**
+ * Statistics dialog fragment.
+ *
+ * Use the method {@link #newInstance} to create the dialog.
+ *
+ * @author Bruno Nova
+ */
 public class DlgStatistics extends DialogFragment implements DialogInterface.OnClickListener {
+	/**
+	 * Creates a new dialog.
+	 * @return The dialog.
+	 */
 	public static DlgStatistics newInstance() {
 		return new DlgStatistics();
 	}

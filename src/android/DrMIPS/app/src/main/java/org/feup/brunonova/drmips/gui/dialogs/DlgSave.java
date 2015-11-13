@@ -31,9 +31,21 @@ import org.feup.brunonova.drmips.gui.DrMIPSActivity;
 
 import java.io.File;
 
+/**
+ * File Save dialog fragment.
+ *
+ * Use the method {@link #newInstance} to create the dialog.
+ *
+ * @author Bruno Nova
+ */
 public class DlgSave extends DialogFragment implements DialogInterface.OnClickListener {
 	private EditText txtFilename;
 
+	/**
+	 * Creates a new dialog.
+	 * @param name Current name of the file (an empty String if this isn't an existing file).
+	 * @return The dialog.
+	 */
 	public static DlgSave newInstance(String name) {
 		DlgSave dialog = new DlgSave();
 		Bundle args = new Bundle();
@@ -85,6 +97,7 @@ public class DlgSave extends DialogFragment implements DialogInterface.OnClickLi
 					}
 				}
 				break;
+
 			case AlertDialog.BUTTON_NEGATIVE: // Cancel
 				dismiss();
 				break;

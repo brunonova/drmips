@@ -35,7 +35,18 @@ import org.feup.brunonova.drmips.simulator.mips.CPU;
 import org.feup.brunonova.drmips.simulator.mips.Instruction;
 import org.feup.brunonova.drmips.simulator.mips.PseudoInstruction;
 
+/**
+ * Code Help dialog fragment.
+ *
+ * Use the method {@link #newInstance} to create the dialog.
+ *
+ * @author Bruno Nova
+ */
 public class DlgCodeHelp extends DialogFragment implements DialogInterface.OnClickListener {
+	/**
+	 * Creates a new dialog.
+	 * @return The dialog
+	 */
 	public static DlgCodeHelp newInstance() {
 		return new DlgCodeHelp();
 	}
