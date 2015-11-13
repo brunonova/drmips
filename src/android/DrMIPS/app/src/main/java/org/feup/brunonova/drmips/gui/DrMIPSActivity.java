@@ -18,19 +18,13 @@
 
 package org.feup.brunonova.drmips.gui;
 
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextUtils.TruncateAt;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -57,9 +51,12 @@ import android.widget.Toast;
 import org.feup.brunonova.drmips.R;
 import org.feup.brunonova.drmips.gui.dialogs.DlgAbout;
 import org.feup.brunonova.drmips.gui.dialogs.DlgCodeHelp;
+import org.feup.brunonova.drmips.gui.dialogs.DlgConfirmDelete;
 import org.feup.brunonova.drmips.gui.dialogs.DlgConfirmExit;
 import org.feup.brunonova.drmips.gui.dialogs.DlgDatapathHelp;
 import org.feup.brunonova.drmips.gui.dialogs.DlgEditDataMemory;
+import org.feup.brunonova.drmips.gui.dialogs.DlgEditRegister;
+import org.feup.brunonova.drmips.gui.dialogs.DlgSave;
 import org.feup.brunonova.drmips.gui.dialogs.DlgStatistics;
 import org.feup.brunonova.drmips.simulator.exceptions.InfiniteLoopException;
 import org.feup.brunonova.drmips.simulator.exceptions.InvalidCPUException;
@@ -82,16 +79,8 @@ import java.io.OutputStreamWriter;
 import java.util.Arrays;
 
 public class DrMIPSActivity extends Activity {
-	// Identifiers of the dialogs
-	public static final int SAVE_DIALOG = 2;
-	public static final int CONFIRM_REPLACE_DIALOG = 3;
-	public static final int CONFIRM_DELETE_DIALOG = 4;
-	public static final int EDIT_REGISTER_DIALOG = 5;
-	
 	/** The file currently open (if <tt>null</tt> no file is open). */
 	private File openFile = null;
-	/** Temporary File representation of the file to save, for the "confirm replace" dialog. */
-	private File fileToSave = null;
 	/** Temporary list of the names of the code files that can be opened. */
 	private String[] codeFiles = null;
 	/** Temporary list of the names of the CPU files that can be opened. */
@@ -106,13 +95,11 @@ public class DrMIPSActivity extends Activity {
 	private DataMemoryRowOnLongClickListener dataMemoryRowOnLongClickListener = new DataMemoryRowOnLongClickListener();
 	/** Listener that handles changes on the spinners. */
 	private SpinnersListener spinnersListener = new SpinnersListener();
-	/** Temporary index of the register/memory position to edit (for the edit alert dialog). */
-	private int editIndex = 0;
 	/** The datapath being shown. */
 	private Datapath datapath = null;
 	
 	private TabHost tabHost;
-	private EditText txtCode, txtFilename, txtRegisterValue;
+	private EditText txtCode;
 	private TextView lblFilename, lblCPUFilename, lblDatapathFormat, lblDatapathPerformance;
 	private MenuItem mnuDelete = null, mnuStep = null, mnuBackStep = null, mnuControlPath = null,
 	                 mnuArrowsInWires = null, mnuPerformanceMode = null, mnuOverlayedData = null,
@@ -189,8 +176,6 @@ public class DrMIPSActivity extends Activity {
 		if(outState != null) {
 			outState.putBoolean("step_enabled", cmdStep.getVisibility() == View.VISIBLE); // save simulation controls state
 			outState.putInt("tab", tabHost.getCurrentTab()); // save current tab
-			if(fileToSave != null) outState.putSerializable("fileToSave", fileToSave);
-			outState.putInt("editIndex", editIndex);
 		}
 		super.onSaveInstanceState(outState);
 	}
@@ -219,149 +204,8 @@ public class DrMIPSActivity extends Activity {
 			refreshAssembledCodeTable();
 			refreshRegistersTable();
 			refreshDataMemoryTable();
-			
-			fileToSave = (File)savedInstanceState.getSerializable("fileToSave");
-			editIndex = savedInstanceState.getInt("editIndex", 0);
 		}
 		super.onRestoreInstanceState(savedInstanceState);
-	}
-	
-	@Override
-	protected Dialog onCreateDialog(int id, Bundle args) {
-		switch(id) {
-			case SAVE_DIALOG:
-				txtFilename = new EditText(this);
-				txtFilename.setHint(R.string.filename);
-				return new AlertDialog.Builder(this)
-					.setTitle(R.string.save_as)
-					.setView(txtFilename)
-					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-						@SuppressWarnings("deprecation")
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							String path = txtFilename.getText().toString().trim();
-							if(!path.isEmpty()) { // save the file
-								if(!path.contains(".")) path += ".asm"; // append extension if missing
-								File file = new File(DrMIPS.getApplication().getCodeDir().getAbsolutePath() + File.separator + path);
-								
-								if(!file.exists()) // new file
-									saveFile(file);
-								else { // file exists
-									fileToSave = file;
-									showDialog(CONFIRM_REPLACE_DIALOG);
-								}
-							}
-						}
-					})
-					.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.dismiss();
-						}
-					})
-					.create();
-				
-			case CONFIRM_REPLACE_DIALOG:
-				return new AlertDialog.Builder(this)
-					.setMessage("Replace?")
-					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							saveFile(fileToSave);
-						}
-					})
-					.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.dismiss();
-						}
-					})
-					.create();
-				
-			case CONFIRM_DELETE_DIALOG:
-				return new AlertDialog.Builder(this)
-					.setTitle(R.string.delete)
-					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							if(openFile != null && openFile.exists()) {
-								if(openFile.delete()) {
-									Toast.makeText(DrMIPSActivity.this, R.string.file_deleted, Toast.LENGTH_SHORT).show();
-									newFile();
-								}
-								else
-									Toast.makeText(DrMIPSActivity.this, R.string.error_deleting_file, Toast.LENGTH_SHORT).show();
-							}
-						}
-					})
-					.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.dismiss();
-						}
-					})
-					.create();
-				
-			case EDIT_REGISTER_DIALOG:
-				txtRegisterValue = new EditText(this);
-				txtRegisterValue.setHint(R.string.value);
-				txtRegisterValue.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-				return new AlertDialog.Builder(this)
-					.setTitle("Edit register")
-					.setView(txtRegisterValue)
-					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							String value = txtRegisterValue.getText().toString().trim();
-							int val;
-							if(!value.isEmpty()) {
-								try {
-									if(editIndex >= 0 && editIndex <= getCPU().getRegBank().getNumberOfRegisters()) {
-										val = Integer.parseInt(value);
-										setRegisterValue(editIndex, val);
-										refreshRegistersTableValues();
-									}
-								}
-								catch(NumberFormatException ex) {
-									Toast.makeText(DrMIPSActivity.this, R.string.invalid_value, Toast.LENGTH_SHORT).show();
-								}
-							}
-						}
-					})
-					.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.dismiss();
-						}
-					})
-					.create();
-				
-			default: return null;
-		}
-	}
-	
-	@SuppressWarnings("deprecation")
-	@SuppressLint("CutPasteId")
-	@Override
-	protected void onPrepareDialog(int id, Dialog dialog, Bundle args) {
-		super.onPrepareDialog(id, dialog, args);
-		switch(id) {
-			case SAVE_DIALOG:
-				txtFilename.setText(openFile != null ? openFile.getName() : "");
-				break;
-			case CONFIRM_REPLACE_DIALOG:
-				if(fileToSave != null)
-					((AlertDialog)dialog).setMessage(getString(R.string.confirm_replace).replace("#1", fileToSave.getName()));
-				break;
-			case CONFIRM_DELETE_DIALOG:
-				if(openFile != null)
-					((AlertDialog)dialog).setMessage(getString(R.string.confirm_delete).replace("#1", openFile.getName()));
-				break;
-			case EDIT_REGISTER_DIALOG:
-				dialog.setTitle(getString(R.string.edit_value).replace("#1", args.containsKey("name") ? args.getString("name") : CPU.REGISTER_PREFIX + "" + editIndex));
-				txtRegisterValue.setText("" + args.getInt("value", 0));
-				break;
-		}
 	}
 
 	public void mnuAboutOnClick(MenuItem menu) {
@@ -404,7 +248,6 @@ public class DrMIPSActivity extends Activity {
 		backStep();
 	}
 	
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public void mnuSwitchThemeOnClick(MenuItem menu) {
 		int newTheme;
 		if(DrMIPS.getApplication().getCurrentTheme() == R.style.LightTheme)
@@ -418,13 +261,7 @@ public class DrMIPSActivity extends Activity {
 		editor.apply();
 		
 		// Restart the activity
-		if(Build.VERSION.SDK_INT >= 11)
-			recreate();
-		else {
-			Intent intent = getIntent();
-			finish();
-			startActivity(intent);
-		}
+		recreate();
 	}
 
 	public void cmdNewOnClick(View view) {
@@ -630,7 +467,7 @@ public class DrMIPSActivity extends Activity {
 	/**
 	 * Clears the code editor.
 	 */
-	private void newFile() {
+	public void newFile() {
 		txtCode.setText("");
 		setOpenedFile(null);
 	}
@@ -677,18 +514,16 @@ public class DrMIPSActivity extends Activity {
 	/**
 	 * Shows the file chooser to save the code to a file.
 	 */
-	@SuppressWarnings("deprecation")
 	private void saveFileAs() {
-		showDialog(SAVE_DIALOG);
+		DlgSave.newInstance(openFile != null ? openFile.getName() : "").show(getFragmentManager(), "save-dialog");
 	}
 	
 	/**
 	 * Deletes the currently open file, after confirmation.
 	 */
-	@SuppressWarnings("deprecation")
 	private void deleteFile() {
 		if(openFile != null) {
-			showDialog(CONFIRM_DELETE_DIALOG);
+			DlgConfirmDelete.newInstance(openFile).show(getFragmentManager(), "confirm-delete-dialog");
 		}
 	}
 	
@@ -757,7 +592,7 @@ public class DrMIPSActivity extends Activity {
 	 * Saves the code to the specified file.
 	 * @param file File to save to.
 	 */
-	private void saveFile(File file) {
+	public void saveFile(File file) {
 		try {
 			BufferedWriter writer;
 			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF8"));
@@ -1096,7 +931,7 @@ public class DrMIPSActivity extends Activity {
 	/**
 	 * Refreshes the values of the registers table.
 	 */
-	private void refreshRegistersTableValues() {
+	public void refreshRegistersTableValues() {
 		CPU cpu = getCPU();
 		int numRegs = cpu.getRegBank().getNumberOfRegisters();
 		TextView value;
@@ -1233,7 +1068,7 @@ public class DrMIPSActivity extends Activity {
 	 * @param row Row of the register in the table.
 	 * @param value New value of the register.
 	 */
-	private void setRegisterValue(int row, int value) {
+	public void setRegisterValue(int row, int value) {
 		CPU cpu = getCPU();
 		if(isRegisterEditable(row)) {
 			if(row == cpu.getRegBank().getNumberOfRegisters()) { // PC
@@ -1375,7 +1210,6 @@ public class DrMIPSActivity extends Activity {
 	}
 	
 	private class RegistersRowOnLongClickListener implements OnLongClickListener {
-		@SuppressWarnings("deprecation")
 		@Override
 		public boolean onLongClick(View v) {
 			int index = tblRegisters.indexOfChild(v) - 1;
@@ -1383,12 +1217,8 @@ public class DrMIPSActivity extends Activity {
 				String name = getRegisterName(index);
 				if(isRegisterEditable(index)) {
 					Data data = getRegisterData(index);
-					
-					editIndex = index;
-					Bundle args = new Bundle();
-					args.putString("name", name);
-					args.putInt("value", data.getValue());
-					showDialog(EDIT_REGISTER_DIALOG, args);
+					int value = data != null ? data.getValue() : 0;
+					DlgEditRegister.newInstance(index, name, value).show(getFragmentManager(), "edit-register-dialog");
 				}
 				else
 					Toast.makeText(DrMIPSActivity.this, getString(R.string.register_not_editable).replace("#1", name), Toast.LENGTH_SHORT).show();
