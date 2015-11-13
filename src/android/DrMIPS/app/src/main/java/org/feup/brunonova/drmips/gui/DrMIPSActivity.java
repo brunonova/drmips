@@ -19,8 +19,6 @@
 package org.feup.brunonova.drmips.gui;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -56,6 +54,8 @@ import org.feup.brunonova.drmips.gui.dialogs.DlgConfirmExit;
 import org.feup.brunonova.drmips.gui.dialogs.DlgDatapathHelp;
 import org.feup.brunonova.drmips.gui.dialogs.DlgEditDataMemory;
 import org.feup.brunonova.drmips.gui.dialogs.DlgEditRegister;
+import org.feup.brunonova.drmips.gui.dialogs.DlgOpen;
+import org.feup.brunonova.drmips.gui.dialogs.DlgOpenCPU;
 import org.feup.brunonova.drmips.gui.dialogs.DlgSave;
 import org.feup.brunonova.drmips.gui.dialogs.DlgStatistics;
 import org.feup.brunonova.drmips.simulator.exceptions.InfiniteLoopException;
@@ -81,10 +81,6 @@ import java.util.Arrays;
 public class DrMIPSActivity extends Activity {
 	/** The file currently open (if <tt>null</tt> no file is open). */
 	private File openFile = null;
-	/** Temporary list of the names of the code files that can be opened. */
-	private String[] codeFiles = null;
-	/** Temporary list of the names of the CPU files that can be opened. */
-	private String[] cpuFiles = null;
 	/** The filter to select only .cpu files. */
 	private CPUFileFilter cpuFileFilter = new CPUFileFilter();
 	/** On click listener handler for the assembled code table rows. */
@@ -480,24 +476,11 @@ public class DrMIPSActivity extends Activity {
 		if(files == null || files.length == 0)
 			Toast.makeText(this, R.string.no_files_to_open, Toast.LENGTH_SHORT).show();
 		else {
-			codeFiles = new String[files.length];
+			String[] codeFiles = new String[files.length];
 			for(int i = 0; i < files.length; i++)
 				codeFiles[i] = files[i].getName();
 			Arrays.sort(codeFiles);
-			(new AlertDialog.Builder(this))
-				.setTitle(R.string.open)
-				.setItems(codeFiles, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						if(which >= 0 && which < codeFiles.length) {
-							String name = codeFiles[which];
-							File file = new File(DrMIPS.getApplication().getCodeDir() + File.separator + name);
-							openFile(file);
-						}
-						dialog.dismiss();
-					}
-				})
-				.create().show();
+			DlgOpen.newInstance(codeFiles).show(getFragmentManager(), "open-dialog");
 		}
 	}
 
@@ -535,31 +518,11 @@ public class DrMIPSActivity extends Activity {
 		if(files == null || files.length == 0)
 			Toast.makeText(this, R.string.no_files_to_open, Toast.LENGTH_SHORT).show();
 		else {
-			cpuFiles = new String[files.length];
+			String[] cpuFiles = new String[files.length];
 			for(int i = 0; i < files.length; i++)
 				cpuFiles[i] = files[i].getName();
 			Arrays.sort(cpuFiles);
-			(new AlertDialog.Builder(this))
-				.setTitle(R.string.load_cpu)
-				.setItems(cpuFiles, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						if(which >= 0 && which < cpuFiles.length) {
-							String name = cpuFiles[which];
-							File file = new File(DrMIPS.getApplication().getCPUDir() + File.separator + name);
-							try {
-								loadCPU(file);
-								tabHost.setCurrentTabByTag("tabDatapath");
-							}
-							catch(Throwable ex) {
-								Toast.makeText(DrMIPSActivity.this, getString(R.string.invalid_file) + "\n" + ex.getClass().getName() + " (" + ex.getMessage() + ")", Toast.LENGTH_LONG).show();
-								Log.e(DrMIPSActivity.class.getName(), "error loading CPU \"" + file.getName() + "\"", ex);
-							}
-						}
-						dialog.dismiss();
-					}
-				})
-				.create().show();
+			DlgOpenCPU.newInstance(cpuFiles).show(getFragmentManager(), "open-cpu-dialog");
 		}
 	}
 	
@@ -567,7 +530,7 @@ public class DrMIPSActivity extends Activity {
 	 * Opens and loads the code from the given file.
 	 * @param file The file to open.
 	 */
-	private void openFile(File file) {
+	public void openFile(File file) {
 		try {
 			String code = "", line;
 			
@@ -612,7 +575,7 @@ public class DrMIPSActivity extends Activity {
 	 * Loads the CPU from the specified file.
 	 * @param file File to load the CPU from.
 	 */
-	private void loadCPU(File file) throws ArrayIndexOutOfBoundsException, NumberFormatException, IOException, JSONException, InvalidCPUException, InvalidInstructionSetException {
+	public void loadCPU(File file) throws ArrayIndexOutOfBoundsException, NumberFormatException, IOException, JSONException, InvalidCPUException, InvalidInstructionSetException {
 		setSimulationControlsEnabled(false);
 		CPU cpu = CPU.createFromJSONFile(file.getAbsolutePath()); // load CPU from file
 		cpu.setPerformanceInstructionDependent(cmbDatapathPerformance.getSelectedItemPosition() == Util.INSTRUCTION_PERFORMANCE_TYPE_INDEX);
@@ -651,6 +614,14 @@ public class DrMIPSActivity extends Activity {
 				finish();
 			}
 		}
+	}
+
+	/**
+	 * Sets the current tab to the specified one.
+	 * @param tag Tag of the desired tab.
+	 */
+	public void setCurrentTab(String tag) {
+		tabHost.setCurrentTabByTag(tag);
 	}
 	
 	/**

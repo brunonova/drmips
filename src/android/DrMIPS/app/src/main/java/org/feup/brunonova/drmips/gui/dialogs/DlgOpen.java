@@ -23,18 +23,18 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import org.feup.brunonova.drmips.R;
+import org.feup.brunonova.drmips.gui.DrMIPS;
 import org.feup.brunonova.drmips.gui.DrMIPSActivity;
 
 import java.io.File;
 
-public class DlgConfirmDelete extends DialogFragment implements DialogInterface.OnClickListener {
-	public static DlgConfirmDelete newInstance(File file) {
-		DlgConfirmDelete dialog = new DlgConfirmDelete();
+public class DlgOpen extends DialogFragment implements DialogInterface.OnClickListener {
+	public static DlgOpen newInstance(String[] files) {
+		DlgOpen dialog = new DlgOpen();
 		Bundle args = new Bundle();
-		args.putString("path", file.getPath());
+		args.putStringArray("files", files);
 		dialog.setArguments(args);
 		return dialog;
 	}
@@ -44,36 +44,26 @@ public class DlgConfirmDelete extends DialogFragment implements DialogInterface.
 		super.onCreateDialog(savedInstanceState);
 
 		Bundle args = getArguments();
-		String path = args.getString("path");
-		String name = path != null ? new File(path).getName() : "?";
+		String[] files = args.containsKey("files") ? args.getStringArray("files") : new String[] {};
 
 		return new AlertDialog.Builder(getActivity())
-			.setMessage(getString(R.string.confirm_delete).replace("#1", name))
-			.setPositiveButton(android.R.string.ok, this)
-			.setNegativeButton(android.R.string.cancel, this)
+			.setTitle(R.string.open)
+			.setItems(files, this)
 			.create();
 	}
 
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
-		switch(which) {
-			case AlertDialog.BUTTON_POSITIVE: // OK
-				Bundle args = getArguments();
-				DrMIPSActivity activity = (DrMIPSActivity)getActivity();
-				String path = args.getString("path");
-				File file;
+		Bundle args = getArguments();
+		DrMIPSActivity activity = (DrMIPSActivity)getActivity();
+		String[] files = args.containsKey("files") ? args.getStringArray("files") : new String[] {};
 
-				if(path != null && (file = new File(path)).exists()) {
-					if(file.delete()) {
-						Toast.makeText(getActivity(), R.string.file_deleted, Toast.LENGTH_SHORT).show();
-						activity.newFile();
-					} else
-						Toast.makeText(getActivity(), R.string.error_deleting_file, Toast.LENGTH_SHORT).show();
-				}
-				break;
-			case AlertDialog.BUTTON_NEGATIVE: // Cancel
-				dismiss();
-				break;
+		if(files != null && which >= 0 && which < files.length) {
+			String name = files[which];
+			File file = new File(DrMIPS.getApplication().getCodeDir() + File.separator + name);
+			activity.openFile(file);
 		}
+
+		dialog.dismiss();
 	}
 }
