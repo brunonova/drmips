@@ -28,6 +28,10 @@ import org.feup.brunonova.drmips.R;
 import org.feup.brunonova.drmips.simulator.AppInfo;
 
 public class DlgCredits extends DialogFragment implements DialogInterface.OnClickListener {
+	public static DlgCredits newInstance() {
+		return new DlgCredits();
+	}
+
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		super.onCreateDialog(savedInstanceState);

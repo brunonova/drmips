@@ -178,7 +178,7 @@ public class DrMIPSActivity extends Activity {
 	
 	@Override
 	public void onBackPressed() {
-		new DlgConfirmExit().show(getFragmentManager(), "confirm-exit-dialog");
+		DlgConfirmExit.newInstance().show(getFragmentManager(), "confirm-exit-dialog");
 	}
 
 	@Override
@@ -205,7 +205,7 @@ public class DrMIPSActivity extends Activity {
 	}
 
 	public void mnuAboutOnClick(MenuItem menu) {
-		new DlgAbout().show(getFragmentManager(), "about-dialog");
+		DlgAbout.newInstance().show(getFragmentManager(), "about-dialog");
 	}
 
 	public void mnuNewOnClick(MenuItem menu) {
@@ -330,7 +330,7 @@ public class DrMIPSActivity extends Activity {
 	}
 	
 	public void mnuStatisticsOnClick(MenuItem menu) {
-		new DlgStatistics().show(getFragmentManager(), "statistics-dialog");
+		DlgStatistics.newInstance().show(getFragmentManager(), "statistics-dialog");
 	}
 	
 	public void mnuRestartOnClick(MenuItem menu) {
@@ -351,7 +351,7 @@ public class DrMIPSActivity extends Activity {
 	}
 	
 	public void cmdCodeHelpOnClick(View view) {
-		new DlgCodeHelp().show(getFragmentManager(), "code-help-dialog");
+		DlgCodeHelp.newInstance().show(getFragmentManager(), "code-help-dialog");
 	}
 	
 	public void cmdDatapathHelpOnClick(View view) {

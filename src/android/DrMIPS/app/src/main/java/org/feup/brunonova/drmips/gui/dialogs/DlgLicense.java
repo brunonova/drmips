@@ -28,6 +28,10 @@ import org.feup.brunonova.drmips.R;
 import org.feup.brunonova.drmips.simulator.AppInfo;
 
 public class DlgLicense extends DialogFragment implements DialogInterface.OnClickListener {
+	public static DlgLicense newInstance() {
+		return new DlgLicense();
+	}
+
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		super.onCreateDialog(savedInstanceState);

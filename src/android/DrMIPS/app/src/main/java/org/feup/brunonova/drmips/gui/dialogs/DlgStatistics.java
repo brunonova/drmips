@@ -32,6 +32,10 @@ import org.feup.brunonova.drmips.gui.DrMIPSActivity;
 import org.feup.brunonova.drmips.simulator.mips.CPU;
 
 public class DlgStatistics extends DialogFragment implements DialogInterface.OnClickListener {
+	public static DlgStatistics newInstance() {
+		return new DlgStatistics();
+	}
+
 	@SuppressLint("InflateParams")
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
