@@ -27,6 +27,10 @@ import android.os.Bundle;
 import org.feup.brunonova.drmips.R;
 
 public class DlgConfirmExit extends DialogFragment implements DialogInterface.OnClickListener {
+	public static DlgConfirmExit newInstance() {
+		return new DlgConfirmExit();
+	}
+
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		super.onCreateDialog(savedInstanceState);

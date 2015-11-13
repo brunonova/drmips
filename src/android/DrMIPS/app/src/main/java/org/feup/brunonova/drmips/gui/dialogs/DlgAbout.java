@@ -28,6 +28,10 @@ import org.feup.brunonova.drmips.R;
 import org.feup.brunonova.drmips.simulator.AppInfo;
 
 public class DlgAbout extends DialogFragment implements DialogInterface.OnClickListener {
+	public static DlgAbout newInstance() {
+		return new DlgAbout();
+	}
+
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		super.onCreateDialog(savedInstanceState);
@@ -52,10 +56,10 @@ public class DlgAbout extends DialogFragment implements DialogInterface.OnClickL
 				dismiss();
 				break;
 			case AlertDialog.BUTTON_NEUTRAL: // License
-				new DlgLicense().show(getFragmentManager(), "license-dialog");
+				DlgLicense.newInstance().show(getFragmentManager(), "license-dialog");
 				break;
 			case AlertDialog.BUTTON_NEGATIVE: // Credits
-				new DlgCredits().show(getFragmentManager(), "credits-dialog");
+				DlgCredits.newInstance().show(getFragmentManager(), "credits-dialog");
 				break;
 		}
 	}

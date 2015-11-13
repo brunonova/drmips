@@ -36,6 +36,10 @@ import org.feup.brunonova.drmips.simulator.mips.Instruction;
 import org.feup.brunonova.drmips.simulator.mips.PseudoInstruction;
 
 public class DlgCodeHelp extends DialogFragment implements DialogInterface.OnClickListener {
+	public static DlgCodeHelp newInstance() {
+		return new DlgCodeHelp();
+	}
+
 	@SuppressLint("InflateParams")
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
