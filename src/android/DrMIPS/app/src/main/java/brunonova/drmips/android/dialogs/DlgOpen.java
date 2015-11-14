@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.feup.brunonova.drmips.gui.dialogs;
+package brunonova.drmips.android.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -24,45 +24,58 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
-import org.feup.brunonova.drmips.R;
+import brunonova.drmips.android.R;
+import brunonova.drmips.android.DrMIPS;
+import brunonova.drmips.android.DrMIPSActivity;
+
+import java.io.File;
 
 /**
- * Exit confirmation dialog fragment.
+ * File Open dialog fragment.
  *
  * Use the method {@link #newInstance} to create the dialog.
  *
  * @author Bruno Nova
  */
-public class DlgConfirmExit extends DialogFragment implements DialogInterface.OnClickListener {
+public class DlgOpen extends DialogFragment implements DialogInterface.OnClickListener {
 	/**
 	 * Creates a new dialog.
+	 * @param files The names of the files that exist.
 	 * @return The dialog.
 	 */
-	public static DlgConfirmExit newInstance() {
-		return new DlgConfirmExit();
+	public static DlgOpen newInstance(String[] files) {
+		DlgOpen dialog = new DlgOpen();
+		Bundle args = new Bundle();
+		args.putStringArray("files", files);
+		dialog.setArguments(args);
+		return dialog;
 	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		super.onCreateDialog(savedInstanceState);
 
+		Bundle args = getArguments();
+		String[] files = args.containsKey("files") ? args.getStringArray("files") : new String[] {};
+
 		return new AlertDialog.Builder(getActivity())
-			.setMessage(R.string.confirm_exit)
-			.setPositiveButton(android.R.string.ok, this)
-			.setNegativeButton(android.R.string.cancel, this)
+			.setTitle(R.string.open)
+			.setItems(files, this)
 			.create();
 	}
 
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
-		switch(which) {
-			case AlertDialog.BUTTON_POSITIVE: // OK
-				dismiss();
-				getActivity().finish();
-				break;
-			case AlertDialog.BUTTON_NEGATIVE: // Cancel
-				dismiss();
-				break;
+		Bundle args = getArguments();
+		DrMIPSActivity activity = (DrMIPSActivity)getActivity();
+		String[] files = args.containsKey("files") ? args.getStringArray("files") : new String[] {};
+
+		if(files != null && which >= 0 && which < files.length) {
+			String name = files[which];
+			File file = new File(DrMIPS.getApplication().getCodeDir() + File.separator + name);
+			activity.openFile(file);
 		}
+
+		dialog.dismiss();
 	}
 }

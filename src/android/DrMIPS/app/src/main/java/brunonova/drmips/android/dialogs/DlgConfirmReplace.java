@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.feup.brunonova.drmips.gui.dialogs;
+package brunonova.drmips.android.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -24,38 +24,62 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
-import org.feup.brunonova.drmips.R;
-import org.feup.brunonova.drmips.simulator.AppInfo;
+import brunonova.drmips.android.R;
+import brunonova.drmips.android.DrMIPSActivity;
+
+import java.io.File;
 
 /**
- * Credits dialog fragment.
+ * File replace confirmation dialog fragment.
  *
  * Use the method {@link #newInstance} to create the dialog.
  *
  * @author Bruno Nova
  */
-public class DlgCredits extends DialogFragment implements DialogInterface.OnClickListener {
+public class DlgConfirmReplace extends DialogFragment implements DialogInterface.OnClickListener {
 	/**
 	 * Creates a new dialog.
+	 * @param path Path to the file to replace.
 	 * @return The dialog.
 	 */
-	public static DlgCredits newInstance() {
-		return new DlgCredits();
+	public static DlgConfirmReplace newInstance(String path) {
+		DlgConfirmReplace dialog = new DlgConfirmReplace();
+		Bundle args = new Bundle();
+		args.putString("path", path);
+		dialog.setArguments(args);
+		return dialog;
 	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		super.onCreateDialog(savedInstanceState);
 
+		Bundle args = getArguments();
+		String path = args.getString("path");
+		String name = path != null ? new File(path).getName() : "?";
+
 		return new AlertDialog.Builder(getActivity())
-			.setTitle(R.string.credits)
-			.setMessage(AppInfo.getAuthorsAsText())
+			.setMessage(getString(R.string.confirm_replace).replace("#1", name))
 			.setPositiveButton(android.R.string.ok, this)
+			.setNegativeButton(android.R.string.cancel, this)
 			.create();
 	}
 
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
-		dismiss();
+		switch(which) {
+			case AlertDialog.BUTTON_POSITIVE: // OK
+				Bundle args = getArguments();
+				DrMIPSActivity activity = (DrMIPSActivity)getActivity();
+				String path = args.getString("path");
+				if(path != null) {
+					activity.saveFile(new File(path));
+				}
+				break;
+
+			case AlertDialog.BUTTON_NEGATIVE: // Cancel
+				dismiss();
+				break;
+		}
 	}
 }

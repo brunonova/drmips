@@ -16,13 +16,13 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.feup.brunonova.drmips.gui;
+package brunonova.drmips.android;
 
 import android.content.Context;
 import android.util.Log;
 import android.util.TypedValue;
 
-import org.feup.brunonova.drmips.simulator.mips.Data;
+import brunonova.drmips.simulator.Data;
 
 /**
  * Utility functions.

@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.feup.brunonova.drmips.gui.dialogs;
+package brunonova.drmips.android.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -27,9 +27,9 @@ import android.text.InputType;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.feup.brunonova.drmips.R;
-import org.feup.brunonova.drmips.gui.DrMIPSActivity;
-import org.feup.brunonova.drmips.simulator.mips.Component;
+import brunonova.drmips.android.R;
+import brunonova.drmips.android.DrMIPSActivity;
+import brunonova.drmips.simulator.Component;
 
 /**
  * Dialog fragment to change the latency of a component.

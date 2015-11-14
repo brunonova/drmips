@@ -16,39 +16,37 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.feup.brunonova.drmips.gui.dialogs;
+package brunonova.drmips.android.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
-import org.feup.brunonova.drmips.R;
-import org.feup.brunonova.drmips.gui.DrMIPS;
-import org.feup.brunonova.drmips.gui.DrMIPSActivity;
+import brunonova.drmips.android.R;
+import brunonova.drmips.android.DrMIPSActivity;
 
 import java.io.File;
 
 /**
- * CPU Open dialog fragment.
+ * File deletion confirmation dialog fragment.
  *
  * Use the method {@link #newInstance} to create the dialog.
  *
  * @author Bruno Nova
  */
-public class DlgOpenCPU extends DialogFragment implements DialogInterface.OnClickListener {
+public class DlgConfirmDelete extends DialogFragment implements DialogInterface.OnClickListener {
 	/**
 	 * Creates a new dialog.
-	 * @param files The names of the files that exist.
+	 * @param path Path of the file to delete.
 	 * @return The dialog.
 	 */
-	public static DlgOpenCPU newInstance(String[] files) {
-		DlgOpenCPU dialog = new DlgOpenCPU();
+	public static DlgConfirmDelete newInstance(String path) {
+		DlgConfirmDelete dialog = new DlgConfirmDelete();
 		Bundle args = new Bundle();
-		args.putStringArray("files", files);
+		args.putString("path", path);
 		dialog.setArguments(args);
 		return dialog;
 	}
@@ -58,33 +56,37 @@ public class DlgOpenCPU extends DialogFragment implements DialogInterface.OnClic
 		super.onCreateDialog(savedInstanceState);
 
 		Bundle args = getArguments();
-		String[] files = args.containsKey("files") ? args.getStringArray("files") : new String[] {};
+		String path = args.getString("path");
+		String name = path != null ? new File(path).getName() : "?";
 
 		return new AlertDialog.Builder(getActivity())
-			.setTitle(R.string.load_cpu)
-			.setItems(files, this)
+			.setMessage(getString(R.string.confirm_delete).replace("#1", name))
+			.setPositiveButton(android.R.string.ok, this)
+			.setNegativeButton(android.R.string.cancel, this)
 			.create();
 	}
 
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
-		Bundle args = getArguments();
-		DrMIPSActivity activity = (DrMIPSActivity)getActivity();
-		String[] files = args.containsKey("files") ? args.getStringArray("files") : new String[] {};
+		switch(which) {
+			case AlertDialog.BUTTON_POSITIVE: // OK
+				Bundle args = getArguments();
+				DrMIPSActivity activity = (DrMIPSActivity)getActivity();
+				String path = args.getString("path");
+				File file;
 
-		if(files != null && which >= 0 && which < files.length) {
-			String name = files[which];
-			File file = new File(DrMIPS.getApplication().getCPUDir() + File.separator + name);
-			try {
-				activity.loadCPU(file);
-				activity.setCurrentTab("tabDatapath");
-			}
-			catch(Throwable ex) {
-				Toast.makeText(getActivity(), getString(R.string.invalid_file) + "\n" + ex.getClass().getName() + " (" + ex.getMessage() + ")", Toast.LENGTH_LONG).show();
-				Log.e(getActivity().getClass().getName(), "error loading CPU \"" + file.getName() + "\"", ex);
-			}
+				if(path != null && (file = new File(path)).exists()) {
+					if(file.delete()) {
+						Toast.makeText(getActivity(), R.string.file_deleted, Toast.LENGTH_SHORT).show();
+						activity.newFile();
+					} else
+						Toast.makeText(getActivity(), R.string.error_deleting_file, Toast.LENGTH_SHORT).show();
+				}
+				break;
+
+			case AlertDialog.BUTTON_NEGATIVE: // Cancel
+				dismiss();
+				break;
 		}
-
-		dialog.dismiss();
 	}
 }

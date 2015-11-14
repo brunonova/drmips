@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.feup.brunonova.drmips.gui.dialogs;
+package brunonova.drmips.android.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -27,31 +27,30 @@ import android.text.InputType;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.feup.brunonova.drmips.R;
-import org.feup.brunonova.drmips.gui.DrMIPSActivity;
+import brunonova.drmips.android.R;
+import brunonova.drmips.android.DrMIPSActivity;
+import brunonova.drmips.simulator.Data;
 
 /**
- * Dialog fragment to edit the value of a register.
+ * Dialog fragment to edit the value of a data memory address.
  *
  * Use the method {@link #newInstance} to create the dialog.
  *
  * @author Bruno Nova
  */
-public class DlgEditRegister extends DialogFragment implements DialogInterface.OnClickListener {
-	private EditText txtRegisterValue;
+public class DlgEditDataMemory extends DialogFragment implements DialogInterface.OnClickListener {
+	private EditText txtDataMemoryValue;
 
 	/**
 	 * Creates a new dialog.
-	 * @param index The index of the register.
-	 * @param name The name of the register.
-	 * @param value The current value at the register.
+	 * @param index Index of the memory address.
+	 * @param value The current value at the memory address.
 	 * @return The dialog.
 	 */
-	public static DlgEditRegister newInstance(int index, String name, int value) {
-		DlgEditRegister dialog = new DlgEditRegister();
+	public static DlgEditDataMemory newInstance(int index, int value) {
+		DlgEditDataMemory dialog = new DlgEditDataMemory();
 		Bundle args = new Bundle();
 		args.putInt("index", index);
-		args.putString("name", name);
 		args.putInt("value", value);
 		dialog.setArguments(args);
 		return dialog;
@@ -62,18 +61,19 @@ public class DlgEditRegister extends DialogFragment implements DialogInterface.O
 		super.onCreateDialog(savedInstanceState);
 
 		Bundle args = getArguments();
-		txtRegisterValue = new EditText(getActivity());
-		txtRegisterValue.setHint(R.string.value);
-		txtRegisterValue.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+		int address = args.getInt("index") * (Data.DATA_SIZE / 8);
+		txtDataMemoryValue = new EditText(getActivity());
+		txtDataMemoryValue.setHint(R.string.value);
+		txtDataMemoryValue.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
 		if(savedInstanceState != null && savedInstanceState.containsKey("val")) {
-			txtRegisterValue.setText(savedInstanceState.getString("val"));
+			txtDataMemoryValue.setText(savedInstanceState.getString("val"));
 		} else {
-			txtRegisterValue.setText("" + args.getInt("value"));
+			txtDataMemoryValue.setText("" + args.getInt("value", 0));
 		}
 
 		return new AlertDialog.Builder(getActivity())
-			.setTitle(getString(R.string.edit_value).replace("#1", args.getString("name", "?")))
-			.setView(txtRegisterValue)
+			.setTitle(getString(R.string.edit_value).replace("#1", "" + address))
+			.setView(txtDataMemoryValue)
 			.setPositiveButton(android.R.string.ok, this)
 			.setNegativeButton(android.R.string.cancel, this)
 			.create();
@@ -82,24 +82,26 @@ public class DlgEditRegister extends DialogFragment implements DialogInterface.O
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		outState.putString("val", txtRegisterValue.getText().toString());
+		outState.putString("val", txtDataMemoryValue.getText().toString());
 	}
 
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
 		switch(which) {
-			case AlertDialog.BUTTON_POSITIVE: //OK
-				String value = txtRegisterValue.getText().toString().trim();
+			case AlertDialog.BUTTON_POSITIVE: // OK
+				String value = txtDataMemoryValue.getText().toString().trim();
 				int val;
 				if(!value.isEmpty()) {
 					try {
 						Bundle args = getArguments();
 						DrMIPSActivity activity = (DrMIPSActivity)getActivity();
 						int index = args.getInt("index");
-						if (index >= 0 && index <= activity.getCPU().getRegBank().getNumberOfRegisters()) {
+
+						if(index >= 0 && index < activity.getCPU().getDataMemory().getMemorySize()) {
 							val = Integer.parseInt(value);
-							activity.setRegisterValue(index, val);
-							activity.refreshRegistersTableValues();
+							activity.getCPU().getDataMemory().setDataInIndex(index, val);
+							activity.refreshDataMemoryTableValues();
+							if(activity.getDatapath() != null) activity.getDatapath().refresh();
 						}
 					} catch(NumberFormatException ex) {
 						Toast.makeText(getActivity(), R.string.invalid_value, Toast.LENGTH_SHORT).show();

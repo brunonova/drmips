@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.feup.brunonova.drmips.gui.dialogs;
+package brunonova.drmips.android.dialogs;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -30,17 +30,13 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import org.feup.brunonova.drmips.R;
-import org.feup.brunonova.drmips.gui.DrMIPS;
-import org.feup.brunonova.drmips.gui.DrMIPSActivity;
-import org.feup.brunonova.drmips.gui.Util;
-import org.feup.brunonova.drmips.simulator.mips.CPU;
-import org.feup.brunonova.drmips.simulator.mips.Component;
-import org.feup.brunonova.drmips.simulator.mips.Input;
-import org.feup.brunonova.drmips.simulator.mips.IsSynchronous;
-import org.feup.brunonova.drmips.simulator.mips.Output;
-import org.feup.brunonova.drmips.simulator.mips.components.ALU;
-import org.feup.brunonova.drmips.simulator.mips.components.ExtendedALU;
+import brunonova.drmips.android.R;
+import brunonova.drmips.android.DrMIPS;
+import brunonova.drmips.android.DrMIPSActivity;
+import brunonova.drmips.android.Util;
+import brunonova.drmips.simulator.*;
+import brunonova.drmips.simulator.components.ALU;
+import brunonova.drmips.simulator.components.ExtendedALU;
 
 /**
  * Dialog fragment to view the description of a component.

@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.feup.brunonova.drmips.gui;
+package brunonova.drmips.android;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -46,25 +46,11 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.feup.brunonova.drmips.R;
-import org.feup.brunonova.drmips.gui.dialogs.DlgAbout;
-import org.feup.brunonova.drmips.gui.dialogs.DlgCodeHelp;
-import org.feup.brunonova.drmips.gui.dialogs.DlgConfirmDelete;
-import org.feup.brunonova.drmips.gui.dialogs.DlgConfirmExit;
-import org.feup.brunonova.drmips.gui.dialogs.DlgDatapathHelp;
-import org.feup.brunonova.drmips.gui.dialogs.DlgEditDataMemory;
-import org.feup.brunonova.drmips.gui.dialogs.DlgEditRegister;
-import org.feup.brunonova.drmips.gui.dialogs.DlgOpen;
-import org.feup.brunonova.drmips.gui.dialogs.DlgOpenCPU;
-import org.feup.brunonova.drmips.gui.dialogs.DlgSave;
-import org.feup.brunonova.drmips.gui.dialogs.DlgStatistics;
-import org.feup.brunonova.drmips.simulator.exceptions.InfiniteLoopException;
-import org.feup.brunonova.drmips.simulator.exceptions.InvalidCPUException;
-import org.feup.brunonova.drmips.simulator.exceptions.InvalidInstructionSetException;
-import org.feup.brunonova.drmips.simulator.exceptions.SyntaxErrorException;
-import org.feup.brunonova.drmips.simulator.mips.AssembledInstruction;
-import org.feup.brunonova.drmips.simulator.mips.CPU;
-import org.feup.brunonova.drmips.simulator.mips.Data;
+import brunonova.drmips.android.dialogs.*;
+import brunonova.drmips.simulator.AssembledInstruction;
+import brunonova.drmips.simulator.CPU;
+import brunonova.drmips.simulator.Data;
+import brunonova.drmips.simulator.exceptions.*;
 import org.json.JSONException;
 
 import java.io.BufferedReader;

@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.feup.brunonova.drmips.gui.dialogs;
+package brunonova.drmips.android.dialogs;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -26,7 +26,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 
-import org.feup.brunonova.drmips.R;
+import brunonova.drmips.android.R;
 
 /**
  * Datapath Help dialog fragment.

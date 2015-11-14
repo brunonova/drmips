@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.feup.brunonova.drmips.gui.dialogs;
+package brunonova.drmips.android.dialogs;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -29,11 +29,11 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import org.feup.brunonova.drmips.R;
-import org.feup.brunonova.drmips.gui.DrMIPSActivity;
-import org.feup.brunonova.drmips.simulator.mips.CPU;
-import org.feup.brunonova.drmips.simulator.mips.Instruction;
-import org.feup.brunonova.drmips.simulator.mips.PseudoInstruction;
+import brunonova.drmips.android.R;
+import brunonova.drmips.android.DrMIPSActivity;
+import brunonova.drmips.simulator.CPU;
+import brunonova.drmips.simulator.Instruction;
+import brunonova.drmips.simulator.PseudoInstruction;
 
 /**
  * Code Help dialog fragment.

@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.feup.brunonova.drmips.gui;
+package brunonova.drmips.android;
 
 import android.annotation.SuppressLint;
 import android.graphics.Canvas;
@@ -27,19 +27,12 @@ import android.graphics.Path;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import org.feup.brunonova.drmips.R;
-import org.feup.brunonova.drmips.gui.dialogs.DlgChangeLatency;
-import org.feup.brunonova.drmips.gui.dialogs.DlgComponentDescription;
-import org.feup.brunonova.drmips.simulator.mips.CPU;
-import org.feup.brunonova.drmips.simulator.mips.Component;
-import org.feup.brunonova.drmips.simulator.mips.Input;
-import org.feup.brunonova.drmips.simulator.mips.Output;
-import org.feup.brunonova.drmips.simulator.mips.components.Concatenator;
-import org.feup.brunonova.drmips.simulator.mips.components.Constant;
-import org.feup.brunonova.drmips.simulator.mips.components.Distributor;
-import org.feup.brunonova.drmips.simulator.mips.components.Fork;
-import org.feup.brunonova.drmips.simulator.util.Dimension;
-import org.feup.brunonova.drmips.simulator.util.Point;
+import brunonova.drmips.android.dialogs.DlgChangeLatency;
+import brunonova.drmips.android.dialogs.DlgComponentDescription;
+import brunonova.drmips.simulator.*;
+import brunonova.drmips.simulator.components.*;
+import brunonova.drmips.simulator.util.Dimension;
+import brunonova.drmips.simulator.util.Point;
 
 import java.util.LinkedList;
 import java.util.List;
