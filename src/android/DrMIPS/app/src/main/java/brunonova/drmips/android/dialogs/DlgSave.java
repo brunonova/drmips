@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.feup.brunonova.drmips.gui.dialogs;
+package brunonova.drmips.android.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -25,9 +25,9 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.EditText;
 
-import org.feup.brunonova.drmips.R;
-import org.feup.brunonova.drmips.gui.DrMIPS;
-import org.feup.brunonova.drmips.gui.DrMIPSActivity;
+import brunonova.drmips.android.R;
+import brunonova.drmips.android.DrMIPS;
+import brunonova.drmips.android.DrMIPSActivity;
 
 import java.io.File;
 

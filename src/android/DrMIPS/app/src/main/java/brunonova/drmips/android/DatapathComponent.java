@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.feup.brunonova.drmips.gui;
+package brunonova.drmips.android;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
@@ -26,12 +26,8 @@ import android.view.Gravity;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.feup.brunonova.drmips.R;
-import org.feup.brunonova.drmips.simulator.mips.Component;
-import org.feup.brunonova.drmips.simulator.mips.components.Concatenator;
-import org.feup.brunonova.drmips.simulator.mips.components.Constant;
-import org.feup.brunonova.drmips.simulator.mips.components.Distributor;
-import org.feup.brunonova.drmips.simulator.mips.components.Fork;
+import brunonova.drmips.simulator.Component;
+import brunonova.drmips.simulator.components.*;
 
 /**
  * Graphical component that displays a CPU component.

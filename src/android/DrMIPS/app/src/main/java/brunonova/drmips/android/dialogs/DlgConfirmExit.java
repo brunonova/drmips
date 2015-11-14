@@ -16,51 +16,38 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.feup.brunonova.drmips.gui.dialogs;
+package brunonova.drmips.android.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.widget.Toast;
 
-import org.feup.brunonova.drmips.R;
-import org.feup.brunonova.drmips.gui.DrMIPSActivity;
-
-import java.io.File;
+import brunonova.drmips.android.R;
 
 /**
- * File deletion confirmation dialog fragment.
+ * Exit confirmation dialog fragment.
  *
  * Use the method {@link #newInstance} to create the dialog.
  *
  * @author Bruno Nova
  */
-public class DlgConfirmDelete extends DialogFragment implements DialogInterface.OnClickListener {
+public class DlgConfirmExit extends DialogFragment implements DialogInterface.OnClickListener {
 	/**
 	 * Creates a new dialog.
-	 * @param path Path of the file to delete.
 	 * @return The dialog.
 	 */
-	public static DlgConfirmDelete newInstance(String path) {
-		DlgConfirmDelete dialog = new DlgConfirmDelete();
-		Bundle args = new Bundle();
-		args.putString("path", path);
-		dialog.setArguments(args);
-		return dialog;
+	public static DlgConfirmExit newInstance() {
+		return new DlgConfirmExit();
 	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		super.onCreateDialog(savedInstanceState);
 
-		Bundle args = getArguments();
-		String path = args.getString("path");
-		String name = path != null ? new File(path).getName() : "?";
-
 		return new AlertDialog.Builder(getActivity())
-			.setMessage(getString(R.string.confirm_delete).replace("#1", name))
+			.setMessage(R.string.confirm_exit)
 			.setPositiveButton(android.R.string.ok, this)
 			.setNegativeButton(android.R.string.cancel, this)
 			.create();
@@ -70,20 +57,9 @@ public class DlgConfirmDelete extends DialogFragment implements DialogInterface.
 	public void onClick(DialogInterface dialog, int which) {
 		switch(which) {
 			case AlertDialog.BUTTON_POSITIVE: // OK
-				Bundle args = getArguments();
-				DrMIPSActivity activity = (DrMIPSActivity)getActivity();
-				String path = args.getString("path");
-				File file;
-
-				if(path != null && (file = new File(path)).exists()) {
-					if(file.delete()) {
-						Toast.makeText(getActivity(), R.string.file_deleted, Toast.LENGTH_SHORT).show();
-						activity.newFile();
-					} else
-						Toast.makeText(getActivity(), R.string.error_deleting_file, Toast.LENGTH_SHORT).show();
-				}
+				dismiss();
+				getActivity().finish();
 				break;
-
 			case AlertDialog.BUTTON_NEGATIVE: // Cancel
 				dismiss();
 				break;

@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.feup.brunonova.drmips.gui.dialogs;
+package brunonova.drmips.android.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -24,8 +24,8 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
-import org.feup.brunonova.drmips.R;
-import org.feup.brunonova.drmips.simulator.AppInfo;
+import brunonova.drmips.android.R;
+import brunonova.drmips.simulator.AppInfo;
 
 /**
  * License dialog fragment.

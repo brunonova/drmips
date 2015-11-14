@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "org.feup.brunonova.drmips"
+        applicationId "brunonova.drmips.android"
         minSdkVersion 14
         targetSdkVersion 23
     }

@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.feup.brunonova.drmips.gui;
+package brunonova.drmips.android;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -24,8 +24,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
 
-import org.feup.brunonova.drmips.R;
-import org.feup.brunonova.drmips.simulator.mips.CPU;
+import brunonova.drmips.simulator.CPU;
 
 import android.app.Application;
 import android.content.Context;

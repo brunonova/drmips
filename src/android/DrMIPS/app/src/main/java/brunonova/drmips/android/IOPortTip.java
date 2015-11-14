@@ -16,9 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.feup.brunonova.drmips.gui;
-
-import org.feup.brunonova.drmips.R;
+package brunonova.drmips.android;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
