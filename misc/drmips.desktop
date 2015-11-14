@@ -13,4 +13,4 @@ Terminal=false
 StartupNotify=true
 Categories=Education;Electronics;Java;
 MimeType=text/plain;
-StartupWMClass=org-feup-brunonova-drmips-gui-DrMIPS
+StartupWMClass=brunonova-drmips-pc-DrMIPS
