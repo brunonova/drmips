@@ -16,8 +16,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.feup.brunonova.drmips.gui;
+package brunonova.drmips.pc;
 
+import brunonova.drmips.simulator.AppInfo;
+import brunonova.drmips.simulator.CPU;
+import brunonova.drmips.simulator.Data;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -28,9 +31,6 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import org.feup.brunonova.drmips.simulator.AppInfo;
-import org.feup.brunonova.drmips.simulator.mips.CPU;
-import org.feup.brunonova.drmips.simulator.mips.Data;
 
 /**
  * The table with the data memory positions.

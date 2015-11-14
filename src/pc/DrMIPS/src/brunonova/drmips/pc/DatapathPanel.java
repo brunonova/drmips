@@ -16,8 +16,12 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.feup.brunonova.drmips.gui;
+package brunonova.drmips.pc;
 
+import brunonova.drmips.simulator.*;
+import brunonova.drmips.simulator.components.*;
+import brunonova.drmips.simulator.util.Dimension;
+import brunonova.drmips.simulator.util.Point;
 import java.awt.Graphics;
 import java.awt.Polygon;
 import java.util.LinkedList;
@@ -26,16 +30,6 @@ import java.util.Map;
 import java.util.TreeMap;
 import javax.swing.JLayeredPane;
 import javax.swing.SwingUtilities;
-import org.feup.brunonova.drmips.simulator.mips.CPU;
-import org.feup.brunonova.drmips.simulator.mips.Component;
-import org.feup.brunonova.drmips.simulator.mips.Input;
-import org.feup.brunonova.drmips.simulator.mips.Output;
-import org.feup.brunonova.drmips.simulator.mips.components.Concatenator;
-import org.feup.brunonova.drmips.simulator.mips.components.Constant;
-import org.feup.brunonova.drmips.simulator.mips.components.Distributor;
-import org.feup.brunonova.drmips.simulator.mips.components.Fork;
-import org.feup.brunonova.drmips.simulator.util.Dimension;
-import org.feup.brunonova.drmips.simulator.util.Point;
 
 /**
  * Special JPanel that handles the display of the CPU datapath.

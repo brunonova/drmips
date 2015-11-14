@@ -16,8 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.feup.brunonova.drmips.gui;
+package brunonova.drmips.pc;
 
+import brunonova.drmips.simulator.Data;
 import com.jtattoo.plaf.hifi.HiFiLookAndFeel;
 import com.jtattoo.plaf.mint.MintLookAndFeel;
 import java.awt.Color;
@@ -36,7 +37,6 @@ import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 import javax.swing.RootPaneContainer;
 import javax.swing.UIManager;
-import org.feup.brunonova.drmips.simulator.mips.Data;
 
 /**
  * Utility functions.

@@ -16,15 +16,15 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.feup.brunonova.drmips.gui;
+package brunonova.drmips.pc;
 
+import brunonova.drmips.simulator.AppInfo;
 import java.awt.Desktop;
 import java.awt.event.MouseEvent;
 import java.net.URI;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import org.feup.brunonova.drmips.simulator.AppInfo;
 
 /**
  * Dialog that displays information of the program.
@@ -71,7 +71,6 @@ public class DlgAbout extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("about_program");
-        setPreferredSize(new java.awt.Dimension(400, 270));
         setResizable(false);
 
         lblVersion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

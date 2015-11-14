@@ -16,8 +16,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.feup.brunonova.drmips.gui;
+package brunonova.drmips.pc;
 
+import brunonova.drmips.simulator.*;
+import brunonova.drmips.simulator.components.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -27,18 +29,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
-import org.feup.brunonova.drmips.simulator.AppInfo;
-import org.feup.brunonova.drmips.simulator.mips.CPU;
-import org.feup.brunonova.drmips.simulator.mips.Component;
-import org.feup.brunonova.drmips.simulator.mips.Input;
-import org.feup.brunonova.drmips.simulator.mips.IsSynchronous;
-import org.feup.brunonova.drmips.simulator.mips.Output;
-import org.feup.brunonova.drmips.simulator.mips.components.ALU;
-import org.feup.brunonova.drmips.simulator.mips.components.Concatenator;
-import org.feup.brunonova.drmips.simulator.mips.components.Constant;
-import org.feup.brunonova.drmips.simulator.mips.components.Distributor;
-import org.feup.brunonova.drmips.simulator.mips.components.ExtendedALU;
-import org.feup.brunonova.drmips.simulator.mips.components.Fork;
 
 /**
  * Graphical component that displays a CPU component.

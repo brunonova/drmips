@@ -1158,7 +1158,7 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="org.feup.brunonova.drmips.gui.AssembledCodeTable" name="tblAssembledCode">
+                    <Component class="brunonova.drmips.pc.AssembledCodeTable" name="tblAssembledCode">
                     </Component>
                   </SubComponents>
                 </Container>
@@ -1202,7 +1202,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
               <SubComponents>
-                <Component class="org.feup.brunonova.drmips.gui.ExecTable" name="tblExec">
+                <Component class="brunonova.drmips.pc.ExecTable" name="tblExec">
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
                       <BorderConstraints direction="North"/>
@@ -1221,7 +1221,7 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Container class="org.feup.brunonova.drmips.gui.DatapathPanel" name="datapath">
+                    <Container class="brunonova.drmips.pc.DatapathPanel" name="datapath">
                       <Events>
                         <EventHandler event="mouseWheelMoved" listener="java.awt.event.MouseWheelListener" parameters="java.awt.event.MouseWheelEvent" handler="datapathMouseWheelMoved"/>
                       </Events>
@@ -1338,7 +1338,7 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="org.feup.brunonova.drmips.gui.DataMemoryTable" name="tblDataMemory">
+                    <Component class="brunonova.drmips.pc.DataMemoryTable" name="tblDataMemory">
                     </Component>
                   </SubComponents>
                 </Container>
@@ -1452,7 +1452,7 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="org.feup.brunonova.drmips.gui.RegistersTable" name="tblRegisters">
+                    <Component class="brunonova.drmips.pc.RegistersTable" name="tblRegisters">
                     </Component>
                   </SubComponents>
                 </Container>

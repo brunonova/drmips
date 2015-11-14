@@ -16,11 +16,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.feup.brunonova.drmips.gui;
+package brunonova.drmips.pc;
 
-import org.feup.brunonova.drmips.simulator.mips.CPU;
-import org.feup.brunonova.drmips.simulator.mips.Instruction;
-import org.feup.brunonova.drmips.simulator.mips.PseudoInstruction;
+import brunonova.drmips.simulator.CPU;
+import brunonova.drmips.simulator.Instruction;
+import brunonova.drmips.simulator.PseudoInstruction;
 
 /**
  * Supported instructions dialog.
@@ -61,11 +61,11 @@ public class DlgSupportedInstructions extends javax.swing.JDialog {
         cmdClose = new javax.swing.JButton();
         pnlTabs = new javax.swing.JTabbedPane();
         pnlInstructions = new javax.swing.JScrollPane();
-        tblInstructions = new org.feup.brunonova.drmips.gui.SupportedInstructionsTable();
+        tblInstructions = new brunonova.drmips.pc.SupportedInstructionsTable();
         pnlPseudoInstructions = new javax.swing.JScrollPane();
-        tblPseudoInstructions = new org.feup.brunonova.drmips.gui.SupportedInstructionsTable();
+        tblPseudoInstructions = new brunonova.drmips.pc.SupportedInstructionsTable();
         pnlDirectives = new javax.swing.JScrollPane();
-        tblDirectives = new org.feup.brunonova.drmips.gui.SupportedInstructionsTable();
+        tblDirectives = new brunonova.drmips.pc.SupportedInstructionsTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(300, 200));
@@ -164,8 +164,8 @@ public class DlgSupportedInstructions extends javax.swing.JDialog {
     private javax.swing.JScrollPane pnlInstructions;
     private javax.swing.JScrollPane pnlPseudoInstructions;
     private javax.swing.JTabbedPane pnlTabs;
-    private org.feup.brunonova.drmips.gui.SupportedInstructionsTable tblDirectives;
-    private org.feup.brunonova.drmips.gui.SupportedInstructionsTable tblInstructions;
-    private org.feup.brunonova.drmips.gui.SupportedInstructionsTable tblPseudoInstructions;
+    private brunonova.drmips.pc.SupportedInstructionsTable tblDirectives;
+    private brunonova.drmips.pc.SupportedInstructionsTable tblInstructions;
+    private brunonova.drmips.pc.SupportedInstructionsTable tblPseudoInstructions;
     // End of variables declaration//GEN-END:variables
 }
