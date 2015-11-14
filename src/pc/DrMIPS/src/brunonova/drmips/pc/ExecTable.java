@@ -16,48 +16,40 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.feup.brunonova.drmips.gui;
+package brunonova.drmips.pc;
 
-import java.awt.Color;
+import brunonova.drmips.simulator.AssembledInstruction;
+import brunonova.drmips.simulator.CPU;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import org.feup.brunonova.drmips.simulator.mips.AssembledInstruction;
-import org.feup.brunonova.drmips.simulator.mips.CPU;
-import org.feup.brunonova.drmips.simulator.mips.Data;
 
 /**
- * The table with the assembled instructions.
+ * The table that presents the instructions being executed in the datapath tab.
  * 
  * @author Bruno Nova
  */
-public class AssembledCodeTable extends JTable {
-	/** The index of the address column. */
-	private static final int ADDRESS_COLUMN_INDEX = 0;
-	/** The index of the assembled column. */
-	private static final int ASSEMBLED_COLUMN_INDEX = 1;
-	/** The index of the code column. */
-	private static final int CODE_COLUMN_INDEX = 2;
-	
+public class ExecTable extends JTable {
 	/** The model of the table. */
 	private DefaultTableModel model = null;
 	/** The renderer of the table cells. */
-	private AssembledCodeTableCellRenderer cellRenderer = null;
-	/** The CPU with the assembled code to be displayed. */
+	private ExecTableCellRenderer cellRenderer = null;
+	/** The CPU with the registers to be displayed. */
 	private CPU cpu = null;
 	/** The format of the data (<tt>Util.BINARYL_FORMAT_INDEX/Util.DECIMAL_FORMAT_INDEX/Util.HEXADECIMAL_FORMAT_INDEX</tt>). */
 	private int dataFormat = DrMIPS.DEFAULT_DATAPATH_DATA_FORMAT;
-
+	
 	/**
-	 * Creates the assembled code table.
+	 * Creates the registers table.
 	 */
-	public AssembledCodeTable() {
+	public ExecTable() {
 		super();
-		model = new DefaultTableModel(0, 3);
-		cellRenderer = new AssembledCodeTableCellRenderer();
+		model = new DefaultTableModel(1, 1);
+		cellRenderer = new ExecTableCellRenderer();
 		setDefaultRenderer(Object.class, cellRenderer);
 		setModel(model);
 		setFont(new Font("Courier New", Font.BOLD, 12));
@@ -65,63 +57,76 @@ public class AssembledCodeTable extends JTable {
 	}
 	
 	/**
-	 * Defines the CPU that has the assembled code to be displayed.
+	 * Defines the CPU that is executing the program.
 	 * @param cpu The CPU.
 	 * @param format The data format (<tt>Util.BINARYL_FORMAT_INDEX/v.DECIMAL_FORMAT_INDEX/Util.HEXADECIMAL_FORMAT_INDEX</tt>).
 	 */
 	public void setCPU(CPU cpu, int format) {
-		if(model == null) return;
 		this.cpu = cpu;
 		this.dataFormat = format;
 		
-		// Initialize the table
+		// Set the columns
+		model.setRowCount(0);
+		model.setColumnCount(0);
+		if(cpu.isPipeline())
+			for(int i = 0; i < 5; i++) model.addColumn(null);
+		else
+			model.addColumn(null);
+		
+		model.setRowCount(1); // add 1 row
+		
 		refresh(format);
 	}
 	
 	/**
-	 * Refresh the values in the table.
-	 * @param format The data format (<tt>Util.BINARYL_FORMAT_INDEX/v.DECIMAL_FORMAT_INDEX/Util.HEXADECIMAL_FORMAT_INDEX</tt>).
+	 * Refreshes the values in the table.
 	 */
-	public void refresh(int format) {
-		AssembledInstruction instruction;
-		Object[] data;
-		dataFormat = format;
-		
-		model.setRowCount(0);
-		for(int i = 0; i < cpu.getInstructionMemory().getNumberOfInstructions(); i++) {
-			instruction = cpu.getInstructionMemory().getInstruction(i);
-			data = new Object[3];
-			data[0] = Util.formatDataAccordingToFormat(new Data(Data.DATA_SIZE, i * (Data.DATA_SIZE / 8)), format);
-			data[1] = Util.formatDataAccordingToFormat(instruction.getData(), format);
-			data[2] = instruction.getLineNumber() + ": ";
-			for(String label: instruction.getLabels())
-				data[2] += label + ": ";
-			data[2] += instruction.getCodeLine();
-			model.addRow(data);
-		}
-		
-		refreshValues();
+	public void refresh() {
+		refresh(dataFormat);
 	}
 	
 	/**
-	 * Refreshes the highlights.
+	 * Refreshes the values in the table.
+	 * @param format The data format (<tt>Util.BINARYL_FORMAT_INDEX/v.DECIMAL_FORMAT_INDEX/Util.HEXADECIMAL_FORMAT_INDEX</tt>).
 	 */
-	public void refreshValues() {
+	public void refresh(int format) {
+		if(model == null || cpu == null) return;
+		dataFormat = format;
+		
+		model.setValueAt(getInstructionInIndex(cpu.getPC().getCurrentInstructionIndex()), 0, 0);
+		if(cpu.isPipeline()) {
+			model.setValueAt(getInstructionInIndex(cpu.getIfIdReg().getCurrentInstructionIndex()), 0, 1);
+			model.setValueAt(getInstructionInIndex(cpu.getIdExReg().getCurrentInstructionIndex()), 0, 2);
+			model.setValueAt(getInstructionInIndex(cpu.getExMemReg().getCurrentInstructionIndex()), 0, 3);
+			model.setValueAt(getInstructionInIndex(cpu.getMemWbReg().getCurrentInstructionIndex()), 0, 4);
+		}
+		
 		repaint();
 	}
 	
 	/**
-	 * Translates the table.
+	 * Returns the code line of the instruction in the specified index.
+	 * @param index Index of the instruction.
+	 * @return Code line of the instruction, or an empty string if it doesn't exist.
 	 */
-	public void translate() {
-		getTableHeader().getColumnModel().getColumn(ADDRESS_COLUMN_INDEX).setHeaderValue(Lang.t("address"));
-		getTableHeader().getColumnModel().getColumn(ASSEMBLED_COLUMN_INDEX).setHeaderValue(Lang.t("assembled"));
-		getTableHeader().getColumnModel().getColumn(CODE_COLUMN_INDEX).setHeaderValue(Lang.t("code"));
+	private String getInstructionInIndex(int index) {
+		AssembledInstruction i = cpu.getInstructionMemory().getInstruction(index);
+		return (i != null) ? i.getCodeLine() : "";
 	}
 
 	@Override
 	public String getToolTipText(MouseEvent event) {
-		AssembledInstruction i = cpu.getInstructionMemory().getInstruction(rowAtPoint(event.getPoint()));
+		if(cpu == null || model == null) return null;
+		AssembledInstruction i = null;
+		
+		switch(columnAtPoint(event.getPoint())) {
+			case 0: i = cpu.getInstructionMemory().getInstruction(cpu.getPC().getCurrentInstructionIndex()); break;
+			case 1: i = cpu.getInstructionMemory().getInstruction(cpu.getIfIdReg().getCurrentInstructionIndex()); break;
+			case 2: i = cpu.getInstructionMemory().getInstruction(cpu.getIdExReg().getCurrentInstructionIndex()); break;
+			case 3: i = cpu.getInstructionMemory().getInstruction(cpu.getExMemReg().getCurrentInstructionIndex()); break;
+			case 4: i = cpu.getInstructionMemory().getInstruction(cpu.getMemWbReg().getCurrentInstructionIndex()); break;
+		}
+		
 		if(i != null) {
 			switch(dataFormat) {
 				case Util.BINARY_FORMAT_INDEX: return "<html><tt><b>" + Lang.t("type_x", i.getInstruction().getType().getId()) + ": " + i.getInstruction().getMnemonic() + "</b> (" + i.toBinaryString() + ")</tt></html>";
@@ -132,35 +137,29 @@ public class AssembledCodeTable extends JTable {
 		else
 			return null;
 	}
-
+	
 	@Override
 	public boolean isCellEditable(int row, int column) {
 		return false;
 	}
-	
-	private class AssembledCodeTableCellRenderer extends DefaultTableCellRenderer {
+
+	private class ExecTableCellRenderer extends DefaultTableCellRenderer {
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 			Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-			Color background = javax.swing.UIManager.getDefaults().getColor("Table.background"); // get background color from look and feel
-			
-			// Highlight instructions being executed
-			if(row == cpu.getPC().getCurrentInstructionIndex())
-				setBackground(cpu.isPipeline() ? Util.ifColor : Util.instColor);
-			else if(cpu.isPipeline()) {
-				if(row == cpu.getIfIdReg().getCurrentInstructionIndex())
-					setBackground(Util.idColor);
-				else if(row == cpu.getIdExReg().getCurrentInstructionIndex())
-					setBackground(Util.exColor);
-				else if(row == cpu.getExMemReg().getCurrentInstructionIndex())
-					setBackground(Util.memColor);
-				else if(row == cpu.getMemWbReg().getCurrentInstructionIndex())
-					setBackground(Util.wbColor);
-				else
-					setBackground(background);
+			setHorizontalAlignment(SwingConstants.CENTER); // center all values
+
+			if(getColumnCount() == 1)
+				setBackground(Util.instColor);
+			else {
+				switch(column) {
+					case 0: setBackground(Util.ifColor); break;
+					case 1: setBackground(Util.idColor); break;
+					case 2: setBackground(Util.exColor); break;
+					case 3: setBackground(Util.memColor); break;
+					case 4: setBackground(Util.wbColor); break;
+				}
 			}
-			else
-				setBackground(background);
 			
 			return c;
 		}

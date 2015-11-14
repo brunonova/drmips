@@ -16,7 +16,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.feup.brunonova.drmips.gui;
+package brunonova.drmips.pc;
+
+import brunonova.drmips.simulator.AppInfo;
+import brunonova.drmips.simulator.CPU;
+import brunonova.drmips.simulator.exceptions.*;
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Image;
@@ -51,12 +55,6 @@ import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import org.feup.brunonova.drmips.simulator.AppInfo;
-import org.feup.brunonova.drmips.simulator.exceptions.InfiniteLoopException;
-import org.feup.brunonova.drmips.simulator.exceptions.InvalidCPUException;
-import org.feup.brunonova.drmips.simulator.exceptions.InvalidInstructionSetException;
-import org.feup.brunonova.drmips.simulator.exceptions.SyntaxErrorException;
-import org.feup.brunonova.drmips.simulator.mips.CPU;
 import org.fife.ui.rtextarea.SearchContext;
 import org.fife.ui.rtextarea.SearchEngine;
 import org.jscroll.widgets.JScrollInternalFrame;
@@ -248,14 +246,14 @@ public class FrmSimulator extends javax.swing.JFrame {
         lblCaretPosition = new javax.swing.JLabel();
         pnlAssembledCode = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        tblAssembledCode = new org.feup.brunonova.drmips.gui.AssembledCodeTable();
+        tblAssembledCode = new brunonova.drmips.pc.AssembledCodeTable();
         jPanel3 = new javax.swing.JPanel();
         lblAssembledCodeFormat = new javax.swing.JLabel();
         cmbAssembledCodeFormat = new javax.swing.JComboBox();
         pnlDatapath = new javax.swing.JPanel();
-        tblExec = new org.feup.brunonova.drmips.gui.ExecTable();
+        tblExec = new brunonova.drmips.pc.ExecTable();
         datapathScroll = new javax.swing.JScrollPane();
-        datapath = new org.feup.brunonova.drmips.gui.DatapathPanel();
+        datapath = new brunonova.drmips.pc.DatapathPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         lblDatapathDataFormat = new javax.swing.JLabel();
@@ -268,7 +266,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         lblDatapathHelp = new javax.swing.JLabel();
         pnlDataMemory = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        tblDataMemory = new org.feup.brunonova.drmips.gui.DataMemoryTable();
+        tblDataMemory = new brunonova.drmips.pc.DataMemoryTable();
         jPanel4 = new javax.swing.JPanel();
         lblDataMemoryFormat = new javax.swing.JLabel();
         cmbDataMemoryFormat = new javax.swing.JComboBox();
@@ -278,7 +276,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         lblRegFormat = new javax.swing.JLabel();
         cmbRegFormat = new javax.swing.JComboBox();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tblRegisters = new org.feup.brunonova.drmips.gui.RegistersTable();
+        tblRegisters = new brunonova.drmips.pc.RegistersTable();
         mnuBar = new javax.swing.JMenuBar();
         lbl = new javax.swing.JMenu();
         mnuNew = new javax.swing.JMenuItem();
@@ -2803,7 +2801,7 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JButton cmdZoomIn;
     private javax.swing.JButton cmdZoomNormal;
     private javax.swing.JButton cmdZoomOut;
-    private org.feup.brunonova.drmips.gui.DatapathPanel datapath;
+    private brunonova.drmips.pc.DatapathPanel datapath;
     private javax.swing.JScrollPane datapathScroll;
     private org.jscroll.JScrollDesktopPane desktop;
     private javax.swing.ButtonGroup grpLanguages;
@@ -2921,10 +2919,10 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JTabbedPane pnlRight;
     private javax.swing.JSplitPane pnlSplit;
     private javax.swing.JToolBar pnlToolBar;
-    private org.feup.brunonova.drmips.gui.AssembledCodeTable tblAssembledCode;
-    private org.feup.brunonova.drmips.gui.DataMemoryTable tblDataMemory;
-    private org.feup.brunonova.drmips.gui.ExecTable tblExec;
-    private org.feup.brunonova.drmips.gui.RegistersTable tblRegisters;
+    private brunonova.drmips.pc.AssembledCodeTable tblAssembledCode;
+    private brunonova.drmips.pc.DataMemoryTable tblDataMemory;
+    private brunonova.drmips.pc.ExecTable tblExec;
+    private brunonova.drmips.pc.RegistersTable tblRegisters;
     private javax.swing.JTextArea txtPrint;
     // End of variables declaration//GEN-END:variables
 

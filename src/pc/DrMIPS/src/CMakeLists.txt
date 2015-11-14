@@ -2,11 +2,12 @@
 set(MANIFEST "${CMAKE_CURRENT_BINARY_DIR}/Manifest.mf")
 
 # Configure files
-configure_file(org/feup/brunonova/drmips/gui/DrMIPS.java.in
-               "${CMAKE_CURRENT_SOURCE_DIR}/org/feup/brunonova/drmips/gui/DrMIPS.java")
+configure_file(brunonova/drmips/pc/DrMIPS.java.in
+               "${CMAKE_CURRENT_SOURCE_DIR}/brunonova/drmips/pc/DrMIPS.java")
 
 # List of Java source files
-file(GLOB_RECURSE SRC RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" org/*.java com/jtattoo/plaf/*
+file(GLOB_RECURSE SRC RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" brunonova/*.java
+                               org/*.java com/jtattoo/plaf/*
                                org/fife/io/* org/fife/print/* org/fife/ui/*
                                org/fife/util/* joptsimple/*.java)
 
@@ -37,7 +38,7 @@ message(STATUS "PC version: generating Manifest.mf -- done")
 
 # Jar compilation target
 add_jar(${PROJECT_NAME} ${SRC} ${RES} INCLUDE_JARS ${LIBS_PATHS} MANIFEST ${MANIFEST}
-                        ENTRY_POINT org.feup.brunonova.drmips.gui.DrMIPS)
+                        ENTRY_POINT brunonova.drmips.pc.DrMIPS)
 add_custom_target(pc_version DEPENDS ${PROJECT_NAME}) # add meta-target "pc_version"
 add_dependencies(${PROJECT_NAME} "${PROJECT_NAME}Simulator") # depend on the simulator project
 

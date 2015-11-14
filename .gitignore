@@ -11,7 +11,7 @@ src/pc/DrMIPS/dist
 src/pc/DrMIPS/drmips
 src/pc/DrMIPS/src/Manifest.mf
 src/pc/DrMIPS/src/DrMIPS.jar
-src/pc/DrMIPS/src/org/feup/brunonova/drmips/gui/DrMIPS.java
+src/pc/DrMIPS/src/brunonova/drmips/pc/DrMIPS.java
 
 # Files generated for the Android version of the simulator
 src/android/DrMIPS/.gradle

@@ -16,8 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.feup.brunonova.drmips.gui;
+package brunonova.drmips.pc;
 
+import brunonova.drmips.simulator.*;
 import java.awt.Color;
 import java.awt.Font;
 import java.util.LinkedList;
@@ -31,12 +32,6 @@ import javax.swing.JPopupMenu;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.Segment;
-import org.feup.brunonova.drmips.simulator.mips.AbstractInstruction;
-import org.feup.brunonova.drmips.simulator.mips.Assembler;
-import org.feup.brunonova.drmips.simulator.mips.CPU;
-import org.feup.brunonova.drmips.simulator.mips.Data;
-import org.feup.brunonova.drmips.simulator.mips.Instruction;
-import org.feup.brunonova.drmips.simulator.mips.PseudoInstruction;
 import org.fife.ui.autocomplete.AutoCompletion;
 import org.fife.ui.autocomplete.BasicCompletion;
 import org.fife.ui.autocomplete.DefaultCompletionProvider;

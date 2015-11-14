@@ -18,11 +18,7 @@
 
 package brunonova.drmips.simulator.components;
 
-import brunonova.drmips.simulator.AssembledInstruction;
-import brunonova.drmips.simulator.Component;
-import brunonova.drmips.simulator.Data;
-import brunonova.drmips.simulator.Input;
-import brunonova.drmips.simulator.Output;
+import brunonova.drmips.simulator.*;
 import brunonova.drmips.simulator.exceptions.InvalidCPUException;
 import brunonova.drmips.simulator.util.Dimension;
 import brunonova.drmips.simulator.util.Point;
