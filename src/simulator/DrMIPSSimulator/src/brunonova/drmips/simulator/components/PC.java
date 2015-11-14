@@ -1,0 +1,190 @@
+/*
+    DrMIPS - Educational MIPS simulator
+    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+package brunonova.drmips.simulator.components;
+
+import brunonova.drmips.simulator.Component;
+import brunonova.drmips.simulator.Data;
+import brunonova.drmips.simulator.IOPort;
+import brunonova.drmips.simulator.Input;
+import brunonova.drmips.simulator.IsSynchronous;
+import brunonova.drmips.simulator.Output;
+import brunonova.drmips.simulator.exceptions.InvalidCPUException;
+import brunonova.drmips.simulator.util.Dimension;
+import brunonova.drmips.simulator.util.Point;
+import java.util.Stack;
+
+/**
+ * Class that represents the synchronous Program Counter.
+ * 
+ * @author Bruno Nova
+ */
+public class PC extends Component implements IsSynchronous {
+	private final Input input, write;
+	private final Output output;
+	private Data address;
+	private final Stack<Integer> states = new Stack<>(); // previous adresses
+	private int currentInstructionIndex = -1;
+	private final Stack<Integer> instructions = new Stack<>(); // previous instructions
+	
+	/**
+	 * Program Counter constructor.
+	 * @param id PC's identifier.
+	 * @param latency The latency of the component.
+	 * @param position The component's position on the GUI.
+	 * @param inId The identifier of the input.
+	 * @param outId The identifier of the output.
+	 * @throws InvalidCPUException If <tt>id</tt> is empty or duplicated.
+	 */
+	public PC(String id, int latency, Point position, String inId, String outId) throws InvalidCPUException {
+		this(id, latency, position, inId, outId, "Write");
+	}
+	
+	/**
+	 * Program Counter constructor.
+	 * @param id PC's identifier.
+	 * @param latency The latency of the component.
+	 * @param position The component's position on the GUI.
+	 * @param inId The identifier of the input.
+	 * @param outId The identifier of the output.
+	 * @param writeId The identifier of the write input.
+	 * @throws InvalidCPUException If <tt>id</tt> is empty or duplicated.
+	 */
+	public PC(String id, int latency, Point position, String inId, String outId, String writeId) throws InvalidCPUException {
+		super(id, latency, "PC", "pc", "pc_description", position, new Dimension(30, 30));
+		this.address = new Data();
+		input = addInput(inId, new Data(), IOPort.Direction.WEST, false, true);
+		write = addInput(writeId, new Data(1, 1), IOPort.Direction.NORTH, false);
+		output = addOutput(outId, new Data(), IOPort.Direction.EAST, true);
+	}
+	
+	@Override
+	public void execute() {
+		getOutput().setValue(getAddress().getValue());
+		getInput().setRelevant(getWrite().getValue() == 1); // mark input as irrelevant if the Write control signal is off
+	}
+
+	@Override
+	public void executeSynchronous() {
+		if(getWrite().getValue() == 1)
+			setAddress(getInput().getValue(), false);
+	}
+
+	@Override
+	public void pushState() {
+		states.push(getAddress().getValue());
+		instructions.push(getCurrentInstructionIndex());
+	}
+
+	@Override
+	public void popState() {
+		if(hasSavedStates()) {
+			setAddress(states.pop(), false);
+			setCurrentInstructionIndex(instructions.pop());
+		}
+	}
+
+	@Override
+	public boolean hasSavedStates() {
+		return !states.empty();
+	}
+
+	@Override
+	public void clearSavedStates() {
+		states.clear();
+		instructions.clear();
+	}
+	
+	@Override
+	public void resetFirstState() {
+		while(hasSavedStates())
+			popState();
+	}
+	
+	@Override
+	public boolean isWritingState() {
+		return getWrite().getValue() == 1;
+	}
+	
+	/**
+	 * Returns the current address of the Program Counter (the <tt>$pc</tt> register).
+	 * @return Current address.
+	 */
+	public final Data getAddress() {
+		return address;
+	}
+	
+	/**
+	 * Updates the addres of the Program Counter (the <tt>$pc</tt> register).
+	 * <p>The new address is propagated to the rest of the circuit.</p>
+	 * @param address New address.
+	 */
+	public final void setAddress(int address) {
+		setAddress(address, true);
+	}
+	
+	/**
+	 * Updates the addres of the Program Counter (the <tt>$pc</tt> register).
+	 * @param address New address.
+	 * @param propagate Whether the new address is propagated to the rest of the circuit.
+	 */
+	public final void setAddress(int address, boolean propagate) {
+		this.address.setValue(address);
+		if(propagate) execute();
+	}
+
+	/**
+	 * Returns the index of the current instruction being executed.
+	 * @return Index of the current instruction being executed (-1 if none).
+	 */
+	public final int getCurrentInstructionIndex() {
+		return currentInstructionIndex;
+	}
+
+	/**
+	 * Updates the index of the current instruction being executed.
+	 * @param currentInstructionIndex The index of the instruction (-1 if none).
+	 */
+	public final void setCurrentInstructionIndex(int currentInstructionIndex) {
+		this.currentInstructionIndex = currentInstructionIndex;
+	}
+	
+	/**
+	 * Returns the Program Counter's input.
+	 * @return PC input;
+	 */
+	public final Input getInput() {
+		return input;
+	}
+	
+	/**
+	 * Returns the the write input.
+	 * @return Write input.
+	 */
+	public final Input getWrite() {
+		return write;
+	}
+	
+	/**
+	 * Returns the Program Counter's output.
+	 * @return PC output;
+	 */
+	public final Output getOutput() {
+		return output;
+	}
+}

@@ -1,5 +1,5 @@
 # List of Java source files
-file(GLOB_RECURSE SRC RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" org/*.java)
+file(GLOB_RECURSE SRC RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" brunonova/*.java org/*.java)
 
 # Jar compilation target
 add_jar("${PROJECT_NAME}Simulator" ${SRC})
