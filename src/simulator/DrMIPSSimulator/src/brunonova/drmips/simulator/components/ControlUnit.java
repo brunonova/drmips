@@ -21,39 +21,32 @@ package brunonova.drmips.simulator.components;
 import brunonova.drmips.simulator.*;
 import brunonova.drmips.simulator.exceptions.InvalidCPUException;
 import brunonova.drmips.simulator.util.Dimension;
-import brunonova.drmips.simulator.util.Point;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Class that represents the CPU control unit.
- * 
+ *
  * @author Bruno Nova
  */
 public class ControlUnit extends Component {
 	private Input input;
 	private String inId; // temporary
 	private Control control = null;
-	
-	/**
-	 * Control unit constructor
-	 * @param id Control unit's identifier.
-	 * @param latency The latency of the component.
-	 * @param position The component's position on the GUI.
-	 * @param inId The identifier of the input.
-	 * @throws InvalidCPUException If <tt>id</tt> is empty.
-	 */
-	public ControlUnit(String id, int latency, Point position, String inId) throws InvalidCPUException {
-		super(id, latency, "Control", "control_unit", "control_unit_description", position, new Dimension(60, 100));
-		this.inId = inId;
+
+	public ControlUnit(String id, JSONObject json) throws InvalidCPUException, JSONException {
+		super(id, json, "Control", "control_unit", "control_unit_description", new Dimension(60, 100));
+		inId = json.getString("in");
 	}
 
 	@Override
 	public void execute() {
 		int opcode = getInput().getValue();
-		
+
 		for(String o: control.getOutputsIds())
 			getOutput(o).setValue(control.getOutOfOpcode(opcode, o));
 	}
-	
+
 	/**
 	 * Sets the control information for the control unit.
 	 * <p>This method should be called after the instruction set has been loaded.</p>
@@ -63,16 +56,16 @@ public class ControlUnit extends Component {
 	 */
 	public final void setControl(Control control, int opcodeSize) throws InvalidCPUException {
 		this.control = control;
-		
+
 		// Add input
 		input = addInput(inId, new Data(opcodeSize));
 		inId = null;
-		
+
 		// Add outputs
 		for(String o: control.getOutputsIds())
 			addOutput(o, new Data(control.getOutSize(o)));
 	}
-	
+
 	/**
 	 * Returns the control unit's input.
 	 * @return Control unit input;

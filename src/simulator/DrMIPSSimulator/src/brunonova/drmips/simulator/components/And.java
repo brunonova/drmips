@@ -21,28 +21,19 @@ package brunonova.drmips.simulator.components;
 import brunonova.drmips.simulator.Input;
 import brunonova.drmips.simulator.exceptions.InvalidCPUException;
 import brunonova.drmips.simulator.util.Dimension;
-import brunonova.drmips.simulator.util.Point;
 import java.util.ArrayList;
 import java.util.List;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Class that represents an AND port with 2 inputs and 1 output with the size of 1 bit.
- * 
+ *
  * @author Bruno Nova
  */
 public class And extends SimpleBinaryOperationComponent {
-	/**
-	 * And constructor.
-	 * @param id And's identifier.
-	 * @param latency The latency of the component.
-	 * @param position The component's position on the GUI.
-	 * @param in1Id The identifier of first the input.
-	 * @param in2Id The identifier of second the input.
-	 * @param outId The identifier of the output.
-	 * @throws InvalidCPUException If <tt>id</tt> is empty or duplicated.
-	 */
-	public And(String id, int latency, Point position, String in1Id, String in2Id, String outId) throws InvalidCPUException {
-		super(id, latency, "AND", "and", "and_description", position, new Dimension(30, 30), in1Id, in2Id, outId, 1);
+	public And(String id, JSONObject json) throws InvalidCPUException, JSONException {
+		super(id, json, "AND", "and", "and_description", new Dimension(30, 30), 1);
 	}
 
 	@Override

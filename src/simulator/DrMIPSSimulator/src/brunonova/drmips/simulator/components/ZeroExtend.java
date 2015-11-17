@@ -21,45 +21,40 @@ package brunonova.drmips.simulator.components;
 import brunonova.drmips.simulator.*;
 import brunonova.drmips.simulator.exceptions.InvalidCPUException;
 import brunonova.drmips.simulator.util.Dimension;
-import brunonova.drmips.simulator.util.Point;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Class that represents a zero extender.
- * 
+ *
  * @author Bruno nova
  */
 public class ZeroExtend extends Component {
 	private final Input input;
 	private final Output output;
-	
-	/**
-	 * Zero extend constructor.
-	 * @param id Zero extend's constructor.
-	 * @param latency The latency of the component.
-	 * @param position The component's position on the GUI.
-	 * @param inId The identifier of the input.
-	 * @param inSize The size of the input.
-	 * @param outId The identifier of the output.
-	 * @param outSize The size of the output.
-	 * @throws InvalidCPUException If <tt>id</tt> is empty or duplicated.
-	 */
-	public ZeroExtend(String id, int latency, Point position, String inId, int inSize, String outId, int outSize) throws InvalidCPUException {
-		super(id, latency, "Zero\nextend", "zero_extend", "zero_extend_description", position, new Dimension(40, 40));
+
+	public ZeroExtend(String id, JSONObject json) throws InvalidCPUException, JSONException {
+		super(id, json, "Zero\nextend", "zero_extend", "zero_extend_description", new Dimension(40, 40));
+
+		JSONObject i = json.getJSONObject("in");
+		JSONObject o = json.getJSONObject("out");
+		int inSize = i.getInt("size"), outSize = o.getInt("size");
+
 		if(inSize > outSize) {
 			int aux = inSize;
 			inSize = outSize;
 			outSize = aux;
 		}
-		
-		input = addInput(inId, new Data(inSize), IOPort.Direction.WEST, true, true);
-		output = addOutput(outId, new Data(outSize), IOPort.Direction.EAST, true);
+
+		input = addInput(i.getString("id"), new Data(inSize), IOPort.Direction.WEST, true, true);
+		output = addOutput(o.getString("id"), new Data(outSize), IOPort.Direction.EAST, true);
 	}
 
 	@Override
 	public void execute() {
 		getOutput().setValue(getInput().getData().zeroExtend(getOutput().getSize()).getValue());
 	}
-	
+
 	/**
 	 * Returns the input.
 	 * @return The input;
@@ -67,7 +62,7 @@ public class ZeroExtend extends Component {
 	public final Input getInput() {
 		return input;
 	}
-	
+
 	/**
 	 * Returns the output.
 	 * @return The output;

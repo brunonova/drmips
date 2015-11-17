@@ -21,43 +21,34 @@ package brunonova.drmips.simulator.components;
 import brunonova.drmips.simulator.*;
 import brunonova.drmips.simulator.exceptions.InvalidCPUException;
 import brunonova.drmips.simulator.util.Dimension;
-import brunonova.drmips.simulator.util.Point;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Class that represents a left shifter.
- * 
+ *
  * @author Bruno nova
  */
 public class ShiftLeft extends Component {
 	private final Input input;
 	private final Output output;
 	private final int ammount;
-	
-	/**
-	 * Shift left constructor.
-	 * @param id Shift left's identifier.
-	 * @param latency The latency of the component.
-	 * @param position The component's position on the GUI.
-	 * @param inId The identifier of the input.
-	 * @param inSize The size of the input.
-	 * @param outId The identifier of the output.
-	 * @param outSize The size of the input.
-	 * @param ammount The number of bits shifted.
-	 * @throws InvalidCPUException If <tt>id</tt> is empty or duplicated.
-	 */
-	public ShiftLeft(String id, int latency, Point position, String inId, int inSize, String outId, int outSize, int ammount) throws InvalidCPUException {
-		super(id, latency, "Shift\nleft " + ammount, "shift_left", "shift_left_description", position, new Dimension(40, 40));
-		this.ammount = ammount;
-		
-		input = addInput(inId, new Data(inSize), IOPort.Direction.WEST, true, true);
-		output = addOutput(outId, new Data(outSize), IOPort.Direction.EAST, true);
+
+	public ShiftLeft(String id, JSONObject json) throws InvalidCPUException, JSONException {
+		super(id, json, "Shift\nleft " + json.getInt("amount"), "shift_left", "shift_left_description", new Dimension(40, 40));
+		ammount = json.getInt("amount");
+
+		JSONObject i = json.getJSONObject("in");
+		JSONObject o = json.getJSONObject("out");
+		input = addInput(i.getString("id"), new Data(i.getInt("size")), IOPort.Direction.WEST, true, true);
+		output = addOutput(o.getString("id"), new Data(o.getInt("size")), IOPort.Direction.EAST, true);
 	}
 
 	@Override
 	public void execute() {
 		getOutput().setValue(getInput().getValue() << ammount);
 	}
-	
+
 	/**
 	 * Returns the input.
 	 * @return The input;
@@ -65,7 +56,7 @@ public class ShiftLeft extends Component {
 	public final Input getInput() {
 		return input;
 	}
-	
+
 	/**
 	 * Returns the output.
 	 * @return The output;

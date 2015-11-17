@@ -22,48 +22,44 @@ import brunonova.drmips.simulator.*;
 import brunonova.drmips.simulator.exceptions.InvalidCPUException;
 import brunonova.drmips.simulator.util.Dimension;
 import brunonova.drmips.simulator.util.Point;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * This component concatenates the values of the two inputs.
  * <p>The 1st input is concatenated in the most significant bits, while the 2nd is
  * concatenated to the less significant bits.<br>
  * Concatenating 111 with 0000, in that order, would give 1110000</p>
- * 
+ *
  * @author Bruno Nova
  */
 public class Concatenator extends Component {
 	private final Input input1, input2;
 	private final Output output;
-	
-	/**
-	 * Fork constructor.
-	 * @param id Fork's identifier.
-	 * @param latency The latency of the component.
-	 * @param position The component's position on the GUI.
-	 * @param in1Id The identifier of the first input (concatenated to the "left").
-	 * @param in1Size The size of the first input.
-	 * @param in2Id The identifier of the second input (concatenated to the "right").
-	 * @param in2Size The size of the second input.
-	 * @param outId The identifier of the output.
-	 * @throws InvalidCPUException If <tt>id</tt> is empty or duplicated.
-	 */
-	public Concatenator(String id, int latency, Point position, String in1Id, int in1Size, String in2Id, int in2Size, String outId) throws InvalidCPUException {
-		super(id, latency, "", "concatenator", "concatenator_description", new Point(position.x - 2, position.y - 2), new Dimension(5, 5));
-		
-		input1 = addInput(in1Id, new Data(in1Size));
-		input2 = addInput(in2Id, new Data(in2Size));
-		input1.setPosition(position);
-		input2.setPosition(position);
-		
-		output = addOutput(outId, new Data(in1Size + in2Size));
-		output.setPosition(position);
+
+	public Concatenator(String id, JSONObject json) throws InvalidCPUException, JSONException {
+		super(id, json, "", "concatenator", "concatenator_description", new Dimension(5, 5));
+
+		JSONObject in1 = json.getJSONObject("in1");
+		JSONObject in2 = json.getJSONObject("in2");
+		int size1 = in1.getInt("size"), size2 = in2.getInt("size");
+		input1 = addInput(in1.getString("id"), new Data(size1));
+		input2 = addInput(in2.getString("id"), new Data(size2));
+		input1.setPosition(getPosition());
+		input2.setPosition(getPosition());
+
+		output = addOutput(json.getString("out"), new Data(size1 + size2));
+		output.setPosition(getPosition());
+
+		// Adjust the position
+		setPosition(new Point(getPosition().x - 2, getPosition().y - 2));
 	}
 
 	@Override
 	public void execute() {
 		getOutput().setValue((getInput1().getValue() << getInput2().getSize()) | getInput2().getValue());
 	}
-	
+
 	/**
 	 * Returns the component's first input.
 	 * @return Component's first input;
@@ -71,7 +67,7 @@ public class Concatenator extends Component {
 	public final Input getInput1() {
 		return input1;
 	}
-	
+
 	/**
 	 * Returns the component's second input.
 	 * @return Component's second input;
@@ -79,7 +75,7 @@ public class Concatenator extends Component {
 	public final Input getInput2() {
 		return input2;
 	}
-	
+
 	/**
 	 * Returns the component's output.
 	 * @return Component's output;

@@ -21,26 +21,17 @@ package brunonova.drmips.simulator.components;
 import brunonova.drmips.simulator.Data;
 import brunonova.drmips.simulator.exceptions.InvalidCPUException;
 import brunonova.drmips.simulator.util.Dimension;
-import brunonova.drmips.simulator.util.Point;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Class that represents an Adder with 2 inputs and 1 output (the sum of the inputs).
- * 
+ *
  * @author Bruno Nova
  */
 public class Add extends SimpleBinaryOperationComponent {
-	/**
-	 * Adder constructor.
-	 * @param id Adder's identifier.
-	 * @param latency The latency of the component.
-	 * @param position The component's position on the GUI.
-	 * @param in1Id The identifier of first the input.
-	 * @param in2Id The identifier of second the input.
-	 * @param outId The identifier of the output.
-	 * @throws InvalidCPUException If <tt>id</tt> is empty or duplicated.
-	 */
-	public Add(String id, int latency, Point position, String in1Id, String in2Id, String outId) throws InvalidCPUException {
-		super(id, latency, "ADD", "add", "add_description", position, new Dimension(35, 35), in1Id, in2Id, outId, Data.DATA_SIZE);
+	public Add(String id, JSONObject json) throws InvalidCPUException, JSONException {
+		super(id, json, "ADD", "add", "add_description", new Dimension(35, 35), Data.DATA_SIZE);
 	}
 
 	@Override

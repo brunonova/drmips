@@ -21,37 +21,29 @@ package brunonova.drmips.simulator.components;
 import brunonova.drmips.simulator.*;
 import brunonova.drmips.simulator.exceptions.InvalidCPUException;
 import brunonova.drmips.simulator.util.Dimension;
-import brunonova.drmips.simulator.util.Point;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Class that represents a NOT port.
- * 
+ *
  * @author Bruno Nova
  */
 public class Not extends Component {
 	private final Input input;
 	private final Output output;
-	
-	/**
-	 * Not constructor.
-	 * @param id Not's identifier.
-	 * @param latency The latency of the component.
-	 * @param position The component's position on the GUI.
-	 * @param inId The identifier of the input.
-	 * @param outId The identifier of the output.
-	 * @throws InvalidCPUException If <tt>id</tt> is empty or duplicated.
-	 */
-	public Not(String id, int latency, Point position, String inId, String outId) throws InvalidCPUException {
-		super(id, latency, "NOT", "not", "not_description", position, new Dimension(30, 30));
-		input = addInput(inId, new Data(1));
-		output = addOutput(outId, new Data(1));
+
+	public Not(String id, JSONObject json) throws InvalidCPUException, JSONException {
+		super(id, json, "NOT", "not", "not_description", new Dimension(30, 30));
+		input = addInput(json.getString("in"), new Data(1));
+		output = addOutput(json.getString("out"), new Data(1));
 	}
-	
+
 	@Override
 	public void execute() {
 		getOutput().setValue(~getInput().getValue());
 	}
-	
+
 	/**
 	 * Returns the input.
 	 * @return Not's input;
@@ -59,7 +51,7 @@ public class Not extends Component {
 	public final Input getInput() {
 		return input;
 	}
-	
+
 	/**
 	 * Returns the output.
 	 * @return Not's output;

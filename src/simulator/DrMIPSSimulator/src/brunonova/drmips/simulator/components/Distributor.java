@@ -23,34 +23,40 @@ import brunonova.drmips.simulator.Data;
 import brunonova.drmips.simulator.Input;
 import brunonova.drmips.simulator.exceptions.InvalidCPUException;
 import brunonova.drmips.simulator.util.Dimension;
-import brunonova.drmips.simulator.util.Point;
 import java.util.LinkedList;
 import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * This component splits the input's value in parts and sends each part into each output.
- * 
+ *
  * @author Bruno Nova
  */
 public class Distributor extends Component {
 	private final Input input;
 	private final List<OutputParameters> outParameters;
-	
-	/**
-	 * Distributor's constructor.
-	 * @param id Distributor's identifier.
-	 * @param latency The latency of the component.
-	 * @param position The component's position on the GUI.
-	 * @param inId The identifier of the input.
-	 * @param inSize The size of the input.
-	 * @throws InvalidCPUException If <tt>id</tt> is empty.
-	 */
-	public Distributor(String id, int latency, Point position, String inId, int inSize) throws InvalidCPUException {
-		super(id, latency, "", "distributor", "distributor_description", position, new Dimension(5, 30));
-		input = addInput(inId, new Data(inSize));
+
+	public Distributor(String id, JSONObject json) throws InvalidCPUException, JSONException {
+		super(id, json, "", "distributor", "distributor_description", new Dimension(5, 30));
+
+		JSONObject i = json.getJSONObject("in");
+		input = addInput(i.getString("id"), new Data(i.getInt("size")));
+
+		// Add the outputs
+		JSONObject o;
+		JSONArray outs = json.getJSONArray("out");
 		outParameters = new LinkedList<>();
+		int msb, lsb;
+		for(int x = 0; x < outs.length(); x++) {
+			o = outs.getJSONObject(x);
+			msb = o.getInt("msb");
+			lsb = o.getInt("lsb");
+			addOutput(o.optString("id", msb + "-" + lsb), msb, lsb);
+		}
 	}
-	
+
 	/**
 	 * Adds an output.
 	 * @param id The identifier of the output.
@@ -58,7 +64,7 @@ public class Distributor extends Component {
 	 * @param lsb The less significant bit of the value to put.
 	 * @throws InvalidCPUException If <tt>id</tt> is empty.
 	 */
-	public void addOutput(String id, int msb, int lsb) throws InvalidCPUException {
+	private void addOutput(String id, int msb, int lsb) throws InvalidCPUException {
 		OutputParameters param = new OutputParameters(id, msb, lsb, getInput().getSize());
 		outParameters.add(param);
 		addOutput(id, new Data(param.msb - param.lsb + 1));
@@ -71,7 +77,7 @@ public class Distributor extends Component {
 			getOutput(o.id).setValue(o.getValueForOutput(value));
 		}
 	}
-	
+
 	/**
 	 * Returns the distributor's input.
 	 * @return Distributor input;
@@ -79,7 +85,7 @@ public class Distributor extends Component {
 	public final Input getInput() {
 		return input;
 	}
-	
+
 	/**
 	 * Contains the parameters (MSB, LSB, id) for an output of a distributor.
 	 */
@@ -98,7 +104,7 @@ public class Distributor extends Component {
 		public OutputParameters(String id, int msb, int lsb, int inSize) throws InvalidCPUException {
 			if(id.isEmpty()) throw new InvalidCPUException("Invalid ID " + id + "!");
 			this.id = id;
-			
+
 			if(msb > (inSize - 1)) msb = inSize - 1;
 			else if(msb < 0) msb = 0;
 			if(lsb > (inSize - 1)) lsb = inSize - 1;
@@ -108,13 +114,13 @@ public class Distributor extends Component {
 				msb = lsb;
 				lsb = aux;
 			}
-			
+
 			this.msb = msb;
 			this.lsb = lsb;
-			
+
 			mask = Data.createMask(msb, lsb);
 		}
-		
+
 		/**
 		 * Returns the value masked and shifted for this output's parameters.
 		 * @param value The original value.

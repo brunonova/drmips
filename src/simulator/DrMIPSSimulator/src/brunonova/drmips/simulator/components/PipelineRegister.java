@@ -21,14 +21,16 @@ package brunonova.drmips.simulator.components;
 import brunonova.drmips.simulator.*;
 import brunonova.drmips.simulator.exceptions.InvalidCPUException;
 import brunonova.drmips.simulator.util.Dimension;
-import brunonova.drmips.simulator.util.Point;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Stack;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Class that represents a synchronous register that divides two stages of the pipeline.
- * 
+ *
  * @author Bruno Nova
  */
 public class PipelineRegister extends Component implements IsSynchronous {
@@ -37,41 +39,26 @@ public class PipelineRegister extends Component implements IsSynchronous {
 	private final Stack<Map<String, Data>> states = new Stack<>(); // previous values
 	private int currentInstructionIndex = -1;
 	private final Stack<Integer> instructions = new Stack<>(); // previous instructions
-	
-	/**
-	 * Pipeline register constructor.
-	 * @param id Pipeline registers's identifier.
-	 * @param latency The latency of the component.
-	 * @param position The component's position on the GUI.
-	 * @param registers The identifiers and sizes of the values to store.
-	 * @throws InvalidCPUException 
-	 */
-	public PipelineRegister(String id, int latency, Point position, Map<String, Integer> registers) throws InvalidCPUException {
-		this(id, latency, position, registers, "Write", "Flush");
-	}
-	
-	/**
-	 * Pipeline register constructor.
-	 * @param id Pipeline registers's identifier.
-	 * @param latency The latency of the component.
-	 * @param position The component's position on the GUI.
-	 * @param registers The identifiers and sizes of the values to store.
-	 * @param writeId The identifier of the write input.
-	 * @param flushId The identifier of the flush input.
-	 * @throws InvalidCPUException 
-	 */
-	public PipelineRegister(String id, int latency, Point position, Map<String, Integer> registers, String writeId, String flushId) throws InvalidCPUException {
-		super(id, latency, "", "pipeline_register", "pipeline_register_description", position, new Dimension(15, 300));
-		this.registers = new HashMap<>(32);
+
+	public PipelineRegister(String id, JSONObject json) throws InvalidCPUException, JSONException {
+		super(id, json, "", "pipeline_register", "pipeline_register_description", new Dimension(15, 300));
 		setDisplayName();
-		
-		write = addInput(writeId, new Data(1, 1), IOPort.Direction.NORTH, false);
-		flush = addInput(flushId, new Data(1, 0), IOPort.Direction.NORTH, false);
-		
-		for(Map.Entry<String, Integer> e: registers.entrySet()) {
-			addInput(e.getKey(), new Data(e.getValue()), IOPort.Direction.WEST, false);
-			addOutput(e.getKey(), new Data(e.getValue()));
-			this.registers.put(e.getKey(), new Data(e.getValue()));
+
+		write = addInput(json.optString("write", "Write"), new Data(1, 1), IOPort.Direction.NORTH, false);
+		flush = addInput(json.optString("flush", "Flush"), new Data(1, 0), IOPort.Direction.NORTH, false);
+
+		// Add the pipeline "registers", plus their inputs and outputs
+		String name;
+		JSONObject regs = json.optJSONObject("regs");
+		registers = new HashMap<>(32);
+		if(regs != null) {
+			Iterator<String> i = regs.keys();
+			while(i.hasNext()) {
+				name = i.next();
+				addInput(name, new Data(regs.getInt(name)), IOPort.Direction.WEST, false);
+				addOutput(name, new Data(regs.getInt(name)));
+				this.registers.put(name, new Data(regs.getInt(name)));
+			}
 		}
 	}
 
@@ -80,17 +67,17 @@ public class PipelineRegister extends Component implements IsSynchronous {
 		boolean stall = getWrite().getValue() == 0 || getFlush().getValue() == 1;
 		Input input;
 		Output output;
-		
+
 		for(Map.Entry<String, Data> e: registers.entrySet()) {
 			input = getInput(e.getKey());
 			output = getOutput(e.getKey());
 			output.setValue(e.getValue().getValue());
-			
+
 			if(stall) // mark input as irrelevant if stalled
 				input.setRelevant(false);
 			else if(input.getSize() != 1) // 1 bit inputs are set as relevant/irrelevant automatically
 				input.setRelevant(true);
-			
+
 			// mark output as irrelevant if connected to a stalled pipeline register (and it they are 1 bit)
 			if(output.getSize() == 1 && output.isConnected() && output.getConnectedInput().getComponent() instanceof PipelineRegister) {
 				PipelineRegister p = (PipelineRegister)output.getConnectedInput().getComponent();
@@ -136,18 +123,18 @@ public class PipelineRegister extends Component implements IsSynchronous {
 			e.getValue().setValue(0);
 		execute();
 	}
-	
+
 	@Override
 	public void resetFirstState() {
 		while(hasSavedStates())
 			popState();
 	}
-	
+
 	@Override
 	public boolean isWritingState() {
 		return getWrite().getValue() == 1 && getFlush().getValue() == 0;
 	}
-	
+
 	/**
 	 * Sets the pipeline register's display name.
 	 * <p>The name corresponds to the component's identifier, 1 letter per line.</p>
@@ -160,7 +147,7 @@ public class PipelineRegister extends Component implements IsSynchronous {
 		}
 		setDisplayName(name);
 	}
-	
+
 	/**
 	 * Returns a copy of the stored registers.
 	 * @return Copy of the registers.
@@ -171,7 +158,7 @@ public class PipelineRegister extends Component implements IsSynchronous {
 			map.put(e.getKey(), e.getValue().clone());
 		return map;
 	}
-	
+
 	/**
 	 * Returns the index of the current instruction being executed.
 	 * @return Index of the current instruction being executed (-1 if none).
@@ -187,7 +174,7 @@ public class PipelineRegister extends Component implements IsSynchronous {
 	public final void setCurrentInstructionIndex(int currentInstructionIndex) {
 		this.currentInstructionIndex = currentInstructionIndex;
 	}
-	
+
 	/**
 	 * Returns the write input.
 	 * @return Write input.
@@ -195,7 +182,7 @@ public class PipelineRegister extends Component implements IsSynchronous {
 	public final Input getWrite() {
 		return write;
 	}
-	
+
 	/**
 	 * Returns the flush input.
 	 * @return Flush input.

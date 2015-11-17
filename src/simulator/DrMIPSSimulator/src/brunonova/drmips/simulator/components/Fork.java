@@ -22,37 +22,35 @@ import brunonova.drmips.simulator.*;
 import brunonova.drmips.simulator.exceptions.InvalidCPUException;
 import brunonova.drmips.simulator.util.Dimension;
 import brunonova.drmips.simulator.util.Point;
-import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * This component splits its input in several outputs (with the same value and size).
- * 
+ *
  * @author Bruno Nova
  */
 public class Fork extends Component {
 	private final Input input;
-	
-	/**
-	 * Fork constructor.
-	 * @param id Fork's identifier.
-	 * @param latency The latency of the component.
-	 * @param position The component's position on the GUI.
-	 * @param size The size of the inputs and outputs
-	 * @param inId The identifier of the input.
-	 * @param outIds The identifiers of the outputs.
-	 * @throws InvalidCPUException If <tt>id</tt> is empty or duplicated.
-	 */
-	public Fork(String id, int latency, Point position, int size, String inId, List<String> outIds) throws InvalidCPUException {
-		super(id, latency, "", "fork", "fork_description", new Point(position.x - 2, position.y - 2), new Dimension(5, 5));
-		
-		input = addInput(inId, new Data(size));
-		input.setPosition(position);
-		
+
+	public Fork(String id, JSONObject json) throws InvalidCPUException, JSONException {
+		super(id, json, "", "fork", "fork_description", new Dimension(5, 5));
+
+		int size = json.getInt("size");
+		input = addInput(json.getString("in"), new Data(size));
+		input.setPosition(getPosition());
+
+		// Add the outputs
 		Output o;
-		for(String s: outIds) {
-			o = addOutput(s, new Data(size));
-			o.setPosition(position);
+		JSONArray outs = json.getJSONArray("out");
+		for(int x = 0; x < outs.length(); x++) {
+			o = addOutput(outs.getString(x), new Data(size));
+			o.setPosition(getPosition());
 		}
+
+		// Adjust the position
+		setPosition(new Point(getPosition().x - 2, getPosition().y - 2));
 	}
 
 	@Override
@@ -60,7 +58,7 @@ public class Fork extends Component {
 		for(Output o: getOutputs())
 			o.setValue(getInput().getValue());
 	}
-	
+
 	/**
 	 * Returns the splits's input.
 	 * @return Fork input;

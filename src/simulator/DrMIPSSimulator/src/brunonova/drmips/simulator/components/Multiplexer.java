@@ -21,40 +21,34 @@ package brunonova.drmips.simulator.components;
 import brunonova.drmips.simulator.*;
 import brunonova.drmips.simulator.exceptions.InvalidCPUException;
 import brunonova.drmips.simulator.util.Dimension;
-import brunonova.drmips.simulator.util.Point;
 import java.util.ArrayList;
 import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Class that represents a multiplexer.
- * 
+ *
  * @author bruno
  */
 public class Multiplexer extends Component {
 	private final Input selector;
 	private final Output output;
 	private final List<Input> inputs; // inputs (excluding the selector)
-	
-	/**
-	 * Multiplexer constructor.
-	 * @param id Multiplexer's identifier.
-	 * @param latency The latency of the component.
-	 * @param position The component's position on the GUI.
-	 * @param size The size of the inputs and outputs.
-	 * @param inIds The identifiers of the inputs.
-	 * @param selId The identifier of the selector.
-	 * @param outId The identifier of the output.
-	 * @throws InvalidCPUException If <tt>id</tt> is empty or duplicated.
-	 */
-	public Multiplexer(String id, int latency, Point position, int size, List<String> inIds, String selId, String outId) throws InvalidCPUException {
-		super(id, latency, "M\nU\nX", "multiplexer", "multiplexer_description", position, new Dimension(15, 35));
-		
-		selector = addInput(selId, new Data((inIds.size() > 0) ? Data.requiredNumberOfBits(inIds.size() - 1) : 1), IOPort.Direction.NORTH);
-		output = addOutput(outId, new Data(size));
-		
-		inputs = new ArrayList<>(inIds.size());
-		for(String inId: inIds)
-			inputs.add(addInput(inId, new Data(size)));
+
+	public Multiplexer(String id, JSONObject json) throws InvalidCPUException, JSONException {
+		super(id, json, "M\nU\nX", "multiplexer", "multiplexer_description", new Dimension(15, 35));
+
+		// Add the inputs
+		JSONArray ins = json.optJSONArray("in");
+		inputs = new ArrayList<>(ins.length());
+		for(int x = 0; x < ins.length(); x++) {
+			inputs.add(addInput(ins.getString(x), new Data(json.getInt("size"))));
+		}
+
+		selector = addInput(json.getString("sel"), new Data((ins.length() > 0) ? Data.requiredNumberOfBits(ins.length() - 1) : 1), IOPort.Direction.NORTH);
+		output = addOutput(json.getString("out"), new Data(json.getInt("size")));
 	}
 
 	@Override
@@ -80,7 +74,7 @@ public class Multiplexer extends Component {
 			inList.add(selInput);
 		return inList;
 	}
-	
+
 	/**
 	 * Returns the multiplexer's output.
 	 * @return Multiplexer output;
@@ -88,7 +82,7 @@ public class Multiplexer extends Component {
 	public final Output getOutput() {
 		return output;
 	}
-	
+
 	/**
 	 * Returns the multiplexer's selector.
 	 * @return Muoltiplexer selector;
@@ -96,7 +90,7 @@ public class Multiplexer extends Component {
 	public final Input getSelector() {
 		return selector;
 	}
-	
+
 	/**
 	 * Returns the input with the specified index.
 	 * @param index Index of the input.

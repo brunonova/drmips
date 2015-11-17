@@ -23,38 +23,29 @@ import brunonova.drmips.simulator.Data;
 import brunonova.drmips.simulator.Output;
 import brunonova.drmips.simulator.exceptions.InvalidCPUException;
 import brunonova.drmips.simulator.util.Dimension;
-import brunonova.drmips.simulator.util.Point;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Component that simply outputs a constant number.
- * 
+ *
  * @author Bruno Nova
  */
 public class Constant extends Component {
 	private final Output output;
 	private final int value;
-	
-	/**
-	 * Constant constructor.
-	 * @param id Constant's identifier.
-	 * @param latency The latency of the component.
-	 * @param position The component's position on the GUI.
-	 * @param outId The identifier of the output.
-	 * @param value The contant value.
-	 * @param size The size of the output.
-	 * @throws InvalidCPUException If <tt>id</tt> is empty or duplicated.
-	 */
-	public Constant(String id, int latency, Point position, String outId, int value, int size) throws InvalidCPUException {
-		super(id, latency, "" + value, "constant", "constant_description", position, new Dimension(20, 15));
-		this.value = value;
-		output = addOutput(outId, new Data(size));
+
+	public Constant(String id, JSONObject json) throws InvalidCPUException, JSONException {
+		super(id, json, "" + json.getInt("val"), "constant", "constant_description", new Dimension(20, 15));
+		value = json.getInt("val");
+		output = addOutput(json.getString("out"), new Data(json.getInt("size")));
 	}
 
 	@Override
 	public void execute() {
 		getOutput().setValue(value);
 	}
-	
+
 	/**
 	 * Returns the output.
 	 * @return The output;
