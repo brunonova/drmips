@@ -29,26 +29,22 @@ import java.util.TreeMap;
 
 /**
  * Abstract base class to represent the MIPS CPU internal components.
- * 
+ *
  * <p>Each component has at least an ID, inputs and outputs.<br>
  * Each input and output has an identifier and an integer (32 bit) value.</p>
- * 
+ *
  * <p>Derived classes should call <tt>super(...)</tt> on their constructors and
  * must implement <tt>execute()</tt>, specifying what code the component
  * "executes" in each clock cycle.</p>
- * 
+ *
  * <p>Synchronous components extend from SynchronousComponent.</p>
- * 
+ *
  * <p>Components with an internal state should implement the <tt>HasInternalState</tt>
  * interface.</p>
- * 
+ *
  * @author Bruno Nova
  */
 public abstract class Component {
-	/** The available types of components. */
-	public enum Type {PC, ADD, AND, OR, XOR, NOT, REGBANK, IMEM, FORK, CONTROL, DIST, MUX, CONST, SEXT,
-		ZEXT, SLL, CONCAT, ALU_CONTROL, ALU, DMEM, PIPEREG, FWD_UNIT, HZD_UNIT, EXT_ALU}
-	
 	/** The unique identifier of the component. */
 	private String id;
 	/** The inputs of the component. */
@@ -75,7 +71,7 @@ public abstract class Component {
 	private Map<String, String> customDescriptions = null;
 	/** Whether this component is in the control path. */
 	private boolean inControlPath = false;
-	
+
 	/**
 	 * Component constructor that must be called by derived classes.
 	 * @param id The component's identifier.
@@ -99,14 +95,14 @@ public abstract class Component {
 		in = new TreeMap<>();
 		out = new TreeMap<>();
 	}
-	
+
 	/**
 	 * "Executes" the normal action of the component in a clock cycle.
 	 * <p>Derived classes must implement this method.<br>
 	 * This method is executed automatically when an input is changed.</p>
 	 */
 	public abstract void execute();
-	
+
 	/**
 	 * Adds a custom description to the component for the specified language.
 	 * <p>The language is the language code (like en, pt, pt_PT) or "default" for
@@ -118,7 +114,7 @@ public abstract class Component {
 		if(customDescriptions == null) customDescriptions = new TreeMap<>();
 		customDescriptions.put(language.trim().toLowerCase(), description);
 	}
-	
+
 	/**
 	 * Returns whether the component has custom descriptions.
 	 * @return <tt>True</tt> if the component has custom descriptions.
@@ -126,7 +122,7 @@ public abstract class Component {
 	public boolean hasCustomDescription() {
 		return customDescriptions != null && customDescriptions.containsKey("default");
 	}
-	
+
 	/**
 	 * Returns the custom description for the given language, if it exists.
 	 * @param language The language.
@@ -147,13 +143,13 @@ public abstract class Component {
 					if((str = customDescriptions.get(lang)) != null)
 						return str;
 				}
-				
+
 				// get the default description
 				return customDescriptions.get("default");
 			}
 		}
 	}
-	
+
 	/**
 	 * Indicates that this component is in the control path.
 	 */
@@ -164,7 +160,7 @@ public abstract class Component {
 		for(Output o: getOutputs())
 			o.setInControlPath();
 	}
-	
+
 	/**
 	 * Returns whether this component is in the control path.
 	 * @return <tt>True</tt> if in control path.
@@ -172,7 +168,7 @@ public abstract class Component {
 	public boolean isInControlPath() {
 		return inControlPath;
 	}
-	
+
 	/**
 	 * Returns the unique identified of the component.
 	 * @return Component's identifier.
@@ -180,7 +176,7 @@ public abstract class Component {
 	public final String getId() {
 		return id;
 	}
-	
+
 	/**
 	 * Updates the component's unique identifier.
 	 * @param id New identifier.
@@ -190,7 +186,7 @@ public abstract class Component {
 		if(id.isEmpty()) throw new InvalidCPUException("Invalid ID " + id +"!");
 		this.id = id;
 	}
-	
+
 	/**
 	 * Returns the name displayed on the GUI.
 	 * @return Component's display name.
@@ -198,7 +194,7 @@ public abstract class Component {
 	public final String getDisplayName() {
 		return displayName;
 	}
-	
+
 	/**
 	 * Updates the component's display name.
 	 * @param displayName New display name.
@@ -206,7 +202,7 @@ public abstract class Component {
 	protected final void setDisplayName(String displayName) {
 		this.displayName = displayName;
 	}
-	
+
 	/**
 	 * Updates The key of the component's description on the language file.
 	 * @param key New key.
@@ -214,7 +210,7 @@ public abstract class Component {
 	protected final void setDescriptionKey(String key) {
 		descriptionKey = key;
 	}
-	
+
 	/**
 	 * Returns the key of the component's description on the language file.
 	 * @return The key of the component's description on the language file.
@@ -222,7 +218,7 @@ public abstract class Component {
 	public String getDescriptionKey() {
 		return descriptionKey;
 	}
-	
+
 	/**
 	 * Returns the key of the component's name on the language file.
 	 * @return The key of the component's name on the language file.
@@ -230,7 +226,7 @@ public abstract class Component {
 	public String getNameKey() {
 		return nameKey;
 	}
-	
+
 	/**
 	 * Updates The key of the component's name on the language file.
 	 * @param key New key.
@@ -238,7 +234,7 @@ public abstract class Component {
 	protected final void setNameKey(String key) {
 		nameKey = key;
 	}
-	
+
 	/**
 	 * Returns the position of the component on the GUI.
 	 * @return Component's position on the GUI.
@@ -246,7 +242,7 @@ public abstract class Component {
 	public final Point getPosition() {
 		return position;
 	}
-	
+
 	/**
 	 * Updates the component's pretended position on the GUI (the GUI isn't updated).
 	 * @param position New position.
@@ -254,7 +250,7 @@ public abstract class Component {
 	protected final void setPosition(Point position) {
 		this.position = position;
 	}
-	
+
 	/**
 	 * Returns the size of the component on the GUI.
 	 * @return Component's graphical size.
@@ -262,7 +258,7 @@ public abstract class Component {
 	public final Dimension getSize() {
 		return size;
 	}
-	
+
 	/**
 	 * Updates the component's pretended graphical size (the GUI isn't updated).
 	 * @param size New sizze.
@@ -270,7 +266,7 @@ public abstract class Component {
 	protected final void setSize(Dimension size) {
 		this.size = size;
 	}
-	
+
 	/**
 	 * Returns the latency of the component.
 	 * @return Component's latency
@@ -278,7 +274,7 @@ public abstract class Component {
 	public final int getLatency() {
 		return latency;
 	}
-	
+
 	/**
 	 * Updates the latency of the component (always positive).
 	 * <p>This will make the calculated accumulated latencies and critical path invalid!</p>
@@ -295,7 +291,7 @@ public abstract class Component {
 	public int getOriginalLatency() {
 		return originalLatency;
 	}
-	
+
 	/**
 	 * Resets the component's latency to its original value.
 	 * <p>The calculated accumulated latencies become invalid after this call.</p>
@@ -303,7 +299,7 @@ public abstract class Component {
 	public void resetLatency() {
 		setLatency(originalLatency);
 	}
-	
+
 	/**
 	 * Returns the accumulated latency from the first component up to this one.
 	 * @return Component's accumulated latency.
@@ -311,7 +307,7 @@ public abstract class Component {
 	public final int getAccumulatedLatency() {
 		return accumulatedLatency;
 	}
-	
+
 	/**
 	 * Updates the component's accumulated latency, based on its inputs' accumulated latencies.
 	 * @param instructionDependent Whether the performance should depend on the current instruction or not.
@@ -327,14 +323,14 @@ public abstract class Component {
 			if(o.isConnected())
 				o.getConnectedInput().setAccumulatedLatency(accumulatedLatency, instructionDependent);
 	}
-	
+
 	/**
 	 * Updates the component's accumulated latency, based on its inputs' accumulated latencies.
 	 */
 	protected void updateAccumulatedLatency() {
 		updateAccumulatedLatency(true);
 	}
-	
+
 	/**
 	 * Resets all performance information (component's and inputs' accumulated latencies and critical path).
 	 */
@@ -345,7 +341,7 @@ public abstract class Component {
 		for(Output o: getOutputs())
 			o.setInCriticalPath(false);
 	}
-	
+
 	/**
 	 * Adds an input with an initial value.
 	 * @param id Input identifier.
@@ -356,7 +352,7 @@ public abstract class Component {
 	protected final Input addInput(String id, Data data) throws InvalidCPUException {
 		return addInput(id, data, IOPort.Direction.WEST, true, false);
 	}
-	
+
 	/**
 	 * Adds an input with an initial value.
 	 * @param id Input identifier.
@@ -368,7 +364,7 @@ public abstract class Component {
 	protected final Input addInput(String id, Data data, Input.Direction direction) throws InvalidCPUException {
 		return addInput(id, data, direction, true, false);
 	}
-	
+
 	/**
 	 * Adds an input with an initial value.
 	 * @param id Input identifier.
@@ -381,7 +377,7 @@ public abstract class Component {
 	protected final Input addInput(String id, Data data, Input.Direction direction, boolean changesComponentAccumulatedLatency) throws InvalidCPUException {
 		return addInput(id, data, direction, changesComponentAccumulatedLatency, false);
 	}
-	
+
 	/**
 	 * Adds an input with an initial value.
 	 * @param id Input identifier.
@@ -398,7 +394,7 @@ public abstract class Component {
 		in.put(id, input);
 		return input;
 	}
-	
+
 	/**
 	 * Returns whether the component has an input with the specified identifier.
 	 * @param id Input identifier.
@@ -407,7 +403,7 @@ public abstract class Component {
 	public final boolean hasInput(String id) {
 		return in.containsKey(id);
 	}
-	
+
 	/**
 	 * Returns the value of the input with the specified identifier.
 	 * @param id Input identifier.
@@ -416,7 +412,7 @@ public abstract class Component {
 	public final Input getInput(String id) {
 		return in.get(id);
 	}
-	
+
 	/**
 	 * Returns the list of inputs.
 	 * @return List of inputs.
@@ -424,7 +420,7 @@ public abstract class Component {
 	public final List<Input> getInputs() {
 		return new ArrayList<>(in.values());
 	}
-	
+
 	/**
 	 * Returns the list of inputs for latency calculations. By default, does the
 	 * same as getInputs()
@@ -444,7 +440,7 @@ public abstract class Component {
 	protected final Output addOutput(String id, Data data) throws InvalidCPUException {
 		return addOutput(id, data, IOPort.Direction.EAST, false);
 	}
-	
+
 	/**
 	 * Adds an output with an initial value.
 	 * @param id Output identifier.
@@ -456,7 +452,7 @@ public abstract class Component {
 	protected final Output addOutput(String id, Data data, Output.Direction direction) throws InvalidCPUException {
 		return addOutput(id, data, direction, false);
 	}
-	
+
 	/**
 	 * Adds an output with an initial value.
 	 * @param id Output identifier.
@@ -472,7 +468,7 @@ public abstract class Component {
 		out.put(id, output);
 		return output;
 	}
-	
+
 	/**
 	 * Returns whether the component has an output with the specified identifier.
 	 * @param id Output identifier.
@@ -481,7 +477,7 @@ public abstract class Component {
 	public final boolean hasOutput(String id) {
 		return out.containsKey(id);
 	}
-	
+
 	/**
 	 * Returns the value of the output with the specified identifier.
 	 * @param id Output identifier.
@@ -490,7 +486,7 @@ public abstract class Component {
 	public final Output getOutput(String id) {
 		return out.get(id);
 	}
-	
+
 	/**
 	 * Returns the list of outputs.
 	 * @return List of outputs.
@@ -498,7 +494,7 @@ public abstract class Component {
 	public final List<Output> getOutputs() {
 		return new ArrayList<>(out.values());
 	}
-	
+
 	/**
 	 * Returns the inputs (first) and the outputs that are in the specified direction/side.
 	 * @param direction The desired direction/side of the component.
@@ -506,17 +502,17 @@ public abstract class Component {
 	 */
 	public final List<IOPort> getIOPortsInDirection(IOPort.Direction direction) {
 		List<IOPort> ports = new LinkedList<>();
-		
+
 		for(Input i: getInputs())
 			if(i.getDirection() == direction)
 				ports.add(i);
 		for(Output o: getOutputs())
 			if(o.getDirection() == direction)
 				ports.add(o);
-		
+
 		return ports;
 	}
-	
+
 	/**
 	 * Returns the graphical x,y position of the given input/output in the CPU.
 	 * @param port The input/output.
@@ -524,25 +520,25 @@ public abstract class Component {
 	 */
 	private Point getIOPortPosition(IOPort port) {
 		if(port.hasPositionDefined()) return port.getPosition();
-		
+
 		Point pos;
 		List<IOPort> ports = getIOPortsInDirection(port.getDirection()); // inputs/outputs in that direction
 		int index = ports.indexOf(port); // index of the input/output in that direction<<<
 		int numPorts = ports.size(); // number of inputs/outputs in that direction
 		int length = (port.getDirection() == IOPort.Direction.WEST || port.getDirection() == IOPort.Direction.EAST) ? getSize().height : getSize().width; // width/height of the component, depending on the direction
 		int dPos = length / (numPorts + 1) * (index + 1); // the additional x/y of the input/output
-		
+
 		switch(port.getDirection()) {
 			case NORTH:       pos = new Point(getPosition().x + dPos,   getPosition().y); break;
 			case SOUTH:       pos = new Point(getPosition().x + dPos,   getPosition().y + getSize().height); break;
 			case WEST:        pos = new Point(getPosition().x,          getPosition().y + dPos); break;
 			default /*EAST*/: pos = new Point(getPosition().x + getSize().width, getPosition().y + dPos); break;
 		}
-		
+
 		port.setPosition(pos);
 		return pos;
 	}
-	
+
 	/**
 	 * Returns the graphical x,y position of the given input in the CPU.
 	 * @param input The input.
@@ -551,7 +547,7 @@ public abstract class Component {
 	public final Point getInputPosition(Input input) {
 		return getIOPortPosition(input);
 	}
-	
+
 	/**
 	 * Returns the graphical x,y position of the given input in the CPU.
 	 * @param id The identifier of the input.
@@ -561,7 +557,7 @@ public abstract class Component {
 		Input input = getInput(id);
 		return (input != null) ? getInputPosition(input) : null;
 	}
-	
+
 	/**
 	 * Returns the graphical x,y position of the given output in the CPU.
 	 * @param output The output.
@@ -570,7 +566,7 @@ public abstract class Component {
 	public final Point getOutputPosition(Output output) {
 		return getIOPortPosition(output);
 	}
-	
+
 	/**
 	 * Returns the graphical x,y position of the given output in the CPU.
 	 * @param id The identifier of the output.
