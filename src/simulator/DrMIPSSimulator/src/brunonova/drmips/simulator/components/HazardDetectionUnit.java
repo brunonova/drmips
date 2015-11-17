@@ -21,11 +21,12 @@ package brunonova.drmips.simulator.components;
 import brunonova.drmips.simulator.*;
 import brunonova.drmips.simulator.exceptions.InvalidCPUException;
 import brunonova.drmips.simulator.util.Dimension;
-import brunonova.drmips.simulator.util.Point;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Class that represents the pipeline hazard detection unit.
- * 
+ *
  * @author Bruno Nova
  */
 public class HazardDetectionUnit extends Component {
@@ -35,28 +36,16 @@ public class HazardDetectionUnit extends Component {
 	private Input idExRt, ifIdRs, ifIdRt;
 	private String idExRtId, ifIdRsId, ifIdRtId; // temporary
 
-	/**
-	 * Hazard detection unit constructor.
-	 * @param id Component's identifier.
-	 * @param latency The latency of the component.
-	 * @param position The component's position on the GUI.
-	 * @param idExMemReadId
-	 * @param idExRtId
-	 * @param ifIdRsId
-	 * @param ifIdRtId
-	 * @param stallId
-	 * @throws InvalidCPUException If <tt>id</tt> is empty or duplicated.
-	 */
-	public HazardDetectionUnit(String id, int latency, Point position, String idExMemReadId, String idExRtId, String ifIdRsId, String ifIdRtId, String stallId) throws InvalidCPUException {
-		super(id, latency, "Hazard\ndetection\nunit", "hazard_detection_unit", "hazard_detection_unit_description", position, new Dimension(70, 50));
-		this.idExRtId = idExRtId;
-		this.ifIdRsId = ifIdRsId;
-		this.ifIdRtId = ifIdRtId;
-		
-		idExMemRead = addInput(idExMemReadId, new Data(1), IOPort.Direction.EAST);
-		stall = addOutput(stallId, new Data(1), IOPort.Direction.NORTH);
+	public HazardDetectionUnit(String id, JSONObject json) throws InvalidCPUException, JSONException {
+		super(id, json, "Hazard\ndetection\nunit", "hazard_detection_unit", "hazard_detection_unit_description", new Dimension(70, 50));
+		idExRtId = json.getString("id_ex_rt");
+		ifIdRsId = json.getString("if_id_rs");
+		ifIdRtId = json.getString("if_id_rt");
+
+		idExMemRead = addInput(json.getString("id_ex_mem_read"), new Data(1), IOPort.Direction.EAST);
+		stall = addOutput(json.getString("stall"), new Data(1), IOPort.Direction.NORTH);
 	}
-	
+
 	@Override
 	public void execute() {
 		if(regbank != null) {
@@ -68,7 +57,7 @@ public class HazardDetectionUnit extends Component {
 				getStall().setValue(0);
 		}
 	}
-	
+
 	/**
 	 * Sets the reference to the CPU's register bank.
 	 * <p>This should be called after the register bank has been added to the CPU
@@ -84,7 +73,7 @@ public class HazardDetectionUnit extends Component {
 		ifIdRt = addInput(ifIdRtId, new Data(size), IOPort.Direction.WEST, true, true);
 		idExRtId = ifIdRsId = ifIdRtId = null;
 	}
-	
+
 	/**
 	 * Returns the ID/EX.MemRead input.
 	 * @return The ID/EX.MemRead input.
@@ -116,7 +105,7 @@ public class HazardDetectionUnit extends Component {
 	public final Input getIfIdRt() {
 		return ifIdRt;
 	}
-	
+
 	/**
 	 * Returns the stall output.
 	 * @return The stall output.

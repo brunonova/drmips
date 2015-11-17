@@ -22,10 +22,13 @@ import brunonova.drmips.simulator.exceptions.InvalidCPUException;
 import brunonova.drmips.simulator.util.Dimension;
 import brunonova.drmips.simulator.util.Point;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Abstract base class to represent the MIPS CPU internal components.
@@ -72,28 +75,28 @@ public abstract class Component {
 	/** Whether this component is in the control path. */
 	private boolean inControlPath = false;
 
-	/**
-	 * Component constructor that must be called by derived classes.
-	 * @param id The component's identifier.
-	 * @param latency The latency of the component.
-	 * @param displayName The name displayed on the GUI.
-	 * @param nameKey The key of the component's name on the language file, shown on the component's tooltip.
-	 * @param descriptionKey The key of the component's description on the language file.
-	 * @param position The position of the component on the GUI.
-	 * @param size The size of the component on the GUI.
-	 * @throws InvalidCPUException If <tt>id</tt> is empty.
-	 */
-	public Component(String id, int latency, String displayName, String nameKey, String descriptionKey, Point position, Dimension size) throws InvalidCPUException {
+	public Component(String id, JSONObject json, String displayName, String nameKey, String descriptionKey, Dimension size) throws InvalidCPUException, JSONException {
 		setId(id);
-		setLatency(latency);
+		setLatency(json.optInt("latency", 0));
 		originalLatency = getLatency();
 		setDisplayName(displayName);
 		setNameKey(nameKey);
 		setDescriptionKey(descriptionKey);
-		setPosition(position);
+		setPosition(new Point(json.getInt("x"), json.getInt("y")));
 		setSize(size);
 		in = new TreeMap<>();
 		out = new TreeMap<>();
+
+		// Add custom descriptions
+		JSONObject desc = json.optJSONObject("desc");
+		String lang;
+		if(desc != null) {
+			Iterator<String> i = desc.keys();
+			while(i.hasNext()) {
+				lang = i.next();
+				addCustomDescriptions(lang, desc.getString(lang));
+			}
+		}
 	}
 
 	/**
@@ -110,7 +113,7 @@ public abstract class Component {
 	 * @param language The language.
 	 * @param description The custom description.
 	 */
-	public void addCustomDescriptions(String language, String description) {
+	public final void addCustomDescriptions(String language, String description) {
 		if(customDescriptions == null) customDescriptions = new TreeMap<>();
 		customDescriptions.put(language.trim().toLowerCase(), description);
 	}
@@ -119,7 +122,7 @@ public abstract class Component {
 	 * Returns whether the component has custom descriptions.
 	 * @return <tt>True</tt> if the component has custom descriptions.
 	 */
-	public boolean hasCustomDescription() {
+	public final boolean hasCustomDescription() {
 		return customDescriptions != null && customDescriptions.containsKey("default");
 	}
 
@@ -128,7 +131,7 @@ public abstract class Component {
 	 * @param language The language.
 	 * @return The custom description, or <tt>null</tt> if the component doesn't have custom descriptions or doesn't have neither the given language or the default one.
 	 */
-	public String getCustomDescription(String language) {
+	public final String getCustomDescription(String language) {
 		if(customDescriptions == null)
 			return null;
 		else {

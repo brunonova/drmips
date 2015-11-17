@@ -21,11 +21,12 @@ package brunonova.drmips.simulator.components;
 import brunonova.drmips.simulator.*;
 import brunonova.drmips.simulator.exceptions.InvalidCPUException;
 import brunonova.drmips.simulator.util.Dimension;
-import brunonova.drmips.simulator.util.Point;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Class that represents the pipeline forwarding unit.
- * 
+ *
  * @author Bruno Nova
  */
 public class ForwardingUnit extends Component {
@@ -34,33 +35,18 @@ public class ForwardingUnit extends Component {
 	private final Output forwardA, forwardB;
 	private Input exMemRd, memWbRd, idExRs, idExRt;
 	private String exMemRdId, memWbRdId, idExRsId, idExRtId; // temporary
-	
-	/**
-	 * Forwarding unit constructor.
-	 * @param id Component's identifier.
-	 * @param latency The latency of the component.
-	 * @param position The component's position on the GUI.
-	 * @param exMemRegWriteId The identifier of the EX/MEM.RegWrite input.
-	 * @param memWbRegWriteId The identifier of the MEM/WB.RegWrite input.
-	 * @param exMemRdId The identifier of the EX/MEM.Rd input.
-	 * @param memWbRdId The identifier of the MEM/WB.Rd input.
-	 * @param idExRsId The identifier of the ID/EX.Rs input.
-	 * @param idExRtId The identifier of the ID/EX.Rt input.
-	 * @param forwardAId The identifier of the ForwardA output.
-	 * @param forwardBId The identifier of the ForwardA output.
-	 * @throws InvalidCPUException If <tt>id</tt> is empty or duplicated.
-	 */
-	public ForwardingUnit(String id, int latency, Point position, String exMemRegWriteId, String memWbRegWriteId, String exMemRdId, String memWbRdId, String idExRsId, String idExRtId, String forwardAId, String forwardBId) throws InvalidCPUException {
-		super(id, latency, "Forwarding\nunit", "forwarding_unit", "forwarding_unit_description", position, new Dimension(70, 50));
-		this.exMemRdId = exMemRdId;
-		this.memWbRdId = memWbRdId;
-		this.idExRsId = idExRsId;
-		this.idExRtId = idExRtId;
-		
-		exMemRegWrite = addInput(exMemRegWriteId, new Data(1), IOPort.Direction.EAST);
-		memWbRegWrite = addInput(memWbRegWriteId, new Data(1), IOPort.Direction.EAST);
-		forwardA = addOutput(forwardAId, new Data(2), IOPort.Direction.NORTH);
-		forwardB = addOutput(forwardBId, new Data(2), IOPort.Direction.NORTH);
+
+	public ForwardingUnit(String id, JSONObject json) throws InvalidCPUException, JSONException {
+		super(id, json, "Forwarding\nunit", "forwarding_unit", "forwarding_unit_description", new Dimension(70, 50));
+		exMemRdId = json.getString("ex_mem_rd");
+		memWbRdId = json.getString("mem_wb_rd");
+		idExRsId = json.getString("id_ex_rs");
+		idExRtId = json.getString("id_ex_rt");
+
+		exMemRegWrite = addInput(json.getString("ex_mem_reg_write"), new Data(1), IOPort.Direction.EAST);
+		memWbRegWrite = addInput(json.getString("mem_wb_reg_write"), new Data(1), IOPort.Direction.EAST);
+		forwardA = addOutput(json.getString("fwd_a"), new Data(2), IOPort.Direction.NORTH);
+		forwardB = addOutput(json.getString("fwd_b"), new Data(2), IOPort.Direction.NORTH);
 	}
 
 	@Override
@@ -77,7 +63,7 @@ public class ForwardingUnit extends Component {
 				getForwardA().setValue(1);
 			else
 				getForwardA().setValue(0);
-			
+
 			if(getExMemRegWrite().getValue() == 1 && // EX hazard
 				!regbank.isRegisterConstant(getExMemRd().getValue()) &&
 				getExMemRd().getValue() == getIdExRt().getValue())
@@ -90,7 +76,7 @@ public class ForwardingUnit extends Component {
 			else
 				getForwardB().setValue(0);
 		}
-		
+
 		// Set outputs relevant if forwards are being made
 		getForwardA().setRelevant(getForwardA().getValue() != 0);
 		getForwardB().setRelevant(getForwardB().getValue() != 0);
@@ -112,7 +98,7 @@ public class ForwardingUnit extends Component {
 		idExRt = addInput(idExRtId, new Data(size), IOPort.Direction.WEST, true, true);
 		exMemRdId = memWbRdId = idExRsId = idExRtId = null;
 	}
-	
+
 	/**
 	 * Returns the EX/MEM.Rd input.
 	 * @return The EX/MEM.Rd input.
@@ -128,7 +114,7 @@ public class ForwardingUnit extends Component {
 	public final Input getExMemRegWrite() {
 		return exMemRegWrite;
 	}
-	
+
 	/**
 	 * Returns the MEM/WB.RegWrite input.
 	 * @return The MEM/WB.RegWrite input.

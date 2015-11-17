@@ -21,35 +21,26 @@ package brunonova.drmips.simulator.components;
 import brunonova.drmips.simulator.Input;
 import brunonova.drmips.simulator.exceptions.InvalidCPUException;
 import brunonova.drmips.simulator.util.Dimension;
-import brunonova.drmips.simulator.util.Point;
 import java.util.ArrayList;
 import java.util.List;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Class that represents an OR port with 2 inputs and 1 output with the size of 1 bit.
- * 
+ *
  * @author Bruno Nova
  */
 public class Or extends SimpleBinaryOperationComponent {
-	/**
-	 * Or constructor.
-	 * @param id Or's identifier.
-	 * @param latency The latency of the component.
-	 * @param position The component's position on the GUI.
-	 * @param in1Id The identifier of first the input.
-	 * @param in2Id The identifier of second the input.
-	 * @param outId The identifier of the output.
-	 * @throws InvalidCPUException If <tt>id</tt> is empty or duplicated.
-	 */
-	public Or(String id, int latency, Point position, String in1Id, String in2Id, String outId) throws InvalidCPUException {
-		super(id, latency, "OR", "or", "or_description", position, new Dimension(30, 30), in1Id, in2Id, outId, 1);
+	public Or(String id, JSONObject json) throws InvalidCPUException, JSONException {
+		super(id, json, "OR", "or", "or_description", new Dimension(30, 30), 1);
 	}
 
 	@Override
 	protected int operation(int in1, int in2) {
 		return in1 | in2;
 	}
-	
+
 	@Override
 	protected List<Input> getLatencyInputs() {
 		ArrayList<Input> inList = new ArrayList<>();

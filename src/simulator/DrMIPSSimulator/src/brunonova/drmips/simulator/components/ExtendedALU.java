@@ -21,39 +21,28 @@ package brunonova.drmips.simulator.components;
 import brunonova.drmips.simulator.Data;
 import brunonova.drmips.simulator.IsSynchronous;
 import brunonova.drmips.simulator.exceptions.InvalidCPUException;
-import brunonova.drmips.simulator.util.Point;
 import java.util.Stack;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * An ALU that supports multiplications and divisions, and contains the <tt>HI</tt> and <tt>LO</tt> "registers".
- * 
+ *
  * @author Bruno Nova
  */
 public class ExtendedALU extends ALU implements IsSynchronous {
 	private final Data hi, lo;
 	private final Stack<int[]> states = new Stack<>(); // previous values
-	
-	/**
-	 * ALU constructor.
-	 * @param id ALU's identifier.
-	 * @param latency The latency of the component.
-	 * @param position The component's position on the GUI.
-	 * @param in1Id The identifier of the first input.
-	 * @param in2Id The identifier of the second input.
-	 * @param controlId The identifier of the control input.
-	 * @param outId The identifier of the output
-	 * @param zeroId The identifier of the zero output.
-	 * @throws InvalidCPUException InvalidCPUException InvalidCPUException If <tt>id</tt> is empty or duplicated.
-	 */
-	public ExtendedALU(String id, int latency, Point position, String in1Id, String in2Id, String controlId, String outId, String zeroId) throws InvalidCPUException {
-		super(id, latency, position, in1Id, in2Id, controlId, outId, zeroId);
+
+	public ExtendedALU(String id, JSONObject json) throws InvalidCPUException, JSONException {
+		super(id, json);
 		setNameKey("extended_alu");
 		setDescriptionKey("extended_alu_description");
-		
+
 		hi = new Data();
 		lo = new Data();
 	}
-	
+
 	@Override
 	public void executeSynchronous() {
 		controlALU.doSynchronousOperation(getInput1().getValue(), getInput2().getValue(), this, getControl().getValue());
@@ -88,12 +77,12 @@ public class ExtendedALU extends ALU implements IsSynchronous {
 		while(hasSavedStates())
 			popState();
 	}
-	
+
 	@Override
 	public boolean isWritingState() {
 		return controlALU.isWritingState(getControl().getValue());
 	}
-	
+
 	/**
 	 * Returns the <tt>HI</tt> "register".
 	 * @return The <tt>HI</tt> "register".
@@ -101,7 +90,7 @@ public class ExtendedALU extends ALU implements IsSynchronous {
 	public final Data getHI() {
 		return hi;
 	}
-	
+
 	/**
 	 * Returns the <tt>HI</tt> "register".
 	 * @return The <tt>HI</tt> "register".
@@ -109,7 +98,7 @@ public class ExtendedALU extends ALU implements IsSynchronous {
 	public final Data getLO() {
 		return lo;
 	}
-	
+
 	/**
 	 * Resets the <tt>HI</tt> and <tt>LO</tt> registers to 0.
 	 */

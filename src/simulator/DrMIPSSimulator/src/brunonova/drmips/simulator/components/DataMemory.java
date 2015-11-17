@@ -21,12 +21,13 @@ package brunonova.drmips.simulator.components;
 import brunonova.drmips.simulator.*;
 import brunonova.drmips.simulator.exceptions.InvalidCPUException;
 import brunonova.drmips.simulator.util.Dimension;
-import brunonova.drmips.simulator.util.Point;
 import java.util.Stack;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Class that represents the data memory.
- * 
+ *
  * @author Bruno Nova
  */
 public class DataMemory extends Component implements IsSynchronous {
@@ -34,49 +35,37 @@ public class DataMemory extends Component implements IsSynchronous {
 	public static final int MINIMUM_SIZE = 20;
 	/** The maximum size of the memory (in ints). */
 	public static final int MAXIMUM_SIZE = 500;
-	
+
 	private final Input address, writeData, memRead, memWrite;
 	private final Output output;
 	private int[] memory;
 	private final Stack<int[]> states = new Stack<>(); // previous values
-	
-	/**
-	 * Data memory contructor.
-	 * @param id Data memory's identifier.
-	 * @param latency The latency of the component.
-	 * @param position The component's position on the GUI.
-	 * @param size The size of the memory (number of 32 bits positions).
-	 * @param addressId The identifier of the address input.
-	 * @param writeDataId The identifier of the write data input.
-	 * @param outId The identifier of the output.
-	 * @param memReadId The identifier of the MemRead input.
-	 * @param memWriteId The identifier of the MemWrite input.
-	 * @throws InvalidCPUException If <tt>id</tt> is empty or duplicated.
-	 */
-	public DataMemory(String id, int latency, Point position, int size, String addressId, String writeDataId, String outId, String memReadId, String memWriteId) throws InvalidCPUException {
-		super(id, latency, "Data\nmemory", "data_memory", "data_memory_description", position, new Dimension(80, 100));
-		
+
+	public DataMemory(String id, JSONObject json) throws InvalidCPUException, JSONException {
+		super(id, json, "Data\nmemory", "data_memory", "data_memory_description", new Dimension(80, 100));
+
+		int size = json.getInt("size");
 		if(size < MINIMUM_SIZE || size > MAXIMUM_SIZE)
 			throw new InvalidCPUException("Invalid data memory size! Must be between " + MINIMUM_SIZE + " and " + MAXIMUM_SIZE + " positions (each position has 32 bits).");
-		
+
 		memory = new int[size];
-		address = addInput(addressId, new Data(), IOPort.Direction.WEST, true, true);
-		writeData = addInput(writeDataId, new Data(), IOPort.Direction.WEST, false, true);
-		memRead = addInput(memReadId, new Data(1), IOPort.Direction.NORTH);
-		memWrite = addInput(memWriteId, new Data(1), IOPort.Direction.NORTH, false);
-		output = addOutput(outId, new Data(), IOPort.Direction.EAST, true);
+		address = addInput(json.getString("address"), new Data(), IOPort.Direction.WEST, true, true);
+		writeData = addInput(json.getString("write_data"), new Data(), IOPort.Direction.WEST, false, true);
+		memRead = addInput(json.getString("mem_read"), new Data(1), IOPort.Direction.NORTH);
+		memWrite = addInput(json.getString("mem_write"), new Data(1), IOPort.Direction.NORTH, false);
+		output = addOutput(json.getString("out"), new Data(), IOPort.Direction.EAST, true);
 	}
 
 	@Override
 	public void execute() {
 		boolean read = getMemRead().getValue() == 1;
 		boolean write = getMemWrite().getValue() == 1;
-		
+
 		if(getMemRead().getValue() == 1)
 			getOutput().setValue(getData(getAddress().getValue()));
 		else
 			getOutput().setValue(0);
-		
+
 		// Set inputs/outputs relevant if reading/writing
 		getWriteData().setRelevant(write);
 		getAddress().setRelevant(read || write);
@@ -114,12 +103,12 @@ public class DataMemory extends Component implements IsSynchronous {
 		while(hasSavedStates())
 			popState();
 	}
-	
+
 	@Override
 	public boolean isWritingState() {
 		return getMemWrite().getValue() == 1;
 	}
-	
+
 	/**
 	 * Resets the memory to zeros.
 	 */
@@ -128,7 +117,7 @@ public class DataMemory extends Component implements IsSynchronous {
 			memory[i] = 0;
 		execute();
 	}
-	
+
 	/**
 	 * Returns the value in the specified address.
 	 * @param address The address of the memory position.
@@ -137,7 +126,7 @@ public class DataMemory extends Component implements IsSynchronous {
 	public final int getData(int address) {
 		return getDataInIndex(getIndexOfAddress(address));
 	}
-	
+
 	/**
 	 * Returns the value in the specified index.
 	 * @param index The index of the memory position.
@@ -146,7 +135,7 @@ public class DataMemory extends Component implements IsSynchronous {
 	public final int getDataInIndex(int index) {
 		return (index >= 0 && index < getMemorySize()) ? memory[index] : 0;
 	}
-	
+
 	/**
 	 * Updates the value in the specified address.
 	 * <p>The new value is propagated to the rest of the circuit if it is being read.</p>
@@ -156,7 +145,7 @@ public class DataMemory extends Component implements IsSynchronous {
 	public final void setData(int address, int value) {
 		setData(address, value, true);
 	}
-	
+
 	/**
 	 * Updates the value in the specified address.
 	 * @param address The address of the memory position.
@@ -166,7 +155,7 @@ public class DataMemory extends Component implements IsSynchronous {
 	public final void setData(int address, int value, boolean propagate) {
 		setDataInIndex(getIndexOfAddress(address), value, propagate);
 	}
-	
+
 	/**
 	 * Updates the value in the specified index.
 	 * <p>The new value is propagated to the rest of the circuit if it is being read.</p>
@@ -176,7 +165,7 @@ public class DataMemory extends Component implements IsSynchronous {
 	public final void setDataInIndex(int index, int value) {
 		setDataInIndex(index, value, true);
 	}
-	
+
 	/**
 	 * Updates the value in the specified index.
 	 * @param index The index of the memory position.
@@ -189,7 +178,7 @@ public class DataMemory extends Component implements IsSynchronous {
 			if(propagate) execute();
 		}
 	}
-	
+
 	/**
 	 * Returns the index of the memory position in the specified address.
 	 * @param address The address of the memory position.
@@ -199,7 +188,7 @@ public class DataMemory extends Component implements IsSynchronous {
 		int index = address / (Data.DATA_SIZE / 8); // A lw on an address like 3 would give an error in a CPU with exceptions
 		return (index >= 0 && index < getMemorySize()) ? index : -1;
 	}
-	
+
 	/**
 	 * Returns the size of the memory.
 	 * @return The size of the memory (number of 32 bits positions).
@@ -215,7 +204,7 @@ public class DataMemory extends Component implements IsSynchronous {
 	public final Input getAddress() {
 		return address;
 	}
-	
+
 	/**
 	 * Returns the write data input.
 	 * @return Write data input.
@@ -223,7 +212,7 @@ public class DataMemory extends Component implements IsSynchronous {
 	public final Input getWriteData() {
 		return writeData;
 	}
-	
+
 	/**
 	 * Returns the MemRead input.
 	 * @return MemRead input.
@@ -231,7 +220,7 @@ public class DataMemory extends Component implements IsSynchronous {
 	public final Input getMemRead() {
 		return memRead;
 	}
-	
+
 	/**
 	 * Returns the MemWrite input.
 	 * @return MemWrite input.
@@ -239,7 +228,7 @@ public class DataMemory extends Component implements IsSynchronous {
 	public final Input getMemWrite() {
 		return memWrite;
 	}
-	
+
 	/**
 	 * Returns the output.
 	 * @return Output.

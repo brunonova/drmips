@@ -21,31 +21,23 @@ package brunonova.drmips.simulator.components;
 import brunonova.drmips.simulator.*;
 import brunonova.drmips.simulator.exceptions.InvalidCPUException;
 import brunonova.drmips.simulator.util.Dimension;
-import brunonova.drmips.simulator.util.Point;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Class that represents the ALU controller.
- * 
+ *
  * @author Bruno Nova
  */
 public class ALUControl extends Component {
 	private Input aluOp, func;
 	private String aluOpId, funcId; // temporary
 	private ControlALU controlALU = null;
-	
-	/**
-	 * ALU Control constructor.
-	 * @param id ALU Control's identifier.
-	 * @param latency The latency of the component.
-	 * @param position The component's position on the GUI.
-	 * @param aluOpId The identifier of the ALUOp input.
-	 * @param funcId The identifier of the func input.
-	 * @throws InvalidCPUException InvalidCPUException If <tt>id</tt> is empty or duplicated.
-	 */
-	public ALUControl(String id, int latency, Point position, String aluOpId, String funcId) throws InvalidCPUException {
-		super(id, latency, "ALU\ncontrol", "alu_control", "alu_control_description", position, new Dimension(40, 40));
-		this.aluOpId = aluOpId;
-		this.funcId = funcId;
+
+	public ALUControl(String id, JSONObject json) throws InvalidCPUException, JSONException {
+		super(id, json, "ALU\ncontrol", "alu_control", "alu_control_description", new Dimension(40, 40));
+		aluOpId = json.getString("aluop");
+		funcId = json.getString("func");
 	}
 
 	@Override
@@ -62,7 +54,7 @@ public class ALUControl extends Component {
 	 */
 	public final void setControlALU(ControlALU controlALU) throws InvalidCPUException {
 		this.controlALU = controlALU;
-		
+
 		// Add inputs and outputs
 		aluOp = addInput(aluOpId, new Data(controlALU.getAluOpSize()), IOPort.Direction.NORTH);
 		func = addInput(funcId, new Data(controlALU.getFuncSize()));
@@ -70,7 +62,7 @@ public class ALUControl extends Component {
 		for(String id: controlALU.getOutputsIds())
 			addOutput(id, new Data(controlALU.getOutSize(id)));
 	}
-	
+
 	/**
 	 * Returns the ALUOp input.
 	 * @return ALUOp input.
@@ -78,7 +70,7 @@ public class ALUControl extends Component {
 	public final Input getALUOp() {
 		return aluOp;
 	}
-	
+
 	/**
 	 * Returns the func input.
 	 * @return Func input.

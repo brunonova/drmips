@@ -21,13 +21,14 @@ package brunonova.drmips.simulator.components;
 import brunonova.drmips.simulator.*;
 import brunonova.drmips.simulator.exceptions.InvalidCPUException;
 import brunonova.drmips.simulator.util.Dimension;
-import brunonova.drmips.simulator.util.Point;
 import java.util.ArrayList;
 import java.util.List;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Class that represents the instruction memory.
- * 
+ *
  * @author Bruno Nova
  */
 public class InstructionMemory extends Component {
@@ -35,20 +36,11 @@ public class InstructionMemory extends Component {
 	private final Output output;
 	private List<AssembledInstruction> instructions;
 
-	/**
-	 * Instruction memory constructor.
-	 * @param id Instruction memory's identifier.
-	 * @param latency The latency of the component.
-	 * @param position The component's position on the GUI.
-	 * @param inId The identifier of the input.
-	 * @param outId The identifier of the output.
-	 * @throws InvalidCPUException If <tt>id</tt> is empty or duplicated.
-	 */
-	public InstructionMemory(String id, int latency, Point position, String inId, String outId) throws InvalidCPUException {
-		super(id, latency, "Instruction\nMemory", "instruction_memory", "instruction_memory_description", position, new Dimension(80, 100));
+	public InstructionMemory(String id, JSONObject json) throws InvalidCPUException, JSONException {
+		super(id, json, "Instruction\nMemory", "instruction_memory", "instruction_memory_description", new Dimension(80, 100));
 		instructions = new ArrayList<>();
-		input = addInput(inId, new Data());
-		output = addOutput(outId, new Data());
+		input = addInput(json.getString("in"), new Data());
+		output = addOutput(json.getString("out"), new Data());
 	}
 
 	@Override
@@ -59,7 +51,7 @@ public class InstructionMemory extends Component {
 		else
 			getOutput().setValue(0);
 	}
-	
+
 	/**
 	 * Returns the assembled instruction with the specified index.
 	 * @param index Index of the instruction.
@@ -71,7 +63,7 @@ public class InstructionMemory extends Component {
 		else
 			return null;
 	}
-	
+
 	/**
 	 * Returns the number of instructions in memory.
 	 * @return The number of instructions.
@@ -79,7 +71,7 @@ public class InstructionMemory extends Component {
 	public final int getNumberOfInstructions() {
 		return instructions.size();
 	}
-	
+
 	/**
 	 * Loads the specified instructions into the memory.
 	 * @param instructions Instructions to load.
@@ -88,7 +80,7 @@ public class InstructionMemory extends Component {
 		this.instructions = instructions;
 		execute();
 	}
-	
+
 	/**
 	 * Return the memory's input.
 	 * @return Memory input.
@@ -96,7 +88,7 @@ public class InstructionMemory extends Component {
 	public final Input getInput() {
 		return input;
 	}
-	
+
 	/**
 	 * Return the memory's output.
 	 * @return Memory output.

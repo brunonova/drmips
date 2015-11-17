@@ -21,53 +21,31 @@ package brunonova.drmips.simulator.components;
 import brunonova.drmips.simulator.*;
 import brunonova.drmips.simulator.exceptions.InvalidCPUException;
 import brunonova.drmips.simulator.util.Dimension;
-import brunonova.drmips.simulator.util.Point;
 import java.util.Stack;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Class that represents the synchronous Program Counter.
- * 
+ *
  * @author Bruno Nova
  */
 public class PC extends Component implements IsSynchronous {
 	private final Input input, write;
 	private final Output output;
-	private Data address;
+	private final Data address;
 	private final Stack<Integer> states = new Stack<>(); // previous adresses
 	private int currentInstructionIndex = -1;
 	private final Stack<Integer> instructions = new Stack<>(); // previous instructions
-	
-	/**
-	 * Program Counter constructor.
-	 * @param id PC's identifier.
-	 * @param latency The latency of the component.
-	 * @param position The component's position on the GUI.
-	 * @param inId The identifier of the input.
-	 * @param outId The identifier of the output.
-	 * @throws InvalidCPUException If <tt>id</tt> is empty or duplicated.
-	 */
-	public PC(String id, int latency, Point position, String inId, String outId) throws InvalidCPUException {
-		this(id, latency, position, inId, outId, "Write");
+
+	public PC(String id, JSONObject json) throws InvalidCPUException, JSONException {
+		super(id, json, "PC", "pc", "pc_description", new Dimension(30, 30));
+		address = new Data();
+		input = addInput(json.getString("in"), new Data(), IOPort.Direction.WEST, false, true);
+		output = addOutput(json.getString("out"), new Data(), IOPort.Direction.EAST, true);
+		write = addInput(json.optString("write", "Write"), new Data(1, 1), IOPort.Direction.NORTH, false);
 	}
-	
-	/**
-	 * Program Counter constructor.
-	 * @param id PC's identifier.
-	 * @param latency The latency of the component.
-	 * @param position The component's position on the GUI.
-	 * @param inId The identifier of the input.
-	 * @param outId The identifier of the output.
-	 * @param writeId The identifier of the write input.
-	 * @throws InvalidCPUException If <tt>id</tt> is empty or duplicated.
-	 */
-	public PC(String id, int latency, Point position, String inId, String outId, String writeId) throws InvalidCPUException {
-		super(id, latency, "PC", "pc", "pc_description", position, new Dimension(30, 30));
-		this.address = new Data();
-		input = addInput(inId, new Data(), IOPort.Direction.WEST, false, true);
-		write = addInput(writeId, new Data(1, 1), IOPort.Direction.NORTH, false);
-		output = addOutput(outId, new Data(), IOPort.Direction.EAST, true);
-	}
-	
+
 	@Override
 	public void execute() {
 		getOutput().setValue(getAddress().getValue());
@@ -104,18 +82,18 @@ public class PC extends Component implements IsSynchronous {
 		states.clear();
 		instructions.clear();
 	}
-	
+
 	@Override
 	public void resetFirstState() {
 		while(hasSavedStates())
 			popState();
 	}
-	
+
 	@Override
 	public boolean isWritingState() {
 		return getWrite().getValue() == 1;
 	}
-	
+
 	/**
 	 * Returns the current address of the Program Counter (the <tt>$pc</tt> register).
 	 * @return Current address.
@@ -123,7 +101,7 @@ public class PC extends Component implements IsSynchronous {
 	public final Data getAddress() {
 		return address;
 	}
-	
+
 	/**
 	 * Updates the addres of the Program Counter (the <tt>$pc</tt> register).
 	 * <p>The new address is propagated to the rest of the circuit.</p>
@@ -132,7 +110,7 @@ public class PC extends Component implements IsSynchronous {
 	public final void setAddress(int address) {
 		setAddress(address, true);
 	}
-	
+
 	/**
 	 * Updates the addres of the Program Counter (the <tt>$pc</tt> register).
 	 * @param address New address.
@@ -158,7 +136,7 @@ public class PC extends Component implements IsSynchronous {
 	public final void setCurrentInstructionIndex(int currentInstructionIndex) {
 		this.currentInstructionIndex = currentInstructionIndex;
 	}
-	
+
 	/**
 	 * Returns the Program Counter's input.
 	 * @return PC input;
@@ -166,7 +144,7 @@ public class PC extends Component implements IsSynchronous {
 	public final Input getInput() {
 		return input;
 	}
-	
+
 	/**
 	 * Returns the the write input.
 	 * @return Write input.
@@ -174,7 +152,7 @@ public class PC extends Component implements IsSynchronous {
 	public final Input getWrite() {
 		return write;
 	}
-	
+
 	/**
 	 * Returns the Program Counter's output.
 	 * @return PC output;

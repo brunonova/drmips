@@ -1108,108 +1108,42 @@ public class CPU {
 	 * @throws ArrayIndexOutOfBoundsException If an array index is invalid somewhere (like an invalid register).
 	 */
 	private static void parseJSONComponents(CPU cpu, JSONObject components) throws JSONException, InvalidCPUException, ArrayIndexOutOfBoundsException {
-		JSONObject comp, d;
-		String type, typeOrig, id, lang;
-		int latency;
-		LinkedList<String> ids;
-		JSONArray outs, ins;
-		Point pos;
-		Iterator<String> i = components.keys(), j;
-		Component component = null;
+		JSONObject comp;
+		String type, typeOrig, id;
+		Iterator<String> i = components.keys();
 
 		while(i.hasNext()) {
 			id = i.next();
 			comp = components.getJSONObject(id);
 			typeOrig = comp.getString("type");
-			latency = comp.optInt("latency", 0);
-			pos = new Point(comp.getInt("x"), comp.getInt("y"));
 			type = typeOrig.toLowerCase();
 
 			switch(type) {
-				case "pc": cpu.addComponent(component = new PC(id, latency, pos, comp.getString("in"), comp.getString("out"), comp.optString("write", "Write"))); break;
-				case "add": cpu.addComponent(component = new Add(id, latency, pos, comp.getString("in1"), comp.getString("in2"), comp.getString("out"))); break;
-				case "and": cpu.addComponent(component = new And(id, latency, pos, comp.getString("in1"), comp.getString("in2"), comp.getString("out"))); break;
-				case "or": cpu.addComponent(component = new Or(id, latency, pos, comp.getString("in1"), comp.getString("in2"), comp.getString("out"))); break;
-				case "xor": cpu.addComponent(component = new Xor(id, latency, pos, comp.getString("in1"), comp.getString("in2"), comp.getString("out"))); break;
-				case "not": cpu.addComponent(component = new Not(id, latency, pos, comp.getString("in"), comp.getString("out"))); break;
-				case "regbank":
-					RegBank regbank = new RegBank(id, latency, pos, comp.getInt("num_regs"), comp.getString("read_reg1"), comp.getString("read_reg2"), comp.getString("read_data1"), comp.getString("read_data2"), comp.getString("write_reg"), comp.getString("write_data"), comp.getString("reg_write"), comp.optBoolean("forwarding"));
-					if(comp.has("const_regs")) {
-						JSONArray regs = comp.getJSONArray("const_regs");
-						JSONObject reg;
-						for(int x = 0; x < regs.length(); x++) {
-							if((reg = regs.optJSONObject(x)) != null) // object with "reg" and "val"
-								regbank.setRegisterConstant(reg.getInt("reg"), reg.optInt("val"));
-							else // an integer
-								regbank.setRegisterConstant(regs.getInt(x));
-						}
-					}
-					cpu.addComponent(component = regbank);
-					break;
-				case "imem": cpu.addComponent(component = new InstructionMemory(id, latency, pos, comp.getString("in"), comp.getString("out"))); break;
-				case "fork":
-					ids = new LinkedList<>();
-					outs = comp.optJSONArray("out");
-					for(int x = 0; x < outs.length(); x++)
-						ids.add(outs.getString(x));
-					cpu.addComponent(component = new Fork(id, latency, pos, comp.getInt("size"), comp.getString("in"), ids));
-					break;
-				case "control": cpu.addComponent(component = new ControlUnit(id, latency, pos, comp.getString("in"))); break;
-				case "dist":
-					JSONObject inD = comp.getJSONObject("in");
-					Distributor dist = new Distributor(id, latency, pos, inD.getString("id"), inD.getInt("size"));
-					outs = comp.getJSONArray("out");
-					JSONObject outD;
-					int msb, lsb;
-					for(int x = 0; x < outs.length(); x++) {
-						outD = outs.getJSONObject(x);
-						msb = outD.getInt("msb");
-						lsb = outD.getInt("lsb");
-						dist.addOutput(outD.optString("id", msb + "-" + lsb), msb, lsb);
-					}
-					cpu.addComponent(component = dist);
-					break;
-				case "mux":
-					ids = new LinkedList<>();
-					ins = comp.optJSONArray("in");
-					for(int x = 0; x < ins.length(); x++)
-						ids.add(ins.getString(x));
-					cpu.addComponent(component = new Multiplexer(id, latency, pos, comp.getInt("size"), ids, comp.getString("sel"), comp.getString("out")));
-					break;
-				case "const": cpu.addComponent(component = new Constant(id, latency, pos, comp.getString("out"), comp.getInt("val"), comp.getInt("size"))); break;
-				case "sext": cpu.addComponent(component = new SignExtend(id, latency, pos, comp.getJSONObject("in").getString("id"), comp.getJSONObject("in").getInt("size"), comp.getJSONObject("out").getString("id"), comp.getJSONObject("out").getInt("size"))); break;
-				case "zext": cpu.addComponent(component = new ZeroExtend(id, latency, pos, comp.getJSONObject("in").getString("id"), comp.getJSONObject("in").getInt("size"), comp.getJSONObject("out").getString("id"), comp.getJSONObject("out").getInt("size"))); break;
-				case "sll": cpu.addComponent(component = new ShiftLeft(id, latency, pos, comp.getJSONObject("in").getString("id"), comp.getJSONObject("in").getInt("size"), comp.getJSONObject("out").getString("id"), comp.getJSONObject("out").getInt("size"), comp.getInt("amount"))); break;
-				case "concat": cpu.addComponent(component = new Concatenator(id, latency, pos, comp.getJSONObject("in1").getString("id"), comp.getJSONObject("in1").getInt("size"), comp.getJSONObject("in2").getString("id"), comp.getJSONObject("in2").getInt("size"), comp.getString("out"))); break;
-				case "alu_control": cpu.addComponent(component = new ALUControl(id, latency, pos, comp.getString("aluop"), comp.getString("func"))); break;
-				case "alu": cpu.addComponent(component = new ALU(id, latency, pos, comp.getString("in1"), comp.getString("in2"), comp.getString("control"), comp.getString("out"), comp.getString("zero"))); break;
-				case "ext_alu": cpu.addComponent(component = new ExtendedALU(id, latency, pos, comp.getString("in1"), comp.getString("in2"), comp.getString("control"), comp.getString("out"), comp.getString("zero"))); break;
-				case "dmem": cpu.addComponent(component = new DataMemory(id, latency, pos, comp.getInt("size"), comp.getString("address"), comp.getString("write_data"), comp.getString("out"), comp.getString("mem_read"), comp.getString("mem_write"))); break;
-				case "pipereg":
-					Map<String, Integer> regs = new TreeMap<>();
-					JSONObject r = comp.optJSONObject("regs");
-					if(r != null) {
-						Iterator<String> k = r.keys();
-						String key;
-						while(k.hasNext()) {
-							key = k.next();
-							regs.put(key, r.getInt(key));
-						}
-					}
-					cpu.addComponent(component = new PipelineRegister(id, latency, pos, regs, comp.optString("write", "Write"), comp.optString("flush", "Flush")));
-					break;
-				case "fwd_unit": cpu.addComponent(component = new ForwardingUnit(id, latency, pos, comp.getString("ex_mem_reg_write"), comp.getString("mem_wb_reg_write"), comp.getString("ex_mem_rd"), comp.getString("mem_wb_rd"), comp.getString("id_ex_rs"), comp.getString("id_ex_rt"), comp.getString("fwd_a"), comp.getString("fwd_b"))); break;
-				case "hzd_unit": cpu.addComponent(component = new HazardDetectionUnit(id, latency, pos, comp.getString("id_ex_mem_read"), comp.getString("id_ex_rt"), comp.getString("if_id_rs"), comp.getString("if_id_rt"), comp.getString("stall"))); break;
+				case "pc": cpu.addComponent(new PC(id, comp)); break;
+				case "add": cpu.addComponent(new Add(id, comp)); break;
+				case "and": cpu.addComponent(new And(id, comp)); break;
+				case "or": cpu.addComponent(new Or(id, comp)); break;
+				case "xor": cpu.addComponent(new Xor(id, comp)); break;
+				case "not": cpu.addComponent(new Not(id, comp)); break;
+				case "regbank": cpu.addComponent(new RegBank(id, comp)); break;
+				case "imem": cpu.addComponent(new InstructionMemory(id, comp)); break;
+				case "fork": cpu.addComponent(new Fork(id, comp)); break;
+				case "control": cpu.addComponent(new ControlUnit(id, comp)); break;
+				case "dist": cpu.addComponent(new Distributor(id, comp)); break;
+				case "mux": cpu.addComponent(new Multiplexer(id, comp)); break;
+				case "const": cpu.addComponent(new Constant(id, comp)); break;
+				case "sext": cpu.addComponent(new SignExtend(id, comp)); break;
+				case "zext": cpu.addComponent(new ZeroExtend(id, comp)); break;
+				case "sll": cpu.addComponent(new ShiftLeft(id, comp)); break;
+				case "concat": cpu.addComponent(new Concatenator(id, comp)); break;
+				case "alu_control": cpu.addComponent(new ALUControl(id, comp)); break;
+				case "alu": cpu.addComponent(new ALU(id, comp)); break;
+				case "ext_alu": cpu.addComponent(new ExtendedALU(id, comp)); break;
+				case "dmem": cpu.addComponent(new DataMemory(id, comp)); break;
+				case "pipereg": cpu.addComponent(new PipelineRegister(id, comp)); break;
+				case "fwd_unit": cpu.addComponent(new ForwardingUnit(id, comp)); break;
+				case "hzd_unit": cpu.addComponent(new HazardDetectionUnit(id, comp)); break;
 				default: throw new InvalidCPUException("Unknown component type " + typeOrig + "!");
-			}
-
-			// Custom descriptions, if any
-			if(component != null && (d = comp.optJSONObject("desc")) != null) {
-				j = d.keys();
-				while(j.hasNext()) {
-					lang = j.next();
-					component.addCustomDescriptions(lang, d.getString(lang));
-				}
 			}
 		}
 	}
