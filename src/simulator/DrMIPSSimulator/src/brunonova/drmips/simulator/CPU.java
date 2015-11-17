@@ -62,7 +62,7 @@ public class CPU {
 	public static final int LATENCY_EXPONENT = -12;
 	/** The number of clock cycles executed in <tt>executeAll()</tt> after which it throws an exception. */
 	public static final int EXECUTE_ALL_LIMIT_CYCLES = 1000;
-	
+
 	/** The file of the CPU. */
 	private File file = null;
 	/** The components that the CPU contains. */
@@ -101,7 +101,7 @@ public class CPU {
 	private PipelineRegister exMemReg = null;
 	/** The MEM/WB register, if the CPU is pipelined. */
 	private PipelineRegister memWbReg = null;
-	
+
 	/** Clock period in LATENCY_UNIT unit. */
 	private int clockPeriod;
 	/** Clock frequency in Hz. */
@@ -116,7 +116,7 @@ public class CPU {
 	private int stalls = 0;
 	/** Whether the latencies and critical path should depend on the current instruction. */
 	private boolean performanceInstructionDependent = false;
-	
+
 	/**
 	 * Constructor that should by called by other constructors.
 	 */
@@ -125,7 +125,7 @@ public class CPU {
 		synchronousComponents = new LinkedList<>();
 		assembler = new Assembler(this);
 	}
-	
+
 	/**
 	 * Constructor that should by called by other constructors.
 	 * @param file The file of the CPU.
@@ -134,7 +134,7 @@ public class CPU {
 		this();
 		setFile(file);
 	}
-	
+
 	/**
 	 * Creates a CPU from a JSON file.
 	 * <p><b>Don't forget to call <tt>setPerformanceInstructionDependent()</tt> on the CPU!</b></p>.
@@ -157,7 +157,7 @@ public class CPU {
 			File f = new File(path);
 			parentPath = f.getParentFile().getAbsolutePath();
 			reader = new BufferedReader(new InputStreamReader(new FileInputStream(f), "UTF8"));
-			while((line = reader.readLine()) != null) 
+			while((line = reader.readLine()) != null)
 				file += line + "\n";
 			reader.close();
 		}
@@ -167,7 +167,7 @@ public class CPU {
 		finally {
 			if(reader != null) reader.close();
 		}
-		
+
 		// Parse the JSON file
 		JSONObject json = new JSONObject(file);
 		parseJSONComponents(cpu, json.getJSONObject("components"));
@@ -181,21 +181,21 @@ public class CPU {
 		if(cpu.hasALU()) cpu.alu.setControlALU(cpu.getInstructionSet().getControlALU());
 		parseJSONWires(cpu, json.getJSONArray("wires"));
 		cpu.determineControlPath();
-		
+
 		for(Component c: cpu.getComponents()) // "execute" all components (initialize all outputs/inputs)
 			c.execute();
-		
+
 		cpu.calculatePerformance();
-		
+
 		return cpu;
 	}
-	
+
 	private void checkRequiredComponents() throws InvalidCPUException {
 		if(pc == null) throw new InvalidCPUException("The program counter is required!");
 		if(regbank == null) throw new InvalidCPUException("The register bank is required!");
 		if(instructionMemory == null) throw new InvalidCPUException("The instruction memory is required!");
 		if(controlUnit == null) throw new InvalidCPUException("The control unit is required!");
-		
+
 		// Check number of pipeline registers (must be 0 or 4)
 		int count = 0;
 		for(Component c: getComponents())
@@ -203,7 +203,7 @@ public class CPU {
 		if(count > 0 && count != 4)
 			throw new InvalidCPUException("Pipelined CPUs must have exactly 4 pipeline registers (5 stages)!");
 	}
-	
+
 	/**
 	 * Calculates the latency in each component and input and determines the critical path of the CPU and of the instruction (if instruction dependent).
 	 */
@@ -215,7 +215,7 @@ public class CPU {
 			calculateAccumulatedLatencies(true);
 		determineCriticalPath();
 	}
-	
+
 	/**
 	 * Calculates the latency in each component and input and determines the critical path of the instruction.
 	 */
@@ -225,7 +225,7 @@ public class CPU {
 			determineCriticalPath();
 		}
 	}
-	
+
 	/**
 	 * Calculates the accumulated latencies of all components.
 	 * @param instructionDependent If <tt>true</tt>, the latencies will depend on the current instruction.
@@ -233,11 +233,11 @@ public class CPU {
 	protected final void calculateAccumulatedLatencies(boolean instructionDependent) {
 		for(Component c: getComponents()) // reset latencies and critical path
 			c.resetPerformance();
-		
+
 		for(Component c: synchronousComponents) // calculate latencies
 			c.updateAccumulatedLatency(instructionDependent);
 	}
-	
+
 	/**
 	 * Resets the latencies of all the components to their original latencies.
 	 */
@@ -246,7 +246,7 @@ public class CPU {
 			c.resetLatency();
 		calculatePerformance();
 	}
-	
+
 	/**
 	 * Sets the latencies of all components to 0 (zero).
 	 */
@@ -255,7 +255,7 @@ public class CPU {
 			c.setLatency(0);
 		calculatePerformance();
 	}
-	
+
 	/**
 	 * Returns the highest accumulated latency.
 	 * @return Highest accumulated latency.
@@ -272,7 +272,7 @@ public class CPU {
 		}
 		return maxLatency;
 	}
-	
+
 	/**
 	 * Returns the input(s) with the highest accumulated latency.
 	 * @param instructionDependent Whether the result should depend on the current instruction-
@@ -302,7 +302,7 @@ public class CPU {
 		else
 			return maxIns;
 	}
-	
+
 	/**
 	 * Determines the clock period and frequency, setting the respective variables.
 	 */
@@ -313,7 +313,7 @@ public class CPU {
 		else
 			clockFrequency = 0;
 	}
-	
+
 	/**
 	 * Returns the clock period in the LATENCY_UNIT unit.
 	 * @return Clock period of the CPU.
@@ -321,7 +321,7 @@ public class CPU {
 	public int getClockPeriod() {
 		return clockPeriod;
 	}
-	
+
 	/**
 	 * Returns the clock frequency in Hz.
 	 * @return Clock frequency in Hz.
@@ -329,7 +329,7 @@ public class CPU {
 	public double getClockFrequencyInHz() {
 		return clockFrequency;
 	}
-	
+
 	/**
 	 * Returns the clock frequency in MHz.
 	 * @return Clock frequency in MHz.
@@ -337,7 +337,7 @@ public class CPU {
 	public double getClockFrequencyInMHz() {
 		return clockFrequency / Math.pow(10, 6);
 	}
-	
+
 	/**
 	 * Returns the clock frequency in GHz.
 	 * @return Clock frequency in GHz.
@@ -345,7 +345,7 @@ public class CPU {
 	public double getClockFrequencyInGHz() {
 		return clockFrequency / Math.pow(10, 9);
 	}
-	
+
 	/**
 	 * Returns the clock frequency as string in an adequate unit.
 	 * @return Clock frequency as string with adequate unit.
@@ -359,7 +359,7 @@ public class CPU {
 		else
 			return String.format("%.2f", getClockFrequencyInHz()) + " Hz";
 	}
-	
+
 	/**
 	 * Returns the number of executed clock cycles.
 	 * @return Number of executed cycles.
@@ -367,7 +367,7 @@ public class CPU {
 	public int getNumberOfExecutedCycles() {
 		return executedCycles;
 	}
-	
+
 	/**
 	 * Returns the number of executed instructions.
 	 * @return Number of executed instructions.
@@ -375,7 +375,7 @@ public class CPU {
 	public int getNumberOfExecutedInstructions() {
 		return executedInstructions;
 	}
-	
+
 	/**
 	 * Returns the CPI.
 	 * @return Cycles Per Instruction.
@@ -386,7 +386,7 @@ public class CPU {
 		else
 			return 0.0;
 	}
-	
+
 	/**
 	 * Returns the CPI as a formatted string.
 	 * @return CPI as string.
@@ -394,7 +394,7 @@ public class CPU {
 	public String getCPIAsString() {
 		return String.format("%.2f", getCPI());
 	}
-	
+
 	/**
 	 * Returns the ammount of time spent executing the program.
 	 * @return Execution time (in LATENCY_UNIT unit).
@@ -402,7 +402,7 @@ public class CPU {
 	public long getExecutionTime() {
 		return (long)getNumberOfExecutedCycles() * (long)getClockPeriod();
 	}
-	
+
 	/**
 	 * Returns the number of forwards.
 	 * @return Number of forwards.
@@ -410,7 +410,7 @@ public class CPU {
 	public int getNumberOfForwards() {
 		return forwards;
 	}
-	
+
 	/**
 	 * Returns the number of stalls.
 	 * @return Number of stalls.
@@ -418,7 +418,7 @@ public class CPU {
 	public int getNumberOfStalls() {
 		return stalls;
 	}
-	
+
 	/**
 	 * Returns whether the latencies and critical path depend on the current instruction.
 	 * @return <tt>true</tt> if the performance depends on the current instruction.
@@ -426,7 +426,7 @@ public class CPU {
 	public boolean isPerformanceInstructionDependent() {
 		return performanceInstructionDependent;
 	}
-	
+
 	/**
 	 * Resets the statistics to zero.
 	 */
@@ -436,13 +436,13 @@ public class CPU {
 		forwards = 0;
 		stalls = 0;
 	}
-	
+
 	/**
 	 * Determines the CPU's critical path
 	 */
 	private void determineCriticalPath() {
 		List<Input> maxIns = findHighetsAccumulatedLatencyInputs(isPerformanceInstructionDependent());
-		
+
 		if(!maxIns.isEmpty()) {
 			for(Input in: maxIns) {
 				in.getConnectedOutput().setInCriticalPath(true);
@@ -450,7 +450,7 @@ public class CPU {
 			}
 		}
 	}
-	
+
 	/**
 	 * Determines the critical path up to the specified component (recursively).
 	 * @param c The component.
@@ -458,14 +458,14 @@ public class CPU {
 	private void determineCriticalPath(Component component) {
 		int lat = component.getAccumulatedLatency() - component.getLatency();
 		for(Input i: component.getInputs()) {
-			if(i.canChangeComponentAccumulatedLatency() && i.getAccumulatedLatency() == lat 
+			if(i.canChangeComponentAccumulatedLatency() && i.getAccumulatedLatency() == lat
 				&& i.isConnected() && !i.getConnectedOutput().isInCriticalPath()) {
 				i.getConnectedOutput().setInCriticalPath(true);
 				determineCriticalPath(i.getConnectedOutput().getComponent());
 			}
 		}
 	}
-	
+
 	/**
 	 * Sets whether the latencies and critical path should depend on the current instruction.
 	 * <p><b>This method should be called after loading a CPU.</b></p>
@@ -478,7 +478,7 @@ public class CPU {
 			determineCriticalPath();
 		}
 	}
-	
+
 	/**
 	 * Updates the list of components and wires that are in the control path.
 	 */
@@ -489,7 +489,7 @@ public class CPU {
 		if(forwardingUnit != null) forwardingUnit.setInControlPath();
 		if(hazardDetectionUnit != null) hazardDetectionUnit.setInControlPath();
 	}
-	
+
 	/**
 	 * Returns whether the CPU is pipelined.
 	 * @return <tt>True</tt> if the CPU is pipelined.
@@ -497,7 +497,7 @@ public class CPU {
 	public boolean isPipeline() {
 		return ifIdReg != null;
 	}
-	
+
 	/**
 	 * Sets the file of the CPU.
 	 * @param file The file.
@@ -505,7 +505,7 @@ public class CPU {
 	public final void setFile(File file) {
 		this.file = file;
 	}
-	
+
 	/**
 	 * Returns the file of the CPU.
 	 * @return The file of the CPU.
@@ -513,7 +513,7 @@ public class CPU {
 	public final File getFile() {
 		return file;
 	}
-	
+
 	/**
 	 * Returns the graphical size of the CPU.
 	 * <p>The size is calculated here, so avoid calling this method repeteadly!</p>
@@ -522,14 +522,14 @@ public class CPU {
 	public Dimension getSize() {
 		int x, y, width, height;
 		width = height = 0;
-		
+
 		for(Component c: getComponents()) { // check each component's position + size and output wires points
 			// Component's position + size
 			x = c.getPosition().x + c.getSize().width;
 			y = c.getPosition().y + c.getSize().height;
 			if(x > width) width = x;
 			if(y > height) height = y;
-			
+
 			// Component's outputs points
 			for(Output o: c.getOutputs()) {
 				if(o.isConnected()) {
@@ -553,10 +553,10 @@ public class CPU {
 				}
 			}
 		}
-		
+
 		return new Dimension(width + RIGHT_MARGIN, height + BOTTOM_MARGIN);
 	}
-	
+
 	/**
 	 * Assembles the given code and updates the CPU's instruction and data memory-
 	 * @param code The code to assemble.
@@ -565,7 +565,7 @@ public class CPU {
 	public void assembleCode(String code) throws SyntaxErrorException {
 		getAssembler().assembleCode(code);
 	}
-	
+
 	/**
 	 * Loads the given assembled instructions into the instruction memory and
 	 * starts the simulation.
@@ -582,10 +582,10 @@ public class CPU {
 			getMemWbReg().setCurrentInstructionIndex(-1);
 		}
 		resetStatistics();
-		
+
 		calculateInstructionPerformance(); // Refresh critical path
 	}
-	
+
 	/**
 	 * Returns whether the currently loaded program has finished executing.
 	 * @return <tt>True</tt> it the program has finished.
@@ -598,7 +598,7 @@ public class CPU {
 		else
 			return pc.getCurrentInstructionIndex() == -1;
 	}
-	
+
 	/**
 	 * Executes the currently loaded program until the end.
 	 * @throws InfiniteLoopException If the <tt>EXECUTE_ALL_LIMIT_CYCLES</tt> limit has been reached (possible infinite loop).
@@ -611,7 +611,7 @@ public class CPU {
 			executeCycle();
 		}
 	}
-	
+
 	/**
 	 * "Executes" a clock cycle (a step).
 	 */
@@ -625,11 +625,11 @@ public class CPU {
 		}
 		if(hasHazardDetectionUnit() && getHazardDetectionUnit().getStall().getValue() != 0)
 			stalls++;
-		
+
 		saveCycleState();
 		for(Component c: synchronousComponents) // execute synchronous actions without propagating output changes
 			((IsSynchronous)c).executeSynchronous();
-		
+
 		// Store index(es) of the instruction(s) being executed
 		int index = getPC().getAddress().getValue() / (Data.DATA_SIZE / 8);
 		if(index < 0 || index >= getInstructionMemory().getNumberOfInstructions())
@@ -641,15 +641,15 @@ public class CPU {
 			updatePipelineRegisterCurrentInstruction(ifIdReg, pc.getCurrentInstructionIndex());
 		}
 		getPC().setCurrentInstructionIndex(index);
-		
+
 		for(Component c: synchronousComponents) // execute normal actions, propagating output changes
 			c.execute();
 		for(Component c: getComponents()) // "execute" all components, just to be safe
 			c.execute();
-		
+
 		calculateInstructionPerformance(); // Refresh critical path
 	}
-	
+
 	/**
 	 * Updates the current instruction index stored in the specified pipeline register.
 	 * @param reg The pipeline register to update.
@@ -661,7 +661,7 @@ public class CPU {
 			else if(reg.getWrite().getValue() == 1)
 				reg.setCurrentInstructionIndex(previousIndex);
 	}
-	
+
 	/**
 	 * Updates the program counter to a new address.
 	 * <p>This method also changes the current instruction index to a correct value,
@@ -676,7 +676,7 @@ public class CPU {
 		else
 			getPC().setCurrentInstructionIndex(-1);
 	}
-	
+
 	/**
 	 * Saves the state of the current cycle.
 	 */
@@ -684,7 +684,7 @@ public class CPU {
 		for(Component c: synchronousComponents)
 			((IsSynchronous)c).pushState();
 	}
-	
+
 	/**
 	 * Performs a "step back" in the execution if possible (if <tt>hasPreviousCycle() == true</tt>).
 	 */
@@ -696,7 +696,7 @@ public class CPU {
 				c.execute();
 			for(Component c: getComponents()) // "execute" all components
 				c.execute();
-			
+
 			executedCycles--;
 			if(!isPipeline() || memWbReg.getCurrentInstructionIndex() >= 0)
 				executedInstructions--;
@@ -706,11 +706,11 @@ public class CPU {
 			}
 			if(hasHazardDetectionUnit() && getHazardDetectionUnit().getStall().getValue() != 0)
 				stalls--;
-			
+
 			calculateInstructionPerformance(); // Refresh critical path
 		}
 	}
-	
+
 	/**
 	 * Returns whether there was a previous cycle executed.
 	 * @return <tt>True</tt> if a "step back" is possible (<tt>getPc().hasSavedStates() == true</tt>).
@@ -721,7 +721,7 @@ public class CPU {
 		else
 			return false;
 	}
-	
+
 	/**
 	 * Removes all the saved previous cycles.
 	 */
@@ -729,7 +729,7 @@ public class CPU {
 		for(Component c: synchronousComponents)
 			((IsSynchronous)c).clearSavedStates();
 	}
-	
+
 	/**
 	 * Resets the states of the CPU's components to the first cycle.
 	 */
@@ -742,11 +742,11 @@ public class CPU {
 			for(Component c: getComponents()) // "execute" all components
 				c.execute();
 			resetStatistics();
-			
+
 			calculateInstructionPerformance(); // Refresh critical path
 		}
 	}
-	
+
 	/**
 	 * Resets the stored data of the CPU to zeros (register bank and data memory).
 	 */
@@ -755,7 +755,7 @@ public class CPU {
 		if(hasDataMemory()) dataMemory.reset();
 		if(hasALU() && alu instanceof ExtendedALU) ((ExtendedALU)alu).reset();
 	}
-	
+
 	/**
 	 * Connects the given output to the given input.
 	 * @param output Output to connect from.
@@ -767,7 +767,7 @@ public class CPU {
 		output.connectTo(input);
 		return output;
 	}
-	
+
 	/**
 	 * Connects the given output to the given input.
 	 * @param outCompId The identifier of the output component.
@@ -782,7 +782,7 @@ public class CPU {
 		Component in = getComponent(inCompId);
 		if(out == null) throw new InvalidCPUException("Unknown ID " + outCompId + "!");
 		if(in == null) throw new InvalidCPUException("Unknown ID " + inCompId + "!");
-		
+
 		Output o = out.getOutput(outId);
 		Input i = in.getInput(inId);
 		if(o == null) throw new InvalidCPUException("Unknown ID " + outId + "!");
@@ -791,7 +791,7 @@ public class CPU {
 		o.connectTo(i);
 		return o;
 	}
-	
+
 	/**
 	 * Returns whether a component with the specified identifier exists.
 	 * @param id Component identifier.
@@ -800,7 +800,7 @@ public class CPU {
 	public final boolean hasComponent(String id) {
 		return components.containsKey(id);
 	}
-	
+
 	/**
 	 * Returns the component with the specified identifier.
 	 * @param id Component identifier.
@@ -809,7 +809,7 @@ public class CPU {
 	public final Component getComponent(String id) {
 		return components.get(id);
 	}
-	
+
 	/**
 	 * Returns an array with all the coponents.
 	 * @return Array with all components.
@@ -818,7 +818,7 @@ public class CPU {
 		Component[] c = new Component[components.size()];
 		return components.values().toArray(c);
 	}
-	
+
 	/**
 	 * Adds the specified component to the CPU.
 	 * @param component The component to add.
@@ -889,7 +889,7 @@ public class CPU {
 			}
 		}
 	}
-	
+
 	/**
 	 * Returns the loaded instruction set.
 	 * @return Loaded instruction set.
@@ -897,7 +897,7 @@ public class CPU {
 	public final InstructionSet getInstructionSet() {
 		return instructionSet;
 	}
-	
+
 	/**
 	 * Returns the Program Counter.
 	 * @return Program Counter.
@@ -905,7 +905,7 @@ public class CPU {
 	public final PC getPC() {
 		return pc;
 	}
-	
+
 	/**
 	 * Returns the register bank.
 	 * @return Register bank.
@@ -913,7 +913,7 @@ public class CPU {
 	public final RegBank getRegBank() {
 		return regbank;
 	}
-	
+
 	/**
 	 * Returns the instruction memory.
 	 * @return Instruction memory.
@@ -921,7 +921,7 @@ public class CPU {
 	public final InstructionMemory getInstructionMemory() {
 		return instructionMemory;
 	}
-	
+
 	/**
 	 * Returns the control unit.
 	 * @return Control unit.
@@ -929,7 +929,7 @@ public class CPU {
 	public final ControlUnit getControlUnit() {
 		return controlUnit;
 	}
-	
+
 	/**
 	 * Returns the ALU control.
 	 * @return ALU control.
@@ -937,7 +937,7 @@ public class CPU {
 	public final ALUControl getALUControl() {
 		return aluControl;
 	}
-	
+
 	/**
 	 * Returns whether the CPU contains an ALU control.
 	 * @return <tt>True</tt> if an ALU control exists.
@@ -945,7 +945,7 @@ public class CPU {
 	public final boolean hasALUControl() {
 		return aluControl != null;
 	}
-	
+
 	/**
 	 * Returns the ALU.
 	 * @return ALu.
@@ -953,7 +953,7 @@ public class CPU {
 	public final ALU getALU() {
 		return alu;
 	}
-	
+
 	/**
 	 * Returns whether the CPU contains an ALU.
 	 * @return <tt>True</tt> if an ALU exists.
@@ -961,7 +961,7 @@ public class CPU {
 	public final boolean hasALU() {
 		return alu != null;
 	}
-	
+
 	/**
 	 * Returns the data memory.
 	 * @return Data memory.
@@ -969,7 +969,7 @@ public class CPU {
 	public final DataMemory getDataMemory() {
 		return dataMemory;
 	}
-	
+
 	/**
 	 * Returns whether the CPU contains data memory.
 	 * @return <tt>True</tt> if a data memory exists.
@@ -977,7 +977,7 @@ public class CPU {
 	public final boolean hasDataMemory() {
 		return dataMemory != null;
 	}
-	
+
 	/**
 	 * Returns the forwarding unit.
 	 * @return Forwarding unit.
@@ -985,7 +985,7 @@ public class CPU {
 	public final ForwardingUnit getForwardingUnit() {
 		return forwardingUnit;
 	}
-	
+
 	/**
 	 * Returns whether the CPU contains a forwarding unit.
 	 * @return <tt>True</tt> if a forwarding unit exists.
@@ -993,7 +993,7 @@ public class CPU {
 	public final boolean hasForwardingUnit() {
 		return forwardingUnit != null;
 	}
-	
+
 	/**
 	 * Returns the hazard detection unit.
 	 * @return Hazard detection unit.
@@ -1001,7 +1001,7 @@ public class CPU {
 	public final HazardDetectionUnit getHazardDetectionUnit() {
 		return hazardDetectionUnit;
 	}
-	
+
 	/**
 	 * Returns whether the CPU contains a hazard detection unit.
 	 * @return <tt>True</tt> if a hazard detection unit exists.
@@ -1009,7 +1009,7 @@ public class CPU {
 	public final boolean hasHazardDetectionUnit() {
 		return hazardDetectionUnit != null;
 	}
-	
+
 	/**
 	 * Returns the IF/ID pipeline register.
 	 * @return IF/ID pipeline register, or <tt>null</tt> if not pipeline.
@@ -1017,7 +1017,7 @@ public class CPU {
 	public final PipelineRegister getIfIdReg() {
 		return ifIdReg;
 	}
-	
+
 	/**
 	 * Returns the ID/EX pipeline register.
 	 * @return ID/EX pipeline register, or <tt>null</tt> if not pipeline.
@@ -1025,7 +1025,7 @@ public class CPU {
 	public final PipelineRegister getIdExReg() {
 		return idExReg;
 	}
-	
+
 	/**
 	 * Returns the EX/MEM pipeline register.
 	 * @return EX/MEM pipeline register, or <tt>null</tt> if not pipeline.
@@ -1033,7 +1033,7 @@ public class CPU {
 	public final PipelineRegister getExMemReg() {
 		return exMemReg;
 	}
-	
+
 	/**
 	 * Returns the MEM/WB pipeline register.
 	 * @return MEM/WB pipeline register, or <tt>null</tt> if not pipeline.
@@ -1041,7 +1041,7 @@ public class CPU {
 	public final PipelineRegister getMemWbReg() {
 		return memWbReg;
 	}
-	
+
 	/**
 	 * Returns the index/address of the register with the specified name.
 	 * @param name Name of the register (with prefix).
@@ -1068,7 +1068,7 @@ public class CPU {
 				return -1;
 		}
 	}
-	
+
 	/**
 	 * Returns the name of the register with the specified index/address.
 	 * @param index The index of the register.
@@ -1081,7 +1081,7 @@ public class CPU {
 		else
 			return REGISTER_PREFIX + "" + index;
 	}
-	
+
 	/**
 	 * Returns whether a register with the given name exists.
 	 * @param name Name of the register (with prefix).
@@ -1090,7 +1090,7 @@ public class CPU {
 	public boolean hasRegister(String name) {
 		return getRegisterIndex(name) != -1;
 	}
-	
+
 	/**
 	 * Returns the assembler for this CPU.
 	 * @return The assembler for this CPU.
@@ -1098,7 +1098,7 @@ public class CPU {
 	public Assembler getAssembler() {
 		return assembler;
 	}
-	
+
 	/**
 	 * Parses and creates the components from the given JSON array.
 	 * @param cpu The CPU to add the components to.
@@ -1109,37 +1109,30 @@ public class CPU {
 	 */
 	private static void parseJSONComponents(CPU cpu, JSONObject components) throws JSONException, InvalidCPUException, ArrayIndexOutOfBoundsException {
 		JSONObject comp, d;
-		Component.Type type;
-		String typeOrig, id, lang;
+		String type, typeOrig, id, lang;
 		int latency;
 		LinkedList<String> ids;
 		JSONArray outs, ins;
 		Point pos;
 		Iterator<String> i = components.keys(), j;
 		Component component = null;
-		
+
 		while(i.hasNext()) {
 			id = i.next();
 			comp = components.getJSONObject(id);
 			typeOrig = comp.getString("type");
 			latency = comp.optInt("latency", 0);
 			pos = new Point(comp.getInt("x"), comp.getInt("y"));
-			
-			try {
-				type = Component.Type.valueOf(typeOrig.toUpperCase());
-			}
-			catch(IllegalArgumentException e) {
-				throw new InvalidCPUException("Unknown component type " + typeOrig + "!");
-			}
-			
-			switch(type) { 
-				case PC: cpu.addComponent(component = new PC(id, latency, pos, comp.getString("in"), comp.getString("out"), comp.optString("write", "Write"))); break;
-				case ADD: cpu.addComponent(component = new Add(id, latency, pos, comp.getString("in1"), comp.getString("in2"), comp.getString("out"))); break;
-				case AND: cpu.addComponent(component = new And(id, latency, pos, comp.getString("in1"), comp.getString("in2"), comp.getString("out"))); break;
-				case OR: cpu.addComponent(component = new Or(id, latency, pos, comp.getString("in1"), comp.getString("in2"), comp.getString("out"))); break;
-				case XOR: cpu.addComponent(component = new Xor(id, latency, pos, comp.getString("in1"), comp.getString("in2"), comp.getString("out"))); break;
-				case NOT: cpu.addComponent(component = new Not(id, latency, pos, comp.getString("in"), comp.getString("out"))); break;
-				case REGBANK:
+			type = typeOrig.toLowerCase();
+
+			switch(type) {
+				case "pc": cpu.addComponent(component = new PC(id, latency, pos, comp.getString("in"), comp.getString("out"), comp.optString("write", "Write"))); break;
+				case "add": cpu.addComponent(component = new Add(id, latency, pos, comp.getString("in1"), comp.getString("in2"), comp.getString("out"))); break;
+				case "and": cpu.addComponent(component = new And(id, latency, pos, comp.getString("in1"), comp.getString("in2"), comp.getString("out"))); break;
+				case "or": cpu.addComponent(component = new Or(id, latency, pos, comp.getString("in1"), comp.getString("in2"), comp.getString("out"))); break;
+				case "xor": cpu.addComponent(component = new Xor(id, latency, pos, comp.getString("in1"), comp.getString("in2"), comp.getString("out"))); break;
+				case "not": cpu.addComponent(component = new Not(id, latency, pos, comp.getString("in"), comp.getString("out"))); break;
+				case "regbank":
 					RegBank regbank = new RegBank(id, latency, pos, comp.getInt("num_regs"), comp.getString("read_reg1"), comp.getString("read_reg2"), comp.getString("read_data1"), comp.getString("read_data2"), comp.getString("write_reg"), comp.getString("write_data"), comp.getString("reg_write"), comp.optBoolean("forwarding"));
 					if(comp.has("const_regs")) {
 						JSONArray regs = comp.getJSONArray("const_regs");
@@ -1153,16 +1146,16 @@ public class CPU {
 					}
 					cpu.addComponent(component = regbank);
 					break;
-				case IMEM: cpu.addComponent(component = new InstructionMemory(id, latency, pos, comp.getString("in"), comp.getString("out"))); break;
-				case FORK:
+				case "imem": cpu.addComponent(component = new InstructionMemory(id, latency, pos, comp.getString("in"), comp.getString("out"))); break;
+				case "fork":
 					ids = new LinkedList<>();
 					outs = comp.optJSONArray("out");
 					for(int x = 0; x < outs.length(); x++)
 						ids.add(outs.getString(x));
 					cpu.addComponent(component = new Fork(id, latency, pos, comp.getInt("size"), comp.getString("in"), ids));
 					break;
-				case CONTROL: cpu.addComponent(component = new ControlUnit(id, latency, pos, comp.getString("in"))); break;
-				case DIST:
+				case "control": cpu.addComponent(component = new ControlUnit(id, latency, pos, comp.getString("in"))); break;
+				case "dist":
 					JSONObject inD = comp.getJSONObject("in");
 					Distributor dist = new Distributor(id, latency, pos, inD.getString("id"), inD.getInt("size"));
 					outs = comp.getJSONArray("out");
@@ -1176,23 +1169,23 @@ public class CPU {
 					}
 					cpu.addComponent(component = dist);
 					break;
-				case MUX:
+				case "mux":
 					ids = new LinkedList<>();
 					ins = comp.optJSONArray("in");
 					for(int x = 0; x < ins.length(); x++)
 						ids.add(ins.getString(x));
 					cpu.addComponent(component = new Multiplexer(id, latency, pos, comp.getInt("size"), ids, comp.getString("sel"), comp.getString("out")));
 					break;
-				case CONST: cpu.addComponent(component = new Constant(id, latency, pos, comp.getString("out"), comp.getInt("val"), comp.getInt("size"))); break;
-				case SEXT: cpu.addComponent(component = new SignExtend(id, latency, pos, comp.getJSONObject("in").getString("id"), comp.getJSONObject("in").getInt("size"), comp.getJSONObject("out").getString("id"), comp.getJSONObject("out").getInt("size"))); break;
-				case ZEXT: cpu.addComponent(component = new ZeroExtend(id, latency, pos, comp.getJSONObject("in").getString("id"), comp.getJSONObject("in").getInt("size"), comp.getJSONObject("out").getString("id"), comp.getJSONObject("out").getInt("size"))); break;
-				case SLL: cpu.addComponent(component = new ShiftLeft(id, latency, pos, comp.getJSONObject("in").getString("id"), comp.getJSONObject("in").getInt("size"), comp.getJSONObject("out").getString("id"), comp.getJSONObject("out").getInt("size"), comp.getInt("amount"))); break;
-				case CONCAT: cpu.addComponent(component = new Concatenator(id, latency, pos, comp.getJSONObject("in1").getString("id"), comp.getJSONObject("in1").getInt("size"), comp.getJSONObject("in2").getString("id"), comp.getJSONObject("in2").getInt("size"), comp.getString("out"))); break;
-				case ALU_CONTROL: cpu.addComponent(component = new ALUControl(id, latency, pos, comp.getString("aluop"), comp.getString("func"))); break;
-				case ALU: cpu.addComponent(component = new ALU(id, latency, pos, comp.getString("in1"), comp.getString("in2"), comp.getString("control"), comp.getString("out"), comp.getString("zero"))); break;
-				case EXT_ALU: cpu.addComponent(component = new ExtendedALU(id, latency, pos, comp.getString("in1"), comp.getString("in2"), comp.getString("control"), comp.getString("out"), comp.getString("zero"))); break;
-				case DMEM: cpu.addComponent(component = new DataMemory(id, latency, pos, comp.getInt("size"), comp.getString("address"), comp.getString("write_data"), comp.getString("out"), comp.getString("mem_read"), comp.getString("mem_write"))); break;
-				case PIPEREG:
+				case "const": cpu.addComponent(component = new Constant(id, latency, pos, comp.getString("out"), comp.getInt("val"), comp.getInt("size"))); break;
+				case "sext": cpu.addComponent(component = new SignExtend(id, latency, pos, comp.getJSONObject("in").getString("id"), comp.getJSONObject("in").getInt("size"), comp.getJSONObject("out").getString("id"), comp.getJSONObject("out").getInt("size"))); break;
+				case "zext": cpu.addComponent(component = new ZeroExtend(id, latency, pos, comp.getJSONObject("in").getString("id"), comp.getJSONObject("in").getInt("size"), comp.getJSONObject("out").getString("id"), comp.getJSONObject("out").getInt("size"))); break;
+				case "sll": cpu.addComponent(component = new ShiftLeft(id, latency, pos, comp.getJSONObject("in").getString("id"), comp.getJSONObject("in").getInt("size"), comp.getJSONObject("out").getString("id"), comp.getJSONObject("out").getInt("size"), comp.getInt("amount"))); break;
+				case "concat": cpu.addComponent(component = new Concatenator(id, latency, pos, comp.getJSONObject("in1").getString("id"), comp.getJSONObject("in1").getInt("size"), comp.getJSONObject("in2").getString("id"), comp.getJSONObject("in2").getInt("size"), comp.getString("out"))); break;
+				case "alu_control": cpu.addComponent(component = new ALUControl(id, latency, pos, comp.getString("aluop"), comp.getString("func"))); break;
+				case "alu": cpu.addComponent(component = new ALU(id, latency, pos, comp.getString("in1"), comp.getString("in2"), comp.getString("control"), comp.getString("out"), comp.getString("zero"))); break;
+				case "ext_alu": cpu.addComponent(component = new ExtendedALU(id, latency, pos, comp.getString("in1"), comp.getString("in2"), comp.getString("control"), comp.getString("out"), comp.getString("zero"))); break;
+				case "dmem": cpu.addComponent(component = new DataMemory(id, latency, pos, comp.getInt("size"), comp.getString("address"), comp.getString("write_data"), comp.getString("out"), comp.getString("mem_read"), comp.getString("mem_write"))); break;
+				case "pipereg":
 					Map<String, Integer> regs = new TreeMap<>();
 					JSONObject r = comp.optJSONObject("regs");
 					if(r != null) {
@@ -1205,11 +1198,11 @@ public class CPU {
 					}
 					cpu.addComponent(component = new PipelineRegister(id, latency, pos, regs, comp.optString("write", "Write"), comp.optString("flush", "Flush")));
 					break;
-				case FWD_UNIT: cpu.addComponent(component = new ForwardingUnit(id, latency, pos, comp.getString("ex_mem_reg_write"), comp.getString("mem_wb_reg_write"), comp.getString("ex_mem_rd"), comp.getString("mem_wb_rd"), comp.getString("id_ex_rs"), comp.getString("id_ex_rt"), comp.getString("fwd_a"), comp.getString("fwd_b"))); break;
-				case HZD_UNIT: cpu.addComponent(component = new HazardDetectionUnit(id, latency, pos, comp.getString("id_ex_mem_read"), comp.getString("id_ex_rt"), comp.getString("if_id_rs"), comp.getString("if_id_rt"), comp.getString("stall"))); break;
+				case "fwd_unit": cpu.addComponent(component = new ForwardingUnit(id, latency, pos, comp.getString("ex_mem_reg_write"), comp.getString("mem_wb_reg_write"), comp.getString("ex_mem_rd"), comp.getString("mem_wb_rd"), comp.getString("id_ex_rs"), comp.getString("id_ex_rt"), comp.getString("fwd_a"), comp.getString("fwd_b"))); break;
+				case "hzd_unit": cpu.addComponent(component = new HazardDetectionUnit(id, latency, pos, comp.getString("id_ex_mem_read"), comp.getString("id_ex_rt"), comp.getString("if_id_rs"), comp.getString("if_id_rt"), comp.getString("stall"))); break;
 				default: throw new InvalidCPUException("Unknown component type " + typeOrig + "!");
 			}
-			
+
 			// Custom descriptions, if any
 			if(component != null && (d = comp.optJSONObject("desc")) != null) {
 				j = d.keys();
@@ -1220,7 +1213,7 @@ public class CPU {
 			}
 		}
 	}
-	
+
 	/**
 	 * Parses wires from the given JSON array and connects the components.
 	 * @param cpu The CPU to add wires to.
@@ -1232,10 +1225,10 @@ public class CPU {
 		JSONObject wire, point, start, end;
 		JSONArray points;
 		Output out;
-		
+
 		for(int i = 0; i < wires.length(); i++) {
 			wire = wires.getJSONObject(i);
-			out = cpu.connectComponents(wire.getString("from"), wire.getString("out"), 
+			out = cpu.connectComponents(wire.getString("from"), wire.getString("out"),
 				wire.getString("to"), wire.getString("in"));
 			points = wire.optJSONArray("points");
 			if(points != null) {
@@ -1250,7 +1243,7 @@ public class CPU {
 				out.getConnectedInput().setPosition(new Point(end.getInt("x"), end.getInt("y")));
 		}
 	}
-	
+
 	/**
 	 * Parses and sets the identifiers of the registers.
 	 * @param cpu The CPU to set the registers informations.
@@ -1263,17 +1256,17 @@ public class CPU {
 			throw new InvalidCPUException("Not all registers have been specified in the registers block!");
 		cpu.registerNames = new ArrayList<>(cpu.getRegBank().getNumberOfRegisters());
 		String id;
-		
+
 		for(int i = 0; i < regs.length(); i++) {
 			id = regs.getString(i).trim().toLowerCase();
-			
-			if(id.isEmpty()) 
+
+			if(id.isEmpty())
 				throw new InvalidCPUException("Invalid name " + id + "!");
 			if(!id.matches(REGNAME_REGEX)) // has only letters and digits and starts with a letter?
 				throw new InvalidCPUException("Invalid name " + id + "!");
-			if(cpu.hasRegister(REGISTER_PREFIX + id)) 
+			if(cpu.hasRegister(REGISTER_PREFIX + id))
 				throw new InvalidCPUException("Invalid name " + id + "!");
-				
+
 			cpu.registerNames.add(id);
 		}
 	}
