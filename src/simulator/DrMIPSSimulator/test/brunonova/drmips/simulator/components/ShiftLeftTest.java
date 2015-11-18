@@ -34,8 +34,8 @@ public class ShiftLeftTest {
 		tComp(0x10, 0x5, 4, 6, 4);
 	}
 
-	private void tComp(int expected, int inValue, int inSize, int outSize, int ammount) throws InvalidCPUException {
-		ShiftLeft c = new ShiftLeft("test", 0, new Point(0, 0), "in", inSize, "out", outSize, ammount);
+	private void tComp(int expected, int inValue, int inSize, int outSize, int amount) throws InvalidCPUException {
+		ShiftLeft c = new ShiftLeft("test", 0, new Point(0, 0), "in", inSize, "out", outSize, amount);
 		c.getInput().setValue(inValue);
 		c.execute();
 		assertEquals(new Data(outSize, expected), c.getOutput().getData());

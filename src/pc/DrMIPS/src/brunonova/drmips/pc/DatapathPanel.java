@@ -261,14 +261,14 @@ public class DatapathPanel extends JLayeredPane {
 	}
 
 	/**
-	 * Increases the scale/zoom level by {@link #SCALE_STEP} ammount, if possible.
+	 * Increases the scale/zoom level by {@link #SCALE_STEP} amount, if possible.
 	 */
 	public void increaseScale() {
 		setScale(getScale() + SCALE_STEP);
 	}
 
 	/**
-	 * Decreases the scale/zoom level by {@link #SCALE_STEP} ammount, if possible.
+	 * Decreases the scale/zoom level by {@link #SCALE_STEP} amount, if possible.
 	 */
 	public void decreaseScale() {
 		setScale(getScale() - SCALE_STEP);
