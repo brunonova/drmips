@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -1105,45 +1106,28 @@ public class CPU {
 	 * @param components JSONObject that contains the components array.
 	 * @throws JSONException If the JSON file is malformed.
 	 * @throws InvalidCPUException If the CPU is invalid or incomplete.
-	 * @throws ArrayIndexOutOfBoundsException If an array index is invalid somewhere (like an invalid register).
 	 */
-	private static void parseJSONComponents(CPU cpu, JSONObject components) throws JSONException, InvalidCPUException, ArrayIndexOutOfBoundsException {
+	private static void parseJSONComponents(CPU cpu, JSONObject components) throws JSONException, InvalidCPUException {
 		JSONObject comp;
-		String type, typeOrig, id;
+		String type, id;
 		Iterator<String> i = components.keys();
+		ClassLoader loader = CPU.class.getClassLoader();
+		Class cl;
+		Component c;
 
 		while(i.hasNext()) {
 			id = i.next();
 			comp = components.getJSONObject(id);
-			typeOrig = comp.getString("type");
-			type = typeOrig.toLowerCase();
+			type = comp.getString("type");
 
-			switch(type) {
-				case "pc": cpu.addComponent(new PC(id, comp)); break;
-				case "add": cpu.addComponent(new Add(id, comp)); break;
-				case "and": cpu.addComponent(new And(id, comp)); break;
-				case "or": cpu.addComponent(new Or(id, comp)); break;
-				case "xor": cpu.addComponent(new Xor(id, comp)); break;
-				case "not": cpu.addComponent(new Not(id, comp)); break;
-				case "regbank": cpu.addComponent(new RegBank(id, comp)); break;
-				case "imem": cpu.addComponent(new InstructionMemory(id, comp)); break;
-				case "fork": cpu.addComponent(new Fork(id, comp)); break;
-				case "control": cpu.addComponent(new ControlUnit(id, comp)); break;
-				case "dist": cpu.addComponent(new Distributor(id, comp)); break;
-				case "mux": cpu.addComponent(new Multiplexer(id, comp)); break;
-				case "const": cpu.addComponent(new Constant(id, comp)); break;
-				case "sext": cpu.addComponent(new SignExtend(id, comp)); break;
-				case "zext": cpu.addComponent(new ZeroExtend(id, comp)); break;
-				case "sll": cpu.addComponent(new ShiftLeft(id, comp)); break;
-				case "concat": cpu.addComponent(new Concatenator(id, comp)); break;
-				case "alu_control": cpu.addComponent(new ALUControl(id, comp)); break;
-				case "alu": cpu.addComponent(new ALU(id, comp)); break;
-				case "ext_alu": cpu.addComponent(new ExtendedALU(id, comp)); break;
-				case "dmem": cpu.addComponent(new DataMemory(id, comp)); break;
-				case "pipereg": cpu.addComponent(new PipelineRegister(id, comp)); break;
-				case "fwd_unit": cpu.addComponent(new ForwardingUnit(id, comp)); break;
-				case "hzd_unit": cpu.addComponent(new HazardDetectionUnit(id, comp)); break;
-				default: throw new InvalidCPUException("Unknown component type " + typeOrig + "!");
+			try {
+				cl = loader.loadClass("brunonova.drmips.simulator.components." + type);
+				c = (Component)cl.asSubclass(Component.class)
+				                 .getConstructor(String.class, JSONObject.class)
+				                 .newInstance(id, comp);
+				cpu.addComponent(c);
+			} catch(ClassNotFoundException | ClassCastException | NoSuchMethodException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+				throw new InvalidCPUException("Unknown component type " + type + "!");
 			}
 		}
 	}
