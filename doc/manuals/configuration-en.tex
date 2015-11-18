@@ -124,7 +124,8 @@ for all components. These are:
 The following subsections explain the different types of components available
 and their specific properties. 
 The titles of the subsections are the values that should be written in the
-\verb+type+ property of the components. This property is case-insensitive.
+\verb+type+ property of the components. These correspond to the names of the classes
+in the source code. This property is \textbf{case-sensitive}.
 
 \subsection{Add}
 
@@ -147,7 +148,7 @@ The basic ALU. Only one ALU or Extended ALU can be present. The specific propert
 	\item \textbf{zero}: Identifier of the 1 bit \emph{zero} output.
 \end{itemize}
 
-\subsection{ALU\_Control}
+\subsection{ALUControl}
 
 The component that controls the ALU. Only one can be present.
 The specific properties are:
@@ -166,7 +167,7 @@ A logical \emph{AND} port. The specific properties are:
 	\item \textbf{out}: Identifier of the output.
 \end{itemize}
 
-\subsection{Concat}
+\subsection{Concatenator}
 
 A ``concatenator'' that concatenates the values of the two inputs into a single output.
 The value of the output is the concatenation of the value of the first input (as higher
@@ -186,7 +187,7 @@ objects are:
 	\item \textbf{size}: Size of the input (in bits).
 \end{itemize}
 
-\subsection{Const}
+\subsection{Constant}
 
 A component that outputs a constant value. The specific properties are:
 \begin{itemize}
@@ -195,13 +196,25 @@ A component that outputs a constant value. The specific properties are:
 	\item \textbf{size}: Size of the output (in bits).
 \end{itemize}
 
-\subsection{Control}
+\subsection{ControlUnit}
 
 The control unit. The datapath must have one control unit.
 This component has only one specific property: \textbf{in}, which is
 the identifier of the input.
 
-\subsection{Dist}
+\subsection{DataMemory}
+
+The data memory. Only one can be present. The specific properties are:
+\begin{itemize}
+	\item \textbf{size}: Size of the memory (number of 32 bits memory positions).
+	\item \textbf{address}: Identifier of the \emph{Address} input.
+	\item \textbf{write\_data}: Identifier of the \emph{WriteData} input.
+	\item \textbf{out}: Identifier of the output.
+	\item \textbf{mem\_read}: Identifier of the \emph{MemRead} control input.
+	\item \textbf{mem\_write}: Identifier of the \emph{MemWrite} control input.
+\end{itemize}
+
+\subsection{Distributor}
 
 This component distributes the bits of the input through several outputs.
 The specific properties are:
@@ -223,19 +236,7 @@ The specific properties are:
 		\end{itemize}
 \end{itemize}
 
-\subsection{DMem}
-
-The data memory. Only one can be present. The specific properties are:
-\begin{itemize}
-	\item \textbf{size}: Size of the memory (number of 32 bits memory positions).
-	\item \textbf{address}: Identifier of the \emph{Address} input.
-	\item \textbf{write\_data}: Identifier of the \emph{WriteData} input.
-	\item \textbf{out}: Identifier of the output.
-	\item \textbf{mem\_read}: Identifier of the \emph{MemRead} control input.
-	\item \textbf{mem\_write}: Identifier of the \emph{MemWrite} control input.
-\end{itemize}
-
-\subsection{Ext\_ALU}
+\subsection{ExtendedALU}
 
 An extended ALU. This ALU stores the \verb+hi+ and \verb+lo+ registers and is
 capable of calculating multiplications and divisions.
@@ -260,7 +261,7 @@ The specific properties are:
 	\item \textbf{out}: Array with the identifiers of the outputs.
 \end{itemize}
 
-\subsection{Fwd\_Unit}
+\subsection{ForwardingUnit}
 
 The pipeline forwarding unit. Only one can be present.
 The specific properties are:
@@ -275,7 +276,7 @@ The specific properties are:
 	\item \textbf{fwd\_b}: Identifier of the \emph{ForwardB} output.
 \end{itemize}
 
-\subsection{Hzd\_Unit}
+\subsection{HazardDetectionUnit}
 
 The pipeline hazard detection unit. Only one can be present.
 The specific properties are:
@@ -287,7 +288,7 @@ The specific properties are:
 	\item \textbf{stall}: Identifier of the output.
 \end{itemize}
 
-\subsection{IMem}
+\subsection{InstructionMemory}
 
 The instruction memory. The datapath must have one instruction memory.
 The specific properties are:
@@ -296,7 +297,7 @@ The specific properties are:
 	\item \textbf{out}: Identifier of the output.
 \end{itemize}
 
-\subsection{Mux}
+\subsection{Multiplexer}
 
 A multiplexer. The specific properties are:
 \begin{itemize}
@@ -323,7 +324,17 @@ A logical \emph{OR} port. The specific properties are:
 	\item \textbf{out}: Identifier of the output.
 \end{itemize}
 
-\subsection{PipeReg}
+\subsection{PC}
+
+The program counter. The datapath must have one program counter.
+The specific properties are:
+\begin{itemize}
+	\item \textbf{in}: Identifier of the input.
+	\item \textbf{out}: Identifier of the output.
+	\item \textbf{write}: Optional. Identifier of the \emph{Write} control input.
+\end{itemize}
+
+\subsection{PipelineRegister}
 
 A pipeline register that separates two stages of the pipeline.
 A pipelined datapath must have exactly 4 of these registers (corresponding to a
@@ -336,16 +347,6 @@ The specific properties are:
 		the identifier of the register and corresponding input and output, and
 		the value is the size of the register (in bits).
 	\item \textbf{flush}: Optional. Identifier of the \emph{Flush} control input.
-	\item \textbf{write}: Optional. Identifier of the \emph{Write} control input.
-\end{itemize}
-
-\subsection{PC}
-
-The program counter. The datapath must have one program counter.
-The specific properties are:
-\begin{itemize}
-	\item \textbf{in}: Identifier of the input.
-	\item \textbf{out}: Identifier of the output.
 	\item \textbf{write}: Optional. Identifier of the \emph{Write} control input.
 \end{itemize}
 
@@ -374,7 +375,16 @@ The specific properties are:
 		\end{itemize}
 \end{itemize}
 
-\subsection{SExt}
+\subsection{ShiftLeft}
+
+A shift-left logical. The specific properties are:
+\begin{itemize}
+	\item \textbf{in}: Properties of the input.
+	\item \textbf{out}: Properties of the output.
+	\item \textbf{amount}: Number of bits to shift left.
+\end{itemize}
+
+\subsection{SignExtend}
 
 A sign extender. The specific properties are:
 \begin{itemize}
@@ -387,15 +397,6 @@ The properties of these objects are:
 \begin{itemize}
 	\item \textbf{id}: Identifier of the input/output.
 	\item \textbf{size}: Size of the input/output (in bits).
-\end{itemize}
-
-\subsection{SLL}
-
-A shift-left logical. The specific properties are:
-\begin{itemize}
-	\item \textbf{in}: Properties of the input.
-	\item \textbf{out}: Properties of the output.
-	\item \textbf{amount}: Number of bits to shift left.
 \end{itemize}
 
 The properties of both the input and output are defined as JSON objects. 
@@ -414,7 +415,7 @@ A logical \emph{XOR} port. The specific properties are:
 	\item \textbf{out}: Identifier of the output.
 \end{itemize}
 
-\subsection{ZExt}
+\subsection{ZeroExtend}
 
 A zero extender. The specific properties are:
 \begin{itemize}

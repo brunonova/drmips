@@ -125,7 +125,8 @@ algumas existem para todos os componentes. Estas são:
 As subsecções seguintes explicam os diferentes tipos de componentes disponíveis
 e as suas propriedades específicas.
 Os títulos das subsecções são os valores que devem ser escritos na propriedade
-\verb+type+ dos componentes. Esta propriedade não é sensível à capitalização.
+\verb+type+ dos componentes. Estes correspondem aos nomes das classes no
+código fonte. Esta propriedade é \textbf{sensível à capitalização}.
 
 \subsection{Add}
 
@@ -149,7 +150,7 @@ específicas são:
 	\item \textbf{zero}: Identificador da saída de 1 bit do \emph{zero}.
 \end{itemize}
 
-\subsection{ALU\_Control}
+\subsection{ALUControl}
 
 O componente que controla a ALU. Só um pode estar presente.
 As propriedades específicas são:
@@ -168,7 +169,7 @@ Uma porta lógica \emph{AND}. As propriedades específicas são:
 	\item \textbf{out}: Identificador da saída.
 \end{itemize}
 
-\subsection{Concat}
+\subsection{Concatenator}
 
 Um ``concatenador'' que concatena os valores de duas entradas numa única saída.
 O valor da saída é a concatenação do valor da primeira entrada (como bits mais
@@ -188,7 +189,7 @@ propriedades destes objectos são:
 	\item \textbf{size}: Tamanho da entrada (em bits).
 \end{itemize}
 
-\subsection{Const}
+\subsection{Constant}
 
 Um componente que produz um valor constante. As propriedades específicas são:
 \begin{itemize}
@@ -197,13 +198,26 @@ Um componente que produz um valor constante. As propriedades específicas são:
 	\item \textbf{size}: Tamanho da saída (em bits).
 \end{itemize}
 
-\subsection{Control}
+\subsection{ControlUnit}
 
 A unidade de controlo. O caminho de dados tem de ter uma unidade de controlo.
 Este componente tem apenas uma propriedade específica: \textbf{in}, que é o
 identificador da entrada.
 
-\subsection{Dist}
+\subsection{DataMemory}
+
+A memória de dados. Só uma pode estar presente. As propriedades específicas são:
+\begin{itemize}
+	\item \textbf{size}: Tamanho da memória (número de posições de memória de
+		32 bits).
+	\item \textbf{address}: Identificador da entrada \emph{Address}.
+	\item \textbf{write\_data}: Identificador da entrada \emph{WriteData}.
+	\item \textbf{out}: Identificador da saída.
+	\item \textbf{mem\_read}: Identificador da entrada de controlo \emph{MemRead}.
+	\item \textbf{mem\_write}: Identificador da entrada de controlo \emph{MemWrite}.
+\end{itemize}
+
+\subsection{Distributor}
 
 Este componente distribui os bits da entrada por várias saídas.
 As propriedades específicas são:
@@ -225,20 +239,7 @@ As propriedades específicas são:
 		\end{itemize}
 \end{itemize}
 
-\subsection{DMem}
-
-A memória de dados. Só uma pode estar presente. As propriedades específicas são:
-\begin{itemize}
-	\item \textbf{size}: Tamanho da memória (número de posições de memória de
-		32 bits).
-	\item \textbf{address}: Identificador da entrada \emph{Address}.
-	\item \textbf{write\_data}: Identificador da entrada \emph{WriteData}.
-	\item \textbf{out}: Identificador da saída.
-	\item \textbf{mem\_read}: Identificador da entrada de controlo \emph{MemRead}.
-	\item \textbf{mem\_write}: Identificador da entrada de controlo \emph{MemWrite}.
-\end{itemize}
-
-\subsection{Ext\_ALU}
+\subsection{ExtendedALU}
 
 Uma ALU estendida. Esta ALU armazena os registos \verb+hi+ e \verb+lo+ e é capaz
 de realizar multiplicações e divisões.
@@ -263,7 +264,7 @@ As propriedades específicas são:
 	\item \textbf{out}: \emph{Array} com os identificadores das saídas.
 \end{itemize}
 
-\subsection{Fwd\_Unit}
+\subsection{ForwardingUnit}
 
 A unidade de atalhos da \emph{pipeline}. Apenas uma pode estar presente.
 As propriedades específicas são:
@@ -278,7 +279,7 @@ As propriedades específicas são:
 	\item \textbf{fwd\_b}: Identificador da saída \emph{ForwardB}.
 \end{itemize}
 
-\subsection{Hzd\_Unit}
+\subsection{HazardDetectionUnit}
 A unidade de detecção de conflitos da \emph{pipeline}. Apenas uma pode estar
 presente.
 As propriedades específicas são:
@@ -290,7 +291,7 @@ As propriedades específicas são:
 	\item \textbf{stall}: Identificador da saída.
 \end{itemize}
 
-\subsection{IMem}
+\subsection{InstructionMemory}
 
 A memória de instruções. O caminho de dados tem de ter uma memória de instruções.
 As propriedades específicas são:
@@ -299,7 +300,7 @@ As propriedades específicas são:
 	\item \textbf{out}: Identificador da saída.
 \end{itemize}
 
-\subsection{Mux}
+\subsection{Multiplexer}
 
 Um multiplexador. As propriedades específicas são:
 \begin{itemize}
@@ -326,7 +327,17 @@ Uma porta lógica \emph{OR}. As propriedades específicas são:
 	\item \textbf{out}: Identificador da saída.
 \end{itemize}
 
-\subsection{PipeReg}
+\subsection{PC}
+
+O contador do programa. O caminho de dados tem de ter um contador do programa.
+As propriedades específicas são:
+\begin{itemize}
+	\item \textbf{in}: Identificador da entrada.
+	\item \textbf{out}: Identificador da saída.
+	\item \textbf{write}: Opcional. Identificador da saída de controlo \emph{Write}.
+\end{itemize}
+
+\subsection{PipelineRegister}
 
 Um registo de \emph{pipeline} que separa duas etapas da \emph{pipeline}.
 Um caminho de dados \emph{pipeline} tem de ter exactamente 4 destes registos
@@ -341,16 +352,6 @@ As propriedades específicas são:
 		tamanho do registo (em bits).
 	\item \textbf{flush}: Opcional. Identificador da entrada de controlo \emph{Flush}.
 	\item \textbf{write}: Opcional. Identificador da entrada de controlo \emph{Write}.
-\end{itemize}
-
-\subsection{PC}
-
-O contador do programa. O caminho de dados tem de ter um contador do programa.
-As propriedades específicas são:
-\begin{itemize}
-	\item \textbf{in}: Identificador da entrada.
-	\item \textbf{out}: Identificador da saída.
-	\item \textbf{write}: Opcional. Identificador da saída de controlo \emph{Write}.
 \end{itemize}
 
 \subsection{RegBank}
@@ -378,7 +379,16 @@ As propriedades específicas são:
 		\end{itemize}
 \end{itemize}
 
-\subsection{SExt}
+\subsection{ShiftLeft}
+
+Um deslocador para a esquerda. As propriedades específicas são:
+\begin{itemize}
+	\item \textbf{in}: Propriedades da entrada.
+	\item \textbf{out}: Propriedades da saída.
+	\item \textbf{amount}: Número de bits a deslocar
+\end{itemize}
+
+\subsection{SignExtend}
 
 Uma extensão de sinal. As propriedades específicas são:
 \begin{itemize}
@@ -391,15 +401,6 @@ As propriedades destes objectos são:
 \begin{itemize}
 	\item \textbf{id}: Identificador da entrada/saída.
 	\item \textbf{size}: Tamanho da entrada/saída (em bits).
-\end{itemize}
-
-\subsection{SLL}
-
-Um deslocador para a esquerda. As propriedades específicas são:
-\begin{itemize}
-	\item \textbf{in}: Propriedades da entrada.
-	\item \textbf{out}: Propriedades da saída.
-	\item \textbf{amount}: Número de bits a deslocar
 \end{itemize}
 
 As propriedades da entrada e da saída são definidas como objectos JSON.
@@ -418,7 +419,7 @@ Uma porta lógica \emph{XOR}. As propriedades específicas são:
 	\item \textbf{out}: Identificador da saída.
 \end{itemize}
 
-\subsection{ZExt}
+\subsection{ZeroExtend}
 Uma extensão de valor. As propriedades específicas são:
 \begin{itemize}
 	\item \textbf{in}: Propriedades da entrada.
