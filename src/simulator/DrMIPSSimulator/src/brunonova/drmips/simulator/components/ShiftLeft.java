@@ -32,11 +32,11 @@ import org.json.JSONObject;
 public class ShiftLeft extends Component {
 	private final Input input;
 	private final Output output;
-	private final int ammount;
+	private final int amount;
 
 	public ShiftLeft(String id, JSONObject json) throws InvalidCPUException, JSONException {
 		super(id, json, "Shift\nleft " + json.getInt("amount"), "shift_left", "shift_left_description", new Dimension(40, 40));
-		ammount = json.getInt("amount");
+		amount = json.getInt("amount");
 
 		JSONObject i = json.getJSONObject("in");
 		JSONObject o = json.getJSONObject("out");
@@ -46,7 +46,7 @@ public class ShiftLeft extends Component {
 
 	@Override
 	public void execute() {
-		getOutput().setValue(getInput().getValue() << ammount);
+		getOutput().setValue(getInput().getValue() << amount);
 	}
 
 	/**

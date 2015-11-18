@@ -397,7 +397,7 @@ public class CPU {
 	}
 
 	/**
-	 * Returns the ammount of time spent executing the program.
+	 * Returns the amount of time spent executing the program.
 	 * @return Execution time (in LATENCY_UNIT unit).
 	 */
 	public long getExecutionTime() {
