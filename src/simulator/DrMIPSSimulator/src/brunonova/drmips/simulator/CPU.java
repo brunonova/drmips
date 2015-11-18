@@ -1114,48 +1114,71 @@ public class CPU {
 	 * @throws InvalidCPUException If the CPU is invalid or incomplete.
 	 */
 	private static void parseJSONComponents(CPU cpu, JSONObject components, String parentPath) throws JSONException, InvalidCPUException {
-		JSONObject comp;
+		JSONObject json;
 		String type, id;
-		Iterator<String> i = components.keys();
-		ClassLoader loader = CPU.class.getClassLoader();
-		ClassLoader customLoader;
 		Class cl;
-		Component c;
+		Component comp;
 
+		// ClassLoader to load the built-in components
+		ClassLoader loader = CPU.class.getClassLoader();
+
+		// ClassLoader to load custom components
 		File parentDir = new File(parentPath + File.separator);
+		ClassLoader customLoader;
 		try {
 			URL[] urls = new URL[] {parentDir.toURI().toURL()};
 			customLoader = new URLClassLoader(urls);
-		} catch(MalformedURLException ex) {
+		} catch(Exception ex) {
 			customLoader = null;
 		}
 
+		// Parse the components
+		Iterator<String> i = components.keys();
 		while(i.hasNext()) {
 			id = i.next();
-			comp = components.getJSONObject(id);
-			type = comp.getString("type");
+			json = components.getJSONObject(id);
+			type = json.getString("type");
 
+			// Load the class with the name specified by "type"
 			try {
+				// Search in the built-in classes first
 				cl = loader.loadClass("brunonova.drmips.simulator.components." + type);
 			} catch(ClassNotFoundException ex) {
+				// Search in the custom components second
 				if(customLoader != null) {
 					try {
 						cl = customLoader.loadClass(type);
 					} catch(ClassNotFoundException ex2) {
-						throw new InvalidCPUException("Unknown component type " + type + "!");
+						ex2.initCause(ex);
+						throw new InvalidCPUException("Unknown component type " + type + "!", ex2);
 					}
 				} else {
-					throw new InvalidCPUException("Unknown component type " + type + "!");
+					throw new InvalidCPUException("Unknown component type " + type + "!", ex);
 				}
 			}
 
+			// Create the component with the (String, JSONObject) contructor
+			// and add it to the CPU
 			try {
-				c = (Component)cl.asSubclass(Component.class)
-				                 .getConstructor(String.class, JSONObject.class)
-				                 .newInstance(id, comp);
-				cpu.addComponent(c);
-			} catch(ClassCastException | NoSuchMethodException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-				throw new InvalidCPUException("Unknown component type " + type + "!");
+				comp = (Component)cl.asSubclass(Component.class)
+				                    .getConstructor(String.class, JSONObject.class)
+				                    .newInstance(id, json);
+				cpu.addComponent(comp);
+			} catch(ClassCastException ex) {
+				throw new InvalidCPUException("The " + type + " class is not a subclass of Component!", ex);
+			} catch(NoSuchMethodException ex) {
+				throw new InvalidCPUException("The " + type + " class is missing the (String, JSONObject) constructor!", ex);
+			} catch(InvocationTargetException ex) {
+				Throwable target = ex.getCause();
+				if(target instanceof InvalidCPUException) {
+					throw (InvalidCPUException)target;
+				} else if(target instanceof JSONException) {
+					throw (JSONException)target;
+				} else {
+					throw new InvalidCPUException("Failed to create the component " + id + "!", ex);
+				}
+			} catch(InstantiationException | IllegalAccessException | IllegalArgumentException ex) {
+				throw new InvalidCPUException("Failed to create the component " + id + "!", ex);
 			}
 		}
 	}

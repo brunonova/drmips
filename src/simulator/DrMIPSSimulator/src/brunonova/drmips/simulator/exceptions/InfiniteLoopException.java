@@ -20,7 +20,7 @@ package brunonova.drmips.simulator.exceptions;
 
 /**
  * Exception to be thrown when possible infinite loop has been detected during program execution.
- * 
+ *
  * @author Bruno Nova
  */
 public class InfiniteLoopException extends Exception {
@@ -30,12 +30,21 @@ public class InfiniteLoopException extends Exception {
 	public InfiniteLoopException() {
 		super();
 	}
-	
+
 	/**
 	 * Exception constructor.
 	 * @param msg The error message.
 	 */
 	public InfiniteLoopException(String msg) {
 		super(msg);
+	}
+
+	/**
+	 * Exception constructor.
+	 * @param msg The error message.
+	 * @param cause The throwable that caused this exception.
+	 */
+	public InfiniteLoopException(String msg, Throwable cause) {
+		super(msg, cause);
 	}
 }

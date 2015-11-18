@@ -20,7 +20,7 @@ package brunonova.drmips.simulator.exceptions;
 
 /**
  * Exception to be thrown when an instruction type is invalid.
- * 
+ *
  * @author Bruno Nova
  */
 public class InvalidInstructionSetException extends Exception {
@@ -30,5 +30,14 @@ public class InvalidInstructionSetException extends Exception {
 	 */
 	public InvalidInstructionSetException(String msg) {
 		super(msg);
+	}
+
+	/**
+	 * Exception constructor.
+	 * @param msg The error message.
+	 * @param cause The throwable that caused this exception.
+	 */
+	public InvalidInstructionSetException(String msg, Throwable cause) {
+		super(msg, cause);
 	}
 }

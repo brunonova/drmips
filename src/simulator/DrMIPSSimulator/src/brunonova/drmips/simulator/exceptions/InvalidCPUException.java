@@ -20,7 +20,7 @@ package brunonova.drmips.simulator.exceptions;
 
 /**
  * Exception to be thrown when a created CPU is invalid or incomplete.
- * 
+ *
  * @author Bruno Nova
  */
 public class InvalidCPUException extends Exception {
@@ -30,5 +30,14 @@ public class InvalidCPUException extends Exception {
 	 */
 	public InvalidCPUException(String msg) {
 		super(msg);
+	}
+
+	/**
+	 * Exception constructor.
+	 * @param msg The error message.
+	 * @param cause The throwable that caused this exception.
+	 */
+	public InvalidCPUException(String msg, Throwable cause) {
+		super(msg, cause);
 	}
 }
