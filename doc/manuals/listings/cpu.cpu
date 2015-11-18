@@ -1,6 +1,6 @@
 {
 	"components": {
-		"MUX_DST": {"type": "mux", "x": 205, "y": 260, "size": 5, "sel": "RegDst", "out": "OUT", "in": ["0", "1"], "desc": {"default": "Selects rt or rd as the destination register.", "pt": "Selecciona o rt ou rd como registo de destino."}},
+		"MUX_DST": {"type": "Multiplexer", "x": 205, "y": 260, "size": 5, "sel": "RegDst", "out": "OUT", "in": ["0", "1"], "desc": {"default": "Selects rt or rd as the destination register.", "pt": "Selecciona o rt ou rd como registo de destino."}},
 		...
 	},
 	"wires": {
