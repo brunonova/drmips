@@ -18,7 +18,6 @@
 
 package brunonova.drmips.simulator;
 
-import brunonova.drmips.simulator.*;
 import brunonova.drmips.simulator.exceptions.InvalidCPUException;
 import brunonova.drmips.simulator.util.Dimension;
 import org.json.JSONException;
@@ -33,6 +32,18 @@ public abstract class SimpleBinaryOperationComponent extends Component {
 	private final Input input1, input2;
 	private final Output output;
 
+	/**
+	 * Component constructor.
+	 * @param id The component's identifier.
+	 * @param json The JSON object representing the component that should be parsed.
+	 * @param displayName The name displayed on the GUI.
+	 * @param nameKey The key of the component's name on the language file, shown on the component's tooltip.
+	 * @param descriptionKey The key of the component's description on the language file.
+	 * @param size The size of the component on the GUI.
+	 * @param dataSize The size of the inputs and outputs (if greater than 1, a balloon tip is displayed).
+	 * @throws InvalidCPUException If the component has invalid parameters.
+	 * @throws JSONException If the JSON object is invalid or incomplete.
+	 */
 	public SimpleBinaryOperationComponent(String id, JSONObject json, String displayName, String nameKey, String descriptionKey, Dimension size, int dataSize) throws InvalidCPUException, JSONException {
 		super(id, json, displayName, nameKey, descriptionKey, size);
 		boolean showTip = dataSize > 1;
@@ -48,7 +59,7 @@ public abstract class SimpleBinaryOperationComponent extends Component {
 
 	/**
 	 * Calculates the result of the binary operation between the two inputs.
-	 * <p>Derived classes must implement this method.</p>
+	 * <p>Subclasses must implement this method.</p>
 	 * @param in1 The first input's value.
 	 * @param in2 The second input's value.
 	 * @return The result.

@@ -40,6 +40,13 @@ public class PipelineRegister extends Component implements IsSynchronous {
 	private int currentInstructionIndex = -1;
 	private final Stack<Integer> instructions = new Stack<>(); // previous instructions
 
+	/**
+	 * Component constructor.
+	 * @param id The component's identifier.
+	 * @param json The JSON object representing the component that should be parsed.
+	 * @throws InvalidCPUException If the component has invalid parameters.
+	 * @throws JSONException If the JSON object is invalid or incomplete.
+	 */
 	public PipelineRegister(String id, JSONObject json) throws InvalidCPUException, JSONException {
 		super(id, json, "", "pipeline_register", "pipeline_register_description", new Dimension(15, 300));
 		setDisplayName();

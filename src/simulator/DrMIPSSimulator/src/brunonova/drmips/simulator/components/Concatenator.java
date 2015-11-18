@@ -37,6 +37,13 @@ public class Concatenator extends Component {
 	private final Input input1, input2;
 	private final Output output;
 
+	/**
+	 * Component constructor.
+	 * @param id The component's identifier.
+	 * @param json The JSON object representing the component that should be parsed.
+	 * @throws InvalidCPUException If the component has invalid parameters.
+	 * @throws JSONException If the JSON object is invalid or incomplete.
+	 */
 	public Concatenator(String id, JSONObject json) throws InvalidCPUException, JSONException {
 		super(id, json, "", "concatenator", "concatenator_description", new Dimension(5, 5));
 

@@ -34,6 +34,13 @@ public class ShiftLeft extends Component {
 	private final Output output;
 	private final int amount;
 
+	/**
+	 * Component constructor.
+	 * @param id The component's identifier.
+	 * @param json The JSON object representing the component that should be parsed.
+	 * @throws InvalidCPUException If the component has invalid parameters.
+	 * @throws JSONException If the JSON object is invalid or incomplete.
+	 */
 	public ShiftLeft(String id, JSONObject json) throws InvalidCPUException, JSONException {
 		super(id, json, "Shift\nleft " + json.getInt("amount"), "shift_left", "shift_left_description", new Dimension(40, 40));
 		amount = json.getInt("amount");

@@ -36,14 +36,32 @@ import org.json.JSONObject;
  * <p>Each component has at least an ID, inputs and outputs.<br>
  * Each input and output has an identifier and an integer (32 bit) value.</p>
  *
- * <p>Derived classes should call <tt>super(...)</tt> on their constructors and
- * must implement <tt>execute()</tt>, specifying what code the component
- * "executes" in each clock cycle.</p>
+ * <p>Subclasses <b>must have</b> a constructor with the parameters
+ * {@code (String id, JSONObject json)} and it must call the
+ * {@code Component}'s constructor.<br>
+ * Subclasses must also override the {@link #execute} method, specifying what
+ * code the component "executes" in each clock cycle.</p>
  *
- * <p>Synchronous components extend from SynchronousComponent.</p>
+ * <p>If the component is synchronous (i.e. if the component has an internal
+ * state that is updated every clock transition), it must implement the
+ * {@link IsSynchronous} interface and its methods.</p>
  *
- * <p>Components with an internal state should implement the <tt>HasInternalState</tt>
- * interface.</p>
+ * <p>You may also need to override the {@link getLatencyInputs} method so that
+ * the instruction dependent CPU performance calculation and critical path is
+ * correct.</p>
+ *
+ * <h3>Adding new components</h3>
+ * <p>Adding a new component to the simulator should be as simple as adding
+ * its class to the {@code brunonova.drmips.simulator.components} package
+ * (it <b>must</b> be in that package), unless it requires changes to other
+ * classes (like the RegBank does).</p>
+ *
+ * <h3>Custom components</h3>
+ * <p>It is also possible to provide custom components along with a CPU file.
+ * Their classes, compiled to {@code .class} files, follow the same rules as the
+ * built-in components, except that they don't need to be in any specific
+ * Java package. They must be placed in the same folder as the CPU file (if they
+ * are in a package, they must follow Java's directory hierarchy).</p>
  *
  * @author Bruno Nova
  */
@@ -75,6 +93,18 @@ public abstract class Component {
 	/** Whether this component is in the control path. */
 	private boolean inControlPath = false;
 
+	/**
+	 * Component constructor that must be called by subclasses.
+	 * <p><b>Subclasses must have a {@code (String id, JSONObject json)} constructor.</b></p>
+	 * @param id The component's identifier.
+	 * @param json The JSON object representing the component that should be parsed.
+	 * @param displayName The name displayed on the GUI.
+	 * @param nameKey The key of the component's name on the language file, shown on the component's tooltip.
+	 * @param descriptionKey The key of the component's description on the language file.
+	 * @param size The size of the component on the GUI.
+	 * @throws InvalidCPUException If the component has invalid parameters.
+	 * @throws JSONException If the JSON object is invalid or incomplete.
+	 */
 	public Component(String id, JSONObject json, String displayName, String nameKey, String descriptionKey, Dimension size) throws InvalidCPUException, JSONException {
 		setId(id);
 		setLatency(json.optInt("latency", 0));
@@ -101,7 +131,7 @@ public abstract class Component {
 
 	/**
 	 * "Executes" the normal action of the component in a clock cycle.
-	 * <p>Derived classes must implement this method.<br>
+	 * <p>Subclasses must implement this method.<br>
 	 * This method is executed automatically when an input is changed.</p>
 	 */
 	public abstract void execute();

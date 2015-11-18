@@ -26,7 +26,7 @@ import java.util.List;
  * Represents an abstract instruction, which is either an instruction or a pseudo-instruction.
  * <p>This class was created to aggregate the methods and attributes that are used
  * on both the <tt>Instruction</tt> and <tt>PseudoInstruction</tt> classes.</p>
- * 
+ *
  * @author Bruno Nova
  */
 public abstract class AbstractInstruction {
@@ -34,17 +34,17 @@ public abstract class AbstractInstruction {
 	public enum ArgumentType {REG, INT, TARGET, OFFSET, DATA, LABEL}
 	/** The regular expression to validate the mnemonic. */
 	public static final String MNEMONIC_REGEX = "^[a-zA-Z]([a-zA-Z0-9._]*[a-zA-Z0-9])?$";
-	
+
 	/** The instruction's mnemonic. */
 	private String mnemonic;
 	/** The argument types of the instruction. */
 	private final List<ArgumentType> arguments;
 	/** The short description of the instruction. */
 	private String description = null;
-	
+
 	/**
 	 * Creates a new instruction.
-	 * <p>Derived classes should call this constructor in their own constructors.</p>
+	 * <p>Subclasses should call this constructor in their own constructors.</p>
 	 * @param mnemonic The instruction's mnemonic.
 	 * @throws InvalidInstructionSetException If <tt>mnemonic</tt> is empty.
 	 */
@@ -52,7 +52,7 @@ public abstract class AbstractInstruction {
 		arguments = new ArrayList<>();
 		setMnemonic(mnemonic);
 	}
-	
+
 	/**
 	 * Updates the instruction's mnemonic.
 	 * @param mnemonic The instruction's mnemonic.
@@ -62,7 +62,7 @@ public abstract class AbstractInstruction {
 		if(mnemonic.isEmpty() || ! mnemonic.matches(MNEMONIC_REGEX)) throw new InvalidInstructionSetException("Invalid mnemonic " + mnemonic + "!");
 		this.mnemonic = mnemonic;
 	}
-	
+
 	/**
 	 * Returns the mnemonic of the instruction.
 	 * @return The instruction's mnemonic.
@@ -86,7 +86,7 @@ public abstract class AbstractInstruction {
 	public String getDescription() {
 		return description;
 	}
-	
+
 	/**
 	 * Returns whether the instruction has a description.
 	 * @return <tt>True</tt> if the instruction has a description.
@@ -94,7 +94,7 @@ public abstract class AbstractInstruction {
 	public boolean hasDescription() {
 		return description != null;
 	}
-	
+
 	/**
 	 * Adds an argument to the instruction.
 	 * @param argument The type of the argument.
@@ -102,7 +102,7 @@ public abstract class AbstractInstruction {
 	public void addArgument(ArgumentType argument) {
 		arguments.add(argument);
 	}
-	
+
 	/**
 	 * Adds an argument to the instruction.
 	 * @param argument The type of the argument, as a String.
@@ -116,7 +116,7 @@ public abstract class AbstractInstruction {
 			throw new InvalidInstructionSetException("Invalid argument type " + argument + "!");
 		}
 	}
-	
+
 	/**
 	 * Returns the type of the specified argument.
 	 * @param index Index of the argument.
@@ -126,7 +126,7 @@ public abstract class AbstractInstruction {
 	public ArgumentType getArgument(int index) throws ArrayIndexOutOfBoundsException {
 		return arguments.get(index);
 	}
-	
+
 	/**
 	 * Returns the number of arguments.
 	 * @return Number of arguments.
@@ -134,7 +134,7 @@ public abstract class AbstractInstruction {
 	public int getNumberOfArguments() {
 		return arguments.size();
 	}
-	
+
 	/**
 	 * Returns whether the instruction has arguments.
 	 * @return <tt>True</tt> if the instruction has arguments.
@@ -142,7 +142,7 @@ public abstract class AbstractInstruction {
 	public boolean hasArguments() {
 		return !arguments.isEmpty();
 	}
-	
+
 	/**
 	 * Returns a line with an example usage of this instruction/pseudo-instruction.
 	 * <p>The method checks the instruction's argument types to create example arguments:

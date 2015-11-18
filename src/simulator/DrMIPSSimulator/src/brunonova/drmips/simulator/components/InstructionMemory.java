@@ -36,6 +36,13 @@ public class InstructionMemory extends Component {
 	private final Output output;
 	private List<AssembledInstruction> instructions;
 
+	/**
+	 * Component constructor.
+	 * @param id The component's identifier.
+	 * @param json The JSON object representing the component that should be parsed.
+	 * @throws InvalidCPUException If the component has invalid parameters.
+	 * @throws JSONException If the JSON object is invalid or incomplete.
+	 */
 	public InstructionMemory(String id, JSONObject json) throws InvalidCPUException, JSONException {
 		super(id, json, "Instruction\nMemory", "instruction_memory", "instruction_memory_description", new Dimension(80, 100));
 		instructions = new ArrayList<>();

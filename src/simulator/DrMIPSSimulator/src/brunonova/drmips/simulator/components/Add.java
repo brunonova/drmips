@@ -31,6 +31,13 @@ import org.json.JSONObject;
  * @author Bruno Nova
  */
 public class Add extends SimpleBinaryOperationComponent {
+	/**
+	 * Component constructor.
+	 * @param id The component's identifier.
+	 * @param json The JSON object representing the component that should be parsed.
+	 * @throws InvalidCPUException If the component has invalid parameters.
+	 * @throws JSONException If the JSON object is invalid or incomplete.
+	 */
 	public Add(String id, JSONObject json) throws InvalidCPUException, JSONException {
 		super(id, json, "ADD", "add", "add_description", new Dimension(35, 35), Data.DATA_SIZE);
 	}

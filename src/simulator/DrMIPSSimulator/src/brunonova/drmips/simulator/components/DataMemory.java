@@ -41,6 +41,13 @@ public class DataMemory extends Component implements IsSynchronous {
 	private int[] memory;
 	private final Stack<int[]> states = new Stack<>(); // previous values
 
+	/**
+	 * Component constructor.
+	 * @param id The component's identifier.
+	 * @param json The JSON object representing the component that should be parsed.
+	 * @throws InvalidCPUException If the component has invalid parameters.
+	 * @throws JSONException If the JSON object is invalid or incomplete.
+	 */
 	public DataMemory(String id, JSONObject json) throws InvalidCPUException, JSONException {
 		super(id, json, "Data\nmemory", "data_memory", "data_memory_description", new Dimension(80, 100));
 

@@ -34,6 +34,13 @@ import org.json.JSONObject;
 public class Fork extends Component {
 	private final Input input;
 
+	/**
+	 * Component constructor.
+	 * @param id The component's identifier.
+	 * @param json The JSON object representing the component that should be parsed.
+	 * @throws InvalidCPUException If the component has invalid parameters.
+	 * @throws JSONException If the JSON object is invalid or incomplete.
+	 */
 	public Fork(String id, JSONObject json) throws InvalidCPUException, JSONException {
 		super(id, json, "", "fork", "fork_description", new Dimension(5, 5));
 

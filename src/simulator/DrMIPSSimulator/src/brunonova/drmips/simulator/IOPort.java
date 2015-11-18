@@ -23,16 +23,16 @@ import brunonova.drmips.simulator.util.Point;
 
 /**
  * Abstract base class that represents an input or an output of a component.
- * 
+ *
  * <p>Each input/output belongs to a component, has an identifier and has some
  * data with a size (number of bits) and value.</p>
- * 
+ *
  * @author Bruno Nova
  */
 public abstract class IOPort {
 	/** The possible directions/sides of the input/output on the component. */
 	public enum Direction { WEST, EAST, NORTH, SOUTH }
-	
+
 	/** The component that this input/output belongs to. */
 	private Component component;
 	/** The identifier of the input/output. */
@@ -47,10 +47,10 @@ public abstract class IOPort {
 	private boolean inControlPath = false;
 	/** Whether a balloon tip with the value of the input/output should be displayed. */
 	private boolean showTip = false;
-	
+
 	/**
 	 * Creates an input/output with the given parameters.
-	 * <p>Constructors of derived classes should call <tt>super(component, id, data)</tt>.</p>
+	 * <p>Constructors of subclasses should call <tt>super(component, id, data)</tt>.</p>
 	 * @param component The component that this input/output belongs to.
 	 * @param id The identifier of the input/output.
 	 * @param data Data of the input/output (size and initial value).
@@ -66,7 +66,7 @@ public abstract class IOPort {
 		this.direction = direction;
 		this.showTip = showTip;
 	}
-	
+
 	/**
 	 * Returns the component this input/output belongs to.
 	 * @return Component this input/output belongs to.
@@ -80,7 +80,7 @@ public abstract class IOPort {
 	 * @return <tt>true</tt> if this input/output is connected to an input/output.
 	 */
 	public abstract boolean isConnected();
-	
+
 	/**
 	 * Returns the identifier of this input/output.
 	 * @return The id of this input/output.
@@ -88,7 +88,7 @@ public abstract class IOPort {
 	public String getId() {
 		return id;
 	}
-	
+
 	/**
 	 * Returns the data of this input/output.
 	 * @return The data of this input/output
@@ -96,7 +96,7 @@ public abstract class IOPort {
 	public Data getData() {
 		return data;
 	}
-	
+
 	/**
 	 * Simply returns <tt>getData().getValue()</tt>.
 	 * @return Value of the data.
@@ -104,7 +104,7 @@ public abstract class IOPort {
 	public int getValue() {
 		return data.getValue();
 	}
-	
+
 	/**
 	 * Simply calls <tt>getData().setValue(value)</tt>.
 	 * @param value New value.
@@ -112,7 +112,7 @@ public abstract class IOPort {
 	public void setValue(int value) {
 		data.setValue(value);
 	}
-	
+
 	/**
 	 * Simply calls <tt>getData().getSize()</tt>.
 	 * @return Size of the data (number of bits).
@@ -120,7 +120,7 @@ public abstract class IOPort {
 	public int getSize() {
 		return data.getSize();
 	}
-	
+
 	/**
 	 * Returns the direction/side of the input/output on the component.
 	 * @return Direction/side of the input/output on the component.
@@ -128,7 +128,7 @@ public abstract class IOPort {
 	public Direction getDirection() {
 		return direction;
 	}
-	
+
 	/**
 	 * Returns the graphical position of the input/output.
 	 * @return Position of the input/output (<tt>null</tt> if calculated automatically).
@@ -136,7 +136,7 @@ public abstract class IOPort {
 	public Point getPosition() {
 		return position;
 	}
-	
+
 	/**
 	 * Updates the graphical position of the input/output.
 	 * @param position The new position.
@@ -144,7 +144,7 @@ public abstract class IOPort {
 	public void setPosition(Point position) {
 		this.position = position;
 	}
-	
+
 	/**
 	 * Returns whether the graphical position of the input/output has been defined.
 	 * @return <tt>True</tt> if the position is defined.
@@ -152,14 +152,14 @@ public abstract class IOPort {
 	public boolean hasPositionDefined() {
 		return position != null;
 	}
-	
+
 	/**
 	 * Indicates that this input/output is in the control path.
 	 */
 	public void setInControlPath() {
 		inControlPath = true;
 	}
-	
+
 	/**
 	 * Returns whether this input/output is in the control path.
 	 * @return <tt>True</tt> if in control path.
@@ -167,7 +167,7 @@ public abstract class IOPort {
 	public boolean isInControlPath() {
 		return inControlPath;
 	}
-	
+
 	/**
 	 * Returns whether a balloon tip with the value of the input/output should be displayed.
 	 * @return <tt>True</tt> if a balloon tip with the value of the input/output should be displayed.

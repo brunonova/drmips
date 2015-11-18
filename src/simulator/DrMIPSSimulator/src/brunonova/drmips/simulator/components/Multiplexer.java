@@ -37,6 +37,13 @@ public class Multiplexer extends Component {
 	private final Output output;
 	private final List<Input> inputs; // inputs (excluding the selector)
 
+	/**
+	 * Component constructor.
+	 * @param id The component's identifier.
+	 * @param json The JSON object representing the component that should be parsed.
+	 * @throws InvalidCPUException If the component has invalid parameters.
+	 * @throws JSONException If the JSON object is invalid or incomplete.
+	 */
 	public Multiplexer(String id, JSONObject json) throws InvalidCPUException, JSONException {
 		super(id, json, "M\nU\nX", "multiplexer", "multiplexer_description", new Dimension(15, 35));
 

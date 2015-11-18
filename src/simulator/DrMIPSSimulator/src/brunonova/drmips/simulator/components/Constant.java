@@ -35,6 +35,13 @@ public class Constant extends Component {
 	private final Output output;
 	private final int value;
 
+	/**
+	 * Component constructor.
+	 * @param id The component's identifier.
+	 * @param json The JSON object representing the component that should be parsed.
+	 * @throws InvalidCPUException If the component has invalid parameters.
+	 * @throws JSONException If the JSON object is invalid or incomplete.
+	 */
 	public Constant(String id, JSONObject json) throws InvalidCPUException, JSONException {
 		super(id, json, "" + json.getInt("val"), "constant", "constant_description", new Dimension(20, 15));
 		value = json.getInt("val");

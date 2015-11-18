@@ -36,6 +36,13 @@ public class HazardDetectionUnit extends Component {
 	private Input idExRt, ifIdRs, ifIdRt;
 	private String idExRtId, ifIdRsId, ifIdRtId; // temporary
 
+	/**
+	 * Component constructor.
+	 * @param id The component's identifier.
+	 * @param json The JSON object representing the component that should be parsed.
+	 * @throws InvalidCPUException If the component has invalid parameters.
+	 * @throws JSONException If the JSON object is invalid or incomplete.
+	 */
 	public HazardDetectionUnit(String id, JSONObject json) throws InvalidCPUException, JSONException {
 		super(id, json, "Hazard\ndetection\nunit", "hazard_detection_unit", "hazard_detection_unit_description", new Dimension(70, 50));
 		idExRtId = json.getString("id_ex_rt");
