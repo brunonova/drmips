@@ -28,6 +28,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -35,6 +38,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -171,7 +176,7 @@ public class CPU {
 
 		// Parse the JSON file
 		JSONObject json = new JSONObject(file);
-		parseJSONComponents(cpu, json.getJSONObject("components"));
+		parseJSONComponents(cpu, json.getJSONObject("components"), parentPath);
 		cpu.checkRequiredComponents();
 		if(cpu.hasForwardingUnit()) cpu.forwardingUnit.setRegbank(cpu.getRegBank());
 		if(cpu.hasHazardDetectionUnit()) cpu.hazardDetectionUnit.setRegbank(cpu.getRegBank());
@@ -1104,16 +1109,26 @@ public class CPU {
 	 * Parses and creates the components from the given JSON array.
 	 * @param cpu The CPU to add the components to.
 	 * @param components JSONObject that contains the components array.
+	 * @param parentPath Path to the cpu file's parent directory.
 	 * @throws JSONException If the JSON file is malformed.
 	 * @throws InvalidCPUException If the CPU is invalid or incomplete.
 	 */
-	private static void parseJSONComponents(CPU cpu, JSONObject components) throws JSONException, InvalidCPUException {
+	private static void parseJSONComponents(CPU cpu, JSONObject components, String parentPath) throws JSONException, InvalidCPUException {
 		JSONObject comp;
 		String type, id;
 		Iterator<String> i = components.keys();
 		ClassLoader loader = CPU.class.getClassLoader();
+		ClassLoader customLoader;
 		Class cl;
 		Component c;
+
+		File parentDir = new File(parentPath + File.separator);
+		try {
+			URL[] urls = new URL[] {parentDir.toURI().toURL()};
+			customLoader = new URLClassLoader(urls);
+		} catch(MalformedURLException ex) {
+			customLoader = null;
+		}
 
 		while(i.hasNext()) {
 			id = i.next();
@@ -1122,11 +1137,24 @@ public class CPU {
 
 			try {
 				cl = loader.loadClass("brunonova.drmips.simulator.components." + type);
+			} catch(ClassNotFoundException ex) {
+				if(customLoader != null) {
+					try {
+						cl = customLoader.loadClass(type);
+					} catch(ClassNotFoundException ex2) {
+						throw new InvalidCPUException("Unknown component type " + type + "!");
+					}
+				} else {
+					throw new InvalidCPUException("Unknown component type " + type + "!");
+				}
+			}
+
+			try {
 				c = (Component)cl.asSubclass(Component.class)
 				                 .getConstructor(String.class, JSONObject.class)
 				                 .newInstance(id, comp);
 				cpu.addComponent(c);
-			} catch(ClassNotFoundException | ClassCastException | NoSuchMethodException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+			} catch(ClassCastException | NoSuchMethodException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
 				throw new InvalidCPUException("Unknown component type " + type + "!");
 			}
 		}
