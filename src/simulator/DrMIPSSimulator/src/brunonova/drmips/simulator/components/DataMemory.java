@@ -30,7 +30,7 @@ import org.json.JSONObject;
  *
  * @author Bruno Nova
  */
-public class DataMemory extends Component implements IsSynchronous {
+public class DataMemory extends Component implements Synchronous {
 	/** The minimum size of the memory (in ints). */
 	public static final int MINIMUM_SIZE = 20;
 	/** The maximum size of the memory (in ints). */

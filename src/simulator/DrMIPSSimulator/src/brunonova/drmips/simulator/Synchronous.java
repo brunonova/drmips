@@ -31,7 +31,7 @@ package brunonova.drmips.simulator;
  *
  * @author Bruno Nova
  */
-public interface IsSynchronous {
+public interface Synchronous {
 	/**
 	 * "Executes" the synchronous action of the component on a clock transition, like updating the component's state.
 	 * <p>This method is executed automatically at the start of each clock cycle.</p>
