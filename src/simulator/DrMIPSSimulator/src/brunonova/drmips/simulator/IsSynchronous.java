@@ -20,15 +20,15 @@ package brunonova.drmips.simulator;
 
 /**
  * Interface that declares that a component is synchronous.
- * 
- * <p>Synchronous components must implement <tt>executeSynchronous()</tt>, besides 
+ *
+ * <p>Synchronous components must implement <tt>executeSynchronous()</tt>, besides
  * what is required by the Component base class.<br><br>
  * Synchronous components also have an internal state, and must implement
  * <tt>pushState()</tt>, <tt>popState()</tt>, <tt>hasSavedStates()</tt>,
  * <tt>clearSavedStates()</tt> and <tt>resetFirstState()</tt>.<br>
- * These methods are called automatically to save the internal state of the component 
+ * These methods are called automatically to save the internal state of the component
  * (to a stack, for example) or to restore the previous state.</p>
- * 
+ *
  * @author Bruno Nova
  */
 public interface IsSynchronous {
@@ -37,47 +37,47 @@ public interface IsSynchronous {
 	 * <p>This method is executed automatically at the start of each clock cycle.</p>
 	 */
 	public abstract void executeSynchronous();
-	
+
 	/**
 	 * Saves the state of the component in the stack of states.
-	 * <p>Derived classes that have an internal state must implement this method to
+	 * <p>Subclasses that have an internal state must implement this method to
 	 * allow the "back step" function to work.</p>
 	 */
 	public void pushState();
-	
+
 	/**
 	 * Loads the state of the component in the last clock cycle, from the stack of states.
-	 * <p>Derived classes that have an internal state must implement this method to
+	 * <p>Subclasses that have an internal state must implement this method to
 	 * allow the "back step" function to work.</p>
 	 */
 	public void popState();
-	
+
 	/**
 	 * Returns whether the component has saved states (if a "back step" is possible).
-	 * <p>Derived classes that have an internal state must implement this method to
+	 * <p>Subclasses that have an internal state must implement this method to
 	 * allow the "back step" function to work.</p>
 	 * @return <tt>True</tt> if the component has saved states.
 	 */
 	public boolean hasSavedStates();
-	
+
 	/**
 	 * Removes all saved states.
-	 * <p>Derived classes that have an internal state must implement this method to
+	 * <p>Subclasses that have an internal state must implement this method to
 	 * allow the "back step" function to work.</p>
 	 */
 	public void clearSavedStates();
-	
+
 	/**
 	 * Resets the component to the first saved state.
-	 * <p>Derived classes that have an internal state must implement this method to
+	 * <p>Subclasses that have an internal state must implement this method to
 	 * allow the "restart" function to work.</p>
 	 */
 	public void resetFirstState();
-	
+
 	/**
 	 * Returns whether the component's internal state will be changed in the next
 	 * clock transition.
-	 * <p>Derived classes that have an internal state must implement this method to
+	 * <p>Subclasses that have an internal state must implement this method to
 	 * allow the critical path of the instruction to be determined.</p>
 	 * @return <tt>true</tt> if the internal state is to be changed in this clock cycle.
 	 */

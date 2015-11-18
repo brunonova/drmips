@@ -36,6 +36,13 @@ public class ForwardingUnit extends Component {
 	private Input exMemRd, memWbRd, idExRs, idExRt;
 	private String exMemRdId, memWbRdId, idExRsId, idExRtId; // temporary
 
+	/**
+	 * Component constructor.
+	 * @param id The component's identifier.
+	 * @param json The JSON object representing the component that should be parsed.
+	 * @throws InvalidCPUException If the component has invalid parameters.
+	 * @throws JSONException If the JSON object is invalid or incomplete.
+	 */
 	public ForwardingUnit(String id, JSONObject json) throws InvalidCPUException, JSONException {
 		super(id, json, "Forwarding\nunit", "forwarding_unit", "forwarding_unit_description", new Dimension(70, 50));
 		exMemRdId = json.getString("ex_mem_rd");

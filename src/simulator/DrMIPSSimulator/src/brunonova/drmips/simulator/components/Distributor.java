@@ -38,6 +38,13 @@ public class Distributor extends Component {
 	private final Input input;
 	private final List<OutputParameters> outParameters;
 
+	/**
+	 * Component constructor.
+	 * @param id The component's identifier.
+	 * @param json The JSON object representing the component that should be parsed.
+	 * @throws InvalidCPUException If the component has invalid parameters.
+	 * @throws JSONException If the JSON object is invalid or incomplete.
+	 */
 	public Distributor(String id, JSONObject json) throws InvalidCPUException, JSONException {
 		super(id, json, "", "distributor", "distributor_description", new Dimension(5, 30));
 

@@ -34,6 +34,13 @@ public class ALUControl extends Component {
 	private String aluOpId, funcId; // temporary
 	private ControlALU controlALU = null;
 
+	/**
+	 * Component constructor.
+	 * @param id The component's identifier.
+	 * @param json The JSON object representing the component that should be parsed.
+	 * @throws InvalidCPUException If the component has invalid parameters.
+	 * @throws JSONException If the JSON object is invalid or incomplete.
+	 */
 	public ALUControl(String id, JSONObject json) throws InvalidCPUException, JSONException {
 		super(id, json, "ALU\ncontrol", "alu_control", "alu_control_description", new Dimension(40, 40));
 		aluOpId = json.getString("aluop");

@@ -38,6 +38,13 @@ public class PC extends Component implements IsSynchronous {
 	private int currentInstructionIndex = -1;
 	private final Stack<Integer> instructions = new Stack<>(); // previous instructions
 
+	/**
+	 * Component constructor.
+	 * @param id The component's identifier.
+	 * @param json The JSON object representing the component that should be parsed.
+	 * @throws InvalidCPUException If the component has invalid parameters.
+	 * @throws JSONException If the JSON object is invalid or incomplete.
+	 */
 	public PC(String id, JSONObject json) throws InvalidCPUException, JSONException {
 		super(id, json, "PC", "pc", "pc_description", new Dimension(30, 30));
 		address = new Data();

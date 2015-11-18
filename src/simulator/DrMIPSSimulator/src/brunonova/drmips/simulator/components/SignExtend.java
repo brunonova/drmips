@@ -33,6 +33,13 @@ public class SignExtend extends Component {
 	private final Input input;
 	private final Output output;
 
+	/**
+	 * Component constructor.
+	 * @param id The component's identifier.
+	 * @param json The JSON object representing the component that should be parsed.
+	 * @throws InvalidCPUException If the component has invalid parameters.
+	 * @throws JSONException If the JSON object is invalid or incomplete.
+	 */
 	public SignExtend(String id, JSONObject json) throws InvalidCPUException, JSONException {
 		super(id, json, "Sign\nextend", "sign_extend", "sign_extend_description", new Dimension(40, 40));
 
