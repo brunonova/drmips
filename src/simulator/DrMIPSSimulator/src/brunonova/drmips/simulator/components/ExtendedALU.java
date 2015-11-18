@@ -19,18 +19,18 @@
 package brunonova.drmips.simulator.components;
 
 import brunonova.drmips.simulator.Data;
-import brunonova.drmips.simulator.IsSynchronous;
 import brunonova.drmips.simulator.exceptions.InvalidCPUException;
 import java.util.Stack;
 import org.json.JSONException;
 import org.json.JSONObject;
+import brunonova.drmips.simulator.Synchronous;
 
 /**
  * An ALU that supports multiplications and divisions, and contains the <tt>HI</tt> and <tt>LO</tt> "registers".
  *
  * @author Bruno Nova
  */
-public class ExtendedALU extends ALU implements IsSynchronous {
+public class ExtendedALU extends ALU implements Synchronous {
 	private final Data hi, lo;
 	private final Stack<int[]> states = new Stack<>(); // previous values
 

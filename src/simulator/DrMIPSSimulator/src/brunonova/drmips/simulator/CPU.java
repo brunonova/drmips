@@ -289,7 +289,7 @@ public class CPU {
 		int maxLatency = -1;
 		Collection<Component> comps = isPerformanceInstructionDependent() ? synchronousComponents : components.values();
 		for(Component c: comps) {
-			if(!isPerformanceInstructionDependent() || ((IsSynchronous)c).isWritingState()) {
+			if(!isPerformanceInstructionDependent() || ((Synchronous)c).isWritingState()) {
 				for(Input in: c.getInputs()) {
 					if(in.isConnected()) {
 						if(in.getAccumulatedLatency() > maxLatency) {
@@ -634,7 +634,7 @@ public class CPU {
 
 		saveCycleState();
 		for(Component c: synchronousComponents) // execute synchronous actions without propagating output changes
-			((IsSynchronous)c).executeSynchronous();
+			((Synchronous)c).executeSynchronous();
 
 		// Store index(es) of the instruction(s) being executed
 		int index = getPC().getAddress().getValue() / (Data.DATA_SIZE / 8);
@@ -688,7 +688,7 @@ public class CPU {
 	 */
 	public void saveCycleState() {
 		for(Component c: synchronousComponents)
-			((IsSynchronous)c).pushState();
+			((Synchronous)c).pushState();
 	}
 
 	/**
@@ -697,7 +697,7 @@ public class CPU {
 	public void restorePreviousCycle() {
 		if(hasPreviousCycle()) {
 			for(Component c: synchronousComponents) // restore previous states
-				((IsSynchronous)c).popState();
+				((Synchronous)c).popState();
 			for(Component c: synchronousComponents) // execute normal actions, propagating output changes
 				c.execute();
 			for(Component c: getComponents()) // "execute" all components
@@ -733,7 +733,7 @@ public class CPU {
 	 */
 	public void clearPreviousCycles() {
 		for(Component c: synchronousComponents)
-			((IsSynchronous)c).clearSavedStates();
+			((Synchronous)c).clearSavedStates();
 	}
 
 	/**
@@ -742,7 +742,7 @@ public class CPU {
 	public void resetToFirstCycle() {
 		if(hasPreviousCycle()) {
 			for(Component c: synchronousComponents) // restore first state
-				((IsSynchronous)c).resetFirstState();
+				((Synchronous)c).resetFirstState();
 			for(Component c: synchronousComponents) // execute normal actions, propagating output changes
 				c.execute();
 			for(Component c: getComponents()) // "execute" all components
@@ -833,7 +833,7 @@ public class CPU {
 	protected final void addComponent(Component component) throws InvalidCPUException {
 		if(hasComponent(component.getId())) throw new InvalidCPUException("Duplicated ID " + component.getId() + "!");
 		components.put(component.getId(), component);
-		if(component instanceof IsSynchronous)
+		if(component instanceof Synchronous)
 			synchronousComponents.add(component);
 		if(component instanceof PC) {
 			if(pc != null) throw new InvalidCPUException("Only one program counter allowed!");

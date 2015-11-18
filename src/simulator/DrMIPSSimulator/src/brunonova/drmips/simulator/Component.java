@@ -44,7 +44,7 @@ import org.json.JSONObject;
  *
  * <p>If the component is synchronous (i.e. if the component has an internal
  * state that is updated every clock transition), it must implement the
- * {@link IsSynchronous} interface and its methods.</p>
+ * {@link Synchronous} interface and its methods.</p>
  *
  * <p>You may also need to override the {@link getLatencyInputs} method so that
  * the instruction dependent CPU performance calculation and critical path is

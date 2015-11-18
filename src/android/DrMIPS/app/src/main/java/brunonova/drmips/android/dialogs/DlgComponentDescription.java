@@ -101,7 +101,7 @@ public class DlgComponentDescription extends DialogFragment implements DialogInt
 		else
 			title = component.getDisplayName();
 		title += " (" + component.getId() + ")";
-		if(component instanceof IsSynchronous) title += " - " + activity.getString(R.string.synchronous);
+		if(component instanceof Synchronous) title += " - " + activity.getString(R.string.synchronous);
 		dialog.setTitle(title);
 
 		// Description

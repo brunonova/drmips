@@ -139,7 +139,7 @@ public final class DatapathComponent extends JLabel implements MouseListener {
 
 		// Identifier and synchronous?
 		tip += "<tr><td align='center'><i><tt>" + component.getId() + "</tt></i>";
-		if(component instanceof IsSynchronous)
+		if(component instanceof Synchronous)
 			tip += " (" + Lang.t("synchronous") + ")";
 		tip += "</td></tr>";
 		

@@ -33,7 +33,7 @@ import org.json.JSONObject;
  *
  * @author Bruno Nova
  */
-public class RegBank extends Component implements IsSynchronous {
+public class RegBank extends Component implements Synchronous {
 	private final Input readReg1, readReg2, writeReg, writeData, regWrite;
 	private final Output readData1, readData2;
 	private final Data[] registers;

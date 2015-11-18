@@ -30,7 +30,7 @@ import org.json.JSONObject;
  *
  * @author Bruno Nova
  */
-public class PC extends Component implements IsSynchronous {
+public class PC extends Component implements Synchronous {
 	private final Input input, write;
 	private final Output output;
 	private final Data address;

@@ -33,7 +33,7 @@ import org.json.JSONObject;
  *
  * @author Bruno Nova
  */
-public class PipelineRegister extends Component implements IsSynchronous {
+public class PipelineRegister extends Component implements Synchronous {
 	private final Input write, flush;
 	private Map<String, Data> registers; // stored values
 	private final Stack<Map<String, Data>> states = new Stack<>(); // previous values
