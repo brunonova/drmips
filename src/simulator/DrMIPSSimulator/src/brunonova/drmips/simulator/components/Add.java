@@ -18,6 +18,7 @@
 
 package brunonova.drmips.simulator.components;
 
+import brunonova.drmips.simulator.SimpleBinaryOperationComponent;
 import brunonova.drmips.simulator.Data;
 import brunonova.drmips.simulator.exceptions.InvalidCPUException;
 import brunonova.drmips.simulator.util.Dimension;
