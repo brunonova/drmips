@@ -20,13 +20,14 @@ package brunonova.drmips.simulator.components;
 
 import brunonova.drmips.simulator.exceptions.InvalidCPUException;
 import brunonova.drmips.simulator.Data;
-import brunonova.drmips.simulator.util.Point;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class ConcatenatorTest {
 	@Test
-	public void testComponent() throws InvalidCPUException {
+	public void testComponent() throws InvalidCPUException, JSONException {
 		tComp(8, 0x13, 4, 4, 0x1, 0x3);
 		tComp(2, 0x2, 1, 1, 0x1, 0x0);
 		tComp(32, 0xffff0000, 16, 16, 0xffff, 0x0000);
@@ -36,8 +37,13 @@ public class ConcatenatorTest {
 		tComp(3, 0x5, 1, 2, 0x1, 0x1);
 	}
 
-	private void tComp(int expectedSize, int expectedValue, int in1Size, int in2Size, int in1Value, int in2Value) throws InvalidCPUException {
-		Concatenator c = new Concatenator("test", 0, new Point(0, 0), "in1", in1Size, "in2", in2Size, "out");
+	private void tComp(int expectedSize, int expectedValue, int in1Size, int in2Size, int in1Value, int in2Value) throws InvalidCPUException, JSONException {
+		JSONObject json = new JSONObject().put("x", 0).put("y", 0)
+			.put("in1", new JSONObject().put("id", "in1").put("size", in1Size))
+			.put("in2", new JSONObject().put("id", "in2").put("size", in2Size))
+			.put("out", "out");
+
+		Concatenator c = new Concatenator("test", json);
 
 		c.getInput1().setValue(in1Value);
 		c.getInput2().setValue(in2Value);

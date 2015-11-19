@@ -19,16 +19,18 @@
 package brunonova.drmips.simulator.components;
 
 import brunonova.drmips.simulator.exceptions.InvalidCPUException;
-import brunonova.drmips.simulator.util.Point;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class MultiplexerTest {
 	@Test
-	public void testComponent() throws InvalidCPUException {
+	public void testComponent() throws InvalidCPUException, JSONException {
 		tComp(11, 32, Arrays.asList(10, 11), 1);
 		tComp(10, 16, Arrays.asList(10, 11), 0);
 		tComp(10, 32, Arrays.asList(10, 11, 12), 0);
@@ -39,12 +41,16 @@ public class MultiplexerTest {
 		// what should happen when the selector input points to an inexistant input?
 	}
 
-	private void tComp(int expected, int size, List<Integer> in, int sel) throws InvalidCPUException {
+	private void tComp(int expected, int size, List<Integer> in, int sel) throws InvalidCPUException, JSONException {
 		List<String> inIds = new ArrayList<>();
 		for(int i = 0; i < in.size(); i++) {
 			inIds.add(i + "");
 		}
-		Multiplexer c = new Multiplexer("test", 0, new Point(0, 0), size, inIds, "sel", "out");
+		JSONObject json = new JSONObject().put("x", 0).put("y", 0)
+			.put("in", new JSONArray(inIds))
+			.put("size", size).put("sel", "sel").put("out", "out");
+
+		Multiplexer c = new Multiplexer("test", json);
 
 		for(int i = 0; i < in.size(); i++) {
 			c.getInput(i).setValue(in.get(i));
