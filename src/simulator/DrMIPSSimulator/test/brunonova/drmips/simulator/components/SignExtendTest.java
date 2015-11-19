@@ -20,13 +20,14 @@ package brunonova.drmips.simulator.components;
 
 import brunonova.drmips.simulator.Data;
 import brunonova.drmips.simulator.exceptions.InvalidCPUException;
-import brunonova.drmips.simulator.util.Point;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class SignExtendTest {
 	@Test
-	public void testComponent() throws InvalidCPUException {
+	public void testComponent() throws InvalidCPUException, JSONException {
 		tComp(0xffffffff, 32, 0xffff, 16, 32);
 		tComp(0xf, 4, 0xf, 4, 4);
 		tComp(0xffffffff, 32, 0x7fffffff, 31, 32);
@@ -35,8 +36,12 @@ public class SignExtendTest {
 		tComp(0, 32, 0, 1, 32);
 	}
 
-	private void tComp(int expectedValue, int expectedSize, int inValue, int inSize, int outSize) throws InvalidCPUException {
-		SignExtend c = new SignExtend("test", 0, new Point(0, 0), "in", inSize, "out", outSize);
+	private void tComp(int expectedValue, int expectedSize, int inValue, int inSize, int outSize) throws InvalidCPUException, JSONException {
+		JSONObject json = new JSONObject().put("x", 0).put("y", 0)
+			.put("in", new JSONObject().put("id", "in").put("size", inSize))
+			.put("out", new JSONObject().put("id", "out").put("size", outSize));
+
+		SignExtend c = new SignExtend("test", json);
 		c.getInput().setValue(inValue);
 		c.execute();
 		assertEquals(new Data(expectedSize, expectedValue), c.getOutput().getData());

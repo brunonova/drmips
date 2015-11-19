@@ -20,21 +20,25 @@ package brunonova.drmips.simulator.components;
 
 import brunonova.drmips.simulator.exceptions.InvalidCPUException;
 import brunonova.drmips.simulator.Data;
-import brunonova.drmips.simulator.util.Point;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class ConstantTest {
 	@Test
-	public void testComponent() throws InvalidCPUException {
+	public void testComponent() throws InvalidCPUException, JSONException {
 		tComp(0, 1);
 		tComp(1, 1);
 		tComp(0xffff, 16);
 		tComp(0xffffffff, 32);
 	}
 
-	private void tComp(int inValue, int inSize) throws InvalidCPUException {
-		Constant c = new Constant("test", 0, new Point(0, 0), "out", inValue, inSize);
+	private void tComp(int inValue, int inSize) throws InvalidCPUException, JSONException {
+		JSONObject json = new JSONObject().put("x", 0).put("y", 0)
+			.put("val", inValue).put("size", inSize).put("out", "out");
+
+		Constant c = new Constant("test", json);
 		c.execute();
 		assertEquals(new Data(inSize, inValue), c.getOutput().getData());
 	}

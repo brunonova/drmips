@@ -20,23 +20,29 @@ package brunonova.drmips.simulator.components;
 
 import brunonova.drmips.simulator.Data;
 import brunonova.drmips.simulator.exceptions.InvalidCPUException;
-import brunonova.drmips.simulator.util.Point;
 import java.util.Arrays;
 import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class ForkTest {
 	@Test
-	public void testComponent() throws InvalidCPUException {
+	public void testComponent() throws InvalidCPUException, JSONException {
 		tComp(32, Arrays.<String>asList(), 2);
 		tComp(4, Arrays.asList("out1"), 0);
 		tComp(32, Arrays.asList("out1", "out2"), 20000);
 		tComp(1, Arrays.asList("out1", "out2", "out3", "out4", "out5"), 1);
 	}
 
-	private void tComp(int size, List<String> outIds, int inValue) throws InvalidCPUException {
-		Fork c = new Fork("test", 0, new Point(0, 0), size, "in", outIds);
+	private void tComp(int size, List<String> outIds, int inValue) throws InvalidCPUException, JSONException {
+		JSONObject json = new JSONObject().put("x", 0).put("y", 0)
+			.put("in", "in").put("size", size)
+			.put("out", new JSONArray(outIds));
+
+		Fork c = new Fork("test", json);
 
 		c.getInput().setValue(inValue);
 		c.execute();

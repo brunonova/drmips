@@ -19,21 +19,25 @@
 package brunonova.drmips.simulator.components;
 
 import brunonova.drmips.simulator.exceptions.InvalidCPUException;
-import brunonova.drmips.simulator.util.Point;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class OrTest {
 	@Test
-	public void testComponent() throws InvalidCPUException {
+	public void testComponent() throws InvalidCPUException, JSONException {
 		tComp(0, 0, 0);
 		tComp(1, 0, 1);
 		tComp(1, 1, 0);
 		tComp(1, 1, 1);
 	}
 
-	private void tComp(int expected, int in1, int in2) throws InvalidCPUException {
-		Or c = new Or("test", 0, new Point(0, 0), "in1", "in2", "out");
+	private void tComp(int expected, int in1, int in2) throws InvalidCPUException, JSONException {
+		JSONObject json = new JSONObject().put("x", 0).put("y", 0)
+			.put("in1", "in1").put("in2", "in2").put("out", "out");
+
+		Or c = new Or("test", json);
 		c.getInput1().setValue(in1);
 		c.getInput2().setValue(in2);
 		c.execute();
