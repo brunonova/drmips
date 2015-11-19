@@ -99,7 +99,7 @@ public class DlgComponentDescription extends DialogFragment implements DialogInt
 		if(nameId != 0)
 			title = activity.getString(nameId);
 		else
-			title = component.getDisplayName();
+			title = component.getDefaultName();
 		title += " (" + component.getId() + ")";
 		if(component instanceof Synchronous) title += " - " + activity.getString(R.string.synchronous);
 		dialog.setTitle(title);
@@ -112,7 +112,7 @@ public class DlgComponentDescription extends DialogFragment implements DialogInt
 			if(descId != 0)
 				desc = activity.getString(descId);
 			else
-				desc = "";
+				desc = component.getDefaultDescription();
 		}
 
 		// ALU operation if ALU

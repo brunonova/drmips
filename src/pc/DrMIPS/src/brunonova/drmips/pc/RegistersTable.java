@@ -21,6 +21,7 @@ package brunonova.drmips.pc;
 import brunonova.drmips.simulator.AppInfo;
 import brunonova.drmips.simulator.CPU;
 import brunonova.drmips.simulator.Data;
+import brunonova.drmips.simulator.components.PC;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -34,7 +35,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  * The table of registers in the registers tab.
- * 
+ *
  * @author Bruno Nova
  */
 public class RegistersTable extends JTable implements MouseListener {
@@ -42,7 +43,7 @@ public class RegistersTable extends JTable implements MouseListener {
 	private static final int REGISTER_COLUMN_INDEX = 0;
 	/** The index of the value column. */
 	private static final int VALUE_COLUMN_INDEX = 1;
-	
+
 	/** The model of the table. */
 	private DefaultTableModel model = null;
 	/** The renderer of the table cells. */
@@ -59,7 +60,7 @@ public class RegistersTable extends JTable implements MouseListener {
 	private int pcIndex = 0;
 	/** The format of the data (<tt>Util.BINARYL_FORMAT_INDEX/Util.DECIMAL_FORMAT_INDEX/Util.HEXADECIMAL_FORMAT_INDEX</tt>). */
 	private int dataFormat = DrMIPS.DEFAULT_DATAPATH_DATA_FORMAT;
-	
+
 	/**
 	 * Creates the registers table.
 	 */
@@ -71,10 +72,10 @@ public class RegistersTable extends JTable implements MouseListener {
 		setModel(model);
 		setFont(new Font("Courier New", Font.BOLD, 12));
 		getTableHeader().setReorderingAllowed(false);
-		
+
 		addMouseListener(this);
 	}
-	
+
 	/**
 	 * Defines the CPU that has the registers to be displayed.
 	 * @param cpu The CPU.
@@ -88,7 +89,7 @@ public class RegistersTable extends JTable implements MouseListener {
 		this.dataFormat = format;
 		this.datapath = datapath;
 		this.tblExec = tblExec;
-		
+
 		// Initialize registers table
 		model.setRowCount(0);
 		numRegs = cpu.getRegBank().getNumberOfRegisters();
@@ -105,7 +106,7 @@ public class RegistersTable extends JTable implements MouseListener {
 		model.addRow(new Object[] {"PC", ""});
 		refreshValues(format);
 	}
-	
+
 	/**
 	 * Refreshes the values in the table.
 	 * @param format The data format (<tt>Util.BINARYL_FORMAT_INDEX/Util.DECIMAL_FORMAT_INDEX/Util.HEXADECIMAL_FORMAT_INDEX</tt>).
@@ -113,30 +114,32 @@ public class RegistersTable extends JTable implements MouseListener {
 	public void refreshValues(int format) {
 		if(model == null || cpu == null) return;
 		this.dataFormat = format;
-		
+
 		String data;
 		for(int i = 0; i < numRegs; i++) // registers
 			model.setValueAt(Util.formatDataAccordingToFormat(cpu.getRegBank().getRegister(i), format), i, VALUE_COLUMN_INDEX);
-		
+
 		// Special "registers"
 		model.setValueAt(Util.formatDataAccordingToFormat(cpu.getPC().getAddress(), format), pcIndex, VALUE_COLUMN_INDEX);
 		repaint();
 	}
-	
+
 	/**
 	 * Returns the name of the register in the indicated row.
 	 * @param row Row of the register in the table.
 	 * @return Register's name, or <tt>null</tt> if non-existant.
 	 */
 	private String getRegisterName(int row) {
-		if(row == pcIndex) // PC
-			return Lang.t(cpu.getPC().getNameKey());
-		else if(row >= 0 && row < cpu.getRegBank().getNumberOfRegisters()) // register
+		if(row == pcIndex) { // PC
+			PC pc = cpu.getPC();
+			return Lang.t(pc.hasNameKey() ? pc.getNameKey(): pc.getDefaultName());
+		} else if(row >= 0 && row < cpu.getRegBank().getNumberOfRegisters()) { // register
 			return cpu.getRegisterName(row);
-		else
+		} else {
 			return null;
+		}
 	}
-	
+
 	/**
 	 * Returns the data of the register in the indicated row.
 	 * @param row Row of the register in the table.
@@ -150,7 +153,7 @@ public class RegistersTable extends JTable implements MouseListener {
 		else
 			return null;
 	}
-	
+
 	/**
 	 * Updates the value of the register in the indicated row, if editable.
 	 * @param row Row of the register in the table.
@@ -167,12 +170,12 @@ public class RegistersTable extends JTable implements MouseListener {
 			}
 			else if(row >= 0 && row < cpu.getRegBank().getNumberOfRegisters()) // register
 				cpu.getRegBank().setRegister(row, value);
-			
+
 			if(datapath != null) datapath.refresh(); // update datapath
 			if(tblExec != null) tblExec.refresh(); // update exec table
 		}
 	}
-	
+
 	/**
 	 * Returns whether register in the indicated row is editable.
 	 * @param row Row of the register in the table.
@@ -186,7 +189,7 @@ public class RegistersTable extends JTable implements MouseListener {
 		else
 			return false;
 	}
-	
+
 	/**
 	 * Translates the table.
 	 */
@@ -235,21 +238,21 @@ public class RegistersTable extends JTable implements MouseListener {
 	@Override
 	public void mouseExited(MouseEvent e) {
 	}
-	
+
 	private class RegistersTableCellRenderer extends DefaultTableCellRenderer {
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 			Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 			Color background = javax.swing.UIManager.getDefaults().getColor("Table.background"); // get foreground color from look and feel
-			
+
 			setHorizontalAlignment(column == 1 ? SwingConstants.RIGHT : SwingConstants.LEFT); // align 2nd column to the right
-			
+
 			// Highlight registers being accessed
 			int reg1 = cpu.getRegBank().getReadReg1().getValue();
 			int reg2 = cpu.getRegBank().getReadReg2().getValue();
 			int regW = cpu.getRegBank().getWriteReg().getValue();
 			boolean write = cpu.getRegBank().getRegWrite().getValue() == 1;
-			
+
 			if(write && row == regW && !cpu.getRegBank().isRegisterConstant(regW)) {
 				if(row == reg1 || row == reg2) {
 					setBackground(Util.rwColor);
@@ -268,7 +271,7 @@ public class RegistersTable extends JTable implements MouseListener {
 				setBackground(background);
 				setToolTipText(null);
 			}
-			
+
 			return c;
 		}
 	}

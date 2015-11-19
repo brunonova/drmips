@@ -32,7 +32,7 @@ import javax.swing.border.LineBorder;
 
 /**
  * Graphical component that displays a CPU component.
- * 
+ *
  * @author Bruno Nova
  */
 public final class DatapathComponent extends JLabel implements MouseListener {
@@ -40,12 +40,12 @@ public final class DatapathComponent extends JLabel implements MouseListener {
 	private static final Font FONT = new Font(Font.MONOSPACED, Font.PLAIN, 8);
 	/** Width of the tooltips with the details of the components. */
 	private static final int TOOLTIP_WIDTH = 400;
-	
+
 	/** The graphical datapath this component is in. */
 	private final DatapathPanel datapath;
 	/** The respective CPU component. */
 	private final Component component;
-	
+
 	/**
 	 * Creates a graphical CPU component.
 	 * @param datapath The datapath this component is being added to.
@@ -56,18 +56,18 @@ public final class DatapathComponent extends JLabel implements MouseListener {
 		this.datapath = datapath;
 		this.component = component;
 		boolean dark = DrMIPS.prefs.getBoolean(DrMIPS.DARK_THEME_PREF, DrMIPS.DEFAULT_DARK_THEME);
-		
+
 		setBorder(new LineBorder(Color.BLACK));
 		setOpaque(true);
 		setBackground(Color.WHITE);
 		setLayout(new BorderLayout());
 		setLocationAndSizeScaled();
-		
+
 		setText("<html><pre>" + component.getDisplayName() + "</pre></html>");
 		setHorizontalAlignment(JLabel.CENTER);
 		setFont(FONT);
 		setForeground(Color.BLACK);
-		
+
 		if(component instanceof Fork || component instanceof Concatenator || component instanceof Distributor) {
 			Color color = component.isInControlPath() ? Util.controlPathColor : Util.wireColor;
 			setBackground(color);
@@ -84,11 +84,11 @@ public final class DatapathComponent extends JLabel implements MouseListener {
 				setForeground(Util.controlPathColor);
 			}
 		}
-		
+
 		refresh();
 		addMouseListener(this);
 	}
-	
+
 	/**
 	 * Returns the respective CPU component.
 	 * @return The CPU component.
@@ -108,7 +108,7 @@ public final class DatapathComponent extends JLabel implements MouseListener {
 		        (int)(component.getSize().height * datapath.getScale()));
 		setFont(getFont().deriveFont(FONT.getSize2D() * (float)datapath.getScale()));
 	}
-	
+
 	/**
 	 * Refreshes the component tooltip with the current information, and possibly other things.
 	 */
@@ -127,53 +127,56 @@ public final class DatapathComponent extends JLabel implements MouseListener {
 			setBackground(color);
 			setBorder(BorderFactory.createLineBorder(color));
 		}
-		
-		
+
+
 		// Refresh the tooltip
 		String tip = "<html><table width='" + TOOLTIP_WIDTH + "' cellspacing=0 cellpadding=0>";
 		String controlStyle = "style='color: " + Util.colorToRGBString(Util.controlPathColor) + "'";
 		String criticalStyle = "style='color: " + Util.colorToRGBString(Util.criticalPathColor) + "'";
-		
+
 		// Name
-		tip += "<tr><th><u>" + Lang.t(component.getNameKey()) + "</u></th></tr>";
+		String name = component.hasNameKey() ? Lang.t(component.getNameKey())
+		                                     : component.getDefaultName();
+		tip += "<tr><th><u>" + name + "</u></th></tr>";
 
 		// Identifier and synchronous?
 		tip += "<tr><td align='center'><i><tt>" + component.getId() + "</tt></i>";
 		if(component instanceof Synchronous)
 			tip += " (" + Lang.t("synchronous") + ")";
 		tip += "</td></tr>";
-		
+
 		// Description
 		String desc = component.getCustomDescription(Lang.getLanguage());
-		if(desc != null) 
-			desc = desc.replace("\n", "<br />");
-		else
-			desc = Lang.t(component.getDescriptionKey()).replace("\n", "<br />");
+		if(desc == null) {
+			desc = component.hasDescriptionKey() ? Lang.t(component.getDescriptionKey())
+			                                     : component.getDefaultDescription();
+		}
+		desc = desc.replace("\n", "<br />");
 		tip += "<tr><td align='center'><br />" + desc + "</td></tr>";
-		
+
 		// ALU operation if ALU
 		if(!datapath.isInPerformanceMode() && component instanceof ALU) {
 			ALU alu = (ALU)component;
 			tip += "<tr><td align='center'><table>";
 			tip += "<tr><td><tt>" + Lang.t("operation") + ":</tt></td><td align='right'><tt>"+ alu.getOperationName() + "</tt></td></tr>";
-			
+
 			// HI and LO registers if extended ALU
 			if(component instanceof ExtendedALU) {
 				ExtendedALU ext_alu = (ExtendedALU)alu;
 				tip += "<tr><td><tt>HI:</tt></td><td align='right'><tt>" + Util.formatDataAccordingToFormat(ext_alu.getHI(), datapath.getDataFormat()) + "</tt></td></tr>";
 				tip += "<tr><td><tt>LO:</tt></td><td align='right'><tt>" + Util.formatDataAccordingToFormat(ext_alu.getLO(), datapath.getDataFormat()) + "</tt></td></tr>";
 			}
-			
+
 			tip += "</table></td></tr>";
 		}
-		
-		
+
+
 		// Latency
 		if(datapath.isInPerformanceMode()) {
 			tip += "<tr><td align='center'>" + Lang.t("latency") + ": " + component.getLatency() + " " + CPU.LATENCY_UNIT
 				+ " <i>(" + Lang.t("double_click_to_change") + ")</i></td></tr>";
 		}
-		
+
 		// Inputs
 		tip += "<tr><td align='center'><table cellspacing=0>";
 		tip += "<tr><th colspan=2><br /><u>" + Lang.t("inputs") + "</u></th></tr>";
@@ -206,7 +209,7 @@ public final class DatapathComponent extends JLabel implements MouseListener {
 			}
 		}
 		tip += "</table></td></tr>";
-		
+
 		setToolTipText(tip + "</table></html>");
 	}
 
