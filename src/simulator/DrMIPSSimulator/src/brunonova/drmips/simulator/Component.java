@@ -78,6 +78,10 @@ public abstract class Component {
 	private String descriptionKey = null;
 	/** The key of the component's name on the language file. */
 	private String nameKey = null;
+	/** The default name, in case {@code nameKey == null} (useful for custom components). */
+	private String defaultName = "";
+	/** The default descripting, in case {@code descriptionKey == null} (useful for custom components). */
+	private String defaultDescription = "";
 	/** The position of the component on the GUI. */
 	private Point position;
 	/** The size of the component on the GUI. */
@@ -92,6 +96,21 @@ public abstract class Component {
 	private Map<String, String> customDescriptions = null;
 	/** Whether this component is in the control path. */
 	private boolean inControlPath = false;
+
+	/**
+	 * Component constructor that must be called by subclasses.
+	 * <p>This constructor is useful for custom components.</p>
+	 * <p><b>Subclasses must have a {@code (String id, JSONObject json)} constructor.</b></p>
+	 * @param id The component's identifier.
+	 * @param json The JSON object representing the component that should be parsed.
+	 * @param displayName The name displayed on the GUI.
+	 * @param size The size of the component on the GUI.
+	 * @throws InvalidCPUException If the component has invalid parameters.
+	 * @throws JSONException If the JSON object is invalid or incomplete.
+	 */
+	public Component(String id, JSONObject json, String displayName, Dimension size) throws InvalidCPUException, JSONException {
+		this(id, json, displayName, null, null, size);
+	}
 
 	/**
 	 * Component constructor that must be called by subclasses.
@@ -110,6 +129,7 @@ public abstract class Component {
 		setLatency(json.optInt("latency", 0));
 		originalLatency = getLatency();
 		setDisplayName(displayName);
+		setDefaultName(displayName.replace("\n", " "));
 		setNameKey(nameKey);
 		setDescriptionKey(descriptionKey);
 		setPosition(new Point(json.getInt("x"), json.getInt("y")));
@@ -253,6 +273,14 @@ public abstract class Component {
 	}
 
 	/**
+	 * Returns whether the component contains a description key for translation.
+	 * @return {@code true} if it contains a description key.
+	 */
+	public final boolean hasDescriptionKey() {
+		return descriptionKey != null;
+	}
+
+	/**
 	 * Returns the key of the component's name on the language file.
 	 * @return The key of the component's name on the language file.
 	 */
@@ -266,6 +294,51 @@ public abstract class Component {
 	 */
 	protected final void setNameKey(String key) {
 		nameKey = key;
+	}
+
+	/**
+	 * Returns whether the component contains a name key for translation.
+	 * @return {@code true} if it contains a name key.
+	 */
+	public final boolean hasNameKey() {
+		return nameKey != null;
+	}
+
+	/**
+	 * Returns the default name of the component, for when {@code getNameKey() == null}.
+	 * <p>This is useful for custom components, and it defaults to the display
+	 * name stripped of newline characters.</p>
+	 * @return The name.
+	 */
+	public final String getDefaultName() {
+		return defaultName;
+	}
+
+	/**
+	 * Sets the default name of the component, for when {@code getNameKey() == null}.
+	 * <p>This is useful for custom components.</p>
+	 * @param defaultName The name.
+	 */
+	public final void setDefaultName(String defaultName) {
+		this.defaultName = defaultName;
+	}
+
+	/**
+	 * Returns the default description of the component, for when {@code getDescriptionKey() == null}.
+	 * <p>This is useful for custom components, and it defaults to an empty String.</p>
+	 * @return The description.
+	 */
+	public final String getDefaultDescription() {
+		return defaultDescription;
+	}
+
+	/**
+	 * Sets the default description of the component, for when {@code getDescriptionKey() == null}.
+	 * <p>This is useful for custom components.</p>
+	 * @param defaultDescription The description.
+	 */
+	public final void setDefaultDescription(String defaultDescription) {
+		this.defaultDescription = defaultDescription;
 	}
 
 	/**
