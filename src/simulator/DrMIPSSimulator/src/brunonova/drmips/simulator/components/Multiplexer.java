@@ -48,14 +48,15 @@ public class Multiplexer extends Component {
 		super(id, json, "M\nU\nX", "multiplexer", "multiplexer_description", new Dimension(15, 35));
 
 		// Add the inputs
-		JSONArray ins = json.optJSONArray("in");
+		JSONArray ins = json.getJSONArray("in");
 		inputs = new ArrayList<>(ins.length());
+		int size = json.getInt("size");
 		for(int x = 0; x < ins.length(); x++) {
-			inputs.add(addInput(ins.getString(x), new Data(json.getInt("size"))));
+			inputs.add(addInput(ins.getString(x), new Data(size)));
 		}
 
 		selector = addInput(json.getString("sel"), new Data((ins.length() > 0) ? Data.requiredNumberOfBits(ins.length() - 1) : 1), IOPort.Direction.NORTH);
-		output = addOutput(json.getString("out"), new Data(json.getInt("size")));
+		output = addOutput(json.getString("out"), new Data(size));
 	}
 
 	@Override
