@@ -56,16 +56,14 @@ public class PipelineRegister extends Component implements Synchronous {
 
 		// Add the pipeline "registers", plus their inputs and outputs
 		String name;
-		JSONObject regs = json.optJSONObject("regs");
+		JSONObject regs = json.getJSONObject("regs");
 		registers = new HashMap<>(32);
-		if(regs != null) {
-			Iterator<String> i = regs.keys();
-			while(i.hasNext()) {
-				name = i.next();
-				addInput(name, new Data(regs.getInt(name)), IOPort.Direction.WEST, false);
-				addOutput(name, new Data(regs.getInt(name)));
-				this.registers.put(name, new Data(regs.getInt(name)));
-			}
+		Iterator<String> i = regs.keys();
+		while(i.hasNext()) {
+			name = i.next();
+			addInput(name, new Data(regs.getInt(name)), IOPort.Direction.WEST, false);
+			addOutput(name, new Data(regs.getInt(name)));
+			this.registers.put(name, new Data(regs.getInt(name)));
 		}
 	}
 
