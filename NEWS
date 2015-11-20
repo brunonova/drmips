@@ -1,3 +1,28 @@
+v2.0.0
+------
+
+General:
+* Custom CPU components can now be provided along with the CPU files and used
+  by them
+* The simulator now requires Java version 7 (up from version 6)
+* The Java package names of the simulator where simplified
+
+Android:
+* Minimum required Android version increased to 4.0
+* Dialogs are now built using Fragments, which should make them more robust
+
+Note:
+The Java packages of the simulator where renamed.
+Because of this, the new version will be started with the default settings.
+Additionally, the new version of the Android application will be installed
+alongside the old version, instead of upgrading, so you will have to uninstall
+the old version manually. Don't forget to backup your custom CPU and code files
+before uninstalling!
+
+Also note the names of the CPU components where changed (i.e. the values of
+the "type" fields are different).
+
+
 v1.3.2
 ------
 
