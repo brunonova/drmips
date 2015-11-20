@@ -638,4 +638,30 @@ Note that the last four operations require an ``extended'' ALU in the CPU, inste
 of a ``normal'' ALU.
 
 
+\chapter{Custom components} \label{ch:custom_comps}
+
+\section*{}
+
+Custom components can be created and provided along with the CPU files.
+These should be compiled Java classes and they should extend from the class
+\verb+brunonova.drmips.simulator.Component+.
+
+To compile a custom component into a \emph{.class} file, open a terminal in
+the folder where the file is and run:
+
+\lstinputlisting{listings/javac_custom_comp.txt}
+
+The compiled \emph{.class} files should be placed in the same folder as the
+CPU file. If they are in a package, they must follow Java's directory hierarchy.
+That is, if the class is in a package named \verb+package.name+, the file
+should be put in \verb+/path/to/cpu/package/name/+.
+
+It will then be possible to use this custom component in the CPU files in
+the same way as built-in components.
+The \emph{type} of the component in the CPU file corresponds to the name of the
+Java class, prefixed with the package name if it is in one.
+
+Check the documentation of the \verb+Component+ class in the source code
+of the simulator for more information.
+
 \end{document}
