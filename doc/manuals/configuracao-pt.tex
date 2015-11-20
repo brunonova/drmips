@@ -644,4 +644,31 @@ Note que as últimas quatro operações exigem uma ALU ``estendida'' no CPU, ao
 invés de uma ALU ``normal''.
 
 
+\chapter{Componentes Personalizados} \label{ch:custom_comps}
+
+\section*{}
+
+Podem ser criados e fornecidos componentes personalizados junto com os
+ficheiros de CPU.
+Estes devem ser classes Java compiladas e devem estender a classe
+\verb+brunonova.drmips.simulator.Component+.
+
+Para compilar um componente personalizado num ficheiro \emph{.class}, abra
+um terminal na pasta onde se encontra o ficheiro e execute:
+
+\lstinputlisting{listings/javac_custom_comp.txt}
+
+Os ficheiros \emph{.class} devem ser colocados na mesma pasta que o ficheiro de CPU.
+Se estiverem num pacote, deverão seguir a hierarquia de pastas do Java.
+Isto é, se a classe estiver num pacote chamado \verb+nome.pacote+, o ficheiro
+deverá ser colocado em \verb+/caminho/para/o/cpu/nome/pacote/+.
+
+Será então possível usar este componente personalizado nos ficheiros de CPU
+da mesma maneira que os componentes integrados.
+O \emph{type} do componente no ficheiro de CPU corresponde ao nome da classe
+Java, prefixado com o nome do pacote se pertencer a um.
+
+Para mais informações veja a documentação da classe \verb+Component+ no
+código fonte do simulador.
+
 \end{document}
