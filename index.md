@@ -33,6 +33,8 @@ You can find the download links below.
     the processor is shown
 *   Highly configurable datapaths and instruction sets, and additional ones can
     be created
+*   Custom components can be created externally and then used by the simulator
+    at runtime
 *   Fairly intuitive and easy to use
 *   Integrated code editor, with syntax highlighting and autocomplete in the PC
     version
