@@ -12,7 +12,7 @@ Android:
 * Dialogs are now built using Fragments, which should make them more robust
 
 Note:
-The Java packages of the simulator where renamed.
+The Java packages of the simulator were renamed.
 Because of this, the new version will be started with the default settings.
 Additionally, the new version of the Android application will be installed
 alongside the old version, instead of upgrading, so you will have to uninstall
