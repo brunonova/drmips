@@ -1,0 +1,21 @@
+body {
+	text-align: justify;
+}
+
+h1 {
+	text-align: center;
+	border-bottom: double 5px black;
+}
+
+h2 {
+	border-bottom: solid 1px black;
+	margin-top: 60px;
+}
+
+h3 {
+	margin-top: 40px;
+}
+
+em.menu {
+	font-weight: bold;
+}
