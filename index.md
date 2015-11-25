@@ -18,7 +18,7 @@ DrMIPS is open-source and licensed under the [GPLv3][gpl3], so you are free to
 use, redistribute, modify and improve it (under certain conditions). Feel free
 to [contribute][contribute]!
 
-You can find the download links below.
+You can find the download links [below](#download).
 
 
 ### Features
