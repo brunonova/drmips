@@ -1,14 +1,10 @@
 body {
 	text-align: justify;
-}
-
-h1 {
-	text-align: center;
-	border-bottom: double 5px black;
+	margin: 0px;
 }
 
 h2 {
-	border-bottom: solid 1px black;
+	border-bottom: solid 2px #c0c0c0;
 	margin-top: 60px;
 }
 
@@ -16,6 +12,24 @@ h3 {
 	margin-top: 40px;
 }
 
+header {
+	background-color: #212121;
+	color: white;
+	text-align: center;
+	margin: 0px;
+	padding: 20px;
+}
+
+#content {
+	max-width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 em.menu {
 	font-weight: bold;
+}
+
+em.android {
+	font-size: small;
 }
