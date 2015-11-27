@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DrMIPS - Manual de Utilizador</title>
+	<meta charset="UTF-8" />
+	<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+	<header>
+		<h1>DrMIPS &HorizontalLine; Manual de Utilizador</h1>
+	</header>
+
+	<div id="content">
+		<h2 id="intro">1. Introdução</h2>
+
+		<p>
+		O DrMIPS é um simulador do processador MIPS.
+		Este permite seguir a execução de um programa em <i>assembly</i>
+		passo-a-passo. Uma representação gráfica do caminho de dados permite ver
+		como o processador funciona internamente.
+		</p>
+
+		<p>
+		Este manual é um curto guia de como usar o simulador, focando-se
+		na versão para PC.
+		A <a href="#composition">secção 2</a> fornece uma visão geral da interface
+		gráfica.
+		A <a href="#tabs_windows">secção 3</a> explica a interface dos separadores/janelas
+		do simulador e como os utilizar.
+		</p>
+
+
+		<h2 id="composition">2. Composição da Interface Gráfica</h2>
+
+		<p>
+		A interface gráfica do simulador DrMIPS é composta pela barra de menus, pela
+		barra de ferramentas e pela área onde os conteúdos principais do simulador são
+		mostrados.
+		Os ícones na barra de ferramentas são atalhos para algumas acções usadas
+		frequentemente nos menus. Pode pairar o cursor do rato sobre cada ícone para
+		descobrir o que faz.
+		</p>
+
+		<p>
+		A interface é mostrada com um tema claro, por omissão. Mas pode mudar para o
+		tema escuro ao seleccionar <em class="menu">Ver &gt; Tema escuro</em> no menu.
+		O DrMIPS suporta múltiplos idiomas, portanto estes nomes podem ser diferentes.
+		Pode escolher outro idioma no menu <em class="menu">Ver &gt; Idioma</em>.
+		</p>
+
+		<p>
+		Os conteúdos principais do simulador são divididos em separadores, por omissão.
+		Cada separador pode ser posicionado no lado esquerdo da janela ou no lado
+		direito.
+		Pode mover um separador para o outro lado se clicar com o botão direito do rato
+		no separador e seleccionar <em class="menu">Mudar de lado</em> no menu que
+		aparece.
+		Se, em vez disso, preferir ver os conteúdos divididos em janelas, pode fazê-lo
+		seleccionando <em class="menu">Ver &gt; Janelas internas</em> no menu.
+		As posições e tamanhos dos separadores/janelas são recordadas ao sair.
+		</p>
+
+		<p>
+		Os separadores ou janelas mostrados são:
+		</p>
+
+		<ul>
+			<li>
+				<strong>Código</strong>: o editor de código, onde pode criar ou editar
+				um programa em <i>assembly</i> para ser executado pelo simulador.
+			</li>
+			<li>
+				<strong>Código máquina</strong>: após o código máquina ser gerado com
+				sucesso, este mostra as instruções máquina resultantes.
+			</li>
+			<li>
+				<strong>Registos</strong>: lista todos os registos e seus valores.
+			</li>
+			<li>
+				<strong>Memória de dados</strong>: mostra todos os valores na memória
+				de dados.
+			</li>
+			<li>
+				<strong>Caminho de dados</strong>: a representação gráfica do caminho
+				de dados, e o seu estado, é mostrada aqui.
+			</li>
+		</ul>
+
+
+		<h2 id="tabs_windows">3. Separadores/Janelas</h2>
+
+		<h3 id="code">3.1. Código</h3>
+
+		<p>
+		Este é o editor de código, onde pode escrever um programa em <i>assembly</i>.
+		O editor mostra os números das linhas e realça a sintaxe válida.
+		</p>
+
+		<p>
+		Pode desfazer/refazer alterações, cortar/copiar/colar texto e
+		procurar/substituir palavras no código. Estas acções podem ser acedidas pelo
+		menu <em class="menu">Editar</em> ou com um clique com o botão direito do rato
+		no editor.
+		O código pode ser gravado para ou lido de um ficheiro. Estas acções estão
+		disponíveis no menu <em class="menu">Ficheiro</em>.
+		</p>
+
+		<p>
+		Pode premir <em>Ctrl+Espaço</em> para auto-completar a palavra que está a escrever.
+		Ao fazer isso será mostrada uma lista de instruções, pseudo-instruções,
+		directivas e etiquetas que podem completar essa palavra.
+		Também será mostrada uma janela que explica o que a palavra seleccionada na lista
+		faz e como é usada.
+		Ao premir <em>Ctrl+Espaço</em> num espaço vazio serão listadas todas as instruções,
+		pseudo-instruções, directivas e etiquetas disponíveis.
+		Também pode ver esta informação no menu
+		<em class="menu">CPU &gt; Instruções suportadas</em>.
+		</p>
+
+		<p>
+		Após escrever um programa em <i>assembly</i>, terá de o converter em código
+		máquina (i.e., "assemblar" o programa).
+		Isto é feito seleccionando
+		<em class="menu">Executar &gt; Gerar o código máquina</em> no menu ou
+		pressionando o respectivo botão na barra de ferramentas.
+		Se o programa tiver erros, uma mensagem irá indicar o primeiro erro e um ícone de
+		exclamação irá aparecer ao lado dos números das linhas que têm um erro.
+		Pode pairar o cursor do rato sobre estes ícones para descobrir qual é o erro.
+		Se o programa estiver correcto, nenhuma mensagem será mostrada e pode prosseguir
+		para o executar.
+		</p>
+
+
+		<h3 id="assembled">3.2. Código Máquina</h3>
+
+		<p>
+		Após o código máquina ser gerado com sucesso, as instruções máquina
+		resultantes serão mostradas aqui numa tabela.
+		</p>
+
+		<p>
+		Cada linha da tabela corresponde a uma instrução máquina, contendo o seu
+		endereço, código máquina e instrução original.
+		A instrução a ser executada no momento é realçada.
+		</p>
+
+		<p>
+		Se estiver a simular um processador pipeline, todas as instruções que estão no
+		pipeline são realçadas com diferentes cores, cada uma representando uma
+		etapa diferente.
+		As diferentes cores significam:
+		</p>
+
+		<ul>
+			<li>
+				<strong>Azul</strong>: etapa <b>I</b>nstruction <b>F</b>etch (<b>IF</b>).
+			</li>
+			<li>
+				<strong>Verde</strong>: etapa <b>I</b>nstruction <b>D</b>ecode (<b>ID</b>).
+			</li>
+			<li>
+				<strong>Amarelo</strong>: etapa <b>Ex</b>ecute (<b>EX</b>).
+			</li>
+			<li>
+				<strong>Vermelho</strong>: etapa <b>Mem</b>ory access (<b>MEM</b>).
+			</li>
+			<li>
+				<strong>Magenta</strong>: etapa <b>W</b>rite <b>B</b>ack (<b>WB</b>).
+			</li>
+		</ul>
+
+		<p>
+		Ao pairar o cursor do rato sobre uma instrução na tabela irá exibir uma dica.
+		Esta dica mostra o tipo da instrução e os valores dos seus campos.
+		<em class="android">Na versão para Android, toque na instrução para ver a
+		sua dica.</em>
+		</p>
+
+		<p>
+		Os valores são mostrados em formato decimal, por omissão.
+		Pode alterar esse formato para binário ou hexadecimal usando a caixa de
+		combinação no fundo do separador/janela.
+		Esta caixa de combinação está disponível em todos os separadores/janelas,
+		excepto no separador/janela de código.
+		</p>
+
+		<p>
+		Para controlar a simulação, pode usar o menu <em class="menu">Executar</em>
+		ou a barra de ferramentas. Prima <em class="menu">Passo</em> para executar uma
+		instrução, <em class="menu">Passo atrás</em> para reverter uma instrução,
+		<em class="menu">Executar</em> para executar o programa inteiro e
+		<em class="menu">Reiniciar</em> para reverter para a primeira instrução.
+		</p>
+
+
+		<h3 id="regs_mem">3.3. Registos e Memória de Dados</h3>
+
+		<p>
+		Estes dois separadores/janelas são bastante semelhantes.
+		O separador/janela dos registos mostra os valores dos registos e do contador do
+		programa, enquanto que o separador/janela da memória de dados mostra os valores
+		na memória de dados.
+		</p>
+
+		<p>
+		Os valores que estão actualmente a ser acedidos são realçados em diferentes
+		cores. As cores significam:
+		</p>
+
+		<ul>
+			<li>
+				<strong>Verde</strong>:
+				o registo/endereço está a ser lido no banco de registos/memória de
+				dados.
+			</li>
+			<li>
+				<strong>Vermelho</strong>:
+				o registo/endereço está a ser escrito no banco de registos/memória
+				de dados.
+			</li>
+			<li>
+				<strong>Amarelo</strong>:
+				o registo/endereço está a ser lido e escrito no mesmo ciclo no banco
+				de registos/memória de dados.
+			</li>
+		</ul>
+
+		<p>
+		Pode editar o valor de qualquer registo ou endereço de memória fazendo
+		duplo-clique nele na respectiva tabela. Isto inclui o contador do programa.
+		Registos constantes (como o registo <code>$zero</code>) não podem ser editados.
+		<em class="android">Na versão para Android, toque durante alguns segundos no
+		registo/endereço para o editar.</em>
+		</p>
+
+		<p>
+		Por omissão, os valores dos registos e da memória de dados são reiniciados
+		sempre que o código máquina é gerado.
+		Se não quiser que isto aconteça, desmarque
+		<em class="menu">Executar &gt; Reiniciar dados antes de gerar cód. máquina</em>
+		no menu.
+		</p>
+
+
+		<h3 id="datapath">3.4. Caminho de Dados</h3>
+
+		<p>
+		A representação gráfica do caminho de dados do processador é exibida aqui.
+		É aqui que pode ver como o CPU funciona internamente.
+		</p>
+
+		<p>
+		O DrMIPS pode simular vários caminhos de dados uniciclo e pipeline diferentes.
+		O nome do caminho de dados a ser usado actualmente é mostrado no fundo deste
+		separador/janela. Pode escolher outro caminho de dados seleccionando
+		<em class="menu">CPU &gt; Carregar</em> no menu.
+		Note que caminhos de dados diferentes podem suportar instruções diferentes.
+		</p>
+
+		<p>
+		Os caminhos de dados fornecidos por omissão são:
+		</p>
+
+		<ul>
+			<li>
+				<strong>Caminhos de dados uniciclo:</strong>
+				<ul>
+					<li>
+						<strong>unicycle.cpu</strong>:
+						o caminho de dados uniciclo por omissão.
+					</li>
+					<li>
+						<strong>unicycle-no-jump.cpu</strong>:
+						variante mais simples do caminho de dados uniciclo que não
+						suporta a instrução <code>j</code> (<em>jump</em>).
+					</li>
+					<li>
+						<strong>unicycle-no-jump-branch.cpu</strong>:
+						uma variante ainda mais simples do caminho de dados uniciclo
+						que não suporta <em>jumps</em> nem <em>branches</em>.
+					</li>
+					<li>
+						<strong>unicycle-extended.cpu</strong>:
+						uma variante os caminho de dados uniciclo que suporta algumas
+						instruções adicionais, como multiplicações e divisões.
+					</li>
+				</ul>
+			</li>
+			<li>
+				<strong>Caminhos de dados pipeline</strong>:
+				<ul>
+					<li>
+						<strong>pipeline.cpu</strong>:
+						o caminho de dados pipeline por omissão, que implementa
+						resolução de conflitos. Os caminhos de dados  pipeline não
+						suportam a instrução <code>j</code> (<em>jump</em>).
+					</li>
+					<li>
+						<strong>pipeline-only-forwarding.cpu</strong>:
+						variante do caminho de dados pipeline que, em termos de
+						resolução de conflitos, só implementa atalhos (dando
+						resultados errados).
+					</li>
+					<li>
+						uma variante do caminho de dados pipeline que não implementa
+						nenhum tipo de resolução de conflitos (dando resultados errados).
+					</li>
+					<li>
+						<strong>pipeline-extended.cpu</strong>:
+						uma variante que suporta algumas instruções adicionais, tal
+						como o <em>unicycle-extended.cpu</em>.
+					</li>
+				</ul>
+			</li>
+		</ul>
+
+		<p>
+		No topo do separador/janela, a instrução ou instruções actualmente a serem
+		executadas são mostradas. Elas são realçadas com as mesmas cores explicadas
+		na <a href="assembled">secção 3.2</a>.
+		</p>
+
+		<p>
+		O caminho de dados é mostrado por baixo das instruções.
+		Os componentes são representados por rectângulos ou quadrados, e as ligações
+		por linhas que terminam em setas.
+		As ligações que estão no caminho de controlo são mostradas a azul.
+		O caminho de controlo pode ser ocultado se desmarcar
+		<em class="menu">Caminho de dados &gt; Caminho de controlo</em> no menu.
+		</p>
+
+		<p>
+		Ligações que são consideradas irrelevantes no ciclo de relógio actual são
+		mostradas em cinzento.
+		Uma ligação é considerada irrelevante se for um sinal de controlo colocado a
+		<code>0</code>, se o seu valor for ignorado por um componente, se for a saída da
+		<em>unidade de detecção de conflitos</em> e não estiver a ocorrer um
+		protelamento, etc.
+		Pode ocultar as setas no fim das ligações desmarcando
+		<em class="menu">Caminho de dados &gt; Setas nas ligações</em> no menu.
+		</p>
+
+		<p>
+		Os valores em algumas entradas e saídas importantes de alguns componentes são
+		mostrados no caminho de dados como umas pequenas "dicas" com fundo amarelo.
+		Pode pairar o cursor do rato sobre estas "dicas" para descobrir qual é o
+		identificador da entrada/saída.
+		O menu <em class="menu">Caminho de dados &gt; Dados nas entradas e saídas</em>
+		contém algumas opções para controlar estas "dicas":
+		<em class="menu">Activar</em> para as mostrar/ocultar,
+		<em class="menu">Mostrar os nomes</em> para mostrar os nomes das entradas/saídas
+		e <em class="menu">Mostrar para todos os componentes</em> para mostrar as
+		"dicas" em todos os componentes.
+		</p>
+
+		<p>
+		Ao pairar o cursor do rato sobre um componente, uma dica com alguns detalhes
+		sobre o mesmo será mostrada.
+		A dica apresenta o nome do componente, uma descrição do que faz e os valores
+		em todas as entradas e saídas.
+		<em class="android">Na versão para Android, toque no
+		componente para ver a sua dica.</em>
+		</p>
+
+		<p>
+		O caminho de dados pode ser ampliado e reduzido. Isto pode ser feito pelas
+		opções <em class="menu">Caminho de dados &gt; Ampliar</em>,
+		<em class="menu">Caminho de dados &gt; Reduzir</em> e
+		<em class="menu">Caminho de dados &gt; Normal</em> no menu ou pelos
+		respectivos botões na barra de ferramentas.
+		O nível de ampliação pode também ser ajustado automaticamente para ocupar
+		todo o espaço disponível ao usar a opção
+		<em class="menu">Caminho de dados &gt; Ajustar automaticamente</em>.
+		</p>
+
+		<br />
+
+		<p>
+		O caminho de dados também pode ser mostrado num "modo de desempenho".
+		Pode mudar para este modo seleccionando
+		<em class="menu">Caminho de dados &gt; Modo de desempenho</em> no menu.
+		Neste modo, o desempenho do processador é simulado, e o caminho crítico
+		é mostrado a vermelho.
+		</p>
+
+		<p>
+		Pode ver ou o caminho crítico da instrução que está actualmente a ser
+		executada ou o caminho crítico global do CPU (independente da instrução).
+		A caixa de combinação no fundo do separador/janela é usada para escolher
+		entre estas duas opções.
+		</p>
+
+		<p>
+		Cada componente tem uma latência, que pode ser consultada na sua dica.
+		A dica também mostra as latências acumuladas nas entradas (o tempo que
+		demora para a entrada receber o valor correcto após a transição do relógio)
+		e nas saídas (o tempo que o componente demora a gerar o valor correcto para
+		a saída).
+		</p>
+
+		<p>
+		As latências dos componentes podem ser alteradas fazendo um duplo-clique
+		neles no modo de desempenho.
+		Para além disso, pode seleccionar
+		<em class="menu">Caminho de dados &gt; Restaurar latências</em> no menu para
+		restaurar as latências de todos os componentes para os seus valores originais,
+		e <em class="menu">Caminho de dados &gt; Remover latências</em> para colocar
+		todas as latências a <code>0</code>.
+		<em class="android">Na versão para Android, toque durante alguns segundos no
+		componente no modo de desempenho para editar a sua latência.</em>
+		</p>
+
+		<p>
+		Também pode ver algumas estatísticas sobre a simulação, como a frequência de
+		relógio e o <abbr title="Ciclos Por Instrução">CPI</abbr>, seleccionando
+		<em class="menu">Caminho de dados &gt; Estatísticas</em> no menu.
+		</p>
+	</div>
+</body>
+</html>
