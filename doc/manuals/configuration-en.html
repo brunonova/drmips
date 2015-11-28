@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DrMIPS - Configuration Manual</title>
+	<meta charset="UTF-8" />
+	<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+	<header>
+		<h1>DrMIPS &HorizontalLine; Configuration Manual</h1>
+	</header>
+
+	<div id="content">
+		<h2 id="intro">1. Introduction</h2>
+
+		<p>
+		DrMIPS provides several unicycle and pipeline MIPS datapaths.
+		These datapaths are defined in JSON
+		(<a href="http://json.org/">http://json.org/</a>) files, and
+		have the <code>.cpu</code> extension.
+		These CPU files can be modified, and new ones can be created.
+		</p>
+
+		<p>
+		The instruction sets used by the datapaths are also defined in JSON files,
+		having the <code>.set</code> extension.
+		These can also be created and modified.
+		</p>
+
+		<p>
+		This manual explains, with some detail, the syntax of both of these files.
+		<a href="#cpu">Section 2</a> explains the syntax of the CPU files while
+		<a href="#set">section 3</a> explains the syntax of the instruction set files.
+		</p>
+
+
+		<h2 id="cpu">2. CPU file</h2>
+
+		<p>
+		The different versions of the MIPS CPU are defined in CPU files.
+		These can be edited/configured and additional ones can be created.
+		This section explains the syntax of these files.
+		</p>
+
+		<p>
+		The CPU files are formatted in JSON.
+		A partial example of a CPU file is shown below:
+		</p>
+
+		<pre><code>
+{
+    "components": {
+        "MuxDst": {
+            "type": "Multiplexer",
+            "x": 205,
+            "y": 260,
+            "size": 5,
+            "sel": "RegDst",
+            "out": "Out",
+            "in": ["0", "1"],
+            "desc": {
+                "default": "Custom description in English.",
+                "pt": "Descrição personalizada em Português."
+            }
+        },
+        ...
+    },
+    "wires": {
+        {
+            "from": "DistInst",
+            "out": "15-11",
+            "to": "MuxDst",
+            "in": "1",
+            "start": {"x": 185, "y": 270},
+            "points": [
+                {"x": 195, "y": 270},
+                {"x": 195, "y": 282}
+            ],
+            "end": {"x": 205, "y": 280}
+        },
+        ...
+    },
+    "reg_names": ["zero", "at", "v0", "v1", "a0", "a1", "a2", "a3",
+        "t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7",
+        "s0", "s1", "s2", "s3", "s4", "s5", "s6", "s7",
+        "t8", "t9", "k0", "k1", "gp", "sp", "fp", "ra"],
+    "instructions": "default.set"
+}
+		</code></pre>
+
+		<p>
+		The various sections that compose the CPU files are detailed in the
+		following sections of this section.
+		</p>
+
+
+		<h3 id="comps">2.1. components</h3>
+
+		<p>
+		This section defines all the components of the CPU and their properties.
+		An example of the definition of a component is shown below:
+		</p>
+
+		<pre><code>
+"MuxDst": {
+    "type": "Multiplexer",
+    "x": 205,
+    "y": 260,
+    "size": 5,
+    "sel": "RegDst",
+    "out": "Out",
+    "in": ["0", "1"],
+    "desc": {
+        "default": "Description in English.",
+        "pt": "Descrição em Português."
+    }
+}
+		</code></pre>
+
+		<p>
+		Each component is identified by a unique ID (<code>MuxDst</code> in this example).
+		The properties of the component are defined between curly braces as a JSON
+		object. Many properties are specific to each type of component, but some exist
+		for all components. These are:
+		</p>
+
+		<ul>
+			<li>
+				<strong>type</strong>:
+				the type of the component. The component of the example
+				is a multiplexer. The different types of components are explained next.
+			</li>
+			<li>
+				<strong>latency</strong>:
+				(optional) an integer with the latency of the component
+				in <i>ps</i>. The default latency is <code>0</code> <i>ps</i>.
+			</li>
+			<li>
+				<strong>x</strong>:
+				the x-coordinate of the top-left corner of the component in the
+				graphical datapath. The minimum value is 0 and corresponds to the
+				left border of the datapath. There is no maximum value.
+			</li>
+			<li>
+				<strong>y</strong>:
+				the y-coordinate of the top-left corner of the component in the
+				graphical datapath. The minimum value is 0 and corresponds to the
+				top border of the datapath. There is no maximum value.
+			</li>
+			<li>
+				<strong>desc</strong>:
+				(optional) component specific description, in each language,
+				shown in the tooltip of the component.
+				The value is a JSON object where the description for each language is defined
+				in the form <code>"language_code": "Description."</code>.
+				The <code>language_code</code> identifier is the code of the language,
+				like <code>pt</code> or <code>pt_BR</code>.
+				The special language code <code>default</code> should define the
+				default description in English that is used when the language-specific
+				description is not available.
+			</li>
+		</ul>
+
+		<p>
+		The following subsections explain the different types of components available
+		and their specific properties.
+		The titles of the subsections are the values that should be written in the
+		<code>type</code> property of the components. These correspond to the names
+		of the classes in the source code. This property is
+		<strong>case-sensitive</strong>.
+		</p>
+
+
+		<h4 id="add">Add</h4>
+
+		<p>
+		An adder that sums the values of the inputs. The specific properties are:
+		</p>
+
+		<ul>
+			<li>
+				<strong>in1</strong>: identifier of the first input.
+			</li>
+			<li>
+				<strong>in2</strong>: identifier of the second input.
+			</li>
+			<li>
+				<strong>out</strong>: identifier of the output.
+			</li>
+		</ul>
+
+
+		<h4 id="alu">ALU</h4>
+
+		<p>
+		The basic ALU. Only one ALU or Extended ALU can be present.
+		The specific properties are:
+		</p>
+
+		<ul>
+			<li>
+				<strong>in1</strong>: identifier of the first input.
+			</li>
+			<li>
+				<strong>in2</strong>: identifier of the second input.
+			</li>
+			<li>
+				<strong>control</strong>: identifier of the control input (that
+				selects the operation to perform).
+			</li>
+			<li>
+				<strong>out</strong>: identifier of the result output.
+			</li>
+			<li>
+				<strong>zero</strong>: identifier of the 1 bit <code>zero</code> output.
+			</li>
+		</ul>
+
+
+		<h4>ALUControl</h4>
+
+		<p>
+		The component that controls the ALU. Only one can be present.
+		The specific properties are:
+		</p>
+
+		<ul>
+			<li>
+				<strong>aluop</strong>: identifier of the <code>ALUOp</code> input.
+			</li>
+			<li>
+				<strong>func</strong>: identifier of the <code>func</code> input
+				(from the function field of the instruction).
+			</li>
+		</ul>
+
+
+		<h4>And</h4>
+
+		<p>
+		A logical <code>AND</code> port. The specific properties are the same as the
+		<a href="#add">Add</a> component.
+		</p>
+
+
+		<h4>Concatenator</h4>
+
+		<p>
+		A "concatenator" that concatenates the values of the two inputs into a
+		single output.
+		The value of the output is the concatenation of the value of the first input
+		(as higher order bits) with the value of the second input (as lower order
+		bits).
+		The size of the output is equal to the sum of the sizes of the inputs.
+		The specific properties are:
+		</p>
+
+		<ul>
+			<li>
+				<strong>in1</strong>: properties of the first input.
+			</li>
+			<li>
+				<strong>in2</strong>: properties of the second input.
+			</li>
+			<li>
+				<strong>out</strong>: identifier of the output.
+			</li>
+		</ul>
+
+		<p>
+		The properties of both inputs are defined as JSON objects. The properties of
+		these objects are:
+		</p>
+
+		<ul>
+			<li>
+				<strong>id</strong>: identifier of the input.
+			</li>
+			<li>
+				<strong>size</strong>: size of the input (in bits).
+			</li>
+		</ul>
+
+
+		<h4>Constant</h4>
+
+		<p>
+		A component that outputs a constant value. The specific properties are:
+		</p>
+
+		<ul>
+			<li>
+				<strong>out</strong>: identifier of the output.
+			</li>
+			<li>
+				<strong>val</strong>: the constant value.
+			</li>
+			<li>
+				<strong>size</strong>: size of the output (in bits).
+			</li>
+		</ul>
+
+
+		<h4>ControlUnit</h4>
+
+		<p>
+		The control unit. The datapath must have one control unit.
+		This component has only one specific property: <code>in</code>, which is
+		the identifier of the input.
+		</p>
+
+
+		<h4>DataMemory</h4>
+
+		<p>
+		The data memory. Only one can be present. The specific properties are:
+		</p>
+		<ul>
+			<li>
+				<strong>size</strong>: size of the memory (number of 32 bits memory
+				positions).
+			</li>
+			<li>
+				<strong>address</strong>: identifier of the <code>Address</code> input.
+			</li>
+			<li>
+				<strong>write_data</strong>: identifier of the <code>WriteData</code>
+				input.
+			</li>
+			<li>
+				<strong>out</strong>: identifier of the output.
+			</li>
+			<li>
+				<strong>mem_read</strong>: identifier of the <code>MemRead</code>
+				control input.
+			</li>
+			<li>
+				<strong>mem_write</strong>: identifier of the <code>MemWrite</code>
+				control input.
+			</li>
+		</ul>
+
+
+		<h4>Distributor</h4>
+
+		<p>
+		This component distributes the bits of the input through several outputs.
+		The specific properties are:
+		</p>
+
+		<ul>
+			<li>
+				<strong>in</strong>: properties of the input as a JSON object.
+				The properties of the object are:
+				<ul>
+					<li>
+						<strong>id</strong>: identifier of the input.
+					</li>
+					<li>
+						<strong>size</strong>: size of the input (in bits).
+					</li>
+				</ul>
+			</li>
+			<li>
+				<strong>out</strong>: Properties of the outputs as a JSON array.
+				Each element of the array defines the properties of an output as a
+				JSON object. The properties of the objects of the array are:
+				<ul>
+					<li>
+						<strong>msb</strong>: the index of the most significant bit
+						from the input.
+					</li>
+					<li>
+						<strong>lsb</strong>: the index of the less significant bit
+						from the input.
+					</li>
+					<li>
+						<strong>id</strong>: (optional) identifier of the output.
+						If omitted, the identifier corresponds to
+						"<code>&lt;msb&gt;-&lt;lsb&gt;</code>".
+					</li>
+				</ul>
+			</li>
+		</ul>
+
+
+		<h4>ExtendedALU</h4>
+
+		<p>
+		An extended ALU. This ALU stores the <code>hi</code> and <code>lo</code>
+		registers and is capable of calculating multiplications and divisions.
+		Only one ALU or Extended ALU can be present. The specific properties are
+		the same as the basic <a href="#alu">ALU</a>.
+		</p>
+
+
+		<h4>Fork</h4>
+
+		<p>
+		This component forks a wire into several other wires with the same size.
+		The specific properties are:
+		</p>
+
+		<ul>
+			<li>
+				<strong>in</strong>: identifier of the input.
+			</li>
+			<li>
+				<strong>size</strong>: size of the input and outputs (in bits).
+			</li>
+			<li>
+				<strong>out</strong>: array with the identifiers of the outputs.
+			</li>
+		</ul>
+
+
+		<h4>ForwardingUnit</h4>
+
+		<p>
+		The pipeline forwarding unit. Only one can be present.
+		The specific properties are:
+		</p>
+
+		<ul>
+			<li>
+				<strong>ex_mem_reg_write</strong>: identifier of the
+				<code>EX/MEM.RegWrite</code> input.
+			</li>
+			<li>
+				<strong>mem_wb_reg_write</strong>: identifier of the
+				<code>MEM/WB.RegWrite</code> input.
+			</li>
+			<li>
+				<strong>ex_mem_rd</strong>: identifier of the <code>EX/MEM.Rd</code> input.
+			</li>
+			<li>
+				<strong>mem_wb_rd</strong>: identifier of the <code>MEM/WB.Rd</code> input.
+			</li>
+			<li>
+				<strong>id_ex_rs</strong>: identifier of the <code>ID/EX.Rs</code> input.
+			</li>
+			<li>
+				<strong>id_ex_rt</strong>: identifier of the <code>ID/EX.Rt</code> input.
+			</li>
+			<li>
+				<strong>fwd_a</strong>: identifier of the <code>ForwardA</code> output.
+			</li>
+			<li>
+				<strong>fwd_b</strong>: identifier of the <code>ForwardB</code> output.
+			</li>
+		</ul>
+
+
+		<h4>HazardDetectionUnit</h4>
+
+		<p>
+		The pipeline hazard detection unit. Only one can be present.
+		The specific properties are:
+		</p>
+
+		<ul>
+			<li>
+				<strong>id_ex_mem_read</strong>: identifier of the
+				<code>ID/EX.MemRead</code> input.
+			</li>
+			<li>
+				<strong>id_ex_rt</strong>: identifier of the <code>ID/EX.Rt</code> input.
+			</li>
+			<li>
+				<strong>if_id_rs</strong>: identifier of the <code>IF/ID.Rs</code> input.
+			</li>
+			<li>
+				<strong>if_id_rt</strong>: identifier of the <code>IF/ID.Rt</code> input.
+			</li>
+			<li>
+				<strong>stall</strong>: identifier of the output.
+			</li>
+		</ul>
+
+
+		<h4>InstructionMemory</h4>
+
+		<p>
+		The instruction memory. The datapath must have one instruction memory.
+		The specific properties are:
+		</p>
+
+		<ul>
+			<li>
+				<strong>in</strong>: identifier of the input.
+			</li>
+			<li>
+				<strong>out</strong>: identifier of the output.
+			</li>
+		</ul>
+
+
+		<h4>Multiplexer</h4>
+
+		<p>
+		A multiplexer. The specific properties are:
+		</p>
+
+		<ul>
+			<li>
+				<strong>size</strong>: the size of the inputs and output (in bits).
+			</li>
+			<li>
+				<strong>sel</strong>: identifier of the selector input.
+			</li>
+			<li>
+				<strong>out</strong>: identifier of the output.
+			</li>
+			<li>
+				<strong>in</strong>: array with the identifiers of the inputs.
+			</li>
+		</ul>
+
+
+		<h4>Not</h4>
+
+		<p>
+		A logical <code>NOT</code> port. The specific properties are:
+		</p>
+
+		<ul>
+			<li>
+				<strong>in</strong>: identifier of the input.
+			</li>
+			<li>
+				<strong>out</strong>: identifier of the output.
+			</li>
+		</ul>
+
+
+		<h4>Or</h4>
+
+		<p>
+		A logical <code>OR</code> port. The specific properties are the same as the
+		<a href="#add">Add</a> component.
+		</p>
+
+
+		<h4>PC</h4>
+
+		<p>
+		The program counter. The datapath must have one program counter.
+		The specific properties are:
+		</p>
+
+		<ul>
+			<li>
+				<strong>in</strong>: identifier of the input.
+			</li>
+			<li>
+				<strong>out</strong>: identifier of the output.
+			</li>
+			<li>
+				<strong>write</strong>: (optional) identifier of the <code>Write</code>
+				control input.
+			</li>
+		</ul>
+
+
+		<h4>PipelineRegister</h4>
+
+		<p>
+		A pipeline register that separates two stages of the pipeline.
+		A pipelined datapath must have exactly 4 of these registers (corresponding to a
+		5-stage pipeline). Additionally, the identifiers of these components must be:
+		<code>IF/ID</code>, <code>ID/EX</code>, <code>EX/MEM</code> and
+		<code>MEM/WB</code>. The specific properties are:
+		</p>
+
+		<ul>
+			<li>
+				<strong>regs</strong>: definition of the registers recorded.
+				The value is a JSON object where each property defines a register:
+				the identifier is the identifier of the register and corresponding
+				input and output, and the value is the size of the register (in bits).
+			</li>
+			<li>
+				<strong>flush</strong>: (optional) identifier of the <code>Flush</code>
+				control input.
+			</li>
+			<li>
+				<strong>write</strong>: (optional) identifier of the <code>Write</code>
+				control input.
+			</li>
+		</ul>
+
+
+		<h4>RegBank</h4>
+
+		<p>
+		The register bank. The datapath must have one register bank.
+		The specific properties are:
+		</p>
+
+		<ul>
+			<li>
+				<strong>num_regs</strong>: the number of registers. Must be greater
+				than 1 and a power of 2.
+			</li>
+			<li>
+				<strong>read_reg1</strong>: identifier of the <code>ReadReg1</code> input.
+			</li>
+			<li>
+				<strong>read_reg2</strong>: identifier of the <code>ReadReg2</code> input.
+			</li>
+			<li>
+				<strong>read_data1</strong>: identifier of the <code>ReadData1</code>
+				output.
+			</li>
+			<li>
+				<strong>read_data2</strong>: identifier of the <code>ReadData2</code>
+				output.
+			</li>
+			<li>
+				<strong>write_reg</strong>: identifier of the <code>WriteReg</code> input.
+			</li>
+			<li>
+				<strong>write_data</strong>: identifier of the <code>WriteData</code>
+				input.
+			</li>
+			<li>
+				<strong>reg_write</strong>: identifier of the <code>RegWrite</code>
+				control input.
+			</li>
+			<li>
+				<strong>forwarding</strong>: (optional) if <code>true</code>, the
+				register bank will use internal forwarding (for pipelined datapaths).
+			</li>
+			<li>
+				<strong>const_regs</strong>: (optional) JSON array that defines the
+				constant registers. Each element can be either the index of the
+				register or a JSON object with the following properties:
+				<ul>
+					<li>
+						<strong>reg</strong>: index of the register.
+					</li>
+					<li>
+						<strong>val</strong>: the constant value of the register.
+					</li>
+				</ul>
+			</li>
+		</ul>
+
+
+		<h4>ShiftLeft</h4>
+
+		<p>
+		A shift-left logical. The specific properties are:
+		</p>
+
+		<ul>
+			<li>
+				<strong>in</strong>: properties of the input.
+			</li>
+			<li>
+				<strong>out</strong>: properties of the output.
+			</li>
+			<li>
+				<strong>amount</strong>: number of bits to shift left.
+			</li>
+		</ul>
+
+
+		<h4 id="signextend">SignExtend</h4>
+
+		<p>
+		A sign extender. The specific properties are:
+		</p>
+
+		<ul>
+			<li>
+				<strong>in</strong>: properties of the input.
+			</li>
+			<li>
+				<strong>out</strong>: properties of the output.
+			</li>
+		</ul>
+
+		<p>
+		The properties of both the input and output are defined as JSON objects.
+		The properties of these objects are:
+		</p>
+
+		<ul>
+			<li>
+				<strong>id</strong>: identifier of the input/output.
+			</li>
+			<li>
+				<strong>size</strong>: size of the input/output (in bits).
+			</li>
+		</ul>
+
+
+		<h4>Xor</h4>
+
+		<p>
+		A logical <code>XOR</code> port. The specific properties are the same as the
+		<a href="#add">Add</a> component.
+		</p>
+
+
+		<h4>ZeroExtend</h4>
+
+		<p>
+		A zero extender. The specific properties are the same as the
+		<a href="#signextend">SignExtend</a> component.
+		</p>
+
+
+		<h3 id="wires">2.2. wires</h3>
+
+		<p>
+		This section defines all the wires that connect the components of the CPU.
+		An example of the definition of a wire is shown below:
+		</p>
+
+		<pre><code>
+{
+    "from": "DistInst",
+    "out": "15-11",
+    "to": "MuxDst",
+    "in": "1",
+    "start": {"x": 185, "y": 270},
+    "points": [
+        {"x": 195, "y": 270},
+        {"x": 195, "y": 282}
+    ],
+    "end": {"x": 205, "y": 280}
+}
+		</code></pre>
+
+		<p>
+		Each wire connects an output of a component to an input of another component.
+		A wire is defined as a JSON object with several properties.
+		These are:
+		</p>
+
+		<ul>
+			<li>
+				<strong>from</strong>:
+				the ID of the component that the wire connects from (origin).
+			</li>
+			<li>
+				<strong>out</strong>:
+				the ID of output of the origin component that the wire
+				connects from.
+			</li>
+			<li>
+				<strong>to</strong>:
+				the ID of the component that the wire connects to (destination).
+			</li>
+			<li>
+				<strong>in</strong>:
+				the ID of input of the destination component that the wire
+				connects to.
+			</li>
+			<li>
+				<strong>start</strong>:
+				(optional) a JSON object that defines the start position of
+				the wire in the graphical datapath, if the default one is unsuitable.
+			</li>
+			<li>
+				<strong>points</strong>:
+				(optional) an array of JSON objects that define the
+				positions of the intermediate points of the wire, if desired.
+			</li>
+			<li>
+				<strong>end</strong>:
+				(optional) a JSON object that defines the end position of
+				the wire in the graphical datapath, if the default one is unsuitable.
+			</li>
+		</ul>
+
+		<p>
+		The positions used in the <code>start</code>, <code>points</code> and
+		<code>end</code> properties above are JSON objects with two integer properties:
+		<code>x</code> and <code>y</code>.
+		Each input and output of each component is, by default, "attached" to one of
+		the four sides of the component.
+		The positions of the inputs and outputs in the datapath and, thus, the start
+		and end positions of the connected wires, are calculated automatically but can
+		be overwritten by the <code>start</code> and <code>end</code> properties.
+		The inputs and outputs on each side of a component are, by default, ordered
+		alphabetically by their IDs.
+		</p>
+
+
+		<h3 id="reg_names">2.3. reg_names</h3>
+
+		<p>
+		This <strong>optional</strong> section defines the "friendly" names of the
+		registers (i.e. <code>$zero</code>, <code>$t0</code>, etc.).
+		The value is an array of strings that defines the names of the registers, from
+		register <code>$0</code> to the last one, <strong>without the leading dollar
+		sign</strong>.
+		The registers can always be referred by their indexes (<code>$0</code>,
+		<code>$1</code>, etc.) in the simulator.
+		</p>
+
+
+		<h3 id="instructions">2.4. instructions</h3>
+
+		<p>
+		This section declares the instruction set that the CPU uses.
+		The value is the <strong>relative</strong> path to the desired instruction
+		set file. These files are explained in the next section.
+		</p>
+	</div>
+</body>
+</html>

@@ -20,6 +20,12 @@ header {
 	padding: 20px;
 }
 
+pre {
+	background-color: #e6e6e6;
+	border-top: dashed 1px #c0c0c0;
+	border-bottom: dashed 1px #c0c0c0;
+}
+
 #content {
 	max-width: 800px;
 	margin-left: auto;
