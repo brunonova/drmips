@@ -47,8 +47,7 @@
 		A partial example of a CPU file is shown below:
 		</p>
 
-		<pre><code>
-{
+<pre><code>{
     "components": {
         "MuxDst": {
             "type": "Multiplexer",
@@ -85,12 +84,11 @@
         "s0", "s1", "s2", "s3", "s4", "s5", "s6", "s7",
         "t8", "t9", "k0", "k1", "gp", "sp", "fp", "ra"],
     "instructions": "default.set"
-}
-		</code></pre>
+}</code></pre>
 
 		<p>
 		The various sections that compose the CPU files are detailed in the
-		following sections of this section.
+		following sections.
 		</p>
 
 
@@ -101,8 +99,7 @@
 		An example of the definition of a component is shown below:
 		</p>
 
-		<pre><code>
-"MuxDst": {
+<pre><code>"MuxDst": {
     "type": "Multiplexer",
     "x": 205,
     "y": 260,
@@ -114,8 +111,7 @@
         "default": "Description in English.",
         "pt": "Descrição em Português."
     }
-}
-		</code></pre>
+}</code></pre>
 
 		<p>
 		Each component is identified by a unique ID (<code>MuxDst</code> in this example).
@@ -719,8 +715,7 @@
 		An example of the definition of a wire is shown below:
 		</p>
 
-		<pre><code>
-{
+<pre><code>{
     "from": "DistInst",
     "out": "15-11",
     "to": "MuxDst",
@@ -731,8 +726,7 @@
         {"x": 195, "y": 282}
     ],
     "end": {"x": 205, "y": 280}
-}
-		</code></pre>
+}</code></pre>
 
 		<p>
 		Each wire connects an output of a component to an input of another component.
@@ -809,6 +803,371 @@
 		This section declares the instruction set that the CPU uses.
 		The value is the <strong>relative</strong> path to the desired instruction
 		set file. These files are explained in the next section.
+		</p>
+
+
+		<h2 id="set">3. Instruction set file</h2>
+
+		<p>
+		The instruction sets used by the different versions of the MIPS CPU
+		are defined in instruction set files.
+		These can be edited/configured and additional ones can be created.
+		This chapter explains the syntax of these files.
+		</p>
+
+		<p>
+		Like the CPU files, the instruction set files are formatted in JSON.
+		A partial example of an instruction set file is shown below:
+		</p>
+
+<pre><code>{
+    "types": {
+        "R": [
+            {"id": "op", "size": 6},
+            {"id": "rs", "size": 5},
+            {"id": "rt", "size": 5},
+            {"id": "rd", "size": 5},
+            {"id": "shamt", "size": 5},
+            {"id": "func", "size": 6}
+        ],
+        ...
+    },
+    "instructions": {
+        "add":  {
+            "type": "R",
+            "args": ["reg", "reg", "reg"],
+            "fields": {
+                "op": 0,
+                "rs": "#2",
+                "rt": "#3",
+                "rd": "#1",
+                "shamt": 0,
+                "func": 32
+            },
+            "desc": "$t1 = $t2 + $t3"},
+        },
+        ...
+    },
+    "pseudo": {
+        "move": {
+            "args": ["reg", "reg"],
+            "to": ["add #1, #2, $0"],
+            "desc": "$t1 = $t2"
+        },
+		...
+    },
+    "control": {
+        "0": {"RegDst": 1, "RegWrite": 1, "ALUOp": 2, "ALUSrc": 0, "MemToReg": 0},
+        ...
+    },
+    "alu": {
+        "aluop_size": 2,
+        "func_size": 6,
+        "control_size": 3,
+        "control": [
+            {"aluop": 0, "out": {"control": 2}},
+            {"aluop": 2, "func": 32, "out": {"control": 2}},
+            ...
+        ],
+        "operations": {
+            "2": "add",
+            ...
+        }
+    }
+}</code></pre>
+
+		<p>
+		The various sections that compose the instruction set files are detailed in
+		the following sections.
+		</p>
+
+
+		<h3>3.1. types</h3>
+
+		<p>
+		This section defines the existing types of instructions and their fields.
+		All instruction are 32 bits in size.
+		An example of the definition of an instruction type is shown below:
+		</p>
+
+<pre><code>"R": [
+    {"id": "op", "size": 6},
+    {"id": "rs", "size": 5},
+    {"id": "rt", "size": 5},
+    {"id": "rd", "size": 5},
+    {"id": "shamt", "size": 5},
+    {"id": "func", "size": 6}
+]</code></pre>
+
+		<p>
+		Each instruction type is identified by its identifier (<code>R</code> in
+		this example).
+		The fields of an instruction are defined in a JSON array. Each individual
+		field is a JSON object and defines the field's identifier and size in bits.
+		The first field in this example is the <code>op</code> field with a size of
+		6 bits.
+		The first field of the instructions is considered the <em>opcode</em> and
+		must have the same size in all types.
+		</p>
+
+
+		<h3>3.2. instructions</h3>
+
+		<p>
+		This section defines the available instructions and how they are encoded.
+		An example of the definition of an instruction is shown below:
+		</p>
+
+<pre><code>"add":  {
+    "type": "R",
+    "args": ["reg", "reg", "reg"],
+    "fields": {
+        "op": 0,
+        "rs": "#2",
+        "rt": "#3",
+        "rd": "#1",
+        "shamt": 0,
+        "func": 32
+    },
+    "desc": "$t1 = $t2 + $t3"},
+}</code></pre>
+
+		<p>
+		Each instruction is identified by its unique mnemonic (<code>add</code> in
+		this example).
+		An instruction is defined as a JSON object with several properties. These are:
+		</p>
+
+		<ul>
+			<li>
+				<strong>type</strong>: the type of the instruction.
+			</li>
+			<li>
+				<strong>args</strong>:
+				an array with the types of each argument
+				(may be omitted if the instruction has no arguments).
+				The different types of arguments are:
+				<ul>
+					<li>
+						<strong>reg</strong>: a register.
+					</li>
+					<li>
+						<strong>int</strong>: an integer value. Can also be a label
+						(allowed because of the <code>la</code> pseudo-instruction).
+					</li>
+					<li>
+						<strong>target</strong>: a label in the code or direct
+						instruction index for a jump.
+					</li>
+					<li>
+						<strong>offset</strong>: a label in the code or direct
+						instruction offset for a branch.
+					</li>
+					<li>
+						<strong>label</strong>: a label in the code or data segment
+						or direct address/index.
+					</li>
+					<li>
+						<strong>data</strong>: a label in the data segment or direct
+						address plus an offset register for a load or store instruction
+						(an argument like <code>label($t0)</code>).
+						The user may omit the offset register.
+					</li>
+				</ul>
+			</li>
+			<li>
+				<strong>fields</strong>:
+				A JSON object that defines the values of the fields
+				(the fields defined in the instruction's type). The value of each field
+				can either be a constant integer or come from an argument (specified as
+				<code>"#1"</code>, <code>"#2"</code>, etc.).
+				For values that come from a <code>data</code> argument it is necessary to
+				specify if they come from the base address or from the offset register.
+				This is done by appending <code>.base</code> or <code>.offset</code>
+				to the reference to the argument (<code>#1</code>, <code>#2</code>,
+				etc.).
+				<br />
+				In this example: <code>op</code> has the constant value <code>0</code>,
+				<code>rs</code> has the value from the 2nd argument,
+				<code>rt</code> has the value from the 3rd argument, etc.
+			</li>
+			<li>
+				<strong>desc</strong>: (optional) a string that should contain a short
+				symbolic description of what the instruction does for the user to see.
+			</li>
+		</ul>
+
+
+		<h3>3.3. pseudo</h3>
+
+		<p>
+		This section defines the available pseudo-instructions.
+		An example of the definition of a pseudo-instruction is shown below:
+		</p>
+
+<pre><code>"move": {
+    "args": ["reg", "reg"],
+    "to": ["add #1, #2, $0"],
+    "desc": "$t1 = $t2"
+}</code></pre>
+
+		<p>
+		Each pseudo-instruction is identified by its unique mnemonic (<code>move</code>
+		in this example). Each mnemonic can only identify either an instruction or a
+		pseudo-instruction, not both.
+		A pseudo-instruction is defined as a JSON object with several properties.
+		These are:
+		</p>
+
+		<ul>
+			<li>
+				<strong>args</strong>:
+				an array with the types of each argument (may be omitted if the
+				pseudo-instruction has no arguments). These types are the same ones
+				that are available for instructions, explained in the previous section.
+			</li>
+			<li>
+				<strong>to</strong>:
+				An array that lists the real instructions that the pseudo-instruction
+				is converted to when assembled. The values of the arguments specified
+				by the user can be referenced by using <code>#1</code> for the 1st
+				argument, <code>#2</code> for the 2nd, and so on.
+			</li>
+			<li>
+				<strong>desc</strong>:
+				(optional) a string that should contain a short symbolic description
+				of what the pseudo-instruction does for the user to see.
+			</li>
+		</ul>
+
+
+		<h3>3.4. control</h3>
+
+		<p>
+		This section defines how the control unit works. More specifically, it
+		defines the values of the outputs (control signals) for each possible value
+		at the input (the <em>opcode</em>).
+		An example of the definition of the values of the control signals for one
+		<em>opcode</em> is shown below:
+		</p>
+
+<pre><code>"0": {
+    "RegDst": 1,
+    "RegWrite": 1,
+    "ALUOp": 2,
+    "ALUSrc": 0,
+    "MemToReg": 0
+}</code></pre>
+
+		<p>
+		The values of the control signals for a specified <em>opcode</em> are defined
+		as a JSON object. The values are in decimal format and the sizes (in bits) of
+		the control signals are determined automatically.
+		Control signals that have the value <code>0</code> can be omitted.
+		</p>
+
+
+		<h3>3.5. alu</h3>
+
+		<p>
+		This section defines how the ALU and ALU control work.
+		A partial example of this section is shown below:
+		</p>
+
+<pre><code>"alu": {
+    "aluop_size": 2,
+    "func_size": 6,
+    "control_size": 3,
+    "control": [
+        {"aluop": 0, "out": {"control": 2}},
+        {"aluop": 2, "func": 32, "out": {"control": 2}},
+        ...
+    ],
+    "operations": {
+        "2": "add",
+        ...
+    }
+}</code></pre>
+
+		<p>
+		The <code>aluop_size</code>, <code>func_size</code> and <code>control_size</code>
+		properties define the sizes (in bits) of the <code>ALUOp</code> and
+		<code>func</code> inputs of the ALU control and of the control input of the ALU,
+		respectively.
+		</p>
+
+		<p>
+		The <code>control</code> subsection defines how the ALU control works (in
+		a JSON array).
+		Each element in the array defines (as a JSON object) the values of the outputs
+		for the specified values of the inputs.
+		The <code>aluop</code> and <code>func</code> properties correspond to the
+		values of the inputs for the correspondence. If the value of the
+		<code>func</code> input is not relevant for the correspondence
+		(<em>don't care</em>, can be any value), the property should be omitted.
+		The <code>out</code> property defines the values of the outputs for the
+		correspondence.
+		The values are specified as a JSON object and the sizes (in bits) of the outputs
+		are determined automatically.
+		All values are in decimal format.
+		</p>
+
+		<p>
+		The <code>operations</code> subsection defines (as a JSON object) the
+		correspondence between the values of the control input of the ALU and the
+		arithmetic operation it performs.
+		The available operations are:
+		<code>add</code>,
+		<code>sub</code>,
+		<code>and</code>,
+		<code>or</code>,
+		<code>slt</code>,
+		<code>xor</code>,
+		<code>sll</code>,
+		<code>srl</code>,
+		<code>sra</code>,
+		<code>nor</code>,
+		<code>mult</code>,
+		<code>div</code>,
+		<code>mfhi</code>,
+		<code>mflo</code>.
+		Note that the last four operations require an "extended" ALU in the CPU,
+		instead of a "normal" ALU.
+		</p>
+
+
+		<h2 id="custom_comps">4. Custom Components</h2>
+
+		<p>
+		Custom components can be created and provided along with the CPU files.
+		These should be compiled Java classes and they should extend from the class
+		<code>brunonova.drmips.simulator.Component</code>.
+		</p>
+
+		<p>
+		To compile a custom component into a <em>.class</em> file, open a terminal
+		in the folder where the file is and run:
+		</p>
+
+<pre><code>javac -source 1.7 -target 1.7 -cp /path/to/DrMIPSSimulator.jar CustomComponentName.java</code></pre>
+
+		<p>
+		The compiled <em>.class</em> files should be placed in the same folder as the
+		CPU file. If they are in a package, they must follow Java's directory hierarchy.
+		That is, if the class is in a package named <code>package.name</code>, the file
+		should be put in <code>/path/to/cpu/package/name/</code>.
+		</p>
+
+		<p>
+		It will then be possible to use this custom component in the CPU files in
+		the same way as built-in components.
+		The <em>type</em> of the component in the CPU file corresponds to the name
+		of the Java class, prefixed with the package name if it is in one.
+		</p>
+
+		<p>
+		Check the documentation of the <code>Component</code> class in the source
+		code of the simulator for more information.
 		</p>
 	</div>
 </body>
