@@ -36,6 +36,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -62,7 +63,7 @@ import org.json.JSONException;
 
 /**
  * Main simulator window.
- * 
+ *
  * @author Bruno Nova
  */
 public class FrmSimulator extends javax.swing.JFrame {
@@ -88,7 +89,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 	private DlgStatistics dlgStatistics = null; // statistics refreshed in DatapathPanel.refresh()
 	/** The selected tab when it was right-clicked. */
 	private Tab selectedTab = null;
-	
+
 	/** Information of the code tab. */
 	private Tab tabCode;
 	/** Information of the datapath tab. */
@@ -99,7 +100,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 	private Tab tabAssembledCode;
 	/** Information of the data memory tab. */
 	private Tab tabDataMemory;
-	
+
 	/** Internal frame for the code editor. */
 	private JScrollInternalFrame frmCode = null;
 	/** Internal frame for the assembled code table. */
@@ -113,7 +114,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 
 	/** Class logger. */
 	private static final Logger LOG = Logger.getLogger(FrmSimulator.class.getName());
-	
+
 	/**
 	 * Creates new form FrmSimulator.
 	 */
@@ -173,7 +174,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		switchZoomAuto(DrMIPS.prefs.getBoolean(DrMIPS.AUTO_SCALE_PREF, DrMIPS.DEFAULT_AUTO_SCALE));
 		updateZoomStatus();
 	}
-	
+
 	/**
 	 * Creates new form FrmSimulator and loads the code from the given file.
 	 * @param filename The path to the file.
@@ -182,7 +183,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		this();
 		openFile(filename);
 	}
-	
+
 	/**
 	 * Obtains the icon (in different sizes) for the window.
 	 */
@@ -1498,7 +1499,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 			DrMIPS.prefs.putInt(DrMIPS.ASSEMBLED_CODE_TAB_SIDE_PREF, newSide);
 		else if(selectedTab == tabDataMemory)
 			DrMIPS.prefs.putInt(DrMIPS.DATA_MEMORY_TAB_SIDE_PREF, newSide);
-		
+
 		refreshTabSides(); // refresh tabs
     }//GEN-LAST:event_mnuSwitchSideActionPerformed
 
@@ -1716,7 +1717,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 			DrMIPS.prefs.remove(DrMIPS.LAST_FILE_PREF);
 		setTitle(title);
 	}
-	
+
 	/**
 	 * Adds a file to the "Open recent" menu and saves the recent files paths.
 	 * @param file The file to add.
@@ -1725,7 +1726,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		addRecentFileToPrefs(file, DrMIPS.RECENT_FILES_PREF, DrMIPS.MAX_RECENT_FILES);
 		updateRecentFiles();
 	}
-	
+
 	/**
 	 * Adds a file to the CPU's "Load recent" menu and saves the recent CPUs paths.
 	 * @param file The file to add.
@@ -1734,7 +1735,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		addRecentFileToPrefs(file, DrMIPS.RECENT_CPUS_PREF, DrMIPS.MAX_RECENT_CPUS);
 		updateRecentCPUs();
 	}
-	
+
 	/**
 	 * Adds a file to the saved recent files.
 	 * @param file The file to add.
@@ -1746,7 +1747,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		files.add(file);
 		File f;
 		String filename;
-		
+
 		// Read recent file names
 		for(int i = 0; i < maxFiles && files.size() < maxFiles; i++) {
 			filename = DrMIPS.prefs.get(pref + i, null);
@@ -1757,12 +1758,12 @@ public class FrmSimulator extends javax.swing.JFrame {
 				DrMIPS.prefs.remove(pref + i);
 			}
 		}
-		
+
 		// Save new and old filenames
 		for(int i = 0; i < files.size(); i++)
 			DrMIPS.prefs.put(pref + i, files.get(i).getAbsolutePath());
 	}
-	
+
 	/**
 	 * Updates the "Open recent" menu with the recent files.
 	 */
@@ -1771,7 +1772,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		File file;
 		String filename;
 		JMenuItem menuItem;
-		
+
 		for(int i = 0; i < DrMIPS.MAX_RECENT_FILES; i++) {
 			filename = DrMIPS.prefs.get(DrMIPS.RECENT_FILES_PREF + i, null);
 			if(filename != null) {
@@ -1784,7 +1785,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 			}
 		}
 	}
-	
+
 	/**
 	 * Updates the CPU's "Load recent" menu with the recent CPUs.
 	 */
@@ -1793,7 +1794,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		File file;
 		String filename;
 		JMenuItem menuItem;
-		
+
 		for(int i = 0; i < DrMIPS.MAX_RECENT_CPUS; i++) {
 			filename = DrMIPS.prefs.get(DrMIPS.RECENT_CPUS_PREF + i, null);
 			if(filename != null) {
@@ -1806,7 +1807,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 			}
 		}
 	}
-	
+
 	/**
 	 * Clears the code editor.
 	 */
@@ -1815,7 +1816,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		if(txtCode != null && txtCode.isDirty()) { // file changed?
 			int opt = JOptionPane.showConfirmDialog(this, Lang.t("code_changed"), AppInfo.NAME, JOptionPane.YES_NO_CANCEL_OPTION);
 			switch(opt) {
-				case JOptionPane.YES_OPTION: 
+				case JOptionPane.YES_OPTION:
 					create = true;
 					saveFile();
 					break;
@@ -1823,7 +1824,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 				case JOptionPane.CANCEL_OPTION: create = false; break;
 			}
 		}
-		
+
 		if(create) {
 			txtCode.setText("");
 			txtCode.setDirty(false);
@@ -1831,7 +1832,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 			setOpenedFile(null);
 		}
 	}
-	
+
 	/**
 	 * Shows the file chooser to open a file.
 	 */
@@ -1840,7 +1841,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		if(txtCode != null && txtCode.isDirty()) { // file changed?
 			int opt = JOptionPane.showConfirmDialog(this, Lang.t("code_changed"), AppInfo.NAME, JOptionPane.YES_NO_CANCEL_OPTION);
 			switch(opt) {
-				case JOptionPane.YES_OPTION: 
+				case JOptionPane.YES_OPTION:
 					open = true;
 					saveFile();
 					break;
@@ -1848,14 +1849,14 @@ public class FrmSimulator extends javax.swing.JFrame {
 				case JOptionPane.CANCEL_OPTION: open = false; break;
 			}
 		}
-		
+
 		if(open) {
 			codeFileChooser.setDialogTitle(Lang.t("open"));
 			if(codeFileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
 				openFile(codeFileChooser.getSelectedFile());
 		}
 	}
-	
+
 	/**
 	 * Opens and loads the code from the given file.
 	 * @param path Path to the file.
@@ -1863,7 +1864,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 	private void openFile(String path) {
 		openFile(new File(path));
 	}
-	
+
 	/**
 	 * Opens and loads the code from the given file.
 	 * @param file The file to open.
@@ -1871,12 +1872,12 @@ public class FrmSimulator extends javax.swing.JFrame {
 	private void openFile(File file) {
 		try {
 			String code = "", line;
-			
+
 			try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF8"))) {
 				while((line = reader.readLine()) != null)
 					code += line + "\n";
 			}
-			
+
 			txtCode.setText(code);
 			txtCode.discardAllEdits();
 			txtCode.setDirty(false);
@@ -1890,7 +1891,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 			LOG.log(Level.WARNING, "error opening file \"" + file.getName() + "\"", ex);
 		}
 	}
-	
+
 	/**
 	 * Saves the file to <tt>filename</tt> (if <tt>null</tt> asks the user for a file name).
 	 */
@@ -1900,7 +1901,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		else
 			saveFileAs();
 	}
-	
+
 	/**
 	 * Shows the file chooser to save the code to a file.
 	 */
@@ -1914,7 +1915,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 				saveFile(f);
 		}
 	}
-	
+
 	/**
 	 * Saves the code to the specified file.
 	 * @param path Path to the file to save.
@@ -1922,7 +1923,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 	private void saveFile(String path) {
 		saveFile(new File(path));
 	}
-	
+
 	/**
 	 * Saves the code to the specified file.
 	 * @param file File to save to.
@@ -1939,9 +1940,9 @@ public class FrmSimulator extends javax.swing.JFrame {
 			JOptionPane.showMessageDialog(this, Lang.t("error_saving_file", file.getName()) + "\n" + ex.getMessage(), AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
 			LOG.log(Level.WARNING, "error saving file \"" + file.getName() + "\"", ex);
 		}
-		
+
 	}
-	
+
 	/**
 	 * Shows the print dialog to send the current file to the printer.
 	 */
@@ -1959,7 +1960,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 			}
 		}
 	}
-	
+
 	/**
 	 * Translates the form's strings.
 	 */
@@ -2019,7 +2020,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		Lang.tButton(mnuHelp, "help");
 		Lang.tButton(mnuDocs, "documentation");
 		Lang.tButton(mnuAbout, "about");
-		
+
 		Lang.tButton(mnuUndoP, "undo");
 		Lang.tButton(mnuRedoP, "redo");
 		Lang.tButton(mnuCutP, "cut");
@@ -2028,7 +2029,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		Lang.tButton(mnuSelectAllP, "select_all");
 		Lang.tButton(mnuFindReplaceP, "find_replace");
 		Lang.tButton(mnuSwitchSide, "switch_side");
-		
+
 		if(mnuInternalWindows.isSelected()) {
 			frmCode.setTitle(Lang.t("code"));
 			frmDatapath.setTitle(Lang.t("datapath"));
@@ -2051,7 +2052,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		dlgFindReplace.translate();
 		dlgSupportedInstructions.translate();
 		dlgStatistics.translate();
-		
+
 		cmdNew.setToolTipText(Lang.t("new"));
 		cmdOpen.setToolTipText(Lang.t("open"));
 		cmdSave.setToolTipText(Lang.t("save"));
@@ -2077,13 +2078,13 @@ public class FrmSimulator extends javax.swing.JFrame {
 		lblAssembledCodeFormat.setText(Lang.t("format") + ":");
 		lblDataMemoryFormat.setText(Lang.t("format") + ":");
 		lblFile.setText(Lang.t("file") + ":");
-		
+
 		initFormatComboBox(cmbRegFormat, DrMIPS.REGISTER_FORMAT_PREF, DrMIPS.DEFAULT_REGISTER_FORMAT);
 		initFormatComboBox(cmbDatapathDataFormat, DrMIPS.DATAPATH_DATA_FORMAT_PREF, DrMIPS.DEFAULT_DATAPATH_DATA_FORMAT);
 		initFormatComboBox(cmbAssembledCodeFormat, DrMIPS.ASSEMBLED_CODE_FORMAT_PREF, DrMIPS.DEFAULT_ASSEMBLED_CODE_FORMAT);
 		initFormatComboBox(cmbDataMemoryFormat, DrMIPS.DATA_MEMORY_FORMAT_PREF, DrMIPS.DEFAULT_DATA_MEMORY_FORMAT);
 		initPerformanceComboBox();
-		
+
 		datapath.translate(cmbDatapathDataFormat.getSelectedIndex());
 		tblAssembledCode.translate();
 		tblRegisters.translate();
@@ -2091,20 +2092,20 @@ public class FrmSimulator extends javax.swing.JFrame {
 		txtCode.translate();
 		refreshDatapathHelp();
 		repaint();
-		
+
 		JMenuItem mnu;
 		for(int i = 0; i < mnuLanguage.getItemCount(); i++) {
 			mnu = mnuLanguage.getItem(i);
 			mnu.setText(Lang.getDisplayName(mnu.getToolTipText()));
 		}
 	}
-	
+
 	/**
 	 * Fills language menu with the available languages.
 	 */
 	private void fillLanguages() {
 		JRadioButtonMenuItem mnu;
-		
+
 		for(String lang: Lang.getAvailableLanguages()) {
 			mnu = new JRadioButtonMenuItem(Lang.getDisplayName(lang), lang.equals(Lang.getLanguage()));
 			mnu.addActionListener(new LanguageSelectedListener(lang));
@@ -2113,7 +2114,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 			mnuLanguage.add(mnu);
 		}
 	}
-	
+
 	/**
 	 * Initializes/translates the specified data format selection combo box.
 	 * @param cmb The combo box.
@@ -2129,7 +2130,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		cmb.addItem(Lang.t("hexadecimal"));
 		cmb.setSelectedIndex(DrMIPS.prefs.getInt(formatPref, defaultFormat));
 	}
-	
+
 	/**
 	 * Initializes/translates the performance mode type selection combo box.
 	 */
@@ -2141,7 +2142,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		cmbDatapathPerformance.addItem(Lang.t("cpu"));
 		cmbDatapathPerformance.setSelectedIndex(DrMIPS.prefs.getInt(DrMIPS.PERFORMANCE_TYPE_PREF, DrMIPS.DEFAULT_PERFORMANCE_TYPE));
 	}
-	
+
 	/**
 	 * Terminates the program.
 	 */
@@ -2150,7 +2151,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		if(txtCode != null && txtCode.isDirty()) { // file changed?
 			int opt = JOptionPane.showConfirmDialog(this, Lang.t("code_changed"), AppInfo.NAME, JOptionPane.YES_NO_CANCEL_OPTION);
 			switch(opt) {
-				case JOptionPane.YES_OPTION: 
+				case JOptionPane.YES_OPTION:
 					exit = true;
 					saveFile();
 					break;
@@ -2158,7 +2159,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 				case JOptionPane.CANCEL_OPTION: exit = false; break;
 			}
 		}
-		
+
 		if(exit) {
 			// Save some preferences
 			DrMIPS.prefs.putInt(DrMIPS.REGISTER_FORMAT_PREF, cmbRegFormat.getSelectedIndex());
@@ -2183,11 +2184,11 @@ public class FrmSimulator extends javax.swing.JFrame {
 			}
 			else
 				DrMIPS.prefs.putInt(DrMIPS.DIVIDER_LOCATION_PREF, pnlSplit.getDividerLocation());
-			
+
 			System.exit(0);
 		}
 	}
-	
+
 	/**
 	 * Enables of disables the simulation controls.
 	 * @param enabled Whether to enable or disable the controls.
@@ -2208,7 +2209,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 			updateStepBackEnabled();
 		}
 	}
-	
+
 	/**
 	 * Sets the "step" controls enabled or disabled according to <tt>cpu.isProgramFinished()</tt>.
 	 */
@@ -2219,7 +2220,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		cmdStep.setEnabled(enable);
 		cmdRun.setEnabled(enable);
 	}
-	
+
 	/**
 	 * Sets the "step back" controls enabled or disabled according to <tt>cpu.hasPreviousCycle()</tt>.
 	 */
@@ -2230,7 +2231,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		cmdBackStep.setEnabled(enable);
 		cmdRestart.setEnabled(enable);
 	}
-	
+
 	/**
 	 * Loads the CPU from the specified file.
 	 * @param path Path to the CPU file.
@@ -2259,7 +2260,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 			updateZoomStatus();
 		}
 	}
-	
+
 	/**
 	 * Loads the last used CPU file or the default one.
 	 */
@@ -2308,7 +2309,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		cpu.executeCycle();
 		refreshValues();
 	}
-	
+
 	/**
 	 * Reverts the execution to the previous clock cycle.
 	 */
@@ -2316,7 +2317,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		cpu.restorePreviousCycle();
 		refreshValues();
 	}
-	
+
 	/**
 	 * Reverts the execution to the first clock cycle.
 	 */
@@ -2324,7 +2325,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		cpu.resetToFirstCycle();
 		refreshValues();
 	}
-	
+
 	/**
 	 * Executes all the instructions at once.
 	 */
@@ -2337,7 +2338,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		}
 		refreshValues();
 	}
-	
+
 	/**
 	 * Assembles and loads the code from the Code tab.
 	 */
@@ -2354,18 +2355,18 @@ public class FrmSimulator extends javax.swing.JFrame {
 		}
 		catch(SyntaxErrorException ex) {
 			String message = getTranslatedSyntaxErrorMessage(ex);
-			
+
 			if(!ex.hasOtherErrors())
 				txtCode.addErrorIcon(ex.getLine(), message);
 			else {
 				for(SyntaxErrorException e: ex.getOtherErrors())
 					txtCode.addErrorIcon(e.getLine(), getTranslatedSyntaxErrorMessage(e));
 			}
-			
+
 			JOptionPane.showMessageDialog(this, message, AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	
+
 	/**
 	 * Returns the translated message for the given syntax error exception.
 	 * @param ex The exception.
@@ -2389,7 +2390,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		}
 		return message;
 	}
-	
+
 	/**
 	 * Finds the specified string in the code editor.
 	 * @param str The string to find.
@@ -2399,7 +2400,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 	protected void find(String str, boolean matchCase, boolean forward) {
 		if(!str.isEmpty()) {
 			clearFind();
-			
+
 			SearchContext context = new SearchContext();
 			context.setSearchFor(str);
 			context.setMatchCase(matchCase);
@@ -2411,7 +2412,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 			txtCode.markAll(str, matchCase, false, false);
 		}
 	}
-	
+
 	/**
 	 * Replaces the next occurrence of the given string by another string.
 	 * @param str The string to find.
@@ -2422,7 +2423,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 	protected void replace(String str, String by, boolean matchCase, boolean forward) {
 		if(!str.isEmpty()) {
 			clearFind();
-			
+
 			SearchContext context = new SearchContext();
 			context.setSearchFor(str);
 			context.setReplaceWith(by);
@@ -2435,7 +2436,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 			txtCode.markAll(str, matchCase, false, false);
 		}
 	}
-	
+
 	/**
 	 * Replaces all occurrence of the given string by another string.
 	 * @param str The string to find.
@@ -2446,7 +2447,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 	protected void replaceAll(String str, String by, boolean matchCase, boolean forward) {
 		if(!str.isEmpty()) {
 			clearFind();
-			
+
 			SearchContext context = new SearchContext();
 			context.setSearchFor(str);
 			context.setReplaceWith(by);
@@ -2458,21 +2459,21 @@ public class FrmSimulator extends javax.swing.JFrame {
 			SearchEngine.replaceAll(txtCode, context);
 		}
 	}
-	
+
 	/**
 	 * Clears all highlights created by find.
 	 */
 	protected void clearFind() {
 		txtCode.clearMarkAllHighlights();
 	}
-	
+
 	/**
 	 * Puts each tab in the right side, based on the preferences.
 	 */
 	private void refreshTabSides() {
 		pnlLeft.removeAll();
 		pnlRight.removeAll();
-		
+
 		tabCode = new Tab(pnlCode, Lang.t("code"), DrMIPS.prefs.getInt(DrMIPS.CODE_TAB_SIDE_PREF, DrMIPS.DEFAULT_CODE_TAB_SIDE));
 		tabAssembledCode = new Tab(pnlAssembledCode, Lang.t("assembled"), DrMIPS.prefs.getInt(DrMIPS.ASSEMBLED_CODE_TAB_SIDE_PREF, DrMIPS.DEFAULT_ASSEMBLED_CODE_TAB_SIDE));
 		tabDatapath = new Tab(pnlDatapath, Lang.t("datapath"), DrMIPS.prefs.getInt(DrMIPS.DATAPATH_TAB_SIDE_PREF, DrMIPS.DEFAULT_DATAPATH_TAB_SIDE));
@@ -2480,7 +2481,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		tabDataMemory = new Tab(pnlDataMemory, Lang.t("data_memory"), DrMIPS.prefs.getInt(DrMIPS.DATA_MEMORY_TAB_SIDE_PREF, DrMIPS.DEFAULT_DATA_MEMORY_TAB_SIDE));
 		repaint();
 	}
-	
+
 	/**
 	 * Returns the selected tab in the specified side.
 	 * @param side The side of the tab.
@@ -2490,7 +2491,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		int index = (side == Util.LEFT) ? pnlLeft.getSelectedIndex() : pnlRight.getSelectedIndex();
 		return getTab(side, index);
 	}
-	
+
 	/**
 	 * Returns the tab in the given side and index.
 	 * @param side Side of the tab.
@@ -2505,7 +2506,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Switches the current theme.
 	 */
@@ -2516,7 +2517,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 			Util.setDarkLookAndFeel();
 		else if(!dark && currentDark)
 			Util.setLightLookAndFeel();
-		
+
 		DrMIPS.prefs.putBoolean(DrMIPS.DARK_THEME_PREF, dark);
 		SwingUtilities.updateComponentTreeUI(this);
 		if(dlgFindReplace != null) SwingUtilities.updateComponentTreeUI(dlgFindReplace);
@@ -2531,7 +2532,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		refreshDatapathHelp();
 		txtCode.setColors();
 	}
-	
+
 	/**
 	 * If using tabs switch to use internal frames and vice-versa.
 	 */
@@ -2539,13 +2540,13 @@ public class FrmSimulator extends javax.swing.JFrame {
 		boolean currentWindows = DrMIPS.prefs.getBoolean(DrMIPS.INTERNAL_WINDOWS_PREF, DrMIPS.DEFAULT_INTERNAL_WINDOWS);
 		boolean windows = mnuInternalWindows.isSelected();
 		DrMIPS.prefs.putBoolean(DrMIPS.INTERNAL_WINDOWS_PREF, windows);
-		
+
 		if(windows && !currentWindows) // use internal frames
 			switchToInternalWindows();
 		else if(!windows && currentWindows) // use tabs
 			switchToTabs();
 	}
-	
+
 	/**
 	 * Switches to use internal windows.
 	 */
@@ -2570,7 +2571,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		SwingUtilities.updateComponentTreeUI(this);
 		txtCode.requestFocus(); // make sure a component has focus so shortcut keys work
 	}
-	
+
 	/**
 	 * Switches to use tabs.
 	 */
@@ -2595,7 +2596,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		SwingUtilities.updateComponentTreeUI(this);
 		txtCode.requestFocus(); // make sure a component has focus so shortcut keys work
 	}
-	
+
 	/**
 	 * Saves the specified frame's bounds to the preferences.
 	 * @param prefPrefix The prefix of the preference.
@@ -2609,7 +2610,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		DrMIPS.prefs.putBoolean(prefPrefix + "_max", frame.isMaximum());
 		DrMIPS.prefs.putBoolean(prefPrefix + "_min", frame.isIcon());
 	}
-	
+
 	/**
 	 * Restores the specified frame's bounds from the preferences.
 	 * @param prefPrefix The prefix of the preference.
@@ -2619,7 +2620,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		frame.setLocation(DrMIPS.prefs.getInt(prefPrefix + "_x", 0), DrMIPS.prefs.getInt(prefPrefix + "_y", 0));
 		int w = DrMIPS.prefs.getInt(prefPrefix + "_w", -1);
 		int h = DrMIPS.prefs.getInt(prefPrefix + "_h", -1);
-		if(w > 0 && h > 0) 
+		if(w > 0 && h > 0)
 			frame.setSize(w, h);
 		else
 			frame.pack();
@@ -2633,13 +2634,13 @@ public class FrmSimulator extends javax.swing.JFrame {
 			LOG.log(Level.WARNING, "failed to maximize/minimize an internal frame");
 		}
 	}
-	
+
 	/**
 	 * Refreshes the datapath help tooltip.
 	 */
 	private void refreshDatapathHelp() {
 		String tip = "<html><b><u>";
-		
+
 		if(datapath.isInPerformanceMode()) {
 			tip += Lang.t("performance_mode") + "</u></b><br /><br />";
 			tip += "<span style='color: " + Util.colorToRGBString(Util.wireColor) + "'>- " + Lang.t("normal_wire") + "</span><br />";
@@ -2654,11 +2655,11 @@ public class FrmSimulator extends javax.swing.JFrame {
 			tip += "<span style='color: " + Util.colorToRGBString(Util.controlPathColor) + "'>- " + Lang.t("control_path_wire") + "</span><br />";
 			tip += "<span style='color: " + Util.colorToRGBString(Util.irrelevantColor) + "'>- " + Lang.t("irrelevant_wire") + "</span>";
 		}
-		
+
 		tip += "</html>";
 		lblDatapathHelp.setToolTipText(tip);
 	}
-	
+
 	/**
 	 * Opens the documentation directory.
 	 */
@@ -2682,22 +2683,44 @@ public class FrmSimulator extends javax.swing.JFrame {
 			return;
 		}
 
-		try {
-			Desktop.getDesktop().open(dir);
-		}
-		catch(Exception ex) {
-			LOG.log(Level.WARNING, "error opening doc folder", ex);
-			JOptionPane.showMessageDialog(this, Lang.t("failed_to_open_doc_folder", dir.getAbsolutePath()), AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
+		if(!openDocIndex(dir)) { // try to open index.html
+			// if failed, try to open the directory
+			try {
+				Desktop.getDesktop().open(dir);
+			}
+			catch(Exception ex) {
+				LOG.log(Level.WARNING, "error opening doc folder", ex);
+				JOptionPane.showMessageDialog(this, Lang.t("failed_to_open_doc_folder", dir.getAbsolutePath()), AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
-	
+
+	/**
+	 * Tries to open the manual's index.html in a browser.
+	 * @param docDir Documentation directory.
+	 * @return Whether the operation was successfully.
+	 */
+	private boolean openDocIndex(File docDir) {
+		try {
+			File index = new File(docDir.getPath() + File.separator + "index.html");
+			if(index.isFile()) {
+				Desktop.getDesktop().browse(index.toURI());
+				return true;
+			} else {
+				return false;
+			}
+		} catch(Exception ex) {
+			return false;
+		}
+	}
+
 	/**
 	 * Refreshes the statistics dialog.
 	 */
 	public void refreshStatistics() {
 		dlgStatistics.refresh(cpu);
 	}
-	
+
 	/**
 	 * Updates the caret position displayed in the status bar of the code editor.
 	 */
@@ -2940,14 +2963,14 @@ public class FrmSimulator extends javax.swing.JFrame {
 		public RecentFileActionListener(File file) {
 			this.file = file;
 		}
-		
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			boolean open = true;
 			if(txtCode != null && txtCode.isDirty()) { // file changed?
 				int opt = JOptionPane.showConfirmDialog(FrmSimulator.this, Lang.t("code_changed"), AppInfo.NAME, JOptionPane.YES_NO_CANCEL_OPTION);
 				switch(opt) {
-					case JOptionPane.YES_OPTION: 
+					case JOptionPane.YES_OPTION:
 						open = true;
 						saveFile();
 						break;
@@ -2955,12 +2978,12 @@ public class FrmSimulator extends javax.swing.JFrame {
 					case JOptionPane.CANCEL_OPTION: open = false; break;
 				}
 			}
-			
+
 			if(open)
 				openFile(file);
 		}
 	}
-	
+
 	/**
 	 * Listener for the CPU's "Load recent" menu items.
 	 */
@@ -2975,7 +2998,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		public RecentCPUActionListener(File file) {
 			this.file = file;
 		}
-		
+
 		@Override
 		@SuppressWarnings("UseSpecificCatch")
 		public void actionPerformed(ActionEvent e) {
@@ -2990,7 +3013,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 			}
 		}
 	}
-	
+
 	/**
 	 * Event handler fired when the language is changes in the language menu.
 	 */
@@ -3005,7 +3028,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		public LanguageSelectedListener(String lang) {
 			this.lang = lang;
 		}
-		
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(!lang.equals(Lang.getLanguage())) {
@@ -3021,8 +3044,8 @@ public class FrmSimulator extends javax.swing.JFrame {
 			}
 		}
 	}
-	
-	
+
+
 	/**
 	 * Contains the informations of a tab.
 	 */
@@ -3038,7 +3061,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 
 		/**
 		 * Creates the tab and adds it to the given side.
-		 * @param panel The panel in the tab. 
+		 * @param panel The panel in the tab.
 		 * @param title The title of the tab.
 		 * @param side The side of the tab (<tt>Util.LEFT</tt> or <tt>Util.RIGHT</tt>).
 		 */
@@ -3049,7 +3072,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 			this.index = tabbedPane.getTabCount();
 			tabbedPane.addTab(title, panel);
 		}
-		
+
 		/**
 		 * Updates the title of the tab.
 		 * @param title New title.
@@ -3065,7 +3088,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		public JPanel getPanel() {
 			return panel;
 		}
-		
+
 		/**
 		 * Returns the side of the tab.
 		 * @return The side of the tab (<tt>Util.LEFT</tt> or <tt>Util.RIGHT</tt>).
@@ -3081,7 +3104,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		public int getIndex() {
 			return index;
 		}
-		
+
 		/**
 		 * Selects this tab.
 		 */
@@ -3092,7 +3115,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 				pnlRight.setSelectedIndex(index);
 		}
 	}
-	
+
 	/**
 	 * Listener that disables the simulation controls when the code is changed.
 	 */
