@@ -23,9 +23,7 @@ There are several files and folders containing translatable string:
 *   Custom component descriptions in the CPU files: these are JSON files and are
     located in `src/simulator/DrMIPSSimulator/cpu/*.cpu`.
     The custom descriptions are JSON objects identified by the `"desc"` keyword.
-*   User manuals: these are LaTeX files and are located in `doc/manuals/*.tex`.
-    If you create a new file, please add it to the `set(SRC ...)` line in the
-    file `doc/manuals/CMakeLists.txt`.
+*   User manuals: these are HTML files and are located in `doc/manuals/`.
 *   Linux desktop launcher: it's located in `misc/drmips.desktop`.
 *   Linux manpages: they are located in `misc/drmips*.1`.
 
@@ -75,7 +73,7 @@ UML class diagram (it may not be up to date):
 ## Documentation
 
 You are welcome to improve the user manuals. They are located in `doc/manuals/`
-and are LaTeX files.
+and are HTML files.
 
 
 ## Design

@@ -1,1 +1,0 @@
-"R": [{"id": "op", "size": 6}, {"id": "rs", "size": 5}, {"id": "rt", "size": 5}, {"id": "rd", "size": 5}, {"id": "shamt", "size": 5}, {"id": "func", "size": 6}]
