@@ -32,6 +32,10 @@ pre {
 	margin-right: auto;
 }
 
+ul.index {
+	list-style: none;
+}
+
 em.menu {
 	font-weight: bold;
 }
