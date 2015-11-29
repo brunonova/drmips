@@ -1,1 +1,0 @@
-"add":  {"type": "R", "args": ["reg", "reg", "reg"], "fields": {"op": 0, "rs": "#2", "rt": "#3", "rd": "#1", "shamt": 0, "func": 32}, "desc": "$t1 = $t2 + $t3"}

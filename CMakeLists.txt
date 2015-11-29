@@ -9,7 +9,6 @@ set(DRMIPS_MANUALS_DIR_ABSOLUTE "${CMAKE_INSTALL_PREFIX}/${DRMIPS_MANUALS_DIR}")
 set(DRMIPS_JAVADOC_DIR "${DRMIPS_DOC_DIR}/javadoc")
 set(DRMIPS_DIST_BUILD_DIR "${CMAKE_BINARY_DIR}/dist")
 set(DRMIPS_ZIP_BUILD_DIR "${DRMIPS_DIST_BUILD_DIR}/${PROJECT_NAME}")
-option(DRMIPS_BUILD_MANUALS "Build and install the manuals?" ON)
 option(DRMIPS_BUILD_PC_VERSION "Build and install the PC version of the simulator?" ON)
 option(DRMIPS_BUILD_ANDROID_VERSION "Build and install the Android version of the simulator?" OFF)
 option(DRMIPS_BUILD_SIMULATOR_JAVADOC "Build and install the Java API documentation of the simulation logic?" OFF)
@@ -20,11 +19,6 @@ else()
 endif()
 # force javac to use UTF-8 encoding and set JDK/JRE 7 as the target
 set(CMAKE_JAVA_COMPILE_FLAGS -encoding UTF-8 -source 1.7 -target 1.7)
-# Reduce output of latex/pdflatex by default
-set(PDFLATEX_COMPILER_FLAGS -interaction=batchmode CACHE STRING
-                            "Flags passed to pdflatex.")
-set(LATEX_COMPILER_FLAGS -interaction=batchmode CACHE STRING
-                         "Flags passed to latex.")
 
 # Include required CMake modules and programs
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/Modules")
@@ -50,26 +44,8 @@ if(DRMIPS_BUILD_ANDROID_VERSION)
 	find_package(Android REQUIRED)
 endif()
 
-if(DRMIPS_BUILD_MANUALS)
-	# Find LaTeX
-	include(UseLATEX)
-	
-	# Mark several LaTeX options as advanced
-	mark_as_advanced(FORCE BIBTEX_COMPILER
-	                       DVIPS_CONVERTER
-	                       HTLATEX_CONVERTER
-	                       IMAGEMAGICK_CONVERT
-	                       LATEX2HTML_CONVERTER
-	                       LATEX_COMPILER
-	                       MAKEINDEX_COMPILER
-	                       PDFLATEX_COMPILER
-	                       PDFTOPS_CONVERTER
-	                       PS2PDF_CONVERTER
-	                       XINDY_COMPILER
-	                       LATEX_OUTPUT_PATH)
-endif()
-
 # Subdirectories
+add_subdirectory(doc/manuals)
 if(DRMIPS_BUILD_SIMULATOR)
 	add_subdirectory(src/simulator/DrMIPSSimulator)
 endif()
@@ -79,9 +55,6 @@ endif()
 if(DRMIPS_BUILD_ANDROID_VERSION)
 	add_subdirectory(src/android/DrMIPS)
 endif()
-if(DRMIPS_BUILD_MANUALS)
-	add_subdirectory(doc/manuals)
-endif()
 
 # Uninstall target
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
@@ -89,13 +62,10 @@ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
 add_custom_target(uninstall COMMAND ${CMAKE_COMMAND} -P "${CMAKE_CURRENT_BINARY_DIR}/cmake/cmake_uninstall.cmake")
 
 # Distribution target
-if(DRMIPS_BUILD_PC_VERSION AND DRMIPS_BUILD_MANUALS)
+if(DRMIPS_BUILD_PC_VERSION)
 	add_custom_command(OUTPUT "${DRMIPS_DIST_BUILD_DIR}/${PROJECT_NAME}.zip"
 	                   COMMAND "${Java_JAR_EXECUTABLE}" cfM "${DRMIPS_DIST_BUILD_DIR}/${PROJECT_NAME}.zip"
 	                           -C "${DRMIPS_DIST_BUILD_DIR}" "${PROJECT_NAME}"
-	                   DEPENDS pc_version manuals COMMENT "Creating ZIP file for distribution of the PC version")
+	                   DEPENDS pc_version COMMENT "Creating ZIP file for distribution of the PC version")
 	add_custom_target(dist DEPENDS "${DRMIPS_DIST_BUILD_DIR}/${PROJECT_NAME}.zip")
 endif()
-
-# Mark first CMake run as finished
-set(DONE_FIRST_RUN ON CACHE INTERNAL "Has CMake been executed at least once already?")
