@@ -1,3 +1,9 @@
+v2.0.1
+------
+
+* Rewrote the manuals in HTML, dropping the build dependency on LaTeX.
+
+
 v2.0.0
 ------
 
