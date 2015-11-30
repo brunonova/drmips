@@ -4,7 +4,7 @@ baseurl: /drmips
 title: DrMIPS
 tagline: Educational MIPS simulator
 repourl: https://github.com/brunonova/drmips
-cur_ver: v2.0.0
+cur_ver: v2.0.1
 android:
   min_version: 4.0
 author:
