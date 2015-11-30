@@ -108,6 +108,12 @@ subscribing to the project's [Releases feed][rel_feed].
 You can report bugs or ask questions in the project's [Issue tracker][issues].
 
 
+### Documentation
+
+The documentation of the simulator is provided along with the simulator.
+You can also view it [online][documentation].
+
+
 ## License
 
     DrMIPS - Educational MIPS simulator
@@ -146,3 +152,4 @@ You can read the full license text [here][gpl3].
 [ubuntu]: http://www.ubuntu.com/ "Ubuntu home page"
 [debian]: https://www.debian.org/ "Debian home page"
 [arch]: https://www.archlinux.org/ "Arch Linux home page"
+[documentation]: https://cdn.rawgit.com/brunonova/drmips/v2.0.1/doc/manuals/index.html "DrMIPS - Documentation"
