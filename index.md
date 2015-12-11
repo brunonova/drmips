@@ -85,7 +85,7 @@ Check [this page][install] for instructions on how to install and run the
 simulator.
 
 If you know what PGP is, you can find the signatures of the downloadable files
-in the [Releases page][releases], and you can download my PGP key [here][pgp];
+in the [Releases page][releases], and you can download my PGP key [here][pgp].
 
 
 ### Packages for Linux
