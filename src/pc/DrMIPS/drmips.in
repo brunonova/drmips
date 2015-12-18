@@ -1,2 +1,2 @@
 #!/bin/sh
-java -Dprogram.name=drmips -jar "@DRMIPS_JAR_PATH@" "$@"
+exec java -Dprogram.name=drmips -jar "@DRMIPS_JAR_PATH@" "$@"
