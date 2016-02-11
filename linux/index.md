@@ -5,25 +5,8 @@ title: Linux packages
 
 ## Ubuntu
 
-Packages for Ubuntu and derivatives are available in the official repositories
-and also in a PPA.
-
-##### Install from official Ubuntu repositories:
-
-First, [enable the "backports" repository][ubuntu_backports] and the
-"universe" component if you haven't done so already.
-Enabling the "backports" repository is not necessary to install DrMIPS in
-Ubuntu 15.04 Vivid Vervet or later, but it's needed to receive the latest
-updates.
-
-Then install the **drmips** package using the software center, package manager
-or terminal.
-
-**Note:** due to the Ubuntu update policy, you won't receive newer versions of
-drmips, unless you enable the backports repository. But even if you do,
-updates can take a long time to reach the repository and you'll probably have to
-upgrade the package manually.
-If you want to receive updates faster, you can install DrMIPS from a PPA.
+Packages for Ubuntu and derivatives are available in a PPA and in the official
+Ubuntu repositories.
 
 ##### Install from a PPA:
 
@@ -47,6 +30,23 @@ following commands:
     sudo add-apt-repository ppa:brunonova/ppa
     sudo apt-get update
     sudo apt-get install drmips
+
+##### Install from official Ubuntu repositories:
+
+First, [enable the "backports" repository][ubuntu_backports] and the
+"universe" component if you haven't done so already.
+Enabling the "backports" repository is not necessary to install DrMIPS in
+Ubuntu 15.04 Vivid Vervet or later, but it's needed to receive the latest
+updates.
+
+Then install the **drmips** package using the software center, package manager
+or terminal.
+
+**Note:** due to the Ubuntu update policy, the drmips package won't receive
+updates, unless you enable the backports repository. But even if you do,
+the package may take a long time to be updated, or it may even not be updated at
+all. You'll also have to upgrade the package manually.
+If you want to receive updates faster, you can install DrMIPS from a PPA.
 
 ##### Unity global menu integration:
 
