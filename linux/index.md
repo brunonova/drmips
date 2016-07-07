@@ -3,6 +3,17 @@ layout: default
 title: Linux packages
 ---
 
+## Snap (cross-distribution)
+
+If you are using a distribution that supports snap packages, like Ubuntu 16.04
+or later, there is a snap package available in the Ubuntu repository.
+
+To install it, either install the **drmips** package from the Software Center
+(if supported), or execute the following command in a terminal:
+
+    sudo snap install drmips
+
+
 ## Ubuntu
 
 Packages for Ubuntu and derivatives are available in a PPA and in the official
