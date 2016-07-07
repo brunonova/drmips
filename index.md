@@ -56,6 +56,17 @@ You can find the download links [below](#download).
 {% endfor %}
 
 
+### Note on supported instructions
+
+DrMIPS simulates and displays the datapath of the processor graphically.
+Therefore, the simulator only supports the instructions that the datapath itself
+supports.
+Since this is mostly an educational simulator, the provided datapaths are very
+simple, and thus **support a rather limited set of instructions**.
+Several instructions like `jal`, `jr`, syscalls, floating-point operations
+and shifts are not supported.
+
+
 ### Papers
 
 *   Bruno Nova, João C. Ferreira and António Araújo,
