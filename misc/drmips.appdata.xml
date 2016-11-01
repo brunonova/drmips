@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2016 Bruno Nova <brunomb.nova@gmail.com> -->
+<component type="desktop">
+    <id>drmips.desktop</id>
+    <metadata_license>GPL-3.0+</metadata_license>
+    <project_license>GPL-3.0+</project_license>
+    <name>DrMIPS</name>
+    <summary>Educational MIPS simulator</summary>
+    <summary xml:lang="pt">Simulador educativo do MIPS</summary>
+    <description>
+        <p>
+            DrMIPS is a graphical simulator of the MIPS processor to support
+            computer architecture teaching and learning. It is intuitive,
+            versatile and configurable.
+        </p>
+        <p xml:lang="pt">
+            O DrMIPS é um simulador gráfico do processador MIPS para apoiar o
+            ensino e a aprendizagem de arquitectura de computadores. É
+            intuitivo, versátil e configurável.
+        </p>
+        <p>
+            The simulator is available not only for personal computers but also
+            for Android devices, especially tablets.
+        </p>
+        <p xml:lang="pt">
+            O simulador está disponível não só para computadores pessoais mas
+            também para dispositivos Android, especialmente tablets.
+        </p>
+        <p>
+            DrMIPS was created under the Master's dissertation entitled
+            'Tool to Support Computer Architecture Teaching and Learning' at the
+            Faculty of Engineering of the University of Porto, in Portugal.
+        </p>
+        <p xml:lang="pt">
+            O DrMIPS foi criado no âmbito da dissertação de Mestrado intitulada
+            'Tool to Support Computer Architecture Teaching and Learning' na
+            Faculdade de Engenharia da Universidade do Porto, em Portugal.
+        </p>
+    </description>
+    <url type="homepage">http://brunonova.github.io/drmips/</url>
+    <url type="bugtracker">http://brunonova.github.io/drmips/issues/</url>
+    <url type="help">https://cdn.rawgit.com/brunonova/drmips/v2.0.1/doc/manuals/</url>
+    <screenshots>
+        <screenshot type="default">https://brunonova.github.io/drmips/images/screens/pc2.png</screenshot>
+        <screenshot>https://brunonova.github.io/drmips/images/screens/pc1.png</screenshot>
+        <screenshot>https://brunonova.github.io/drmips/images/screens/pc3.png</screenshot>
+        <screenshot>https://brunonova.github.io/drmips/images/screens/pc4.png</screenshot>
+    </screenshots>
+    <developer_name>Bruno Nova</developer_name>
+    <update_contact>brunomb.nova@gmail.com</update_contact>
+    <provides>
+        <binary>drmips</binary>
+    </provides>
+    <releases>
+        <release version="2.0.1" date="2015-11-30" urgency="low">
+            <description>
+                <ul>
+                    <li>
+                        Rewrote the manuals in HTML, dropping the build
+                        dependency on LaTeX.
+                    </li>
+                </ul>
+            </description>
+        </release>
+    </releases>
+</component>
