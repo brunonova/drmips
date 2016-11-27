@@ -1,0 +1,57 @@
+name: drmips
+version: 2.0.1-5
+summary: Educational MIPS simulator
+description: |
+  DrMIPS is a graphical simulator of the MIPS processor to support computer
+  architecture teaching and learning. It is intuitive, versatile and
+  configurable.
+
+  The simulator is available not only for personal computers but also for
+  Android devices, especially tablets.
+
+grade: stable
+confinement: strict
+
+apps:
+  drmips:
+    command: bin/drmips-wrapper
+    plugs:
+      - opengl
+      - x11
+
+parts:
+  drmips:
+    plugin: cmake
+    source: https://github.com/brunonova/drmips/releases/download/v2.0.1/DrMIPS_v2.0.1.tar.xz
+    configflags:
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DDRMIPS_BUILD_TESTS=Off
+      - -DDRMIPS_DOC_DIR=share/drmips/doc
+    build-packages:
+      - default-jdk
+  # Copy wrappers to the snap
+  wrappers:
+    plugin: dump
+    source: wrappers
+    organize:
+      drmips.sh: bin/drmips-wrapper
+  # Bundle dependencies in the snap
+  deps:
+    plugin: nil
+    stage-packages:
+      - default-jre
+      - fonts-dejavu  # include some required fonts, or else Java crashes
+    snap:
+      - -usr/include
+      - -usr/sbin
+      - -usr/share/applications
+      - -usr/share/apport
+      - -usr/share/avahi
+      - -usr/share/doc
+      - -usr/share/doc-base
+      - -usr/share/lintian
+      - -usr/share/man
+      - -var
+      # These libraries are large, and they don't seem to be needed
+      - -usr/lib/*/libicudata.so*
+      - -usr/lib/*/libLLVM*.so*

@@ -1,0 +1,16 @@
+[Desktop Entry]
+Name=DrMIPS
+GenericName=MIPS simulator
+GenericName[pt]=Simulador do MIPS
+Comment=Educational MIPS simulator
+Comment[pt]=Simulador educativo do MIPS
+Keywords=MIPS;computer architecture;simulator;education;
+Keywords[pt]=MIPS;arquitectura de computadores;simulador;educação;
+Type=Application
+Exec=drmips %f
+Icon=${SNAP}/meta/gui/icon.png
+Terminal=false
+StartupNotify=true
+Categories=Education;Electronics;Java;
+MimeType=text/plain;
+StartupWMClass=brunonova-drmips-pc-DrMIPS
