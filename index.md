@@ -85,6 +85,7 @@ Current version: **{{ site.cur_ver }}**
 
 <div id="download_buttons">
   <a id="download_pc" href="{{ site.repourl }}/releases/download/{{ site.cur_ver }}/DrMIPS_{{ site.cur_ver }}.zip">PC version (.zip)</a>
+  <a id="download_pc_setup" href="{{ site.repourl }}/releases/download/{{ site.cur_ver }}/DrMIPS_{{ site.cur_ver }}_setup.exe">PC version (Windows installer)</a>
   <a id="download_android" href="{{ site.repourl }}/releases/download/{{ site.cur_ver }}/DrMIPS_{{ site.cur_ver }}.apk">Android version (.apk)</a>
   <a id="download_source" href="{{ site.repourl }}/releases/download/{{ site.cur_ver }}/DrMIPS_{{ site.cur_ver }}.tar.xz">Source code (.tar.xz)</a>
 </div>
