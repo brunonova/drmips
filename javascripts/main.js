@@ -18,6 +18,9 @@ $(document).ready(function() {
 				case "DrMIPS_{{ site.cur_ver }}.zip":
 					$("#download_pc").prop("title", "Downloaded " + asset.download_count + " times");
 					break;
+				case "DrMIPS_{{ site.cur_ver }}_setup.exe":
+					$("#download_pc_setup").prop("title", "Downloaded " + asset.download_count + " times");
+					break;
 				case "DrMIPS_{{ site.cur_ver }}.apk":
 					$("#download_android").prop("title", "Downloaded " + asset.download_count + " times");
 					break;
