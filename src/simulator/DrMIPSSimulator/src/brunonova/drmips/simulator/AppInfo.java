@@ -30,7 +30,7 @@ public class AppInfo {
 	/** Short description of the application. */
 	public static final String DESCRIPTION = "Educational MIPS simulator";
 	/** Version of the application. */
-	public static final String VERSION = "2.0.1";
+	public static final String VERSION = "2.0.2";
 	/** Homepage of the application. */
 	public static final String HOMEPAGE = "http://brunonova.github.io/drmips/";
 	/** Name of the main author (creator) of the application. */
