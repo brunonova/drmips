@@ -1,3 +1,14 @@
+v2.0.2
+------
+
+General:
+* Fixed Bug #5, concerning a forwarding issue in the Register Bank
+  (thanks Macmod)
+
+Android:
+* Target API version 25
+
+
 v2.0.1
 ------
 
