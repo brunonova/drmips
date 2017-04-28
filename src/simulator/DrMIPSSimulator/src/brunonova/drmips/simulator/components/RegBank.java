@@ -90,18 +90,18 @@ public class RegBank extends Component implements Synchronous {
 	public void execute() {
 		int index1 = getReadReg1().getValue();
 		int index2 = getReadReg2().getValue();
+		boolean write = getRegWrite().getValue() == 1;
 
-		if(isForwarding() && getWriteReg().getValue() == index1 && !isRegisterConstant(index1))
+		if(isForwarding() && write && getWriteReg().getValue() == index1 && !isRegisterConstant(index1))
 			getReadData1().setValue(getWriteData().getValue());
 		else
 			getReadData1().setValue(getRegister(index1).getValue());
 
-		if(isForwarding() && getWriteReg().getValue() == index2 && !isRegisterConstant(index2))
+		if(isForwarding() && write && getWriteReg().getValue() == index2 && !isRegisterConstant(index2))
 			getReadData2().setValue(getWriteData().getValue());
 		else
 			getReadData2().setValue(getRegister(index2).getValue());
 
-		boolean write = getRegWrite().getValue() == 1;
 		getWriteReg().setRelevant(write);
 		getWriteData().setRelevant(write);
 	}
