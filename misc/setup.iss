@@ -15,7 +15,7 @@
 ; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define MyAppName "DrMIPS"
-#define MyAppVersion "2.0.1"
+#define MyAppVersion "2.0.2"
 #define MyAppPublisher "Bruno Nova"
 #define MyAppURL "https://brunonova.github.io/drmips/"
 #define MyAppExeName "DrMIPS.exe"
