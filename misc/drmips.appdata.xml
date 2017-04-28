@@ -52,6 +52,19 @@
         <binary>drmips</binary>
     </provides>
     <releases>
+        <release version="2.0.2" date="2017-04-28" urgency="low">
+            <description>
+                <ul>
+                    <li>
+                        Fixed Bug #5, concerning a forwarding issue in the
+                        Register Bank (thanks Macmod).
+                    </li>
+                    <li>
+                        Android version: target API version 25.
+                    </li>
+                </ul>
+            </description>
+        </release>
         <release version="2.0.1" date="2015-11-30" urgency="low">
             <description>
                 <ul>
