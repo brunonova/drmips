@@ -100,15 +100,6 @@ If you know what PGP is, you can find the signatures of the downloadable files
 in the [Releases page][releases], and you can download my PGP key [here][pgp].
 
 
-### Packages for Linux
-
-There are also packages available for [Ubuntu][ubuntu], [Debian][debian]
-and [Arch Linux][arch].
-If you are using one of these Linux distributions, or a derivative, you may
-want to install these packages instead, and receive automatic updates.
-To do so, follow [these instruction][linux].
-
-
 ### Be informed of new releases
 
 You can be notified of the release of new versions of the simulator by
@@ -152,7 +143,6 @@ You can read the full license text [here][gpl3].
 [paper_ticai]: papers/ticai13-14_cap2.pdf "Paper: Ferramenta de Apoio ao Ensino e Aprendizagem de Arquitectura de Computadores"
 [pgp]: brunonova.asc "Bruno Nova's PGP key"
 [install]: install/ "Installation instructions"
-[linux]: linux/ "Linux packages"
 [releases]: {{ site.repourl }}/releases "DrMIPS releases"
 [rel_feed]: {{ site.repourl }}/releases.atom "DrMIPS releases feed"
 [issues]: {{ site.repourl }}/issues "DrMIPS issue tracker"
@@ -161,7 +151,4 @@ You can read the full license text [here][gpl3].
 [FEUP]: http://www.fe.up.pt/ "Faculdade de Engenharia da Universidade do Porto"
 [MIPS]: http://en.wikipedia.org/wiki/MIPS_architecture "MIPS architecture - Wikipedia"
 [gpl3]: http://www.gnu.org/licenses/gpl-3.0.html "GNU General Public License v3"
-[ubuntu]: http://www.ubuntu.com/ "Ubuntu home page"
-[debian]: https://www.debian.org/ "Debian home page"
-[arch]: https://www.archlinux.org/ "Arch Linux home page"
 [documentation]: https://cdn.rawgit.com/brunonova/drmips/v2.0.1/doc/manuals/index.html "DrMIPS - Documentation"
