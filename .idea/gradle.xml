@@ -5,11 +5,13 @@
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="1.7" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/src" />
+            <option value="$PROJECT_DIR$/src/android" />
+            <option value="$PROJECT_DIR$/src/pc" />
+            <option value="$PROJECT_DIR$/src/simulator" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
