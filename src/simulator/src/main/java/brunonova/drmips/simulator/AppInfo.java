@@ -32,7 +32,7 @@ public class AppInfo {
 	/** Short description of the application. */
 	public static final String DESCRIPTION = "Educational MIPS simulator";
 	/** Version of the application. */
-	public static String VERSION;
+	public static final String VERSION;
 	/** Homepage of the application. */
 	public static final String HOMEPAGE = "http://brunonova.github.io/drmips/";
 	/** Name of the main author (creator) of the application. */
@@ -90,12 +90,16 @@ public class AppInfo {
      */
     static {
         // Read version from version.properties file
+        String version = "N/A";
+
         Properties prop = new Properties();
         try {
             prop.load(AppInfo.class.getResourceAsStream("version.properties"));
-            VERSION = prop.getProperty("version", "N/A");
+            version = prop.getProperty("version", "N/A");
         } catch(Exception ex) {
-            VERSION = "N/A";
+            // ignore
         }
+
+        VERSION = version;
     }
 }
