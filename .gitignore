@@ -16,8 +16,8 @@ src/pc/src/brunonova/drmips/pc/DrMIPS.java
 # Files generated for the Android version of the simulator
 src/android/.gradle
 src/android/local.properties
-src/android/.idea/workspace.xml
-src/android/.idea/libraries
+/.idea/workspace.xml
+/.idea/libraries
 src/android/build
 src/android/app/build
 
