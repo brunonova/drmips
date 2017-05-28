@@ -1,6 +1,0 @@
-Versions os the libraries:
-
-* autocomplete    - 2.5.0
-* jScroll         - 1.0.2
-* JTattoo         - 1.6.10
-* rsyntaxtextarea - 2.5.0

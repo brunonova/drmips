@@ -16,13 +16,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*
-  IMPORTANT:
-  DrMIPS.java is generated automatically by CMake from DrMIPS.java.in.
-  Do not edit DrMIPS.java directly, as the changes will be overwritten by CMake.
-  Edit DrMIPS.java.in instead.
-*/
-
 package brunonova.drmips.pc;
 
 import brunonova.drmips.simulator.AppInfo;
@@ -44,7 +37,7 @@ import joptsimple.OptionSpec;
 /**
  * Entry point of the program.
  * <p>It also contains some global constants and parameters.</p>
- * 
+ *
  * @author Bruno Nova
  */
 public class DrMIPS {
@@ -61,7 +54,7 @@ public class DrMIPS {
 	/** Relative path to the documentation directory. */
 	public static final String DOC_DIR = "doc";
 	/** Absolute path to the fallback documentation directory (when installed in a separate directory). */
-	public static final String DOC_DIR2 = "@DRMIPS_MANUALS_DIR_ABSOLUTE@";
+	public static final String DOC_DIR2 = "/usr/share/doc/drmips/manuals";
 
 	// Names of the preferences
 	public static final String LANG_PREF = "lang";
@@ -137,7 +130,7 @@ public class DrMIPS {
 	private static String filename = null;
 	/** Class logger. */
 	private static final Logger LOG = Logger.getLogger(DrMIPS.class.getName());
-	
+
 	private static void displayHelpAndExit(OptionParser parser) {
 		// The help text will contain a "Usage" line. The default value of the line is:
 		//   Usage: java -jar DrMIPS.jar [options] [file]
@@ -148,7 +141,7 @@ public class DrMIPS {
 		// This example will change the "Usage" line to:
 		//   Usage: drmips [options] [file]
 		String prog_name = System.getProperty("program.name", "java -jar " + AppInfo.NAME + ".jar");
-		
+
 		System.out.println(AppInfo.NAME + " - " + AppInfo.DESCRIPTION);
 		System.out.println("Usage: " + prog_name + " [options] [file]\n");
 		try {
@@ -158,7 +151,7 @@ public class DrMIPS {
 		}
 		System.exit(0);
 	}
-	
+
 	private static void displayVersionAndExit() {
 		System.out.println(AppInfo.NAME + " " + AppInfo.VERSION + "\n"
 			+ AppInfo.COPYRIGHT + "\n"
@@ -170,11 +163,11 @@ public class DrMIPS {
 		// Hardware acceleration using OpenGL
 		System.setProperty("sun.java2d.opengl", "True");
 	}
-	
+
 	@SuppressWarnings("UseSpecificCatch")
 	public static void main(String[] args) {
 		boolean useOpenGl = prefs.getBoolean(OPENGL_PREF, DEFAULT_OPENGL);
-		
+
 		// Setup the default exception handler
 		Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler());
 
@@ -218,7 +211,7 @@ public class DrMIPS {
 			System.err.println("Error parsing arguments: " + ex.getMessage());
 			System.exit(1);
 		}
-		
+
 		// Try to enable OpenGL hardware acceleration, unless requested not to
 		if(useOpenGl)
 			enableOpenGl();

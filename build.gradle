@@ -12,3 +12,8 @@ allprojects {
         mavenCentral()
     }
 }
+
+task dist {
+    description = "Creates the dist folder"
+    group = "Distribution"
+}
