@@ -1,0 +1,60 @@
+apply plugin: "com.android.application"
+
+description = "The Android version of DrMIPS"
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:2.3.2"
+    }
+}
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+        applicationId "brunonova.drmips.android"
+        minSdkVersion 14
+        targetSdkVersion 25
+        versionName project.appVersion
+        versionCode project.appVersionCode
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.txt"
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+}
+
+dependencies {
+    compile project(":src:simulator")
+}
+
+// Copy the "cpu" directory into the "raw" directory, renaming the files accordingly
+task copyCpuDirToRaw(type: Copy) {
+    from project(":src:simulator").file("cpu")
+    into "src/main/res/raw"
+    rename { String filename ->
+        filename.replaceAll("\\.", "_").replaceAll("-", "_")
+    }
+}
+preBuild.dependsOn copyCpuDirToRaw
+
+// Delete the "raw" directory when cleaning the project
+task deleteRawDir << {
+    File rawDir = file("src/main/res/raw")
+    if(rawDir.exists()) {
+        rawDir.listFiles().each { it.delete() }
+        rawDir.delete()
+    }
+}
+clean.dependsOn deleteRawDir

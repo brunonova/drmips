@@ -1,0 +1,14 @@
+allprojects {
+    ext {
+        appVersion = "2.0.2"  // version of the application
+        appVersionCode = 41   // versionCode of the application for Android
+        javaVersion = 1.7     // Java version to compile with
+    }
+
+    version = "$appVersion"
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}

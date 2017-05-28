@@ -5,28 +5,28 @@
 /DrMIPS-unsigned.apk
 
 # Files generated for the PC version of the simulator
-src/pc/DrMIPS/nbproject/private
-src/pc/DrMIPS/build
-src/pc/DrMIPS/dist
-src/pc/DrMIPS/drmips
-src/pc/DrMIPS/src/Manifest.mf
-src/pc/DrMIPS/src/DrMIPS.jar
-src/pc/DrMIPS/src/brunonova/drmips/pc/DrMIPS.java
+src/pc/nbproject/private
+src/pc/build
+src/pc/dist
+src/pc/drmips
+src/pc/src/Manifest.mf
+src/pc/src/DrMIPS.jar
+src/pc/src/brunonova/drmips/pc/DrMIPS.java
 
 # Files generated for the Android version of the simulator
-src/android/DrMIPS/.gradle
-src/android/DrMIPS/local.properties
-src/android/DrMIPS/.idea/workspace.xml
-src/android/DrMIPS/.idea/libraries
-src/android/DrMIPS/build
-src/android/DrMIPS/app/build
+src/android/.gradle
+src/android/local.properties
+src/android/.idea/workspace.xml
+src/android/.idea/libraries
+src/android/build
+src/android/app/build
 
 # Files generated for the cross-platform part of the simulator
-src/simulator/DrMIPSSimulator/nbproject/private
-src/simulator/DrMIPSSimulator/build
-src/simulator/DrMIPSSimulator/dist
-src/simulator/DrMIPSSimulator/src/javadoc
-src/simulator/DrMIPSSimulator/src/DrMIPSSimulator.jar
+src/simulator/nbproject/private
+src/simulator/build
+src/simulator/dist
+src/simulator/src/javadoc
+src/simulator/src/DrMIPSSimulator.jar
 src/pc/DrMIPS/lib/DrMIPSSimulator.jar
 src/pc/DrMIPS/cpu
 src/android/DrMIPS/app/libs/DrMIPSSimulator.jar
@@ -54,3 +54,5 @@ CMakeFiles
 Makefile
 cmake_uninstall.cmake
 cmake_install.cmake
+
+/.gradle
