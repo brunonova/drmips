@@ -18,10 +18,12 @@
 
 package brunonova.drmips.simulator;
 
+import java.util.Properties;
+
 /**
  * General information about the simulator, used in the graphical interfaces but
  * independent of the platform.
- * 
+ *
  * @author Bruno Nova
  */
 public class AppInfo {
@@ -30,14 +32,14 @@ public class AppInfo {
 	/** Short description of the application. */
 	public static final String DESCRIPTION = "Educational MIPS simulator";
 	/** Version of the application. */
-	public static final String VERSION = "2.0.2";
+	public static String VERSION;
 	/** Homepage of the application. */
 	public static final String HOMEPAGE = "http://brunonova.github.io/drmips/";
 	/** Name of the main author (creator) of the application. */
 	public static final String MAIN_AUTHOR_NAME = "Bruno Nova";
 	/** E-mail address of the main author (creator) of the application. */
 	public static final String MAIN_AUTHOR_EMAIL = "brunomb.nova@gmail.com";
-	/** Name and e-mail address of the main author (creator) of the application. */ 
+	/** Name and e-mail address of the main author (creator) of the application. */
 	public static final String MAIN_AUTHOR_NAME_EMAIL = MAIN_AUTHOR_NAME + " <" + MAIN_AUTHOR_EMAIL + ">";
 	/** Institution of the main author (creator) of the application. */
 	public static final String MAIN_AUTHOR_INSTITUTION = "Faculdade de Engenharia da Universidade do Porto";
@@ -65,7 +67,7 @@ public class AppInfo {
 	public static final String[] AUTHORS = {"António Araújo",
 	                                        "Bruno Nova",
 	                                        "João Canas Ferreira"};
-	
+
 	/**
 	 * Returns the names of the authors/contributors of the application as text,
 	 * one line per name.
@@ -79,4 +81,21 @@ public class AppInfo {
 		}
 		return text;
 	}
+
+    /**
+     * Returns the version of the game.
+     * <p>The version is obtained from the version.properties file generated
+     * by Gradle.</p>
+     * @return Game version.
+     */
+    static {
+        // Read version from version.properties file
+        Properties prop = new Properties();
+        try {
+            prop.load(AppInfo.class.getResourceAsStream("version.properties"));
+            VERSION = prop.getProperty("version", "N/A");
+        } catch(Exception ex) {
+            VERSION = "N/A";
+        }
+    }
 }

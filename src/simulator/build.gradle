@@ -10,14 +10,17 @@ dependencies {
     testCompile "junit:junit:4.12"
 }
 
-/*task createProperties(dependsOn: processResources) << {
-    new File("$buildDir/resources/main/brunonova/collision/res/version.properties").withWriter { w ->
+// Creates a .properties file with the version of the project
+task createProperties() << {
+    // Create the parent directory, if it doesn't exist
+    def resDir = new File("$buildDir/resources/main/brunonova/drmips/simulator")
+    resDir.mkdirs()
+
+    // Write the .properties file
+    new File("$buildDir/resources/main/brunonova/drmips/simulator/version.properties").withWriter { w ->
         Properties p = new Properties()
         p['version'] = project.version.toString()
         p.store(w, null)
     }
 }
-
-classes {
-    dependsOn createProperties
-}*/
+classes.dependsOn createProperties

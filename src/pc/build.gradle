@@ -51,3 +51,10 @@ task copyManualsDirToLibs(type: Copy) {
 jar.dependsOn copyLangDirToLibs
 jar.dependsOn copyCpuDirToLibs
 jar.dependsOn copyManualsDirToLibs
+
+// Creates the .zip file for distribution
+task distPC(type: Zip, dependsOn: jar) {
+    from "$buildDir/libs"
+    rename "DrMIPS-.+\\.jar", "DrMIPS.jar"
+}
+project(":").dist.dependsOn distPC
