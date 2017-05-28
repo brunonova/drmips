@@ -1,0 +1,53 @@
+apply plugin: "java"
+
+description = "The PC version of DrMIPS"
+archivesBaseName = "DrMIPS"
+sourceCompatibility = project.javaVersion
+[compileJava, compileTestJava]*.options*.encoding = "UTF-8"
+project.ext.mainClassName = "brunonova.drmips.pc.DrMIPS"
+
+dependencies {
+    compile project(":src:simulator")
+    compile "net.sf.jopt-simple:jopt-simple:5.0.3"
+    compile "com.fifesoft:autocomplete:2.5.0"
+    compile "com.fifesoft:rsyntaxtextarea:2.5.0"
+    compile "com.jtattoo:JTattoo:1.6.10"
+}
+
+// Task that will run the simulator
+task run(dependsOn: jar, type: JavaExec) {
+    description = "Builds and runs the PC version of DrMIPS"
+    group = "PC version"
+
+    main = project.mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+    ignoreExitValue = true
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": project.mainClassName
+    }
+
+    from {
+        configurations.compile.collect { zipTree(it) }  // bundle the dependencies
+    }
+}
+
+// Copy the "lang", "cpu" and "manuals" directories into the "libs" directory
+task copyLangDirToLibs(type: Copy) {
+    from "lang"
+    into "$buildDir/libs/lang"
+}
+task copyCpuDirToLibs(type: Copy) {
+    from project(":src:simulator").file("cpu")
+    into "$buildDir/libs/cpu"
+}
+task copyManualsDirToLibs(type: Copy) {
+    from project(":").file("doc/manuals")
+    into "$buildDir/libs/doc"
+}
+jar.dependsOn copyLangDirToLibs
+jar.dependsOn copyCpuDirToLibs
+jar.dependsOn copyManualsDirToLibs

@@ -1,0 +1,23 @@
+apply plugin: "java"
+
+description = "The (shared) simulation logic of DrMIPS"
+archivesBaseName = "DrMIPS-simulator"
+sourceCompatibility = project.javaVersion
+[compileJava, compileTestJava]*.options*.encoding = "UTF-8"
+
+dependencies {
+    compile "org.json:json:20170516"
+    testCompile "junit:junit:4.12"
+}
+
+/*task createProperties(dependsOn: processResources) << {
+    new File("$buildDir/resources/main/brunonova/collision/res/version.properties").withWriter { w ->
+        Properties p = new Properties()
+        p['version'] = project.version.toString()
+        p.store(w, null)
+    }
+}
+
+classes {
+    dependsOn createProperties
+}*/
