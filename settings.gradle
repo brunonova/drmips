@@ -1,3 +1,5 @@
 include "src:simulator"
 include "src:pc"
-include "src:android"
+
+// Uncomment the next line to build the Android version
+//include "src:android"
