@@ -1,8 +1,4 @@
 language: java
 
 script:
-  - mkdir build 
-  - cd build
-  - cmake -DDRMIPS_BUILD_MANUALS=off ..
-  - make
-  - make test
+  - ./gradlew build
