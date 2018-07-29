@@ -151,4 +151,4 @@ You can read the full license text [here][gpl3].
 [FEUP]: http://www.fe.up.pt/ "Faculdade de Engenharia da Universidade do Porto"
 [MIPS]: http://en.wikipedia.org/wiki/MIPS_architecture "MIPS architecture - Wikipedia"
 [gpl3]: http://www.gnu.org/licenses/gpl-3.0.html "GNU General Public License v3"
-[documentation]: https://cdn.rawgit.com/brunonova/drmips/v2.0.1/doc/manuals/index.html "DrMIPS - Documentation"
+[documentation]: https://cdn.rawgit.com/brunonova/drmips/v2.0.3/doc/manuals/index.html "DrMIPS - Documentation"
