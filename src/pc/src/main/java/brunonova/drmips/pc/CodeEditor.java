@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -49,13 +49,13 @@ import org.fife.ui.rtextarea.RTextScrollPane;
  * The code editor of the simulator.
  * <p>The class extends the <tt>TextEditorPane</tt> from RSyntaxTextArea component.<br>
  * RSyntaxTextArea: <a href="http://fifesoft.com/rsyntaxtextarea/">http://fifesoft.com/rsyntaxtextarea/</a></p>
- * 
+ *
  * @author Bruno Nova
  */
 public class CodeEditor extends TextEditorPane {
 	/** The icon used to display errors in the line numbers column. */
 	public static final Icon ERROR_ICON = new ImageIcon(CodeEditor.class.getResource("/res/icons/x16/error.png"));
-		
+
 	/** The editor's scroll pane. */
 	private RTextScrollPane scrollPane;
 	/** The provider for the auto-complete. */
@@ -64,10 +64,10 @@ public class CodeEditor extends TextEditorPane {
 	private AutoCompletion complete;
 	/** The cpu with the supported instructions. */
 	private CPU cpu = null;
-	
+
 	/** Class logger. */
 	private static final Logger LOG = Logger.getLogger(CodeEditor.class.getName());
-	
+
 	/**
 	 * Creates the code editor.
 	 */
@@ -82,14 +82,14 @@ public class CodeEditor extends TextEditorPane {
 		//setMarkOccurrences(true);
 		setLineWrap(true);
 		setColors();
-		
+
 		completeProvider = new MIPSCompletionProvider();
 		complete = new AutoCompletion(completeProvider);
 		complete.setShowDescWindow(true);
 		complete.setAutoCompleteSingleChoices(false);
 		complete.install(this);
 	}
-	
+
 	/**
 	 * Creates the code editor with a custom popup menu.
 	 * @param menu The custom popup menu.
@@ -98,7 +98,7 @@ public class CodeEditor extends TextEditorPane {
 		this();
 		setPopupMenu(menu);
 	}
-	
+
 	/**
 	 * Returns the editor's scroll pane.
 	 * @return The editor's scroll pane.
@@ -106,14 +106,14 @@ public class CodeEditor extends TextEditorPane {
 	public RTextScrollPane getScrollPane() {
 		return scrollPane;
 	}
-	
+
 	/**
 	 * Removes all error icons from the line numbers column.
 	 */
 	public void clearErrorIcons() {
 		scrollPane.getGutter().removeAllTrackingIcons();
 	}
-	
+
 	/**
 	 * Adds an error icon to the specified line.
 	 * @param line The line to add the icon to (starts on 1).
@@ -125,7 +125,7 @@ public class CodeEditor extends TextEditorPane {
 			LOG.log(Level.WARNING, "error adding error icon to line " + line, ex);
 		}
 	}
-	
+
 	/**
 	 * Adds an error icon to the specified line with an additional tip message.
 	 * @param line The line to add the icon to (starts on 1).
@@ -138,7 +138,7 @@ public class CodeEditor extends TextEditorPane {
 			LOG.log(Level.WARNING, "error adding error icon to line " + line, ex);
 		}
 	}
-	
+
 	/**
 	 * Sets the CPU for the code editor.
 	 * @param cpu The cpu with the supported instructions.
@@ -148,14 +148,14 @@ public class CodeEditor extends TextEditorPane {
 		setSyntaxEditingStyleForCPU();
 		setAutoComplete();
 	}
-	
+
 	/**
 	 * Translates the code editor (auto-complete strings).
 	 */
 	public void translate() {
 		setCPU(cpu);
 	}
-	
+
 	/**
 	 * Sets the syntax highlighting rules for the given CPU.
 	 */
@@ -165,25 +165,25 @@ public class CodeEditor extends TextEditorPane {
 		firePropertyChange(SYNTAX_STYLE_PROPERTY, oldStyle, "DrMIPS");
 		setActiveLineRange(-1, -1);
 	}
-	
+
 	/**
 	 * Sets the auto-complete options for the given CPU.
 	 */
 	private void setAutoComplete() {
 		completeProvider.clear();
 		String desc;
-		
+
 		for(Instruction instruction: cpu.getInstructionSet().getInstructions()) { // add instructions
 			completeProvider.addCompletion(new BasicCompletion(completeProvider, instruction.getMnemonic(), instruction.getUsage(), getInstructionSummary(instruction)));
 		}
-		
+
 		for(PseudoInstruction pseudo: cpu.getInstructionSet().getPseudoInstructions()) { // add pseudo-instructions
 			completeProvider.addCompletion(new BasicCompletion(completeProvider, pseudo.getMnemonic(), pseudo.getUsage(), getInstructionSummary(pseudo)));
 		}
-		
+
 		addDirectives();
 	}
-	
+
 	/**
 	 * Returns the summary of the given instruction or pseudo-instruction.
 	 * @param instruction The instruction or pseudo-instruction.
@@ -195,7 +195,7 @@ public class CodeEditor extends TextEditorPane {
 		boolean pseudo = instruction instanceof PseudoInstruction;
 		desc += pseudo ? Lang.t("pseudo_instruction") : Lang.t("instruction");
 		desc += ")</u></b><br /><br /><dl>";
-		
+
 		// Usage
 		String usage = instruction.getUsage();
 		desc += "<dt><b>" + Lang.t("usage") + ":</b></dt>";
@@ -209,11 +209,11 @@ public class CodeEditor extends TextEditorPane {
 				for(int i = 0; i < instruction.getNumberOfArguments(); i++) {
 					desc += "<dd>";
 					switch(instruction.getArgument(i)) {
-						case INT: 
+						case INT:
 							desc += Lang.t("integer");
 							desc += " (" + ex + ": " + (20 + i + 1) + " , " + -(20 + i + 1) + ")";
 							break;
-						case REG: 
+						case REG:
 							desc += Lang.t("register");
 							desc += " (" + ex + ": " + CPU.REGISTER_PREFIX + "t" + (i + 1) + ")";
 							break;
@@ -225,7 +225,7 @@ public class CodeEditor extends TextEditorPane {
 							desc += Lang.t("label");
 							desc += " (" + ex + ": num , start)";
 							break;
-						case OFFSET: 
+						case OFFSET:
 							desc += Lang.t("offset");
 							desc += " (" + ex + ": start , " + (20 + i + 1) + " , " + -(20 + i + 1) + ")";
 							break;
@@ -240,13 +240,13 @@ public class CodeEditor extends TextEditorPane {
 				}
 			}
 		}
-		
+
 		// Operation/description
 		if(instruction.hasDescription()) {
 			desc += "<dt><br /><b>" + Lang.t("operation") + ":</b></dt>";
 			desc += "<dd><tt>" + instruction.getDescription().replace("<", "&lt;").replace(">", "&gt;") + "</tt></dd>";
 		}
-		
+
 		// Resulting instructions if pseudo-instruction
 		if(cpu != null && instruction instanceof PseudoInstruction) {
 			String[] split;
@@ -261,28 +261,28 @@ public class CodeEditor extends TextEditorPane {
 						if(split.length == 2)
 							line += split[1];
 					}
-					
-					
+
+
 					desc += "<dd><tt>" + line + "</tt></dd>";
 				}
 			}
 		}
-		
+
 		desc += "</dl>";
 		return desc;
 	}
-	
+
 	/**
 	 * Adds the directives to the auto-complete options.
 	 */
 	private void addDirectives() {
 		String desc = Lang.t("directive"), summ;
-		
+
 		summ = "<b><u><tt>.text </tt> (" + Lang.t("directive") + ")</u></b><br /><br /><dl>";
 		summ += "<dt><b>" + Lang.t("usage") + ":</b></dt><dd><pre>.text</pre></dd>";
 		summ += "<dt><br /><b>" + Lang.t("description") + ":</b></dt><dd>" + Lang.t("text_directive_description") +"</dd></dl>";
 		completeProvider.addCompletion(new BasicCompletion(completeProvider, ".text", desc, summ));
-		
+
 		if(cpu.hasDataMemory()) {
 			summ = "<b><u><tt>.data </tt> (" + Lang.t("directive") + ")</u></b><br /><br /><dl>";
 			summ += "<dt><b>" + Lang.t("usage") + ":</b></dt><dd><pre>.data</pre></dd>";
@@ -300,14 +300,14 @@ public class CodeEditor extends TextEditorPane {
 			completeProvider.addCompletion(new BasicCompletion(completeProvider, ".space", desc, summ));
 		}
 	}
-	
+
 	/**
 	 * Sets custom colors for the editor.
 	 */
 	public final void setColors() {
 		SyntaxScheme scheme = getSyntaxScheme();
 		boolean dark = DrMIPS.prefs.getBoolean(DrMIPS.DARK_THEME_PREF, DrMIPS.DEFAULT_DARK_THEME);
-		
+
 		setBackground(dark ? Color.BLACK : Color.WHITE);
 		getScrollPane().getGutter().setBackground(dark ? Color.BLACK : Color.WHITE);
 		setCaretColor(dark ? Color.WHITE : Color.BLACK);
@@ -348,8 +348,8 @@ public class CodeEditor extends TextEditorPane {
 		scheme.setStyle(Token.VARIABLE /* registers */,
 		                new Style(dark ? new Color(255, 128, 0) : new Color(192, 96, 0), null, keywordFont));
 	}
-	
-	
+
+
 	/**
 	 * Completion provider for the MIPS instructions.
 	 * <p>This checks the text entered up to the caret position to provide the
@@ -357,7 +357,7 @@ public class CodeEditor extends TextEditorPane {
 	 */
 	private class MIPSCompletionProvider extends DefaultCompletionProvider {
 		private final List<BasicCompletion> labelCompletions = new LinkedList<>();
-			
+
 		/**
 		 * Creates the provider.
 		 */
@@ -378,7 +378,7 @@ public class CodeEditor extends TextEditorPane {
 				for(BasicCompletion c: labelCompletions)
 					removeCompletion(c);
 				labelCompletions.clear();
-				
+
 				// Add current labels
 				Set<String> labels = cpu.getAssembler().getCodeLabels(getText());
 				BasicCompletion c;
@@ -390,11 +390,11 @@ public class CodeEditor extends TextEditorPane {
 					addCompletion(c);
 				}
 			}
-			
+
 			return super.getCompletions(comp); // do the default code
 		}
 	}
-	
+
 	/**
 	* The "token maker" for the MIPS instructions supported by the loaded CPU.
 	* <p>This interprets the code and splits it in token that are then used for

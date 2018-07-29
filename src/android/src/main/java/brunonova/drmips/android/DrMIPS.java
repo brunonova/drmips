@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ import android.widget.Toast;
 /**
  * Global object that represents the application.
  * <p>It also contains some global constants and parameters.</p>
- * 
+ *
  * @author Bruno Nova
  */
 public class DrMIPS extends Application {
@@ -98,7 +98,7 @@ public class DrMIPS extends Application {
 	public static final boolean DEFAULT_OVERLAYED_SHOW_NAMES = false;
 	/** Whether the in/out tips should be displayed for (almost) all components by default. */
 	public static final boolean DEFAULT_OVERLAYED_SHOW_FOR_ALL = false;
-	
+
 	/** The current application. */
 	private static DrMIPS app = null;
 	/** The context of the application. */
@@ -111,7 +111,7 @@ public class DrMIPS extends Application {
 	private File codeDir = null;
 	/** The currently loaded CPU. */
 	private CPU cpu = null;
-	
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -120,7 +120,7 @@ public class DrMIPS extends Application {
 
 		createDefaultFiles();
 	}
-	
+
 	/**
 	 * Returns a reference to the application.
 	 * @return The application.
@@ -128,7 +128,7 @@ public class DrMIPS extends Application {
 	public static DrMIPS getApplication() {
 		return app;
 	}
-	
+
 	/**
 	 * Returns the default theme of the application
 	 * <p>For Android 3.0 and higher the default theme is LightTheme.<br />
@@ -138,7 +138,7 @@ public class DrMIPS extends Application {
 	public static int getDefaultTheme() {
 		return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) ? R.style.LightTheme : R.style.DarkTheme;
 	}
-	
+
 	/**
 	 * Returns the currently loaded CPU.
 	 * @return The currently loaded CPU.
@@ -146,7 +146,7 @@ public class DrMIPS extends Application {
 	public CPU getCPU() {
 		return cpu;
 	}
-	
+
 	/**
 	 * Updates the currently loaded CPU.
 	 * @param cpu New CPU.
@@ -154,7 +154,7 @@ public class DrMIPS extends Application {
 	public void setCPU(CPU cpu) {
 		this.cpu = cpu;
 	}
-	
+
 	/**
 	 * Returns whether there is a CPU loaded.
 	 * @return <tt>True</tt> if the is a CPU loaded.
@@ -162,7 +162,7 @@ public class DrMIPS extends Application {
 	public boolean hasCPU() {
 		return cpu != null;
 	}
-	
+
 	/**
 	 * Returns the context of the application.
 	 * @return Context of the application.
@@ -170,7 +170,7 @@ public class DrMIPS extends Application {
 	public Context getContext() {
 		return context;
 	}
-	
+
 	/**
 	 * Returns the ID of the current theme (from the preferences).
 	 * @return ID of the current theme.
@@ -178,7 +178,7 @@ public class DrMIPS extends Application {
 	public int getCurrentTheme() {
 		return DrMIPS.getApplication().getPreferences().getInt(DrMIPS.THEME_PREF, getDefaultTheme());
 	}
-	
+
 	/**
 	 * Converts the given size in dips to pixels.
 	 * @param dip Size in dips.
@@ -188,7 +188,7 @@ public class DrMIPS extends Application {
 		// getResources().getDisplayMetrics().density
 		return (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dip, getResources().getDisplayMetrics());
 	}
-	
+
 	/**
 	 * Returns the file representation that points to the app's files directory (preferably on the external memory).
 	 * @return File representation that points to the app's files directory (preferably on the external memory).
@@ -196,7 +196,7 @@ public class DrMIPS extends Application {
 	public File getFilesDir() {
 		return filesDir;
 	}
-	
+
 	/**
 	 * Returns the file representation that points to the CPU directory.
 	 * @return File representation that points to the CPU directory.
@@ -204,7 +204,7 @@ public class DrMIPS extends Application {
 	public File getCPUDir() {
 		return cpuDir;
 	}
-	
+
 	/**
 	 * Returns the file representation that points to the user created assembly code files directory.
 	 * @return File representation that points to the user created assembly code files directory.
@@ -220,12 +220,12 @@ public class DrMIPS extends Application {
 	public SharedPreferences getPreferences() {
 		return getSharedPreferences("prefs", MODE_PRIVATE);
 	}
-	
+
 	/**
 	 * Creates the default .cpu and .set files on the sdcard if they don't exist yet.
 	 * <p>Also sets the path to the application files directory.</p>
 	 */
-	private void createDefaultFiles() { 
+	private void createDefaultFiles() {
 		// Find if the (preferred) external memory is available
 		if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) // external memory available?
 			filesDir = getExternalFilesDir(null);
@@ -256,7 +256,7 @@ public class DrMIPS extends Application {
 		SharedPreferences.Editor editor = getPreferences().edit();
 		editor.putInt(LAST_VERSION_PREF, versionCode); // save new "last version"
 		editor.apply();
-		
+
 		// Copy default CPU files to the memory
 		File unicycleCPU = new File(cpuDir.getAbsoluteFile() + File.separator + "unicycle.cpu");
 		File unicycleNoJumpCPU = new File(cpuDir.getAbsoluteFile() + File.separator + "unicycle-no-jump.cpu");
@@ -285,7 +285,7 @@ public class DrMIPS extends Application {
 		if(upgraded || !defaultExtendedSet.exists()) copyResourceFile(R.raw.default_extended_set, defaultExtendedSet);
 		if(upgraded || !defaultExtendedNoJumpSet.exists()) copyResourceFile(R.raw.default_extended_no_jump_set, defaultExtendedNoJumpSet);
 	}
-	
+
 	/**
 	 * Copies the raw file with the given id to the specified path.
 	 * @param resource The resource identifier of the file to copy.
@@ -295,7 +295,7 @@ public class DrMIPS extends Application {
 		BufferedReader in = null;
 		BufferedWriter out = null;
 		String line;
-		
+
 		try {
 			in = new BufferedReader(new InputStreamReader(getContext().getResources().openRawResource(resource)));
 			out = new BufferedWriter(new FileWriter(dest));

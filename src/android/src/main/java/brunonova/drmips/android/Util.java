@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ import brunonova.drmips.simulator.Data;
 
 /**
  * Utility functions.
- * 
+ *
  * @author Bruno Nova
  */
 public class Util {
@@ -40,7 +40,7 @@ public class Util {
 	public static final int INSTRUCTION_PERFORMANCE_TYPE_INDEX = 0;
 	/** The index of the CPU performance mode type in combo boxes. */
 	public static final int CPU_PERFORMANCE_TYPE_INDEX = 1;
-	
+
 	/**
 	 * Returns a string the the given data formated in bin/dec/hex according to the selected format in the given combo box.
 	 * @param data Original data.

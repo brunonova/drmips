@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ import javax.swing.SwingUtilities;
 
 /**
  * Special JPanel that handles the display of the CPU datapath.
- * 
+ *
  * @author Bruno Nova
  */
 public class DatapathPanel extends JLayeredPane {
@@ -68,7 +68,7 @@ public class DatapathPanel extends JLayeredPane {
 	private boolean showTipsForAllComps = false;
 	/** Current scale/zoom level of the datapath. */
 	public double scale;
-	
+
 	/**
 	 * Creates the panel.
 	 */
@@ -76,7 +76,7 @@ public class DatapathPanel extends JLayeredPane {
 		super();
 		scale = DrMIPS.prefs.getDouble(DrMIPS.SCALE_PREF, DrMIPS.DEFAULT_SCALE);
 	}
-	
+
 	/**
 	 * Defins the main window where the datapath is.
 	 * @param parent The main FrmSimulator window.
@@ -84,7 +84,7 @@ public class DatapathPanel extends JLayeredPane {
 	public void setParent(FrmSimulator parent) {
 		this.parent = parent;
 	}
-	
+
 	/**
 	 * Defines the CPU to be displayed, and displays it.
 	 * @param cpu The CPU to be displayed.
@@ -97,7 +97,7 @@ public class DatapathPanel extends JLayeredPane {
 		this.cpu = cpu;
 		setLocation(0, 0);
 		setPreferredSizeScaled();
-		
+
 		// Add each component
 		Component[] comps = cpu.getComponents();
 		for(Component c: comps) {
@@ -105,17 +105,17 @@ public class DatapathPanel extends JLayeredPane {
 			components.put(c.getId(), comp);
 			add(comp);
 		}
-		
+
 		// Add wires
 		for(Component c: comps) {
 			for(Output out: c.getOutputs())
 				if(out.isConnected())
 					wires.add(new Wire(out));
 		}
-		
+
 		SwingUtilities.updateComponentTreeUI(this);
 	}
-	
+
 	/**
 	 * Returns the CPU being displayed.
 	 * @return The CPU being displayed.
@@ -123,7 +123,7 @@ public class DatapathPanel extends JLayeredPane {
 	public CPU getCPU() {
 		return cpu;
 	}
-	
+
 	/**
 	 * "Refreshes" the datapath with the new values.
 	 */
@@ -135,7 +135,7 @@ public class DatapathPanel extends JLayeredPane {
 		repaint();
 		parent.refreshStatistics(); // refresh the statistics dialog
 	}
-	
+
 	/**
 	 * Sets the control path elements visible or invisible.
 	 * @param visible Whether to set the control path visible or not.
@@ -150,7 +150,7 @@ public class DatapathPanel extends JLayeredPane {
 			w.refreshTips();
 		repaint();
 	}
-	
+
 	/**
 	 * Sets whether to show arrows on the wires.
 	 * @param show Whether to show arrows on the wires.
@@ -159,7 +159,7 @@ public class DatapathPanel extends JLayeredPane {
 		this.showArrows = show;
 		repaint();
 	}
-	
+
 	/**
 	 * Sets whether to show in/out tips.
 	 * @param show Whether to show the tips or not.
@@ -186,7 +186,7 @@ public class DatapathPanel extends JLayeredPane {
 		showTipsForAllComps = show;
 		refresh();
 	}
-	
+
 	/**
 	 * Sets whether to show data (<tt>false</tt>) or performace (<tt>true</tt>) information.
 	 * @param performanceMode The mode.
@@ -196,7 +196,7 @@ public class DatapathPanel extends JLayeredPane {
 		refresh();
 		repaint();
 	}
-	
+
 	/**
 	 * Returns whether the datapath is in performance mode.
 	 * @return The information to show (data when <tt>false</tt> or performance when <tt>true</tt>).
@@ -204,7 +204,7 @@ public class DatapathPanel extends JLayeredPane {
 	public boolean isInPerformanceMode() {
 		return performanceMode;
 	}
-	
+
 	/**
 	 * Translates the datapath's strings.
 	 * <p><tt>dataFormat</tt> should be one of <tt>FrmSimulator.BINARY_FORMAT_INDEX</tt>,
@@ -218,7 +218,7 @@ public class DatapathPanel extends JLayeredPane {
 		for(Wire w: wires)
 			w.refreshTips();
 	}
-	
+
 	/**
 	 * Returns the datapath's current displayed data format.
 	 * @return Data format (<tt>FrmSimulator.BINARYL_FORMAT_INDEX/FrmSimulator.DECIMAL_FORMAT_INDEX/FrmSimulator.HEXADECIMAL_FORMAT_INDEX</tt>).
@@ -226,7 +226,7 @@ public class DatapathPanel extends JLayeredPane {
 	public int getDataFormat() {
 		return dataFormat;
 	}
-	
+
 	/**
 	 * Removes all balloon tips.
 	 */
@@ -358,9 +358,9 @@ public class DatapathPanel extends JLayeredPane {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
+
 		boolean dark = DrMIPS.prefs.getBoolean(DrMIPS.DARK_THEME_PREF, DrMIPS.DEFAULT_DARK_THEME);
-		
+
 		// Draw the wires
 		if(wires != null) {
 			for(Wire w: wires)
@@ -384,7 +384,7 @@ public class DatapathPanel extends JLayeredPane {
 		private IOPortTip outTip = null;
 		/** The tip for the input of the wire (if any). */
 		private IOPortTip inTip = null;
-		
+
 		/**
 		 * Creates a wire from an ouput.
 		 * @param out Output of a component (that is connected to an input).
@@ -425,7 +425,7 @@ public class DatapathPanel extends JLayeredPane {
 			if(inTip != null)
 				inTip.setLocation((int)(end.x * scale), (int)(end.y * scale));
 		}
-		
+
 		/**
 		 * Refreshes the values on the in/out tips (if any).
 		 */
@@ -444,7 +444,7 @@ public class DatapathPanel extends JLayeredPane {
 				inTip.setVisible(showTips && (in.shouldShowTip() || showTipsForAllComps) && (controlPathVisible || !in.isInControlPath()));
 			}
 		}
-		
+
 		/**
 		 * Removes the in/out tips (if any).
 		 */
@@ -458,7 +458,7 @@ public class DatapathPanel extends JLayeredPane {
 				inTip = null;
 			}
 		}
-		
+
 		/**
 		 * Draws the wire on the datapath.
 		 * @param g The graphics context of the datapath panel.
@@ -474,7 +474,7 @@ public class DatapathPanel extends JLayeredPane {
 					g.setColor(Util.controlPathColor);
 				else
 					g.setColor(Util.wireColor);
-				
+
 				Point s = new Point((int)(start.x * scale), (int)(start.y * scale));
 				Point p;
 				for(Point e: points) {
@@ -488,7 +488,7 @@ public class DatapathPanel extends JLayeredPane {
 					drawArrowTip(g, s.x, s.y, p.x, p.y, 6);
 			}
 		}
-		
+
 		/**
 		 * Draws the arrow tip for the wire.
 		 * @param g The graphics context of the datapath panel.

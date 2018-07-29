@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -34,13 +34,13 @@ import org.json.JSONObject;
 
 /**
  * Class that represents the instruction set of the loaded CPU.
- * 
+ *
  * @author Bruno Nova
  */
 public class InstructionSet {
 	/** The character used to reference arguments in the JSON file. */
 	public static final char ARGUMENT_CHAR = '#';
-	
+
 	/** The instruction types. */
 	private final List<InstructionType> types;
 	/** The available instructions. */
@@ -51,7 +51,7 @@ public class InstructionSet {
 	private Control control = null;
 	/** How the ALU Control and ALU should work. */
 	private ControlALU controlALU = null;
-	
+
 	/**
 	 * Creates an instruction set from a JSON file.
 	 * @param path The path of the file to load.
@@ -76,12 +76,12 @@ public class InstructionSet {
 	 * @throws InvalidInstructionSetException If an instruction type with the same identifier already exists or is invalid.
 	 */
 	public void addType(InstructionType type) throws InvalidInstructionSetException {
-		if(hasType(type.getId())) 
+		if(hasType(type.getId()))
 			throw new InvalidInstructionSetException("Duplicated ID " + type.getId() + "!");
-		if(!type.isValid()) 
+		if(!type.isValid())
 			throw new InvalidInstructionSetException("Invalid instruction type " + type.getId() + "!");
 		types.add(type);
-		
+
 		// Check if the opcodes are all of the same size
 		if(types.size() > 1) {
 			int size = types.get(0).getOpCodeField().getSize();
@@ -91,7 +91,7 @@ public class InstructionSet {
 			}
 		}
 	}
-	
+
 	/**
 	 * Returns the instruction type with the specified identifier.
 	 * @param id Identifier of the instruction type.
@@ -104,7 +104,7 @@ public class InstructionSet {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Returns whether the instruction type with the given identifier exists.
 	 * @param id Identifier of the instruction type.
@@ -113,7 +113,7 @@ public class InstructionSet {
 	public boolean hasType(String id) {
 		return getType(id) != null;
 	}
-	
+
 	/**
 	 * Returns the size of the opcode field.
 	 * @return Opcode's field size.
@@ -121,7 +121,7 @@ public class InstructionSet {
 	public int getOpCodeSize() {
 		return types.get(0).getOpCodeField().getSize();
 	}
-	
+
 	/**
 	 * Creates and returns a new instruction, and adds it to the instruction set.
 	 * <p>It will then be necessary to define all the instruction's properties.</p>
@@ -138,7 +138,7 @@ public class InstructionSet {
 		instructions.put(mnemonic, i);
 		return i;
 	}
-	
+
 	/**
 	 * Returns the instruction with the specified mnemonic.
 	 * @param mnemonic Mnemonic of the instruction.
@@ -147,7 +147,7 @@ public class InstructionSet {
 	public Instruction getInstruction(String mnemonic) {
 		return instructions.get(mnemonic.toLowerCase());
 	}
-	
+
 	/**
 	 * Returns whether the instruction set contains the specified instruction.
 	 * @param mnemonic Mnemonic of the instruction.
@@ -156,7 +156,7 @@ public class InstructionSet {
 	public boolean hasInstruction(String mnemonic) {
 		return instructions.containsKey(mnemonic.toLowerCase());
 	}
-	
+
 	/**
 	 * Returns the pseudo-instruction with the specified mnemonic.
 	 * @param mnemonic Mnemonic of the pseudo-instruction.
@@ -165,7 +165,7 @@ public class InstructionSet {
 	public PseudoInstruction getPseudoInstruction(String mnemonic) {
 		return pseudoInstructions.get(mnemonic.toLowerCase());
 	}
-	
+
 	/**
 	 * Returns whether the instruction set contains the specified pseudo-instruction.
 	 * @param mnemonic Mnemonic of the pseudo-instruction.
@@ -174,7 +174,7 @@ public class InstructionSet {
 	public boolean hasPseudoInstruction(String mnemonic) {
 		return pseudoInstructions.containsKey(mnemonic.toLowerCase());
 	}
-	
+
 	/**
 	 * Returns whether the instruction set contains the specified instruction or pseudo-instruction.
 	 * @param mnemonic Mnemonic of the instruction or pseudo-instruction.
@@ -183,7 +183,7 @@ public class InstructionSet {
 	public boolean hasInstructionOrPseudoInstruction(String mnemonic) {
 		return hasInstruction(mnemonic) || hasPseudoInstruction(mnemonic);
 	}
-	
+
 	/**
 	 * Returns the object that indicates how the control unit should work.
 	 * @return The object that indicates how the control unit should work.
@@ -191,7 +191,7 @@ public class InstructionSet {
 	public Control getControl() {
 		return control;
 	}
-	
+
 	/**
 	 * Returns the object that indicates how the ALU Control and ALU should work.
 	 * @return The object that indicates how the ALU Control and ALU should work.
@@ -199,7 +199,7 @@ public class InstructionSet {
 	public ControlALU getControlALU() {
 		return controlALU;
 	}
-	
+
 	/**
 	 * Returns the instructions supported by this instruction set.
 	 * @return All instructions.
@@ -208,7 +208,7 @@ public class InstructionSet {
 		Instruction[] array = new Instruction[instructions.size()];
 		return instructions.values().toArray(array);
 	}
-	
+
 	/**
 	 * Returns the pseudo-instructions supported by this instruction set.
 	 * @return All pseudo-instructions.
@@ -217,7 +217,7 @@ public class InstructionSet {
 		PseudoInstruction[] array = new PseudoInstruction[pseudoInstructions.size()];
 		return pseudoInstructions.values().toArray(array);
 	}
-	
+
 	/**
 	 * Parses the specified JSON file, loading the instruction set from it.
 	 * @param path The path of the file to load.
@@ -233,7 +233,7 @@ public class InstructionSet {
 		// Read file to String
 		try {
 			reader = new BufferedReader(new InputStreamReader(new FileInputStream(path), "UTF8"));
-			while((line = reader.readLine()) != null) 
+			while((line = reader.readLine()) != null)
 				file += line + "\n";
 			reader.close();
 		}
@@ -243,7 +243,7 @@ public class InstructionSet {
 		finally {
 			if(reader != null) reader.close();
 		}
-		
+
 		JSONObject json = new JSONObject(file);
 		parseTypes(json.getJSONObject("types"));
 		parseInstructions(json.getJSONObject("instructions"));
@@ -251,7 +251,7 @@ public class InstructionSet {
 		parseControl(json.getJSONObject("control"));
 		parseControlALU(json.getJSONObject("alu"));
 	}
-	
+
 	/**
 	 * Parses the instruction types from the JSON file.
 	 * @param types JSONObject that contains the instruction types.
@@ -277,7 +277,7 @@ public class InstructionSet {
 			addType(instructionType);
 		}
 	}
-	
+
 	/**
 	 * Parses the instructions from the JSON file.
 	 * @param instructions JSONObject that contains the instructions.
@@ -294,23 +294,23 @@ public class InstructionSet {
 		String f;
 		int v;
 		Iterator<String> i = instructions.keys();
-		
+
 		while(i.hasNext()) { // parse each instruction
 			mnemonic = i.next();
 			inst = instructions.getJSONObject(mnemonic);
 			instruction = addNewInstruction(mnemonic, inst.getString("type"));
-			
+
 			// Description
 			if(inst.has("desc"))
 				instruction.setDescription(inst.getString("desc"));
-			
+
 			// Parse arguments
 			args = inst.optJSONArray("args");
-			if(args != null) { 
+			if(args != null) {
 				for(int x = 0; x < args.length(); x++)
 					instruction.addArgument(args.getString(x));
 			}
-			
+
 			// Parse fields
 			fields = inst.getJSONObject("fields");
 			for(InstructionType.Field field: instruction.getType().getFields()) {
@@ -320,7 +320,7 @@ public class InstructionSet {
 			}
 		}
 	}
-	
+
 	/**
 	 * Parses the pseudo-instructions from the JSON file.
 	 * @param pseudos JSONObject that contains the pseudo-instructions.
@@ -332,41 +332,41 @@ public class InstructionSet {
 		JSONObject pseudo;
 		JSONArray to, args;
 		Iterator<String> i = pseudos.keys();
-		
+
 		while(i.hasNext()) {
 			mnemonic = i.next();
 			PseudoInstruction p = new PseudoInstruction(mnemonic);
 			if(hasInstructionOrPseudoInstruction(p.getMnemonic()))
 				throw new InvalidInstructionSetException("Duplicated mnemonic " + p.getMnemonic() + "!");
 			pseudo = pseudos.getJSONObject(mnemonic);
-			
+
 			// Description
 			if(pseudo.has("desc"))
 				p.setDescription(pseudo.getString("desc"));
-			
+
 			// Add arguments
 			args = pseudo.optJSONArray("args");
 			if(args != null) {
 				for(int j = 0; j < args.length(); j++)
 					p.addArgument(args.getString(j));
 			}
-			
+
 			// add instructions
 			to = pseudo.getJSONArray("to");
 			for(int j = 0; j < to.length(); j++)
 				p.addInstruction(to.getString(j));
-			
+
 			// check validity
 			if(!p.isNumberOfArgumentsValid())
 				throw new InvalidInstructionSetException("Invalid pseudo-instruction " + p.getMnemonic() + "! Inconsistent number of arguments.");
-			
+
 			if(p.getInstructions().isEmpty())
 				throw new InvalidInstructionSetException("Pseudo-instruction " + p.getMnemonic() + " has no instructions!");
-			
+
 			pseudoInstructions.put(p.getMnemonic(), p);
 		}
 	}
-	
+
 	/**
 	 * Parses the control information from the JSON file.
 	 * @param ctrl JSONObject that contains the control information.
@@ -379,7 +379,7 @@ public class InstructionSet {
 		JSONObject c;
 		String op, id;
 		int opcode;
-		
+
 		while(i.hasNext()) { // parse each opcode
 			op = i.next();
 			c = ctrl.getJSONObject(op);
@@ -387,17 +387,17 @@ public class InstructionSet {
 			if(Data.requiredNumberOfBits(opcode) > getOpCodeSize())
 				throw new InvalidInstructionSetException("Invalid opcode size!");
 			control.addOpcode(opcode);
-			
+
 			j = c.keys();
 			while(j.hasNext()) { // add each control signal
 				id = j.next();
 				control.addOutToOpcode(opcode, id, c.getInt(id));
 			}
 		}
-		
+
 		control.finishCreation();
 	}
-	
+
 	/**
 	 * Parses the ALU control information from the JSON file.
 	 * @param ctrl JSONObject that contains the ALU control information.
@@ -411,7 +411,7 @@ public class InstructionSet {
 		String id;
 		int in;
 		controlALU = new ControlALU(ctrl.getInt("aluop_size"), ctrl.getInt("func_size"), ctrl.getInt("control_size"));
-		
+
 		// Parse operations
 		JSONObject operations = ctrl.getJSONObject("operations");
 		i = operations.keys();
@@ -420,7 +420,7 @@ public class InstructionSet {
 			in = Integer.parseInt(id);
 			controlALU.addOperation(in, operations.getString(id));
 		}
-		
+
 		// Parse control
 		JSONArray c = ctrl.getJSONArray("control");
 		int aluOp, func = 0;
@@ -434,7 +434,7 @@ public class InstructionSet {
 			}
 			else
 				hasFunc = false;
-			
+
 			out = obj.getJSONObject("out");
 			i = out.keys();
 			while(i.hasNext()) {

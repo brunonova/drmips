@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-   
+
     <string-array name="formats">
         <item >Binário</item>
         <item >Decimal</item>
         <item >Hexadecimal</item>
     </string-array>
-        
+
     <string-array name="performance_types">
         <item >Instrução</item>
         <item >CPU</item>
     </string-array>
-    
+
     <string name="pc">Contador do Programa</string>
     <string name="pc_description">Contém o endereço da instrução a ser executada.\nO endereço é actualizado (com o valor da entrada) na transição do relógio.</string>
     <string name="regbank">Banco de registos</string>
@@ -60,7 +60,7 @@
     <string name="forwarding_unit_description">Resolve alguns dos conflitos de dados encaminhando resultados das etapas de MEM e WB para trás.\nHá um atalho quando o valor de um registo usado na etapa EX é determinado nas etapas seguintes por uma instrução anterior.</string>
     <string name="hazard_detection_unit">Unidade de detecção de conflitos</string>
     <string name="hazard_detection_unit_description">Detecta quando um protelamento deve ocorrer.\nHá um protelamento quando o valor de um registo usado na etapa EX é carregado da memória na etapa MEM pela instrução anterior.</string>
-    
+
     <string name="app_description">Simulador educativo do processador MIPS.</string>
     <string name="settings">Preferências</string>
     <string name="about">Sobre</string>
@@ -141,7 +141,6 @@
     <string name="advised_to_display_control_path">É aconselhado mostrar o caminho de controlo.</string>
     <string name="filename">Nome do ficheiro</string>
     <string name="confirm_exit">Tem a certeza que deseja sair da aplicação?</string>
-    <string name="for_dissertation">no âmbito da Dissertação de Mestrado do MIEIC</string>
     <string name="license">Licença</string>
     <string name="remove_latencies">Remover latências</string>
     <string name="restore_latencies">Restaurar latências</string>

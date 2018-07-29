@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@ import java.util.Map;
 
 /**
  * Represents an available instruction.
- * 
+ *
  * @author Bruno Nova
  */
 public class Instruction extends AbstractInstruction {
@@ -32,7 +32,7 @@ public class Instruction extends AbstractInstruction {
 	private InstructionType type;
 	/** The values each field should have. */
 	private final Map<InstructionType.Field, FieldValue> fields;
-	
+
 	/**
 	 * Creates a new instruction.
 	 * @param mnemonic The instruction's mnemonic.
@@ -44,19 +44,19 @@ public class Instruction extends AbstractInstruction {
 		fields = new HashMap<>();
 		setType(type);
 	}
-	
+
 	/**
 	 * Updates the instruction's type.
 	 * @param type The instruction's type.
 	 */
 	private void setType(InstructionType type) {
 		this.type = type;
-		
+
 		// Predefine all fields as constant values (=0)
 		for(InstructionType.Field f: type.getFields())
 			fields.put(f, new FieldConstant(0));
 	}
-	
+
 	/**
 	 * Returns the type of the instruction.
 	 * @return The instruction's type.
@@ -64,7 +64,7 @@ public class Instruction extends AbstractInstruction {
 	public InstructionType getType() {
 		return type;
 	}
-	
+
 	/**
 	 * Indicates that the specified field has a constant value.
 	 * <p>The arguments should have already been added.</p>
@@ -76,7 +76,7 @@ public class Instruction extends AbstractInstruction {
 		if(!type.hasField(field)) throw new InvalidInstructionSetException("Unknown field " + field + "!");
 		fields.put(type.getField(field), new FieldConstant(value));
 	}
-	
+
 	/**
 	 * Indicates that the specified field receives its value from an argument.
 	 * <p>The arguments should have already been added.</p>
@@ -89,7 +89,7 @@ public class Instruction extends AbstractInstruction {
 		if(!type.hasField(field)) throw new InvalidInstructionSetException("Unknown field " + field + "!");
 		fields.put(type.getField(field), new FieldFromArgument(argIndex, getArgument(argIndex)));
 	}
-	
+
 	/**
 	 * Indicates that the specified field is in the form <tt>address</tt> or <tt>address($offset)</tt> and receives its value from an argument.
 	 * @param field Identifier of the field.
@@ -102,7 +102,7 @@ public class Instruction extends AbstractInstruction {
 		if(!type.hasField(field)) throw new InvalidInstructionSetException("Unknown field " + field + "!");
 		fields.put(type.getField(field), new FieldDataFromArgument(argIndex, t));
 	}
-	
+
 	/**
 	 * Calls <tt>setFieldConstant()</tt>, <tt>setFieldFromConstant()</tt>, etc. according to <tt>arg</tt>.
 	 * @param field Identifier of the field.
@@ -141,7 +141,7 @@ public class Instruction extends AbstractInstruction {
 				throw new InvalidInstructionSetException("Invalid parameter for field " + field + "!");
 		}
 	}
-	
+
 	/**
 	 * Returns the value of the specified field.
 	 * @param field The field.
@@ -150,11 +150,11 @@ public class Instruction extends AbstractInstruction {
 	public FieldValue getField(InstructionType.Field field) {
 		return fields.get(field);
 	}
-	
-	
+
+
 	/** Base class of the field values. */
 	public static abstract class FieldValue {}
-	
+
 	/** Class that indicates a field as having a constant value. */
 	public static class FieldConstant extends FieldValue {
 		/** Constant value. */
@@ -167,7 +167,7 @@ public class Instruction extends AbstractInstruction {
 		public FieldConstant(int value) {
 			this.value = value;
 		}
-		
+
 		/**
 		 * Returns the constant value of the field.
 		 * @return Constant value.
@@ -176,7 +176,7 @@ public class Instruction extends AbstractInstruction {
 			return value;
 		}
 	}
-	
+
 	/** Class that indicates a field as having its value from an instruction argument. */
 	public static class FieldFromArgument extends FieldValue {
 		/** Index of the argument. */
@@ -193,15 +193,15 @@ public class Instruction extends AbstractInstruction {
 			this.argIndex = argIndex;
 			this.type = type;
 		}
-		
+
 		/**
 		 * Returns the index of the argument.
 		 * @return Index of the argument.
 		 */
-		public int getArgIndex() { 
+		public int getArgIndex() {
 			return argIndex;
 		}
-		
+
 		/**
 		 * Returns the type of the argument.
 		 * @return Type of the argument.
@@ -210,17 +210,17 @@ public class Instruction extends AbstractInstruction {
 			return type;
 		}
 	}
-	
+
 	/** Class that indicates a field as being in the form <tt>address</tt> or <tt>base($offset)</tt> and having its value from an instruction argument. */
 	public static class FieldDataFromArgument extends FieldValue {
 		/** Possible types to specify either the base address or the offset component. */
 		public enum Type {BASE, OFFSET}
-		
+
 		/** Index of the argument. */
 		private final int argIndex;
 		/** Type of the argument component. */
 		private final Type type;
-		
+
 		/**
 		 * Creates the value of a field in the form <tt>address</tt> or <tt>base($offset)</tt> and from an argument.
 		 * @param argIndex Index of the argument.
@@ -230,15 +230,15 @@ public class Instruction extends AbstractInstruction {
 			this.argIndex = argIndex;
 			this.type = type;
 		}
-		
+
 		/**
 		 * Returns the index of the argument.
 		 * @return Index of the argument.
 		 */
-		public int getArgIndex() { 
+		public int getArgIndex() {
 			return argIndex;
 		}
-		
+
 		/**
 		 * Returns the type of the argument component.
 		 * @return Type of the argument component.

@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,23 +23,23 @@ import brunonova.drmips.simulator.exceptions.InvalidCPUException;
 
 /**
  * Class that represents an input of a component.
- * 
+ *
  * <p>Each input belongs to a component, has an identifier and has some
  * data with a size (number of bits) and value.</p>
- * 
+ *
  * @author Bruno Nova
  */
 public final class Input extends IOPort {
 	/** The default direction of inputs. */
 	public static final Direction DEFAULT_DIRECTION = Direction.WEST;
-	
+
 	/** The output this intput is connected to. */
 	protected Output connectedTo = null;
 	/** The acumulated latency from the first component up to this input. */
 	private int accumulatedLatency = 0;
 	/** Whether this input changes the respective component's accumulated latency. */
 	private boolean changesComponentAccumulatedLatency = true;
-	
+
 	/**
 	 * Creates an input with the given parameters.
 	 * @param component The component that this input belongs to.
@@ -50,7 +50,7 @@ public final class Input extends IOPort {
 	public Input(Component component, String id, Data data) throws InvalidCPUException {
 		this(component, id, data, DEFAULT_DIRECTION);
 	}
-	
+
 	/**
 	 * Creates an input with the given parameters.
 	 * @param component The component that this input belongs to.
@@ -62,7 +62,7 @@ public final class Input extends IOPort {
 	public Input(Component component, String id, Data data, Direction direction) throws InvalidCPUException {
 		this(component, id, data, direction, true, false);
 	}
-	
+
 	/**
 	 * Creates an input with the given parameters.
 	 * @param component The component that this input belongs to.
@@ -75,7 +75,7 @@ public final class Input extends IOPort {
 	public Input(Component component, String id, Data data, Direction direction, boolean changesComponentAccumulatedLatency) throws InvalidCPUException {
 		this(component, id, data, direction, changesComponentAccumulatedLatency, false);
 	}
-	
+
 	/**
 	 * Creates an input with the given parameters.
 	 * @param component The component that this input belongs to.
@@ -90,7 +90,7 @@ public final class Input extends IOPort {
 		super(component, id, data, direction, showTip);
 		this.changesComponentAccumulatedLatency = changesComponentAccumulatedLatency;
 	}
-	
+
 	/**
 	 * Connect this input to another component's output.
 	 * @param output The output to connect to.
@@ -99,7 +99,7 @@ public final class Input extends IOPort {
 	protected void connectTo(Output output) throws InvalidCPUException {
 		output.connectTo(this);
 	}
-	
+
 	/**
 	 * Returns the output this input is connected to.
 	 * @return The output this input is connected to.
@@ -126,7 +126,7 @@ public final class Input extends IOPort {
 		if(getValue() != oldValue)
 			getComponent().execute(); // input changed, so execute the component's normal action
 	}
-	
+
 	/**
 	 * Returns the acumulated latency from the first component up to this input.
 	 * @return Input's accumulated latency.
@@ -134,7 +134,7 @@ public final class Input extends IOPort {
 	public int getAccumulatedLatency() {
 		return accumulatedLatency;
 	}
-	
+
 	/**
 	 * Updates the input's accumulated latency.
 	 * @param latency New accumulated latency.
@@ -145,7 +145,7 @@ public final class Input extends IOPort {
 		if(changesComponentAccumulatedLatency)
 			getComponent().updateAccumulatedLatency(instructionDependent);
 	}
-	
+
 	/**
 	 * Updates the input's accumulated latency.
 	 * @param latency New accumulated latency.
@@ -153,7 +153,7 @@ public final class Input extends IOPort {
 	protected void setAccumulatedLatency(int latency) {
 		setAccumulatedLatency(latency, true);
 	}
-	
+
 	/**
 	 * Returns whether this input changes the respective component's accumulated latency.
 	 * @return <tt>True</tt> if the input can change the component's accumulated latency.
@@ -161,7 +161,7 @@ public final class Input extends IOPort {
 	public boolean canChangeComponentAccumulatedLatency() {
 		return changesComponentAccumulatedLatency;
 	}
-	
+
 	/**
 	 * Resets the accumulated latency to 0.
 	 */

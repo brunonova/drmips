@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,14 +28,14 @@ import java.util.logging.Logger;
 
 /**
  * Class with the information of how the ALU Control and ALU should work for the instruction set.
- * 
+ *
  * @author Bruno Nova
  */
 public class ControlALU {
 	/** The possible ALU operations. */
-	public enum Operation {ADD, SUB, AND, OR, SLT, XOR, SLL, SRL, SRA, NOR, MULT, 
+	public enum Operation {ADD, SUB, AND, OR, SLT, XOR, SLL, SRL, SRA, NOR, MULT,
 		DIV, MFHI, MFLO}
-	
+
 	/** The size of the <tt>ALUOp</tt> control signal. */
 	private int aluOpSize;
 	/** The size of the <tt>func</tt> field. */
@@ -50,7 +50,7 @@ public class ControlALU {
 	private Map<Integer, Operation> operations;
 	/** Class logger. */
 	private static final Logger LOG = Logger.getLogger(ControlALU.class.getName());
-	
+
 	/**
 	 * Creates a new control object.
 	 * @param aluOpSize The size of the <tt>ALUOp</tt> control signal.
@@ -65,7 +65,7 @@ public class ControlALU {
 		out = new TreeMap<>();
 		operations = new TreeMap<>();
 	}
-	
+
 	/**
 	 * Maps an ALUOp signal to the specified control output.
 	 * @param aluOp The value of the ALUOp signal.
@@ -86,7 +86,7 @@ public class ControlALU {
 		}
 		updateOutSize(outId, Data.requiredNumberOfBits(outValue));
 	}
-	
+
 	/**
 	 * Maps an ALUOp signal and instruction func field to the specified control output.
 	 * @param aluOp The value of the ALUOp signal.
@@ -108,7 +108,7 @@ public class ControlALU {
 		}
 		updateOutSize(outId, Data.requiredNumberOfBits(outValue));
 	}
-	
+
 	/**
 	 * Maps a control from the ALU Control to an operation.
 	 * @param control The control signal.
@@ -117,7 +117,7 @@ public class ControlALU {
 	public void addOperation(int control, Operation operation) {
 		operations.put(control, operation);
 	}
-	
+
 	/**
 	 * Maps a control from the ALU Control to an operation.
 	 * @param control The control signal.
@@ -132,7 +132,7 @@ public class ControlALU {
 			LOG.log(Level.WARNING, "error adding operation \"" + operation + "\"", e);
 		}
 	}
-	
+
 	/**
 	 * Returns the value of the ALU Control output signal for the specified ALUOp and func.
 	 * @param aluOp The value of the ALUOp signal.
@@ -147,7 +147,7 @@ public class ControlALU {
 		else
 			return 0;
 	}
-	
+
 	/**
 	 * Returns the operation that corresponds to the specifield ALU control signal.
 	 * @param control The control signal.
@@ -159,7 +159,7 @@ public class ControlALU {
 		else
 			return Operation.ADD;
 	}
-	
+
 	/**
 	 * Executes the operations for the given values according to the specified operation.
 	 * @param val1 The first value.
@@ -171,7 +171,7 @@ public class ControlALU {
 	public int doOperation(int val1, int val2, ALU alu, int operation) {
 		return doOperation(val1, val2, alu, getOperation(operation));
 	}
-	
+
 	/**
 	 * Executes the operations for the given values according to the specified operation.
 	 * @param val1 The first value.
@@ -199,7 +199,7 @@ public class ControlALU {
 			default:  return val1 + val2;
 		}
 	}
-	
+
 	/**
 	 * Executes the synchronous part of the operations for the given values according to the specified operation.
 	 * <p>Used by the extended ALU.</p>
@@ -211,7 +211,7 @@ public class ControlALU {
 	public void doSynchronousOperation(int val1, int val2, ExtendedALU alu, int operation) {
 		doSynchronousOperation(val1, val2, alu, getOperation(operation));
 	}
-	
+
 	/**
 	 * Executes the synchronous part of the operations for the given values according to the specified operation.
 	 * <p>Used by the extended ALU.</p>
@@ -239,7 +239,7 @@ public class ControlALU {
 				break;
 		}
 	}
-	
+
 	/**
 	 * Returns whether the extended ALU's internal registers will be written in
 	 * this clock cycle.
@@ -250,7 +250,7 @@ public class ControlALU {
 		Operation op = getOperation(operation);
 		return op == Operation.MULT || op == Operation.DIV;
 	}
-	
+
 	/**
 	 * Updates the size of the output with the specified identifier, if bigger.
 	 * @param id Identifier of the output.
@@ -260,7 +260,7 @@ public class ControlALU {
 		if(!out.containsKey(id) || size > out.get(id))
 			out.put(id, size);
 	}
-	
+
 	/**
 	 * Returns whether the control has the specified output.
 	 * @param id The identifier of the output to check.
@@ -269,7 +269,7 @@ public class ControlALU {
 	public boolean hasOut(String id) {
 		return out.containsKey(id);
 	}
-	
+
 	/**
 	 * Returns the size of the specified output.
 	 * @param id The identifier of the output.
@@ -287,7 +287,7 @@ public class ControlALU {
 	public Set<String> getOutputsIds() {
 		return out.keySet();
 	}
-	
+
 	/**
 	 * Returns the size of the <tt>func</tt> field.
 	 * @return The size of the <tt>func</tt> field.
@@ -311,8 +311,8 @@ public class ControlALU {
 	public int getControlSize() {
 		return controlSize;
 	}
-	
-	
+
+
 	/**
 	 * Represents a combination of inputs in the ALU control.
 	 */
@@ -332,7 +332,7 @@ public class ControlALU {
 			this.aluOp = aluOp;
 			funcIgnored = true;
 		}
-		
+
 		/**
 		 * Constructor with both ALUOp and func inputs.
 		 * @param aluOp The ALUOp control input value.
@@ -367,7 +367,7 @@ public class ControlALU {
 		public boolean isFuncIgnored() {
 			return funcIgnored;
 		}
-		
+
 		@Override
 		public boolean equals(Object obj) {
 			if(obj instanceof Inputs) {

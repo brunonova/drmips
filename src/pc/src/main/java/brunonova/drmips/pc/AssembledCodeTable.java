@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  * The table with the assembled instructions.
- * 
+ *
  * @author Bruno Nova
  */
 public class AssembledCodeTable extends JTable {
@@ -41,7 +41,7 @@ public class AssembledCodeTable extends JTable {
 	private static final int ASSEMBLED_COLUMN_INDEX = 1;
 	/** The index of the code column. */
 	private static final int CODE_COLUMN_INDEX = 2;
-	
+
 	/** The model of the table. */
 	private DefaultTableModel model = null;
 	/** The renderer of the table cells. */
@@ -63,7 +63,7 @@ public class AssembledCodeTable extends JTable {
 		setFont(new Font("Courier New", Font.BOLD, 12));
 		getTableHeader().setReorderingAllowed(false);
 	}
-	
+
 	/**
 	 * Defines the CPU that has the assembled code to be displayed.
 	 * @param cpu The CPU.
@@ -73,11 +73,11 @@ public class AssembledCodeTable extends JTable {
 		if(model == null) return;
 		this.cpu = cpu;
 		this.dataFormat = format;
-		
+
 		// Initialize the table
 		refresh(format);
 	}
-	
+
 	/**
 	 * Refresh the values in the table.
 	 * @param format The data format (<tt>Util.BINARYL_FORMAT_INDEX/v.DECIMAL_FORMAT_INDEX/Util.HEXADECIMAL_FORMAT_INDEX</tt>).
@@ -86,7 +86,7 @@ public class AssembledCodeTable extends JTable {
 		AssembledInstruction instruction;
 		Object[] data;
 		dataFormat = format;
-		
+
 		model.setRowCount(0);
 		for(int i = 0; i < cpu.getInstructionMemory().getNumberOfInstructions(); i++) {
 			instruction = cpu.getInstructionMemory().getInstruction(i);
@@ -99,17 +99,17 @@ public class AssembledCodeTable extends JTable {
 			data[2] += instruction.getCodeLine();
 			model.addRow(data);
 		}
-		
+
 		refreshValues();
 	}
-	
+
 	/**
 	 * Refreshes the highlights.
 	 */
 	public void refreshValues() {
 		repaint();
 	}
-	
+
 	/**
 	 * Translates the table.
 	 */
@@ -125,7 +125,7 @@ public class AssembledCodeTable extends JTable {
 		if(i != null) {
 			switch(dataFormat) {
 				case Util.BINARY_FORMAT_INDEX: return "<html><tt><b>" + Lang.t("type_x", i.getInstruction().getType().getId()) + ": " + i.getInstruction().getMnemonic() + "</b> (" + i.toBinaryString() + ")</tt></html>";
-				case Util.HEXADECIMAL_FORMAT_INDEX: return "<html><tt><b>" + Lang.t("type_x", i.getInstruction().getType().getId()) + ": "  + i.getInstruction().getMnemonic() + "</b> (" + i.toHexadecimalString() + ")</tt></html>";	
+				case Util.HEXADECIMAL_FORMAT_INDEX: return "<html><tt><b>" + Lang.t("type_x", i.getInstruction().getType().getId()) + ": "  + i.getInstruction().getMnemonic() + "</b> (" + i.toHexadecimalString() + ")</tt></html>";
 				default:return "<html><tt><b>" + Lang.t("type_x", i.getInstruction().getType().getId()) + ": "  + i.getInstruction().getMnemonic() + "</b> (" + i.toString() + ")</tt></html>";
 			}
 		}
@@ -137,13 +137,13 @@ public class AssembledCodeTable extends JTable {
 	public boolean isCellEditable(int row, int column) {
 		return false;
 	}
-	
+
 	private class AssembledCodeTableCellRenderer extends DefaultTableCellRenderer {
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 			Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 			Color background = javax.swing.UIManager.getDefaults().getColor("Table.background"); // get background color from look and feel
-			
+
 			// Highlight instructions being executed
 			if(row == cpu.getPC().getCurrentInstructionIndex())
 				setBackground(cpu.isPipeline() ? Util.ifColor : Util.instColor);
@@ -161,7 +161,7 @@ public class AssembledCodeTable extends JTable {
 			}
 			else
 				setBackground(background);
-			
+
 			return c;
 		}
 	}

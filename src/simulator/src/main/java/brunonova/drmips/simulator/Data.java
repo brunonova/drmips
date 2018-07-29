@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,30 +24,30 @@ package brunonova.drmips.simulator;
  * @author Bruno Nova
  */
 public final class Data implements Cloneable {
-	/** 
+	/**
 	 * The size, in bits, of memory addresses, registers, etc (32 or 64 bit).
 	 * <p>Changing this value to 64 is not enough for 64 bit, as several <tt>int</tt>
-	 * variables and paramenters would have to be changed to <tt>long</tt>, among 
+	 * variables and paramenters would have to be changed to <tt>long</tt>, among
 	 * other things.</p>
 	 */
 	public static final int DATA_SIZE = 32;
 	/** The position of the most significant bit. */
 	public static final int MSB = DATA_SIZE - 1;
-	
+
 	/** The size of the value (number of bits). */
 	private int size;
 	/** The value cut to the given size. */
 	private int value = 0;
 	/** The mask of the value for the given size. */
 	private int mask;
-	
+
 	/**
 	 * Default constructor that creates a Data object with the maximum size (<tt>MSB + 1</tt>).
 	 */
 	public Data() {
 		this(MSB + 1);
 	}
-	
+
 	/**
 	 * Constructor that creates a Data object with the specified size.
 	 * @param size Size of the value (number of bits).
@@ -55,7 +55,7 @@ public final class Data implements Cloneable {
 	public Data(int size) {
 		setSize(size);
 	}
-	
+
 	/**
 	 * Constructor that creates a Data object with the specified size and value.
 	 * @param size Size of the value (number of bits).
@@ -65,7 +65,7 @@ public final class Data implements Cloneable {
 		this(size);
 		setValue(value);
 	}
-	
+
 	/**
 	 * Creates a bit mask with 1's in the specified interval.
 	 * <p>The mask will have 1's in the bits between <tt>minBit</tt> and
@@ -78,7 +78,7 @@ public final class Data implements Cloneable {
 	 */
 	public static int createMask(int maxBit, int minBit) {
 		// Check maxBit and minBit
-		if(maxBit > MSB) maxBit = MSB; 
+		if(maxBit > MSB) maxBit = MSB;
 		else if(maxBit < 0) maxBit = 0;
 		if(minBit > MSB) minBit = MSB;
 		else if(minBit < 0) minBit = 0;
@@ -87,10 +87,10 @@ public final class Data implements Cloneable {
 			maxBit = minBit;
 			minBit = tmp;
 		}
-		
+
 		return (-1 >>> (MSB - (maxBit - minBit))) << minBit;
 	}
-	
+
 	/**
 	 * Returns whether the specified positive number is a power of 2.
 	 * @param value Positive number to check.
@@ -99,7 +99,7 @@ public final class Data implements Cloneable {
 	public static boolean isPowerOf2(int value) {
 		return (value > 0) && ((value & (value - 1)) == 0);
 	}
-	
+
 	/**
 	 * Returns the number of bits required to represent the specified number.
 	 * @param value Number to check.
@@ -113,7 +113,7 @@ public final class Data implements Cloneable {
 		}
 		return n;
 	}
-	
+
 	/**
 	 * Returns the size of the value.
 	 * @return Size of the value (number of bits).
@@ -121,7 +121,7 @@ public final class Data implements Cloneable {
 	public int getSize() {
 		return size;
 	}
-	
+
 	/**
 	 * Sets the size of the value and creates a suitable mask.
 	 * @param size Size of the value (number of bits).
@@ -132,7 +132,7 @@ public final class Data implements Cloneable {
 		this.size = size;
 		this.mask = createMask(size - 1, 0);
 	}
-	
+
 	/**
 	 * Returns the value.
 	 * @return The value cut to the given size.
@@ -140,7 +140,7 @@ public final class Data implements Cloneable {
 	public int getValue() {
 		return value;
 	}
-	
+
 	/**
 	 * Updates the value, that will be cut to the given size.
 	 * @param value The new value.
@@ -148,7 +148,7 @@ public final class Data implements Cloneable {
 	public void setValue(int value) {
 		this.value = value & mask;
 	}
-	
+
 	/**
 	 * Returns the mask for the given size.
 	 * @return Mask of the value for the given size.
@@ -156,7 +156,7 @@ public final class Data implements Cloneable {
 	public int getMask() {
 		return mask;
 	}
-	
+
 	/**
 	 * Returns a new Data object with the value extended with zeros to the given size.
 	 * @param size The new size (number of bits).
@@ -166,7 +166,7 @@ public final class Data implements Cloneable {
 		if(size < this.size) size = this.size;
 		return new Data(size, value);
 	}
-	
+
 	/**
 	 * Returns a new Data object with the value sign extended to the given size.
 	 * @param size The new size (number of bits).
@@ -177,7 +177,7 @@ public final class Data implements Cloneable {
 		int sa = MSB - getSize() + 1;
 		return new Data(size, (value << sa) >> sa);
 	}
-	
+
 	/**
 	 * Returns a new Data object with the value shrunk to the given size.
 	 * @param size The new size (number of bits).
@@ -213,7 +213,7 @@ public final class Data implements Cloneable {
 		}
 		return res;
 	}
-	
+
 	/**
 	 * Returns the octal representation of the value.
 	 * @return Value in octal, including leading zeros.
@@ -224,7 +224,7 @@ public final class Data implements Cloneable {
 			str = "0" + str;
 		return str;
 	}
-	
+
 	/**
 	 * Returns the hexadecimal representation of the value.
 	 * @return Value in hexadecimal, including leading zeros.
@@ -235,7 +235,7 @@ public final class Data implements Cloneable {
 			str = "0" + str;
 		return str;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "" + value;

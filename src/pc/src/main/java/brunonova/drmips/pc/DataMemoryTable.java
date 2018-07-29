@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  * The table with the data memory positions.
- * 
+ *
  * @author Bruno Nova
  */
 public class DataMemoryTable extends JTable implements MouseListener {
@@ -42,7 +42,7 @@ public class DataMemoryTable extends JTable implements MouseListener {
 	private static final int ADDRESS_COLUMN_INDEX = 0;
 	/** The index of the value column. */
 	private static final int VALUE_COLUMN_INDEX = 1;
-	
+
 	/** The model of the table. */
 	private DefaultTableModel model = null;
 	/** The renderer of the table cells. */
@@ -67,10 +67,10 @@ public class DataMemoryTable extends JTable implements MouseListener {
 		setModel(model);
 		setFont(new Font("Courier New", Font.BOLD, 12));
 		getTableHeader().setReorderingAllowed(false);
-		
+
 		addMouseListener(this);
 	}
-	
+
 	/**
 	 * Defines the CPU that has the data memory to be displayed.
 	 * @param cpu The CPU.
@@ -82,7 +82,7 @@ public class DataMemoryTable extends JTable implements MouseListener {
 		this.cpu = cpu;
 		this.dataFormat = format;
 		this.datapath = datapath;
-		
+
 		// Initialize registers table
 		model.setRowCount(0);
 		if(cpu.hasDataMemory()) {
@@ -97,7 +97,7 @@ public class DataMemoryTable extends JTable implements MouseListener {
 			refreshValues(format);
 		}
 	}
-	
+
 	/**
 	 * Refreshes the values in the table.
 	 * @param format The data format (<tt>Util.BINARYL_FORMAT_INDEX/Util.DECIMAL_FORMAT_INDEX/Util.HEXADECIMAL_FORMAT_INDEX</tt>).
@@ -105,7 +105,7 @@ public class DataMemoryTable extends JTable implements MouseListener {
 	public void refreshValues(int format) {
 		if(model == null || cpu == null || !cpu.hasDataMemory()) return;
 		this.dataFormat = format;
-		
+
 		String data;
 		for(int i = 0; i < memorySize; i++) {
 			model.setValueAt(Util.formatDataAccordingToFormat(new Data(Data.DATA_SIZE, i * (Data.DATA_SIZE / 8)), format), i, ADDRESS_COLUMN_INDEX);
@@ -113,7 +113,7 @@ public class DataMemoryTable extends JTable implements MouseListener {
 		}
 		repaint();
 	}
-	
+
 	/**
 	 * Translates the table.
 	 */
@@ -121,12 +121,12 @@ public class DataMemoryTable extends JTable implements MouseListener {
 		getTableHeader().getColumnModel().getColumn(ADDRESS_COLUMN_INDEX).setHeaderValue(Lang.t("address"));
 		getTableHeader().getColumnModel().getColumn(VALUE_COLUMN_INDEX).setHeaderValue(Lang.t("value"));
 	}
-	
+
 	@Override
 	public boolean isCellEditable(int row, int column) {
 		return false;
 	}
-	
+
 	@Override
 	public void mouseClicked(MouseEvent e) {
 	}
@@ -160,15 +160,15 @@ public class DataMemoryTable extends JTable implements MouseListener {
 	@Override
 	public void mouseExited(MouseEvent e) {
 	}
-	
+
 	private class DataMemoryTableCellRenderer extends DefaultTableCellRenderer {
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 			Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 			Color background = javax.swing.UIManager.getDefaults().getColor("Table.background"); // get background color from look and feel
-			
+
 			setHorizontalAlignment(column == 1 ? SwingConstants.RIGHT : SwingConstants.LEFT); // align 2nd column to the right
-			
+
 			if(cpu.hasDataMemory()) { // Highlight memory positions being accessed
 				int index = cpu.getDataMemory().getAddress().getValue() / (Data.DATA_SIZE / 8);
 				boolean read = cpu.getDataMemory().getMemRead().getValue() == 1;
@@ -193,7 +193,7 @@ public class DataMemoryTable extends JTable implements MouseListener {
 					setToolTipText(null);
 				}
 			}
-			
+
 			return c;
 		}
 	}

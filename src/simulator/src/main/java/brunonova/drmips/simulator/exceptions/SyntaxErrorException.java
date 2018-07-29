@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,15 +22,15 @@ import java.util.List;
 
 /**
  * Exception to be thrown when the MIPS code contains a syntax error.
- * 
+ *
  * @author Bruno Nova
  */
 public class SyntaxErrorException extends Exception {
 	/** The types of syntax errors. */
-	public enum Type {INVALID_LABEL, DUPLICATED_LABEL, UNKNOWN_LABEL, UNKNOWN_DATA_DIRECTIVE, UNKNOWN_INSTRUCTION, 
+	public enum Type {INVALID_LABEL, DUPLICATED_LABEL, UNKNOWN_LABEL, UNKNOWN_DATA_DIRECTIVE, UNKNOWN_INSTRUCTION,
 		INVALID_INT_ARG, INVALID_REG_ARG, INVALID_DATA_ARG, WRONG_NUMBER_OF_ARGUMENTS, INVALID_POSITIVE_INT_ARG,
 		DATA_SEGMENT_WITHOUT_DATA_MEMORY}
-	
+
 	/** The type of the syntax error. */
 	private Type type;
 	/** The code line where the error is. */
@@ -41,7 +41,7 @@ public class SyntaxErrorException extends Exception {
 	private String extra2 = null;
 	/** The other syntax errors on the code. */
 	private List<SyntaxErrorException> otherErrors = null;
-	
+
 	/**
 	 * Exception constructor.
 	 * @param type The type of the syntax error.
@@ -52,7 +52,7 @@ public class SyntaxErrorException extends Exception {
 		this.type = type;
 		this.line = line;
 	}
-	
+
 	/**
 	 * Exception constructor.
 	 * @param type The type of the syntax error.
@@ -63,7 +63,7 @@ public class SyntaxErrorException extends Exception {
 		this(type, line);
 		this.extra = extra;
 	}
-	
+
 	/**
 	 * Exception constructor.
 	 * @param type The type of the syntax error.
@@ -75,7 +75,7 @@ public class SyntaxErrorException extends Exception {
 		this(type, line, extra);
 		this.extra2 = extra2;
 	}
-	
+
 	/**
 	 * Returns the type of the syntax error.
 	 * @return The type of the syntax error.
@@ -83,7 +83,7 @@ public class SyntaxErrorException extends Exception {
 	public Type getType() {
 		return type;
 	}
-	
+
 	/**
 	 * Returns the code line where the error is.
 	 * @return The code line where the error is.
@@ -91,25 +91,25 @@ public class SyntaxErrorException extends Exception {
 	public int getLine() {
 		return line;
 	}
-	
+
 	/**
-	 * Returns the extra information for the error (code that is causing the error?). 
+	 * Returns the extra information for the error (code that is causing the error?).
 	 * <p><tt>null</tt> if there is no extra information.</p>
 	 * @return Extra information for the error.
 	 */
 	public String getExtra() {
 		return extra;
 	}
-	
+
 	/**
-	 * Returns more extra information for the error.. 
+	 * Returns more extra information for the error..
 	 * <p><tt>null</tt> if there is no extra information.</p>
 	 * @return More extra information for the error..
 	 */
 	public String getExtra2() {
 		return extra2;
 	}
-	
+
 	/**
 	 * Returns whether this error has references to other errors.
 	 * @return <tt>True</tt> if this error has references to other errors.
@@ -117,7 +117,7 @@ public class SyntaxErrorException extends Exception {
 	public boolean hasOtherErrors() {
 		return otherErrors != null && !otherErrors.isEmpty();
 	}
-	
+
 	/**
 	 * Returns the other syntax errors on the code.
 	 * @return The other syntax errors on the code.
@@ -125,7 +125,7 @@ public class SyntaxErrorException extends Exception {
 	public List<SyntaxErrorException> getOtherErrors() {
 		return otherErrors;
 	}
-	
+
 	/**
 	 * Sets the references to other errors on the code.
 	 * @param otherErrors List of errors to set.

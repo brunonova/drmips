@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright (C) 2016 Bruno Nova <brunomb.nova@gmail.com> -->
+<!-- Copyright (C) 2016 Bruno Nova -->
 <component type="desktop">
     <id>drmips.desktop</id>
     <metadata_license>GPL-3.0+</metadata_license>
@@ -26,16 +26,6 @@
             O simulador está disponível não só para computadores pessoais mas
             também para dispositivos Android, especialmente tablets.
         </p>
-        <p>
-            DrMIPS was created under the Master's dissertation entitled
-            'Tool to Support Computer Architecture Teaching and Learning' at the
-            Faculty of Engineering of the University of Porto, in Portugal.
-        </p>
-        <p xml:lang="pt">
-            O DrMIPS foi criado no âmbito da dissertação de Mestrado intitulada
-            'Tool to Support Computer Architecture Teaching and Learning' na
-            Faculdade de Engenharia da Universidade do Porto, em Portugal.
-        </p>
     </description>
     <url type="homepage">http://brunonova.github.io/drmips/</url>
     <url type="bugtracker">http://brunonova.github.io/drmips/issues/</url>
@@ -47,7 +37,6 @@
         <screenshot>https://brunonova.github.io/drmips/images/screens/pc4.png</screenshot>
     </screenshots>
     <developer_name>Bruno Nova</developer_name>
-    <update_contact>brunomb.nova@gmail.com</update_contact>
     <provides>
         <binary>drmips</binary>
     </provides>

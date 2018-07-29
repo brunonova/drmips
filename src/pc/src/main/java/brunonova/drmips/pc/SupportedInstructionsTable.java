@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,16 +26,16 @@ import javax.swing.table.TableColumn;
 
 /**
  * Table listing the supported instructions.
- * 
+ *
  * @author Bruno Nova
  */
 public class SupportedInstructionsTable extends JTable {
 	/** Space between the first column and the second */
 	private static final int SPACING = 8;
-	
+
 	/** The model of the table. */
 	private DefaultTableModel model = null;
-	
+
 	/**
 	 * Creates the table.
 	 */
@@ -44,19 +44,19 @@ public class SupportedInstructionsTable extends JTable {
 		model = new DefaultTableModel(0, 2);
 		setModel(model);
 		setFont(new java.awt.Font("Courier New", 0, 12));
-		
+
 		getTableHeader().setReorderingAllowed(false); // table header required
 		getTableHeader().getColumnModel().getColumn(0).setHeaderValue("");
 		getTableHeader().getColumnModel().getColumn(1).setHeaderValue("");
 	}
-	
+
 	/**
 	 * Clears the table.
 	 */
 	public void clear() {
 		model.setRowCount(0);
 	}
-	
+
 	/**
 	 * Adds an instruction to the table.
 	 * @param usage The mnemonic with an example of its usage.
@@ -68,7 +68,7 @@ public class SupportedInstructionsTable extends JTable {
 		data[1] = (description != null && !description.isEmpty()) ? description : "-";
 		model.addRow(data);
 	}
-	
+
 	/**
 	 * Resizes the first column to the minimum width.
 	 */
@@ -76,13 +76,13 @@ public class SupportedInstructionsTable extends JTable {
 		int width = 0, num = getRowCount();
 		TableCellRenderer renderer;
 		Component comp;
-		
+
 		for(int r = 0; r < num; r++) {
 			renderer = getCellRenderer(r, 0);
 			comp = prepareRenderer(renderer, r, 0);
 			width = Math.max(comp.getPreferredSize().width + getIntercellSpacing().width, width);
 		}
-		
+
 		TableColumn col = getColumnModel().getColumn(0);
 		getTableHeader().setResizingColumn(col);
 		col.setWidth(width + SPACING);

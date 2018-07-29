@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  * Contains the information of an assembled MIPS instruction.
- * 
+ *
  * @author Bruno Nova
  */
 public class AssembledInstruction {
@@ -37,7 +37,7 @@ public class AssembledInstruction {
 	private final int line;
 	/** The labels for the instruction */
 	private final List<String> labels;
-	
+
 	/**
 	 * Creates an assembled instruction.
 	 * @param instruction The respective MIPS instruction.
@@ -52,7 +52,7 @@ public class AssembledInstruction {
 		this.line = lineNumber;
 		labels = new LinkedList<>();
 	}
-	
+
 	/**
 	 * Returns the respective MIPS instruction.
 	 * @return Respective MIPS instruction.
@@ -60,7 +60,7 @@ public class AssembledInstruction {
 	public Instruction getInstruction() {
 		return instruction;
 	}
-	
+
 	/**
 	 * Returns the instruction in machine code.
 	 * @return Instruction in machine code.
@@ -68,7 +68,7 @@ public class AssembledInstruction {
 	public Data getData() {
 		return data;
 	}
-	
+
 	/**
 	 * Returns the respective line in the code.
 	 * @return The line of code.
@@ -76,7 +76,7 @@ public class AssembledInstruction {
 	public String getCodeLine() {
 		return codeLine;
 	}
-	
+
 	/**
 	 * Updates the instruction's line of code.
 	 * @param codeLine The new line of code.
@@ -92,7 +92,7 @@ public class AssembledInstruction {
 	public int getLineNumber() {
 		return line;
 	}
-	
+
 	/**
 	 * Adds a label to this instruction.
 	 * @param label Label to add.
@@ -100,7 +100,7 @@ public class AssembledInstruction {
 	public void addLabel(String label) {
 		labels.add(label);
 	}
-	
+
 	/**
 	 * Returns the labels for this instruction.
 	 * @return The labels for this instruction.
@@ -108,7 +108,7 @@ public class AssembledInstruction {
 	public List<String> getLabels() {
 		return labels;
 	}
-	
+
 	/**
 	 * Returns a string that shows the instruction field values in binary.
 	 * @return Field values in binary.
@@ -121,7 +121,7 @@ public class AssembledInstruction {
 		}
 		return str;
 	}
-	
+
 	/**
 	 * Returns a string that shows the instruction field values in decimal.
 	 * @return Field values in decimal.
@@ -134,7 +134,7 @@ public class AssembledInstruction {
 		}
 		return str;
 	}
-	
+
 	/**
 	 * Returns a string that shows the instruction field values in hexadecimal.
 	 * @return Field values in hexadecimal.

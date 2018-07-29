@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ public class DlgLoading extends javax.swing.JDialog {
 	public DlgLoading() {
 		initComponents();
 	}
-	
+
 	/**
 	 * Updates the text on the "Loading..." label.
 	 * @param text New text.

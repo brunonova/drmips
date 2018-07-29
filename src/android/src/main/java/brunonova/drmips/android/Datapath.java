@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ import java.util.TreeMap;
 
 /**
  * Special component that handles the display of the CPU datapath.
- * 
+ *
  * @author Bruno Nova
  */
 @SuppressLint("ViewConstructor")
@@ -70,7 +70,7 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 	private boolean showTipsNames = false;
 	/** Whether to display the tips for (almost) all components. */
 	private boolean showTipsForAllComps = false;
-	
+
 	/**
 	 * Creates the datapath.
 	 * @param activity The activity that the datapath belongs to.
@@ -82,10 +82,10 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 		components = new TreeMap<>();
 		wires = new LinkedList<>();
 		setWillNotDraw(false); // enable draw
-		
+
 		wireColor = Util.getThemeColor(getContext(), R.attr.wireColor);
 		controlColor = getResources().getColor(R.color.control);
-		
+
 		// Add each component
 		Component[] comps = cpu.getComponents();
 		for(Component c: comps) {
@@ -95,20 +95,20 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 			comp.setOnClickListener(this);
 			comp.setOnLongClickListener(this);
 		}
-		
+
 		// Add wires
 		for(Component c: comps) {
 			for(Output out: c.getOutputs())
 				if(out.isConnected())
 					wires.add(new Wire(out));
 		}
-		
+
 		// Set the size of the view
 		Dimension size = cpu.getSize();
 		setMinimumWidth(DrMIPS.getApplication().dipToPx(size.width));
 		setMinimumHeight(DrMIPS.getApplication().dipToPx(size.height));
 	}
-	
+
 	/**
 	 * Refreshes the values of the datapath.
 	 */
@@ -117,9 +117,9 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 			comp.refresh();
 		for(Wire w: wires)
 			w.refreshTips();
-		invalidate();	
+		invalidate();
 	}
-	
+
 	/**
 	 * Sets the control path elements visible or invisible.
 	 * @param visible Whether to set the control path visible or not.
@@ -134,7 +134,7 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 			w.refreshTips();
 		invalidate();
 	}
-	
+
 	/**
 	 * Sets whether to show arrows on the wires.
 	 * @param show Whether to show arrows on the wires.
@@ -143,7 +143,7 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 		this.showArrows = show;
 		invalidate();
 	}
-	
+
 	/**
 	 * Sets whether to show data (<tt>false</tt>) or performace (<tt>true</tt>) information.
 	 * @param performanceMode The mode.
@@ -153,7 +153,7 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 		refresh();
 		invalidate();
 	}
-	
+
 	/**
 	 * Returns whether the datapath is in performance mode.
 	 * @return The information to show (data when <tt>false</tt> or performance when <tt>true</tt>).
@@ -161,7 +161,7 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 	public boolean isInPerformanceMode() {
 		return performanceMode;
 	}
-	
+
 	/**
 	 * Sets whether to show in/out tips.
 	 * @param show Whether to show the tips or not.
@@ -198,7 +198,7 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 			                                                                       "component-description-dialog");
 		}
 	}
-	
+
 	@Override
 	public boolean onLongClick(View v) {
 		if(v instanceof DatapathComponent && isInPerformanceMode()) {
@@ -218,10 +218,10 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 			for(Wire w: wires)
 				w.paint(canvas);
 		}
-		
+
 		super.onDraw(canvas);
 	}
-	
+
 	/**
 	 * Represents a graphical wire on the datapath.
 	 */
@@ -238,7 +238,7 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 		private IOPortTip outTip = null;
 		/** The tip for the input of the wire (if any). */
 		private IOPortTip inTip = null;
-		
+
 		/**
 		 * Creates a wire from an ouput.
 		 * @param out Output of a component (that is connected to an input).
@@ -287,7 +287,7 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 				inTip.setVisibility((showTips && (in.shouldShowTip() || showTipsForAllComps) && (controlPathVisible || !in.isInControlPath())) ? VISIBLE : GONE);
 			}
 		}
-		
+
 		/**
 		 * Draws the wire on the datapath.
 		 * @param canvas The canvas of the datapath view.
@@ -313,7 +313,7 @@ public class Datapath extends RelativeLayout implements View.OnClickListener, Vi
 					drawArrowTip(canvas, app.dipToPx(s.x), app.dipToPx(s.y), app.dipToPx(end.x), app.dipToPx(end.y), app.dipToPx(6));
 			}
 		}
-		
+
 		/**
 		 * Draws the arrow tip for the wire.
 		 * @param canvas The canvas of the datapath view.

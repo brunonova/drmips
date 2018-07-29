@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ import javax.swing.JOptionPane;
 
 /**
  * Dialog that displays information of the program.
- * 
+ *
  * @author Bruno Nova
  */
 public class DlgAbout extends javax.swing.JDialog {
@@ -62,8 +62,6 @@ public class DlgAbout extends javax.swing.JDialog {
         lblIcon = new javax.swing.JLabel();
         lblHomepage = new javax.swing.JLabel();
         lblAuthor = new javax.swing.JLabel();
-        lblDissertation = new javax.swing.JLabel();
-        lblFaculty = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         cmdOk = new javax.swing.JButton();
         cmdLicense = new javax.swing.JButton();
@@ -92,20 +90,6 @@ public class DlgAbout extends javax.swing.JDialog {
         lblAuthor.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         lblAuthor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblAuthor.setText("by_author");
-        lblAuthor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lblAuthor.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblAuthorMouseClicked(evt);
-            }
-        });
-
-        lblDissertation.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        lblDissertation.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblDissertation.setText("for_dissertation");
-
-        lblFaculty.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        lblFaculty.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblFaculty.setText(AppInfo.MAIN_AUTHOR_INSTITUTION);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -115,10 +99,8 @@ public class DlgAbout extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblIcon, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblFaculty, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
                     .addComponent(lblAuthor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblVersion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblDissertation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblHomepage, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -133,10 +115,6 @@ public class DlgAbout extends javax.swing.JDialog {
                 .addComponent(lblHomepage)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblAuthor)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblDissertation)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblFaculty)
                 .addContainerGap())
         );
 
@@ -206,19 +184,6 @@ public class DlgAbout extends javax.swing.JDialog {
 		}
     }//GEN-LAST:event_lblHomepageMouseClicked
 
-	@SuppressWarnings("UseSpecificCatch")
-    private void lblAuthorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAuthorMouseClicked
-		if(evt.getButton() == MouseEvent.BUTTON1) {
-			try {
-				Desktop.getDesktop().mail(new URI("mailto:" + AppInfo.MAIN_AUTHOR_EMAIL));
-			}
-			catch(Exception ex) {
-				LOG.log(Level.WARNING, "error opening e-mail program", ex);
-				JOptionPane.showMessageDialog(this, Lang.t("failed_to_open_email_program"), AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
-			}
-		}
-    }//GEN-LAST:event_lblAuthorMouseClicked
-
 	/**
 	 * Translates the form's strings.
 	 */
@@ -227,11 +192,9 @@ public class DlgAbout extends javax.swing.JDialog {
 		Lang.tButton(cmdOk, "ok");
 		Lang.tButton(cmdLicense, "license");
 		Lang.tButton(cmdCredits, "credits");
-		lblDissertation.setText(Lang.t("for_dissertation"));
-		String email_html = AppInfo.MAIN_AUTHOR_NAME_EMAIL.replace("<", "&lt;").replace(">", "&gt;");
-		lblAuthor.setText("<html>" + Lang.t("by_author", "<u>" + email_html + "</u>") + "</html>");
+		lblAuthor.setText("<html>" + Lang.t("by_author", AppInfo.MAIN_AUTHOR_NAME) + "</html>");
 	}
-	
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cmdCredits;
     private javax.swing.JButton cmdLicense;
@@ -239,8 +202,6 @@ public class DlgAbout extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblAuthor;
-    private javax.swing.JLabel lblDissertation;
-    private javax.swing.JLabel lblFaculty;
     private javax.swing.JLabel lblHomepage;
     private javax.swing.JLabel lblIcon;
     private javax.swing.JLabel lblVersion;

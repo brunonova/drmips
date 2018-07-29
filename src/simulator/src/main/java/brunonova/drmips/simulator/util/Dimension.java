@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@ package brunonova.drmips.simulator.util;
 
 /**
  * Simple abstraction that saves the size of a 2D object.
- * 
+ *
  * @author Bruno Nova
  */
 public final class Dimension {
@@ -42,7 +42,7 @@ public final class Dimension {
 	public Dimension(Dimension d) {
 		this(d.width, d.height);
 	}
-	
+
 	/**
 	 * Creates a dimension with the given parameters.
 	 * @param width The width.
@@ -52,7 +52,7 @@ public final class Dimension {
 		setWidth(width);
 		setHeight(height);
 	}
-	
+
 	/**
 	 * Updates the width.
 	 * @param width New value.

@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -47,9 +47,7 @@ public class DlgAbout extends DialogFragment implements DialogInterface.OnClickL
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		super.onCreateDialog(savedInstanceState);
 
-		String msg = getString(R.string.by) + ": " + AppInfo.MAIN_AUTHOR_NAME_EMAIL
-			+ "\n" + getString(R.string.for_dissertation)
-			+ "\n" + AppInfo.MAIN_AUTHOR_INSTITUTION;
+		String msg = getString(R.string.by) + ": " + AppInfo.MAIN_AUTHOR_NAME;
 
 		return new AlertDialog.Builder(getActivity())
 			.setTitle(AppInfo.NAME + " " + AppInfo.VERSION)

@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,13 +24,13 @@ import java.util.List;
 
 /**
  * Represents a pseudo-instruction.
- * 
+ *
  * @author Bruno Nova
  */
 public class PseudoInstruction extends AbstractInstruction {
 	/** The real instructions this pseudo-instruction should be converted to. */
 	private final List<String> instructions;
-	
+
 	/**
 	 * Creates a new pseudo-instruction.
 	 * @param mnemonic The pseudo-instruction's mnemonic.
@@ -40,7 +40,7 @@ public class PseudoInstruction extends AbstractInstruction {
 		super(mnemonic);
 		instructions = new LinkedList<>();
 	}
-	
+
 	/**
 	 * Adds the specified instruction to the list of instructions this pseudo-instruction should be converted to.
 	 * @param instruction The instruction to add.
@@ -48,25 +48,25 @@ public class PseudoInstruction extends AbstractInstruction {
 	 */
 	public void addInstruction(String instruction) throws InvalidInstructionSetException {
 		instruction = instruction.trim();
-		
+
 		// Validate instruction
 		if(instruction.isEmpty()) throw new InvalidInstructionSetException("Invalid pseudo-instruction " + getMnemonic() + "!");
 		String mnem = instruction.split("\\s+", 2)[0].toLowerCase();
 		if(mnem.equals(getMnemonic().toLowerCase()))
 			throw new InvalidInstructionSetException("Invalid pseudo-instruction " + mnem + "!");
-		
+
 		// Add instruction
 		instructions.add(instruction);
 	}
-	
+
 	/**
-	 * Returns the real instructions this pseudo-instruction should be converted to. 
+	 * Returns the real instructions this pseudo-instruction should be converted to.
 	 * @return The real instructions this pseudo-instruction should be converted to.
 	 */
 	public List<String> getInstructions() {
 		return instructions;
 	}
-	
+
 	/**
 	 * Returns whether the number of arguments is valid.
 	 * <p>That is, if the number of arguments defined in the "args" array in the JSON file
@@ -78,21 +78,21 @@ public class PseudoInstruction extends AbstractInstruction {
 	 */
 	public boolean isNumberOfArgumentsValid() {
 		int i, j, args = 0;
-		
+
 		for(String instruction: instructions) {
 			i = 0;
 			while((i = instruction.indexOf(InstructionSet.ARGUMENT_CHAR, i)) >= 0) { // check each # char
 				j = ++i;
 				while(j < instruction.length() && instruction.charAt(j) >= '0' && instruction.charAt(j) <= '9') // find the index of the last digit
 					j++;
-				if(i == j) 
+				if(i == j)
 					return false;
 				j = Integer.parseInt(instruction.substring(i, j));
 				if(j > args)
 						args = j;
 			}
 		}
-		
+
 		return args <= getNumberOfArguments();
 	}
 }

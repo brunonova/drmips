@@ -6,12 +6,12 @@
         <item >Decimal</item>
         <item >Hexadecimal</item>
     </string-array>
-    
+
     <string-array name="performance_types">
         <item >Instruction</item>
         <item >CPU</item>
     </string-array>
-    
+
     <string name="pc">Program Counter</string>
     <string name="pc_description">Contains the address of the instruction being executed.\nThe address is updated (with the value at the input) at the clock transition.</string>
     <string name="regbank">Register bank</string>
@@ -60,7 +60,7 @@
     <string name="forwarding_unit_description">Solves some data hazards by forwarding results from the MEM and WB stages back.\nThere is a forward when the value of a register used in the EX stage is determined in the next stages by a previous instruction.</string>
     <string name="hazard_detection_unit">Hazard detection unit</string>
     <string name="hazard_detection_unit_description">Detects when a stall should occur.\nThere is a stall when the value of a register used in the EX stage is loaded from memory in the MEM stage by the previous instruction.</string>
-    
+
     <string name="app_name" translatable="false">DrMIPS</string>
     <string name="app_description">Educational simulator of the MIPS processor.</string>
     <string name="settings">Settings</string>
@@ -142,7 +142,6 @@
     <string name="advised_to_display_control_path">It is advised to display the control path.</string>
     <string name="filename">File name</string>
     <string name="confirm_exit">Are you sure you want to exit the application?</string>
-    <string name="for_dissertation">for the Master\'s Dissertation of MIEIC</string>
     <string name="license">License</string>
     <string name="remove_latencies">Remove latencies</string>
     <string name="restore_latencies">Restore latencies</string>

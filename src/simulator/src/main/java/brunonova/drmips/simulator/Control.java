@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ import java.util.TreeMap;
 
 /**
  * Class with the information of the values of the outputs for each opcode for the control unit.
- * 
+ *
  * @author Bruno Nova
  */
 public class Control {
@@ -33,7 +33,7 @@ public class Control {
 	private final Map<Integer, Map<String, Integer>> map;
 	/** The sizes of each output. */
 	private final Map<String, Integer> out;
-	
+
 	/**
 	 * Creates a new control object.
 	 */
@@ -41,7 +41,7 @@ public class Control {
 		map = new TreeMap<>();
 		out = new TreeMap<>();
 	}
-	
+
 	/**
 	 * Adds the specified opcode to the map.
 	 * @param opcode Opcode to add.
@@ -49,7 +49,7 @@ public class Control {
 	public void addOpcode(int opcode) {
 		map.put(opcode, new TreeMap<String, Integer>());
 	}
-	
+
 	/**
 	 * Returns whether the specified opcode exists in the map.
 	 * @param opcode Opcode to check.
@@ -58,7 +58,7 @@ public class Control {
 	public boolean hasOpcode(int opcode) {
 		return map.containsKey(opcode);
 	}
-	
+
 	/**
 	 * Sets the value of the specified output for the given opcode.
 	 * @param opcode The opcode.
@@ -72,7 +72,7 @@ public class Control {
 		map.get(opcode).put(id, value);
 		out.put(id, 0);
 	}
-	
+
 	/**
 	 * Returns the data of the specified output for the given opcode.
 	 * @param opcode The opcode.
@@ -83,7 +83,7 @@ public class Control {
 		if(!hasOpcode(opcode) || !hasOut(id)) return 0;
 		return map.get(opcode).get(id);
 	}
-	
+
 	/**
 	 * Returns whether the control has the specified output.
 	 * @param id The identifier of the output to check.
@@ -92,7 +92,7 @@ public class Control {
 	public boolean hasOut(String id) {
 		return out.containsKey(id);
 	}
-	
+
 	/**
 	 * Returns the size of the specified output.
 	 * @param id The identifier of the output.
@@ -102,7 +102,7 @@ public class Control {
 		if(!hasOut(id)) return 1;
 		return out.get(id);
 	}
-	
+
 	/**
 	 * Returns the ids of all the outputs (ids and sizes).
 	 * @return Ids of all outputs.
@@ -110,14 +110,14 @@ public class Control {
 	public Set<String> getOutputsIds() {
 		return out.keySet();
 	}
-	
+
 	/**
 	 * Finishes the creation of the control.
 	 * <p>The sizes of the ouputs are calculated here.</p>
 	 */
 	public void finishCreation() {
 		int size, s;
-		
+
 		// Add missing outputs to opcodes
 		for(String id: out.keySet()) {
 			for(int opcode: map.keySet()) {
@@ -125,7 +125,7 @@ public class Control {
 					map.get(opcode).put(id, 0);
 			}
 		}
-		
+
 		// Find and update maximum sizes
 		for(String id: out.keySet()) {
 			size = 1;
@@ -133,7 +133,7 @@ public class Control {
 				s = Data.requiredNumberOfBits(getOutOfOpcode(opcode, id));
 				if(s > size) size = s;
 			}
-			
+
 			out.put(id, size); // update output size
 		}
 	}

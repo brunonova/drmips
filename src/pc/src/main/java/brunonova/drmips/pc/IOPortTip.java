@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ import javax.swing.SwingConstants;
 
 /**
  * The tip that is shown in the datapath for inputs/outputs.
- * 
+ *
  * @author Bruno Nova
  */
 public class IOPortTip extends JLabel {
@@ -43,7 +43,7 @@ public class IOPortTip extends JLabel {
 
 	/** Identifier of the input/output. */
 	private final String id;
-	
+
 	/**
 	 * Constructor.
 	 * @param id Identifier of the input/output.
@@ -105,7 +105,7 @@ public class IOPortTip extends JLabel {
 	public final void setValue(String value) {
 		setValue(value, false);
 	}
-	
+
 	private void resize() {
 		FontMetrics fm = getFontMetrics(FONT);
 		int w = fm.stringWidth(getText()) + 4;

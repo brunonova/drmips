@@ -39,10 +39,8 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="lblIcon" alignment="1" max="32767" attributes="0"/>
-                      <Component id="lblFaculty" alignment="0" pref="335" max="32767" attributes="0"/>
                       <Component id="lblAuthor" alignment="1" max="32767" attributes="0"/>
                       <Component id="lblVersion" alignment="0" max="32767" attributes="0"/>
-                      <Component id="lblDissertation" alignment="0" max="32767" attributes="0"/>
                       <Component id="lblHomepage" alignment="1" pref="335" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -61,11 +59,6 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="lblAuthor" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="lblDissertation" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="lblFaculty" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
-              </Group>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -110,33 +103,10 @@
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="by_author"/>
-            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-              <Color id="Hand Cursor"/>
-            </Property>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblAuthorMouseClicked"/>
           </Events>
-        </Component>
-        <Component class="javax.swing.JLabel" name="lblDissertation">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Dialog" size="12" style="0"/>
-            </Property>
-            <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="for_dissertation"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="lblFaculty">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Dialog" size="12" style="0"/>
-            </Property>
-            <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="AppInfo.MAIN_AUTHOR_INSTITUTION" type="code"/>
-            </Property>
-          </Properties>
         </Component>
       </SubComponents>
     </Container>

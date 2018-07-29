@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@ package brunonova.drmips.simulator.util;
 
 /**
  * Simple abstraction that saves some coordinates in a 2D space.
- * 
+ *
  * @author Bruno Nova
  */
 public final class Point {
@@ -34,7 +34,7 @@ public final class Point {
 	 */
 	public Point() {
 	}
-	
+
 	/**
 	 * Creates a copy of the given point.
 	 * @param p The point to copy from.
@@ -42,7 +42,7 @@ public final class Point {
 	public Point(Point p) {
 		this(p.x, p.y);
 	}
-	
+
 	/**
 	 * Creates a point with the given coordinates.
 	 * @param x X coordinate.

@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  * The table that presents the instructions being executed in the datapath tab.
- * 
+ *
  * @author Bruno Nova
  */
 public class ExecTable extends JTable {
@@ -42,7 +42,7 @@ public class ExecTable extends JTable {
 	private CPU cpu = null;
 	/** The format of the data (<tt>Util.BINARYL_FORMAT_INDEX/Util.DECIMAL_FORMAT_INDEX/Util.HEXADECIMAL_FORMAT_INDEX</tt>). */
 	private int dataFormat = DrMIPS.DEFAULT_DATAPATH_DATA_FORMAT;
-	
+
 	/**
 	 * Creates the registers table.
 	 */
@@ -55,7 +55,7 @@ public class ExecTable extends JTable {
 		setFont(new Font("Courier New", Font.BOLD, 12));
 		getTableHeader().setReorderingAllowed(false);
 	}
-	
+
 	/**
 	 * Defines the CPU that is executing the program.
 	 * @param cpu The CPU.
@@ -64,7 +64,7 @@ public class ExecTable extends JTable {
 	public void setCPU(CPU cpu, int format) {
 		this.cpu = cpu;
 		this.dataFormat = format;
-		
+
 		// Set the columns
 		model.setRowCount(0);
 		model.setColumnCount(0);
@@ -72,19 +72,19 @@ public class ExecTable extends JTable {
 			for(int i = 0; i < 5; i++) model.addColumn(null);
 		else
 			model.addColumn(null);
-		
+
 		model.setRowCount(1); // add 1 row
-		
+
 		refresh(format);
 	}
-	
+
 	/**
 	 * Refreshes the values in the table.
 	 */
 	public void refresh() {
 		refresh(dataFormat);
 	}
-	
+
 	/**
 	 * Refreshes the values in the table.
 	 * @param format The data format (<tt>Util.BINARYL_FORMAT_INDEX/v.DECIMAL_FORMAT_INDEX/Util.HEXADECIMAL_FORMAT_INDEX</tt>).
@@ -92,7 +92,7 @@ public class ExecTable extends JTable {
 	public void refresh(int format) {
 		if(model == null || cpu == null) return;
 		dataFormat = format;
-		
+
 		model.setValueAt(getInstructionInIndex(cpu.getPC().getCurrentInstructionIndex()), 0, 0);
 		if(cpu.isPipeline()) {
 			model.setValueAt(getInstructionInIndex(cpu.getIfIdReg().getCurrentInstructionIndex()), 0, 1);
@@ -100,10 +100,10 @@ public class ExecTable extends JTable {
 			model.setValueAt(getInstructionInIndex(cpu.getExMemReg().getCurrentInstructionIndex()), 0, 3);
 			model.setValueAt(getInstructionInIndex(cpu.getMemWbReg().getCurrentInstructionIndex()), 0, 4);
 		}
-		
+
 		repaint();
 	}
-	
+
 	/**
 	 * Returns the code line of the instruction in the specified index.
 	 * @param index Index of the instruction.
@@ -118,7 +118,7 @@ public class ExecTable extends JTable {
 	public String getToolTipText(MouseEvent event) {
 		if(cpu == null || model == null) return null;
 		AssembledInstruction i = null;
-		
+
 		switch(columnAtPoint(event.getPoint())) {
 			case 0: i = cpu.getInstructionMemory().getInstruction(cpu.getPC().getCurrentInstructionIndex()); break;
 			case 1: i = cpu.getInstructionMemory().getInstruction(cpu.getIfIdReg().getCurrentInstructionIndex()); break;
@@ -126,18 +126,18 @@ public class ExecTable extends JTable {
 			case 3: i = cpu.getInstructionMemory().getInstruction(cpu.getExMemReg().getCurrentInstructionIndex()); break;
 			case 4: i = cpu.getInstructionMemory().getInstruction(cpu.getMemWbReg().getCurrentInstructionIndex()); break;
 		}
-		
+
 		if(i != null) {
 			switch(dataFormat) {
 				case Util.BINARY_FORMAT_INDEX: return "<html><tt><b>" + Lang.t("type_x", i.getInstruction().getType().getId()) + ": " + i.getInstruction().getMnemonic() + "</b> (" + i.toBinaryString() + ")</tt></html>";
-				case Util.HEXADECIMAL_FORMAT_INDEX: return "<html><tt><b>" + Lang.t("type_x", i.getInstruction().getType().getId()) + ": "  + i.getInstruction().getMnemonic() + "</b> (" + i.toHexadecimalString() + ")</tt></html>";	
+				case Util.HEXADECIMAL_FORMAT_INDEX: return "<html><tt><b>" + Lang.t("type_x", i.getInstruction().getType().getId()) + ": "  + i.getInstruction().getMnemonic() + "</b> (" + i.toHexadecimalString() + ")</tt></html>";
 				default:return "<html><tt><b>" + Lang.t("type_x", i.getInstruction().getType().getId()) + ": "  + i.getInstruction().getMnemonic() + "</b> (" + i.toString() + ")</tt></html>";
 			}
 		}
 		else
 			return null;
 	}
-	
+
 	@Override
 	public boolean isCellEditable(int row, int column) {
 		return false;
@@ -160,7 +160,7 @@ public class ExecTable extends JTable {
 					case 4: setBackground(Util.wbColor); break;
 				}
 			}
-			
+
 			return c;
 		}
 	}

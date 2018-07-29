@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,13 +20,13 @@ package brunonova.drmips.pc;
 
 /**
  * Find/replace dialog.
- * 
+ *
  * @author Bruno Nova
  */
 public class DlgFindReplace extends javax.swing.JDialog {
 	/** The parent window of this dialog. */
 	private final FrmSimulator parent;
-	
+
 	/**
 	 * Creates new form DlgFindReplace
 	 * @param parent The simulator's main window.
@@ -195,7 +195,7 @@ public class DlgFindReplace extends javax.swing.JDialog {
 		chkBackwards.setText(Lang.t("backwards"));
 		pack();
 	}
-	
+
 	/**
 	 * Closes the window.
 	 */
@@ -203,7 +203,7 @@ public class DlgFindReplace extends javax.swing.JDialog {
 		parent.clearFind();
 		setVisible(false);
 	}
-	
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox chkBackwards;
     private javax.swing.JCheckBox chkMatchCase;

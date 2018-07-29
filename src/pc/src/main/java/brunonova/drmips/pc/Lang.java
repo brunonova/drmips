@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ import javax.swing.UIManager;
  * Invalid lines or lines starting with '#' are ignored silently.<br>
  * A '&' indicates that the next character can be used as a button mnemonic (write
  * "&&" to display a '&').</p>
- * 
+ *
  * <p>The default (en) language file has the name "lang.properties".<br>
  * Translated language files should have a name of the kind "lang_LANGUAGE.properties",
  * where LANGUAGE should be one of:
@@ -47,7 +47,7 @@ import javax.swing.UIManager;
  * <li>lang_language_COUNTRY_variation.properties (ex: lang_pt_PT_ao.properties)</li>
  * </ul>
  * </p>
- * 
+ *
  * @author Bruno Nova
  */
 public class Lang {
@@ -65,7 +65,7 @@ public class Lang {
 	public static final char MNEMONIC_CHAR = '&';
 	/** The character that can indicate a string argument, if followed by a number starting from 1. */
 	public static final char ARG_CHAR = '#';
-	
+
 	/** The loaded locale. */
 	private static Locale locale;
 	/** The locale of the sistem. */
@@ -76,10 +76,10 @@ public class Lang {
 	private static ClassLoader loader;
 	/** The resource bundle that contains the translated strings. */
 	private static ResourceBundle strings;
-	
+
 	/** Class logger. */
 	private static final Logger LOG = Logger.getLogger(Lang.class.getName());
-	
+
 	/**
 	 * Loads the strings of the specified language.
 	 * @param language Language (just the name part of the file name).
@@ -93,11 +93,11 @@ public class Lang {
 			setDefaultLanguage(DEFAULT_LANGUAGE); // set default language
 			LOG.log(Level.INFO, "language files are in: {0}", file);
 		}
-		
+
 		// Load the strings
 		locale = getLocaleForLanguage(language);
 		strings = ResourceBundle.getBundle(FILENAME_BASE_NAME, locale, loader);
-		
+
 		// Translate message box buttons and mnemonics
 		UIManager.put("OptionPane.okButtonText", Lang.t("ok"));
 		UIManager.put("OptionPane.cancelButtonText", Lang.t("cancel"));
@@ -107,7 +107,7 @@ public class Lang {
 		UIManager.put("OptionPane.cancelButtonMnemonic", "" + (int)Lang.mnemonic("cancel"));
 		UIManager.put("OptionPane.yesButtonMnemonic", "" + (int)Lang.mnemonic("yes"));
 		UIManager.put("OptionPane.noButtonMnemonic", "" + (int)Lang.mnemonic("no"));
-		
+
 		// Translate file chooser text
 		UIManager.put("FileChooser.lookInLabelText", Lang.t("look_in") + ":");
 		UIManager.put("FileChooser.saveInLabelText", Lang.t("save_in") + ":");
@@ -143,7 +143,7 @@ public class Lang {
 		UIManager.put("FileChooser.upFolderActionLabelText", Lang.t("go_up"));
 		UIManager.put("FileChooser.homeFolderActionLabelText", Lang.t("go_home"));
 	}
-	
+
 	/**
 	 * Tries to load the user preferred language (defined in the preferences).
 	 * If it fails, tries to load the default language.
@@ -156,7 +156,7 @@ public class Lang {
 			String sysLangLCV = loc.getLanguage() + "_" + loc.getCountry() + "_" + loc.getVariant();
 			String sysLangLC = loc.getLanguage() + "_" + loc.getCountry();
 			String sysLangL = loc.getLanguage();
-			
+
 			// try language selected in the preferences
 			if(isLanguageAvailable(prefLang)) {
 				load(prefLang);
@@ -194,7 +194,7 @@ public class Lang {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Returns the translated string from the resource bundle.
 	 * If the string is not found, it returns the key converted to upper case
@@ -212,7 +212,7 @@ public class Lang {
 			return key.toUpperCase();
 		}
 	}
-	
+
 	/**
 	 * Returns the translated string for the specified key.
 	 * <p>Any mnemonic characters are removed (unless the char is doubled).</p>
@@ -266,7 +266,7 @@ public class Lang {
 		else
 			return '\0';
 	}
-	
+
 	/**
 	 * Shortcut function to translate a button type component.
 	 * @param btn Button type component.
@@ -276,7 +276,7 @@ public class Lang {
 		btn.setText(t(key));
 		btn.setMnemonic(mnemonic(key));
 	}
-	
+
 	/**
 	 * Shortcut function to translate a button type component.
 	 * @param btn Button type component.
@@ -287,7 +287,7 @@ public class Lang {
 		btn.setText(t(key, args));
 		btn.setMnemonic(mnemonic(key));
 	}
-	
+
 	/**
 	 * Shortcut function to translate a button type component.
 	 * @param btn Button type component.
@@ -298,7 +298,7 @@ public class Lang {
 		tButton(btn, key);
 		btn.setToolTipText(t(tooltipKey));
 	}
-	
+
 	/**
 	 * Shortcut function to translate a button type component.
 	 * @param btn Button type component.
@@ -311,7 +311,7 @@ public class Lang {
 		tButton(btn, key, textArgs);
 		btn.setToolTipText(t(tooltipKey, tooltipArgs));
 	}
-	
+
 	/**
 	 * Returns the loaded locale.
 	 * @return The loaded locale.
@@ -319,7 +319,7 @@ public class Lang {
 	public static Locale getLocale() {
 		return locale;
 	}
-	
+
 	/**
 	 * Returns the loaded language name.
 	 * @return The loaded language.
@@ -327,7 +327,7 @@ public class Lang {
 	public static String getLanguage() {
 		return locale.toString();
 	}
-	
+
 	/**
 	 * Returns the display name for the specified locale.
 	 * @param locale The desired locale.
@@ -338,7 +338,7 @@ public class Lang {
 		String name = locale.getDisplayName(currentLocale);
 		return name.isEmpty() ? locale.toString() : name;
 	}
-	
+
 	/**
 	 * Returns the display name for the specified language.
 	 * @param language The desired language.
@@ -347,7 +347,7 @@ public class Lang {
 	public static String getDisplayName(String language) {
 		return getDisplayName(getLocaleForLanguage(language));
 	}
-	
+
 	/**
 	 * Returns the system locale.
 	 * @return System locale.
@@ -357,7 +357,7 @@ public class Lang {
 			systemLocale = Locale.getDefault();
 		return systemLocale;
 	}
-	
+
 	/**
 	 * Updates the default language.
 	 * @param language New default language.
@@ -366,7 +366,7 @@ public class Lang {
 		getSystemLocale(); // save system locale
 		Locale.setDefault(getLocaleForLanguage(language));
 	}
-	
+
 	/**
 	 * Returns the correct Locale for the specified language name.
 	 * @param language Desired language.
@@ -381,7 +381,7 @@ public class Lang {
 			default: return new Locale(fields[0], fields[1], fields[2]);
 		}
 	}
-	
+
 	/**
 	 * Returns the set of available languages.
 	 * @return Set of available languages.
@@ -391,7 +391,7 @@ public class Lang {
 			fillAvailableLanguages();
 		return availableLanguages;
 	}
-	
+
 	/**
 	 * Returns whether the specified language is available.
 	 * @param language Language to query.
@@ -400,7 +400,7 @@ public class Lang {
 	public static boolean isLanguageAvailable(String language) {
 		return getAvailableLanguages().contains(language);
 	}
-	
+
 	/**
 	 * Fills <tt>availableLanguages</tt> with the list of available languages.
 	 * This method is called automatically by <tt>getAvailableLanguages()</tt>.
@@ -408,7 +408,7 @@ public class Lang {
 	private static void fillAvailableLanguages() {
 		availableLanguages = new TreeSet<>();
 		availableLanguages.add(DEFAULT_LANGUAGE); // add default language
-		
+
 		// Find all the language files
 		File langDir = new File(DrMIPS.path + File.separator + FILENAME_PATH);
 		if(langDir.isDirectory()) {

@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ import java.util.TreeSet;
 
 /**
  * The class that assembles code into MIPS assembled instructions and loads data values from the <tt>.data</tt> section.
- * 
+ *
  * @author Bruno Nova
  */
 public class Assembler {
@@ -39,14 +39,14 @@ public class Assembler {
 	public static final String LABEL_REGEX = "^[a-zA-z][a-zA-Z0-9_]*$";
 	/** The possible segment types. */
 	private enum Segment {TEXT, DATA}
-	
+
 	/** The CPU this assembler is assembling to. */
 	private final CPU cpu;
 	/** The text segment labels in the code and their lines. */
 	private Map<String, Integer> textLabels;
 	/** The data segment labels in the code and their addresses. */
 	private Map<String, Integer> dataLabels;
-	
+
 	/**
 	 * Creates the assembler.
 	 * @param cpu The CPU this assembler is assembling to.
@@ -54,7 +54,7 @@ public class Assembler {
 	public Assembler(CPU cpu) {
 		this.cpu = cpu;
 	}
-	
+
 	/**
 	 * Assembles the given code and updates the CPU's instruction and data memory-
 	 * @param code The code to assemble.
@@ -72,7 +72,7 @@ public class Assembler {
 		dataLabels = new TreeMap<>();
 		Segment currentSegment = Segment.TEXT;
 		List<SyntaxErrorException> errors = new LinkedList<>();
-		
+
 		// Parse each line
 		for(int i = 0; i < codeLines.length; i++) {
 			try {
@@ -157,7 +157,7 @@ public class Assembler {
 				errors.add(ex);
 			}
 		}
-		
+
 		// Assemble the instructions
 		for(int i = 0; i < lines.size(); i++) {
 			try {
@@ -167,22 +167,22 @@ public class Assembler {
 				errors.add(ex);
 			}
 		}
-		
+
 		// Add the labels to the instructions
 		for(Map.Entry<String, Integer> e: textLabels.entrySet()) {
 			if(e.getValue() >= 0 && e.getValue() < instructions.size())
 				instructions.get(e.getValue()).addLabel(e.getKey());
 		}
-		
+
 		if(!errors.isEmpty()) {
 			SyntaxErrorException first = errors.get(0);
 			first.setOtherErrors(errors);
 			throw first;
 		}
-		
+
 		cpu.loadProgram(instructions);
 	}
-	
+
 	/**
 	 * Returns the intructions that the given pseudo instruction.
 	 * <p>Labels are ignored in this method.</p>
@@ -191,13 +191,13 @@ public class Assembler {
 	 */
 	public List<String> interpretPseudoInstruction(String line) {
 		String[] split;
-		
+
 		line = line.split("" + COMMENT_CHAR, 2)[0].trim(); // remove comment, if any
 		if(line.contains(":")) line = line.split(":")[1].trim(); // remove label, if any
 		split = line.split("\\s+", 2); // split mnemonic and args
 		String mnemonic = split[0].trim();
 		String[] args = (split.length == 2) ? split[1].trim().split(",") : new String[0]; // split args, if any
-		
+
 		try {
 			return interpretPseudoInstruction(mnemonic, args, 1);
 		}
@@ -205,7 +205,7 @@ public class Assembler {
 			return new LinkedList<>();
 		}
 	}
-	
+
 	/**
 	 * Returns all the valid labels that are in the code.
 	 * @param code The code where to search.
@@ -216,7 +216,7 @@ public class Assembler {
 		String[] lines = code.split("\n");
 		String label;
 		int i;
-		
+
 		for(String line: lines) {
 			i = line.indexOf(':');
 			if(i != -1 && line.lastIndexOf(COMMENT_CHAR, i - 1) == -1) {
@@ -225,10 +225,10 @@ public class Assembler {
 					labels.add(label);
 			}
 		}
-		
+
 		return labels;
 	}
-	
+
 	/**
 	 * Interprets a pseudo-instruction into instructions.
 	 * @param mnemonic The mnemonic of the pseudo-instruction.
@@ -241,14 +241,14 @@ public class Assembler {
 		PseudoInstruction pseudo = cpu.getInstructionSet().getPseudoInstruction(mnemonic);
 		String[] split;
 		String m;
-		
-		if(pseudo.getNumberOfArguments() != args.length) 
+
+		if(pseudo.getNumberOfArguments() != args.length)
 			throw new SyntaxErrorException(SyntaxErrorException.Type.WRONG_NUMBER_OF_ARGUMENTS, lineNumber, "" + pseudo.getNumberOfArguments(), "" + args.length);
-		
+
 		for(String instruction: pseudo.getInstructions()) { // assemble pseudo-instruction instructions
 			for(int i = 0; i < args.length; i++)
 				instruction = instruction.replace(InstructionSet.ARGUMENT_CHAR + "" + (i + 1), args[i].trim()).trim();
-			
+
 			// Check if the interpreted instruction is another pseudo-instruction
 			split = instruction.split("\\s+", 2); // split mnemonic and args
 			m = split[0].trim();
@@ -259,10 +259,10 @@ public class Assembler {
 			else
 				instructions.add(instruction);
 		}
-		
+
 		return instructions;
 	}
-	
+
 	/**
 	 * Assembles an instruction into an assembled instruction.
 	 * @param line The line with the instruction.
@@ -276,17 +276,17 @@ public class Assembler {
 		String[] split = inst.split("\\s+", 2); // split mnemonic and args
 		String mnemonic = split[0].trim();
 		String[] args = (split.length == 2) ? split[1].trim().split(",") : new String[0]; // split args, if any
-		
+
 		if(!cpu.getInstructionSet().hasInstruction(mnemonic))
 			throw new SyntaxErrorException(SyntaxErrorException.Type.UNKNOWN_INSTRUCTION, lineNumber, mnemonic);
-		
+
 		Instruction instruction = cpu.getInstructionSet().getInstruction(mnemonic);
 		Data data = new Data();
 		Instruction.FieldValue f;
 		int value = 0;
 		if(instruction.getNumberOfArguments() != args.length)
 			throw new SyntaxErrorException(SyntaxErrorException.Type.WRONG_NUMBER_OF_ARGUMENTS, lineNumber, "" + instruction.getNumberOfArguments(), "" + args.length);
-		
+
 		for(InstructionType.Field field: instruction.getType().getFields()) {
 			f = instruction.getField(field);
 			if(f instanceof Instruction.FieldConstant) {
@@ -310,10 +310,10 @@ public class Assembler {
 			}
 			data.setValue(data.getValue() | field.getValueInField(value));
 		}
-		
+
 		return new AssembledInstruction(instruction, data, line, lineNumber);
 	}
-	
+
 	/**
 	 * Returns the specified address aligned to word boundary (ex: returns 16 if address=15)-
 	 * @param address The address to align.
@@ -322,7 +322,7 @@ public class Assembler {
 	private int alignAddressToWord(int address) {
 		return (address + 3) >> 2 << 2;
 	}
-	
+
 	/**
 	 * Parses an integer from an instruction argument.
 	 * @param arg The instruction argument.
@@ -344,7 +344,7 @@ public class Assembler {
 				throw new SyntaxErrorException(SyntaxErrorException.Type.INVALID_INT_ARG, lineNumber, arg);
 		}
 	}
-	
+
 	/**
 	 * Parses a register identifier from an instruction argument.
 	 * @param arg The instruction argument.
@@ -359,7 +359,7 @@ public class Assembler {
 		else
 			throw new SyntaxErrorException(SyntaxErrorException.Type.INVALID_REG_ARG, lineNumber, arg);
 	}
-	
+
 	/**
 	 * Parses a target address from an instruction argument.
 	 * @param arg The instruction argument.
@@ -379,7 +379,7 @@ public class Assembler {
 				throw new SyntaxErrorException(SyntaxErrorException.Type.UNKNOWN_LABEL, lineNumber, arg);
 		}
 	}
-	
+
 	/**
 	 * Parses an address offset from an instruction argument.
 	 * @param arg The instruction argument.
@@ -401,7 +401,7 @@ public class Assembler {
 				throw new SyntaxErrorException(SyntaxErrorException.Type.UNKNOWN_LABEL, lineNumber, arg);
 		}
 	}
-	
+
 	/**
 	 * Parses the data base address from an instruction argument.
 	 * @param arg The instruction argument.
@@ -424,7 +424,7 @@ public class Assembler {
 				throw new SyntaxErrorException(SyntaxErrorException.Type.UNKNOWN_LABEL, lineNumber, arg);
 		}
 	}
-	
+
 	/**
 	 * Parses the data offset register from an instruction argument.
 	 * @param arg The instruction argument.
@@ -448,7 +448,7 @@ public class Assembler {
 				throw new SyntaxErrorException(SyntaxErrorException.Type.INVALID_DATA_ARG, lineNumber, arg);
 		}
 	}
-	
+
 	/**
 	 * Saves a line of code (pseudo-instructions already interpreted) and it's original line number.
 	 */

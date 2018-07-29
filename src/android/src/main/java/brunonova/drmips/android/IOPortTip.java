@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ import android.widget.Toast;
 
 /**
  * The tip that is shown in the datapath for inputs/outputs.
- * 
+ *
  * @author Bruno Nova
  */
 @SuppressLint("ViewConstructor")
@@ -40,7 +40,7 @@ public class IOPortTip extends TextView implements View.OnClickListener {
 	private final String id;
 	/** The "tooltip" to display when pressed. */
 	private String tooltip;
-	
+
 	/**
 	 * Constructor.
 	 * @param context The context of the tip.
@@ -57,13 +57,13 @@ public class IOPortTip extends TextView implements View.OnClickListener {
 		setBackgroundResource(R.drawable.tip_back);
 		setTextSize(TypedValue.COMPLEX_UNIT_DIP, 9);
 		setPadding(2, 1, 2, 1);
-		
+
 		DrMIPS app = DrMIPS.getApplication();
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		params.topMargin = app.dipToPx(y + 1);
 		params.leftMargin = app.dipToPx(x - 3);
 		setLayoutParams(params);
-		
+
 		setOnClickListener(this);
 		setValue(value);
 	}

@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -79,7 +79,7 @@ public class DrMIPSActivity extends Activity {
 	private SpinnersListener spinnersListener = new SpinnersListener();
 	/** The datapath being shown. */
 	private Datapath datapath = null;
-	
+
 	private TabHost tabHost;
 	private EditText txtCode;
 	private TextView lblFilename, lblCPUFilename, lblDatapathFormat, lblDatapathPerformance;
@@ -100,12 +100,12 @@ public class DrMIPSActivity extends Activity {
 		setContentView(R.layout.activity_dr_mips);
 
 		createTabs();
-		
+
 		// Open last or default CPU (but not when restoring from a screen rotation, etc.)
 		if(savedInstanceState == null || getCPU() == null)
 			loadFirstCPU();
-		
-		
+
+
 		// Open last code file, if any
 		String name = DrMIPS.getApplication().getPreferences().getString(DrMIPS.LAST_FILE_PREF, null);
 		if(name != null) {
@@ -119,7 +119,7 @@ public class DrMIPSActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.dr_mips, menu);
-		
+
 		mnuDelete = menu.findItem(R.id.mnuDelete);
 		mnuStep = menu.findItem(R.id.mnuStep);
 		mnuBackStep = menu.findItem(R.id.mnuBackStep);
@@ -145,14 +145,14 @@ public class DrMIPSActivity extends Activity {
 		mnuRemoveLatencies.setVisible(mnuPerformanceMode.isChecked());
 		mnuRestoreLatencies = menu.findItem(R.id.mnuRestoreLatencies);
 		mnuRestoreLatencies.setVisible(mnuPerformanceMode.isChecked());
-		
+
 		mnuDelete.setVisible(openFile != null);
 		updateStepBackEnabled();
 		updateStepEnabled();
-		
+
 		return true;
 	}
-	
+
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		if(outState != null) {
@@ -161,7 +161,7 @@ public class DrMIPSActivity extends Activity {
 		}
 		super.onSaveInstanceState(outState);
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		DlgConfirmExit.newInstance().show(getFragmentManager(), "confirm-exit-dialog");
@@ -174,7 +174,7 @@ public class DrMIPSActivity extends Activity {
 			lblCPUFilename.setText(getCPU().getFile().getName());
 			setSimulationControlsEnabled(savedInstanceState.getBoolean("step_enabled", false)); // restore simulation controls state
 			tabHost.setCurrentTab(savedInstanceState.getInt("tab", 0)); // restore current tab
-			
+
 			refreshDatapath(); // recreate datapath
 			datapath.setControlPathVisible(DrMIPS.getApplication().getPreferences().getBoolean(DrMIPS.SHOW_CONTROL_PATH_PREF, DrMIPS.DEFAULT_SHOW_CONTROL_PATH));
 			datapath.setShowArrows(DrMIPS.getApplication().getPreferences().getBoolean(DrMIPS.SHOW_ARROWS_PREF, DrMIPS.DEFAULT_SHOW_ARROWS));
@@ -209,39 +209,39 @@ public class DrMIPSActivity extends Activity {
 	public void mnuSaveAsOnClick(MenuItem menu) {
 		saveFileAs();
 	}
-	
+
 	public void mnuDeleteOnClick(MenuItem menu) {
 		deleteFile();
 	}
-	
+
 	public void mnuLoadCPUOnClick(MenuItem menu) {
 		loadCPU();
 	}
-	
+
 	public void mnuAssembleOnClick(MenuItem menu) {
 		assemble();
 	}
-	
+
 	public void mnuStepOnClick(MenuItem menu) {
 		step();
 	}
-	
+
 	public void mnuBackStepOnClick(MenuItem menu) {
 		backStep();
 	}
-	
+
 	public void mnuSwitchThemeOnClick(MenuItem menu) {
 		int newTheme;
 		if(DrMIPS.getApplication().getCurrentTheme() == R.style.LightTheme)
 			newTheme = R.style.DarkTheme;
 		else
 			newTheme = R.style.LightTheme;
-		
+
 		// Save the new theme in the preferences
 		SharedPreferences.Editor editor = DrMIPS.getApplication().getPreferences().edit();
 		editor.putInt(DrMIPS.THEME_PREF, newTheme);
 		editor.apply();
-		
+
 		// Restart the activity
 		recreate();
 	}
@@ -257,23 +257,23 @@ public class DrMIPSActivity extends Activity {
 	public void cmdSaveOnClick(View view) {
 		saveFile();
 	}
-	
+
 	public void cmdStepOnClick(View view) {
 		step();
 	}
-	
+
 	public void mnuControlPathOnClick(MenuItem menu) {
 		mnuControlPath.setChecked(!mnuControlPath.isChecked());
 		DrMIPS.getApplication().getPreferences().edit().putBoolean(DrMIPS.SHOW_CONTROL_PATH_PREF, mnuControlPath.isChecked()).apply();
 		datapath.setControlPathVisible(mnuControlPath.isChecked());
 	}
-	
+
 	public void mnuArrowsInWiresOnClick(MenuItem menu) {
 		mnuArrowsInWires.setChecked(!mnuArrowsInWires.isChecked());
 		DrMIPS.getApplication().getPreferences().edit().putBoolean(DrMIPS.SHOW_ARROWS_PREF, mnuArrowsInWires.isChecked()).apply();
 		datapath.setShowArrows(mnuArrowsInWires.isChecked());
 	}
-	
+
 	public void mnuPerformanceModeOnClick(MenuItem menu) {
 		mnuPerformanceMode.setChecked(!mnuPerformanceMode.isChecked());
 		DrMIPS.getApplication().getPreferences().edit().putBoolean(DrMIPS.PERFORMANCE_MODE_PREF, mnuPerformanceMode.isChecked()).apply();
@@ -285,7 +285,7 @@ public class DrMIPSActivity extends Activity {
 		if(mnuRemoveLatencies != null) mnuRemoveLatencies.setVisible(mnuPerformanceMode.isChecked());
 		if(mnuRestoreLatencies != null) mnuRestoreLatencies.setVisible(mnuPerformanceMode.isChecked());
 	}
-	
+
 	public void mnuOverlayedDataOnClick(MenuItem menu) {
 		mnuOverlayedData.setChecked(!mnuOverlayedData.isChecked());
 		mnuOverlayedShowNames.setVisible(mnuOverlayedData.isChecked());
@@ -309,37 +309,37 @@ public class DrMIPSActivity extends Activity {
 		getCPU().resetLatencies();
 		datapath.refresh();
 	}
-	
+
 	public void mnuRemoveLatenciesOnClick(MenuItem menu) {
 		getCPU().removeLatencies();
 		datapath.refresh();
 	}
-	
+
 	public void mnuStatisticsOnClick(MenuItem menu) {
 		DlgStatistics.newInstance().show(getFragmentManager(), "statistics-dialog");
 	}
-	
+
 	public void mnuRestartOnClick(MenuItem menu) {
 		restart();
 	}
-	
+
 	public void mnuRunOnClick(MenuItem menu) {
 		run();
 	}
-	
+
 	public void lblFilenameOnClick(View view) {
 		if(openFile != null)
 			Toast.makeText(this, openFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
 	}
-	
+
 	public void lblCPUFilenameOnClick(View view) {
 		Toast.makeText(this, getCPU().getFile().getAbsolutePath(), Toast.LENGTH_LONG).show();
 	}
-	
+
 	public void cmdCodeHelpOnClick(View view) {
 		DlgCodeHelp.newInstance().show(getFragmentManager(), "code-help-dialog");
 	}
-	
+
 	public void cmdDatapathHelpOnClick(View view) {
 		DlgDatapathHelp.newInstance(getDatapath().isInPerformanceMode()).show(getFragmentManager(), "datapath-help-dialog");
 	}
@@ -358,7 +358,7 @@ public class DrMIPSActivity extends Activity {
 		txtCode = (EditText)findViewById(R.id.txtCode);
 		lblFilename = (TextView)findViewById(R.id.lblFilename);
 		txtCode.addTextChangedListener(new CodeEditorTextWatcher());
-		
+
 		TabSpec tabAssembledCode = tabHost.newTabSpec("tabAssembledCode");
 		tabAssembledCode.setIndicator(getString(R.string.assembled));
 		tabAssembledCode.setContent(R.id.tabAssembledCode);
@@ -367,7 +367,7 @@ public class DrMIPSActivity extends Activity {
 		cmbAssembledCodeFormat = (Spinner)findViewById(R.id.cmbAssembledCodeFormat);
 		cmbAssembledCodeFormat.setOnItemSelectedListener(spinnersListener);
 		cmbAssembledCodeFormat.setSelection(DrMIPS.getApplication().getPreferences().getInt(DrMIPS.ASSEMBLED_CODE_FORMAT_PREF, DrMIPS.DEFAULT_ASSEMBLED_CODE_FORMAT));
-		
+
 		TabSpec tabDatapath = tabHost.newTabSpec("tabDatapath");
 		tabDatapath.setIndicator(getString(R.string.datapath));
 		tabDatapath.setContent(R.id.tabDatapath);
@@ -390,7 +390,7 @@ public class DrMIPSActivity extends Activity {
 		cmbDatapathPerformance.setVisibility(!performanceMode ? View.GONE : View.VISIBLE);
 		tblExec = (TableLayout)findViewById(R.id.tblExec);
 		tblExecRow = (TableRow)findViewById(R.id.tblExecRow);
-		
+
 		TabSpec tabRegisters = tabHost.newTabSpec("tabRegisters");
 		tabRegisters.setIndicator(getString(R.string.registers));
 		tabRegisters.setContent(R.id.tabRegisters);
@@ -399,7 +399,7 @@ public class DrMIPSActivity extends Activity {
 		cmbRegistersFormat = (Spinner)findViewById(R.id.cmbRegistersFormat);
 		cmbRegistersFormat.setOnItemSelectedListener(spinnersListener);
 		cmbRegistersFormat.setSelection(DrMIPS.getApplication().getPreferences().getInt(DrMIPS.REGISTER_FORMAT_PREF, DrMIPS.DEFAULT_REGISTER_FORMAT));
-		
+
 		TabSpec tabDataMemory = tabHost.newTabSpec("tabDataMemory");
 		tabDataMemory.setIndicator(getString(R.string.data_memory));
 		tabDataMemory.setContent(R.id.tabDataMemory);
@@ -409,7 +409,7 @@ public class DrMIPSActivity extends Activity {
 		cmbDataMemoryFormat.setOnItemSelectedListener(spinnersListener);
 		cmbDataMemoryFormat.setSelection(DrMIPS.getApplication().getPreferences().getInt(DrMIPS.DATA_MEMORY_FORMAT_PREF, DrMIPS.DEFAULT_DATA_MEMORY_FORMAT));
 	}
-	
+
 	/**
 	 * Returns the currently loaded CPU.
 	 * @return Current CPU.
@@ -417,7 +417,7 @@ public class DrMIPSActivity extends Activity {
 	public CPU getCPU() {
 		return DrMIPS.getApplication().getCPU();
 	}
-	
+
 	/**
 	 * Returns the selected datapath data format.
 	 * @return Datapath data format.
@@ -479,14 +479,14 @@ public class DrMIPSActivity extends Activity {
 		else
 			saveFileAs();
 	}
-	
+
 	/**
 	 * Shows the file chooser to save the code to a file.
 	 */
 	private void saveFileAs() {
 		DlgSave.newInstance(openFile != null ? openFile.getName() : "").show(getFragmentManager(), "save-dialog");
 	}
-	
+
 	/**
 	 * Deletes the currently open file, after confirmation.
 	 */
@@ -495,7 +495,7 @@ public class DrMIPSActivity extends Activity {
 			DlgConfirmDelete.newInstance(openFile.getPath()).show(getFragmentManager(), "confirm-delete-dialog");
 		}
 	}
-	
+
 	/**
 	 * Shows the file chooser to load a CPU.
 	 */
@@ -511,7 +511,7 @@ public class DrMIPSActivity extends Activity {
 			DlgOpenCPU.newInstance(cpuFiles).show(getFragmentManager(), "open-cpu-dialog");
 		}
 	}
-	
+
 	/**
 	 * Opens and loads the code from the given file.
 	 * @param file The file to open.
@@ -519,12 +519,12 @@ public class DrMIPSActivity extends Activity {
 	public void openFile(File file) {
 		try {
 			String code = "", line;
-			
+
 			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF8"));
 			while((line = reader.readLine()) != null)
 				code += line + "\n";
 			reader.close();
-			
+
 			txtCode.setText(code);
 			setOpenedFile(file);
 			tabHost.setCurrentTabByTag("tabCode");
@@ -536,7 +536,7 @@ public class DrMIPSActivity extends Activity {
 			Log.e(getClass().getName(), "error opening file \"" + file.getName() + "\"", ex);
 		}
 	}
-	
+
 	/**
 	 * Saves the code to the specified file.
 	 * @param file File to save to.
@@ -556,7 +556,7 @@ public class DrMIPSActivity extends Activity {
 			Log.e(getClass().getName(), "error saving file \"" + file.getName() + "\"", ex);
 		}
 	}
-	
+
 	/**
 	 * Loads the CPU from the specified file.
 	 * @param file File to load the CPU from.
@@ -566,7 +566,7 @@ public class DrMIPSActivity extends Activity {
 		CPU cpu = CPU.createFromJSONFile(file.getAbsolutePath()); // load CPU from file
 		cpu.setPerformanceInstructionDependent(cmbDatapathPerformance.getSelectedItemPosition() == Util.INSTRUCTION_PERFORMANCE_TYPE_INDEX);
 		DrMIPS.getApplication().setCPU(cpu);
-		
+
 		refreshRegistersTable(); // display the CPU's register table
 		refreshDatapath(); // display datapath in the respective tab
 		refreshAssembledCodeTable(); // display assembled code in the respective tab
@@ -578,13 +578,13 @@ public class DrMIPSActivity extends Activity {
 		datapath.setShowTips(DrMIPS.getApplication().getPreferences().getBoolean(DrMIPS.OVERLAYED_DATA_PREF, DrMIPS.DEFAULT_OVERLAYED_DATA));
 		datapath.setShowTipsNames(DrMIPS.getApplication().getPreferences().getBoolean(DrMIPS.OVERLAYED_SHOW_NAMES_PREF, DrMIPS.DEFAULT_OVERLAYED_SHOW_NAMES));
 		datapath.setShowTipsForAllComps(DrMIPS.getApplication().getPreferences().getBoolean(DrMIPS.OVERLAYED_SHOW_FOR_ALL_PREF, DrMIPS.DEFAULT_OVERLAYED_SHOW_FOR_ALL));
-		
+
 		lblCPUFilename.setText(cpu.getFile().getName());
 		SharedPreferences.Editor editor = DrMIPS.getApplication().getPreferences().edit();
 		editor.putString(DrMIPS.LAST_CPU_PREF, file.getName());
 		editor.apply();
 	}
-	
+
 	/**
 	 * Loads the last used CPU file or the default one.
 	 */
@@ -609,7 +609,7 @@ public class DrMIPSActivity extends Activity {
 	public void setCurrentTab(String tag) {
 		tabHost.setCurrentTabByTag(tag);
 	}
-	
+
 	/**
 	 * Enables of disables the simulation controls.
 	 * @param enabled Whether to enable or disable the controls.
@@ -627,7 +627,7 @@ public class DrMIPSActivity extends Activity {
 			updateStepBackEnabled();
 		}
 	}
-	
+
 	/**
 	 * Sets the "step" controls enabled or disabled according to <tt>cpu.isProgramFinished()</tt>.
 	 */
@@ -637,7 +637,7 @@ public class DrMIPSActivity extends Activity {
 		if(mnuStep != null) mnuStep.setVisible(enable);
 		if(mnuRun != null) mnuRun.setVisible(enable);
 	}
-	
+
 	/**
 	 * Sets the "step back" controls enabled or disabled according to <tt>cpu.hasPreviousCycle()</tt>.
 	 */
@@ -646,7 +646,7 @@ public class DrMIPSActivity extends Activity {
 		if(mnuBackStep != null) mnuBackStep.setVisible(enable);
 		if(mnuRestart != null) mnuRestart.setVisible(enable);
 	}
-	
+
 	/**
 	 * Assembles and loads the code from the Code tab.
 	 */
@@ -654,7 +654,7 @@ public class DrMIPSActivity extends Activity {
 		getCPU().resetData();
 		try {
 			getCPU().assembleCode(txtCode.getText().toString());
-			
+
 			if(datapath != null) datapath.refresh();
 			setSimulationControlsEnabled(true);
 			refreshAssembledCodeTable();
@@ -677,7 +677,7 @@ public class DrMIPSActivity extends Activity {
 				case DATA_SEGMENT_WITHOUT_DATA_MEMORY: message += getString(R.string.data_segment_without_data_memory); break;
 				default: message = ex.getMessage();
 			}
-			
+
 			Toast.makeText(this, message, Toast.LENGTH_LONG).show();
 		}
 	}
@@ -733,7 +733,7 @@ public class DrMIPSActivity extends Activity {
 		getCPU().executeCycle();
 		refreshValues();
 	}
-	
+
 	/**
 	 * Reverts the execution to the previous clock cycle.
 	 */
@@ -741,7 +741,7 @@ public class DrMIPSActivity extends Activity {
 		getCPU().restorePreviousCycle();
 		refreshValues();
 	}
-	
+
 	/**
 	 * Reverts the execution to the first clock cycle.
 	 */
@@ -749,7 +749,7 @@ public class DrMIPSActivity extends Activity {
 		getCPU().resetToFirstCycle();
 		refreshValues();
 	}
-	
+
 	/**
 	 * Executes all the instructions at once.
 	 */
@@ -762,14 +762,14 @@ public class DrMIPSActivity extends Activity {
 		}
 		refreshValues();
 	}
-	
+
 	/**
 	 * Refreshes the contents of the code table.
 	 */
 	private void refreshAssembledCodeTable() {
 		while(tblAssembledCode.getChildCount() > 1) // remove all rows except header
 			tblAssembledCode.removeViewAt(1);
-		
+
 		AssembledInstruction instruction;
 		TableRow row;
 		TextView address, assembled, code;
@@ -800,17 +800,17 @@ public class DrMIPSActivity extends Activity {
 			row.addView(code);
 			tblAssembledCode.addView(row);
 		}
-		
+
 		refreshAssembledCodeTableValues();
 	}
-	
+
 	/**
 	 * Refreshes the assembled code table highlights.
 	 */
 	private void refreshAssembledCodeTableValues() {
 		TableRow row;
 		CPU cpu = getCPU();
-		
+
 		for(int i = 0; i < cpu.getInstructionMemory().getNumberOfInstructions(); i++) {
 			row = (TableRow)tblAssembledCode.getChildAt(i + 1);
 
@@ -832,17 +832,17 @@ public class DrMIPSActivity extends Activity {
 			else
 				row.setBackgroundResource(0); // remove background color
 		}
-		
+
 		tblAssembledCode.requestLayout();
 	}
-	
+
 	/**
 	 * Refreshes both the rows and values of the registers table.
 	 */
 	private void refreshRegistersTable() {
 		while(tblRegisters.getChildCount() > 1) // remove all rows except header
 			tblRegisters.removeViewAt(1);
-		
+
 		// Add registers
 		CPU cpu = getCPU();
 		int numRegs = cpu.getRegBank().getNumberOfRegisters();
@@ -866,7 +866,7 @@ public class DrMIPSActivity extends Activity {
 			row.addView(value);
 			tblRegisters.addView(row);
 		}
-		
+
 		// Add special "registers" (PC,...)
 		row = new TableRow(this);
 		row.setOnLongClickListener(registersRowOnLongClickListener);
@@ -881,10 +881,10 @@ public class DrMIPSActivity extends Activity {
 		row.addView(register);
 		row.addView(value);
 		tblRegisters.addView(row);
-		
+
 		refreshRegistersTableValues(); // refresh values
 	}
-	
+
 	/**
 	 * Refreshes the values of the registers table.
 	 */
@@ -903,7 +903,7 @@ public class DrMIPSActivity extends Activity {
 			row = (TableRow)tblRegisters.getChildAt(i + 1);
 			value = (TextView)row.getChildAt(1);
 			value.setText(Util.formatDataAccordingToFormat(cpu.getRegBank().getRegister(i), cmbRegistersFormat.getSelectedItemPosition()));
-			
+
 			// Highlight registers being accessed
 			if(write && i == regW && !cpu.getRegBank().isRegisterConstant(regW)) {
 				if(i == reg1 || i == reg2)
@@ -916,21 +916,21 @@ public class DrMIPSActivity extends Activity {
 			else
 				row.setBackgroundResource(0); // remove background color
 		}
-		
+
 		// Special "registers"
 		value = (TextView)((TableRow)tblRegisters.getChildAt(numRegs + 1)).getChildAt(1);
 		value.setText(Util.formatDataAccordingToFormat(cpu.getPC().getAddress(), cmbRegistersFormat.getSelectedItemPosition()));
-		
+
 		tblRegisters.requestLayout();
 	}
-	
+
 	/**
 	 * Refreshes both the rows and values of the data memory table.
 	 */
 	private void refreshDataMemoryTable() {
 		while(tblDataMemory.getChildCount() > 1) // remove all rows except header
 			tblDataMemory.removeViewAt(1);
-		
+
 		CPU cpu = getCPU();
 		if(cpu.hasDataMemory()) {
 			TableRow row;
@@ -949,11 +949,11 @@ public class DrMIPSActivity extends Activity {
 				row.addView(value);
 				tblDataMemory.addView(row);
 			}
-			
+
 			refreshDataMemoryTableValues(); // refresh values
 		}
 	}
-	
+
 	/**
 	 * Refreshes the values of the registers table.
 	 */
@@ -969,7 +969,7 @@ public class DrMIPSActivity extends Activity {
 				value = (TextView)row.getChildAt(1);
 				address.setText(Util.formatDataAccordingToFormat(new Data(Data.DATA_SIZE, i * (Data.DATA_SIZE / 8)), cmbDataMemoryFormat.getSelectedItemPosition()) + " ");
 				value.setText(Util.formatDataAccordingToFormat(new Data(Data.DATA_SIZE, cpu.getDataMemory().getDataInIndex(i)), cmbDataMemoryFormat.getSelectedItemPosition()));
-				
+
 				// Highlight memory positions being accessed
 				int index = cpu.getDataMemory().getAddress().getValue() / (Data.DATA_SIZE / 8);
 				boolean read = cpu.getDataMemory().getMemRead().getValue() == 1;
@@ -989,7 +989,7 @@ public class DrMIPSActivity extends Activity {
 			tblDataMemory.requestLayout();
 		}
 	}
-	
+
 	/**
 	 * Returns the name of the register in the indicated row.
 	 * @param row Row of the register in the table.
@@ -1004,7 +1004,7 @@ public class DrMIPSActivity extends Activity {
 		else
 			return null;
 	}
-	
+
 	/**
 	 * Returns the data of the register in the indicated row.
 	 * @param row Row of the register in the table.
@@ -1019,7 +1019,7 @@ public class DrMIPSActivity extends Activity {
 		else
 			return null;
 	}
-	
+
 	/**
 	 * Updates the value of the register in the indicated row, if editable.
 	 * @param row Row of the register in the table.
@@ -1039,12 +1039,12 @@ public class DrMIPSActivity extends Activity {
 			}
 			else if(row >= 0 && row < cpu.getRegBank().getNumberOfRegisters()) // register
 				cpu.getRegBank().setRegister(row, value);
-			
+
 			if(datapath != null) datapath.refresh(); // update datapath
 			refreshExecTableValues();
 		}
 	}
-	
+
 	/**
 	 * Returns whether register in the indicated row is editable.
 	 * @param row Row of the register in the table.
@@ -1059,7 +1059,7 @@ public class DrMIPSActivity extends Activity {
 		else
 			return false;
 	}
-	
+
 	/**
 	 * Recreates the datapath.
 	 */
@@ -1067,7 +1067,7 @@ public class DrMIPSActivity extends Activity {
 		datapathScroll.removeAllViews();
 		datapathScroll.addView(datapath = new Datapath(this));
 	}
-	
+
 	/**
 	 * Returns the datapath.
 	 * @return The datapath.
@@ -1075,14 +1075,14 @@ public class DrMIPSActivity extends Activity {
 	public Datapath getDatapath() {
 		return datapath;
 	}
-	
+
 	/**
 	 * Recreates the exec table.
 	 */
 	private void refreshExecTable() {
 		tblExecRow.removeAllViews();
 		TextView lbl;
-		
+
 		if(getCPU().isPipeline()) {
 			for(int i = 0; i < 5; i++) {
 				lbl = new TextView(this);
@@ -1113,10 +1113,10 @@ public class DrMIPSActivity extends Activity {
 			tblExecRow.addView(lbl);
 			tblExec.setStretchAllColumns(true);
 		}
-		
+
 		refreshExecTableValues();
 	}
-	
+
 	/**
 	 * Refreshes the values of the exec table.
 	 */
@@ -1130,7 +1130,7 @@ public class DrMIPSActivity extends Activity {
 			((TextView)tblExecRow.getChildAt(4)).setText(getInstructionInIndex(cpu.getMemWbReg().getCurrentInstructionIndex()));
 		}
 	}
-	
+
 	/**
 	 * Returns the code line of the instruction in the specified index.
 	 * @param index Index of the instruction.
@@ -1140,14 +1140,14 @@ public class DrMIPSActivity extends Activity {
 		AssembledInstruction i = getCPU().getInstructionMemory().getInstruction(index);
 		return (i != null) ? i.getCodeLine() : "";
 	}
-	
+
 	private class CPUFileFilter implements FilenameFilter {
 		@Override
 		public boolean accept(File dir, String filename) {
 			return filename.endsWith(".cpu");
 		}
 	}
-	
+
 	private class AssembledCodeRowOnClickListener implements OnClickListener {
 		@Override
 		public void onClick(View v) {
@@ -1165,7 +1165,7 @@ public class DrMIPSActivity extends Activity {
 			}
 		}
 	}
-	
+
 	private class RegistersRowOnLongClickListener implements OnLongClickListener {
 		@Override
 		public boolean onLongClick(View v) {
@@ -1183,7 +1183,7 @@ public class DrMIPSActivity extends Activity {
 			return true;
 		}
 	}
-	
+
 	private class DataMemoryRowOnLongClickListener implements OnLongClickListener {
 		@Override
 		public boolean onLongClick(View v) {
@@ -1195,13 +1195,13 @@ public class DrMIPSActivity extends Activity {
 			return true;
 		}
 	}
-	
+
 	private class SpinnersListener implements OnItemSelectedListener {
 
 		@Override
 		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 			SharedPreferences.Editor editor = DrMIPS.getApplication().getPreferences().edit();
-			if(parent == cmbAssembledCodeFormat) { 
+			if(parent == cmbAssembledCodeFormat) {
 				refreshAssembledCodeTable();
 				editor.putInt(DrMIPS.ASSEMBLED_CODE_FORMAT_PREF, cmbAssembledCodeFormat.getSelectedItemPosition());
 				editor.apply();
@@ -1232,14 +1232,14 @@ public class DrMIPSActivity extends Activity {
 		@Override
 		public void onNothingSelected(AdapterView<?> parent) { }
 	}
-	
+
 	private class ExecTableOnClickListener implements OnClickListener {
 		@Override
 		public void onClick(View v) {
 			int index = tblExecRow.indexOfChild(v);
 			AssembledInstruction i = null;
 			CPU cpu = getCPU();
-			
+
 			switch(index) {
 				case 0: i = cpu.getInstructionMemory().getInstruction(cpu.getPC().getCurrentInstructionIndex()); break;
 				case 1: if(cpu.isPipeline()) i = cpu.getInstructionMemory().getInstruction(cpu.getIfIdReg().getCurrentInstructionIndex()); break;
@@ -1247,7 +1247,7 @@ public class DrMIPSActivity extends Activity {
 				case 3: if(cpu.isPipeline()) i = cpu.getInstructionMemory().getInstruction(cpu.getExMemReg().getCurrentInstructionIndex()); break;
 				case 4: if(cpu.isPipeline()) i = cpu.getInstructionMemory().getInstruction(cpu.getMemWbReg().getCurrentInstructionIndex()); break;
 			}
-			
+
 			if(i != null) {
 				String msg = getString(R.string.type_x).replace("#1", i.getInstruction().getType().getId());
 				msg += ": " + i.getInstruction().getMnemonic() + " (";
@@ -1260,7 +1260,7 @@ public class DrMIPSActivity extends Activity {
 			}
 		}
 	}
-	
+
 	/**
 	 * Watcher that disables the simulation controls when the code is changed.
 	 */
@@ -1268,12 +1268,12 @@ public class DrMIPSActivity extends Activity {
 
 		@Override
 		public void afterTextChanged(Editable s) {
-			
+
 		}
 
 		@Override
 		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			
+
 		}
 
 		@Override

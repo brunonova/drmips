@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ import brunonova.drmips.simulator.components.*;
 
 /**
  * Graphical component that displays a CPU component.
- * 
+ *
  * @author Bruno Nova
  */
 @SuppressLint("ViewConstructor")
@@ -51,18 +51,18 @@ public class DatapathComponent extends TextView {
 		this.activity = activity;
 		this.component = component;
 		DrMIPS app = DrMIPS.getApplication();
-		
+
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(app.dipToPx(component.getSize().width), app.dipToPx(component.getSize().height));
 		params.topMargin = app.dipToPx(component.getPosition().y);
 		params.leftMargin = app.dipToPx(component.getPosition().x);
 		setLayoutParams(params);
-		
+
 		setGravity(Gravity.CENTER);
 		setText(component.getDisplayName());
 		setTextSize(TypedValue.COMPLEX_UNIT_DIP, 9);
 		setTextColor(Color.BLACK);
 		setTypeface(Typeface.MONOSPACE);
-		
+
 		if(component instanceof Fork || component instanceof Concatenator || component instanceof Distributor) {
 			if(component.isInControlPath())
 				setBackgroundResource(R.drawable.aux_control_comp_back);
@@ -85,7 +85,7 @@ public class DatapathComponent extends TextView {
 				setBackgroundResource(R.drawable.normal_comp_back);
 		}
 	}
-	
+
 	/**
 	 * Returns the respective CPU component.
 	 * @return The respective CPU component.
@@ -93,7 +93,7 @@ public class DatapathComponent extends TextView {
 	public Component getComponent() {
 		return component;
 	}
-	
+
 	/**
 	 * Refreshes the component's information, and possibly other things.
 	 */

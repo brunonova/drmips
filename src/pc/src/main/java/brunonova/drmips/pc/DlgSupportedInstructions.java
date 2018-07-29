@@ -1,6 +1,6 @@
 /*
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@ import brunonova.drmips.simulator.PseudoInstruction;
 
 /**
  * Supported instructions dialog.
- * 
+ *
  * @author Bruno Nova
  */
 public class DlgSupportedInstructions extends javax.swing.JDialog {
@@ -34,7 +34,7 @@ public class DlgSupportedInstructions extends javax.swing.JDialog {
 	private static final int PSEUDO_INSTRUCTIONS_INDEX = 1;
 	/** Index of the directives tab. */
 	private static final int DIRECTIVES_INDEX = 2;
-	
+
 	/**
 	 * Creates new form DlgSupportedInstructions
 	 * @param parent The simulator's main window.
@@ -123,7 +123,7 @@ public class DlgSupportedInstructions extends javax.swing.JDialog {
 		pnlTabs.setTitleAt(INSTRUCTIONS_INDEX, Lang.t("instructions"));
 		pnlTabs.setTitleAt(PSEUDO_INSTRUCTIONS_INDEX, Lang.t("pseudo_instructions"));
 		pnlTabs.setTitleAt(DIRECTIVES_INDEX, Lang.t("directives"));
-		
+
 		tblDirectives.clear();
 		tblDirectives.addInstruction(".data", Lang.t("data_directive"));
 		tblDirectives.addInstruction(".space", Lang.t("space_directive"));
@@ -131,7 +131,7 @@ public class DlgSupportedInstructions extends javax.swing.JDialog {
 		tblDirectives.addInstruction(".word", Lang.t("word_directive"));
 		tblDirectives.packFirstColumn();
 	}
-	
+
 	/**
 	 * Refreshes the contents of the tables for the specified CPU.
 	 * @param cpu The CPU to get the supported instructions from.
@@ -142,21 +142,21 @@ public class DlgSupportedInstructions extends javax.swing.JDialog {
 		for(Instruction i: cpu.getInstructionSet().getInstructions())
 			tblInstructions.addInstruction(i.getUsage(), i.getDescription());
 		tblInstructions.packFirstColumn();
-		
+
 		// Pseudo-instructions
 		tblPseudoInstructions.clear();
 		for(PseudoInstruction i: cpu.getInstructionSet().getPseudoInstructions())
 			tblPseudoInstructions.addInstruction(i.getUsage(), i.getDescription());
 		tblPseudoInstructions.packFirstColumn();
 	}
-	
+
 	/**
 	 * Closes the window.
 	 */
 	private void close() {
 		setVisible(false);
 	}
-	
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cmdClose;
     private javax.swing.JPanel jPanel1;
