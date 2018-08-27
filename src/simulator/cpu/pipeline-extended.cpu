@@ -21,7 +21,8 @@
 		"ForkRs2":    {"type": "Fork", "x": 215, "y": 235, "size": 5, "in": "In", "out": ["Out1", "Out2"]},
 		"ForkRt3":    {"type": "Fork", "x": 220, "y": 255, "size": 5, "in": "In", "out": ["Out1", "Out2"]},
 		"NotStall":   {"type": "Not", "x": 175, "y": 2, "in": "In", "out": "Out"},
-		"ForkWrite":  {"type": "Fork", "x": 190, "y": 50, "size": 1, "in": "In", "out": ["Out1", "Out2"]},
+		"OrWrite":    {"type": "Or", "x": 135, "y": 2, "in1": "In1", "in2": "In2", "out": "Out"},
+		"ForkWrite":  {"type": "Fork", "x": 150, "y": 50, "size": 1, "in": "In", "out": ["Out1", "Out2"]},
 
 		"ID/EX":      {"type": "PipelineRegister", "x": 390, "y": 110, "regs": {"ReadData1": 32, "ReadData2": 32, "NewPC": 32, "Imm": 32, "Rs": 5, "Rt": 5, "Rd": 5, "RegDst": 1, "ALUOp": 2, "ALUSrc": 1, "Branch": 1, "MemRead": 1, "MemWrite": 1, "MemToReg": 1, "RegWrite": 1}, "desc": {"default": "Register that separates two pipeline stages.\nThe values that transition to the next stage are stored here temporarily.\nIf Flush is active, all values are set to zero, inserting a NOP instruction.", "pt": "Registo que separa duas etapas do pipeline.\nOs valores que transitam para a próxima etapa são armazenados aqui temporariamente.\nSe Flush estiver activo, todos os valores são colocados a zero, inserindo uma instrução NOP."}},
 
@@ -53,6 +54,7 @@
 		"ForkBr1":    {"type": "Fork", "x": 555, "y": 62, "size": 1, "in": "In", "out": ["Out1", "Out2"]},
 		"ForkBr2":    {"type": "Fork", "x": 397, "y": 62, "size": 1, "in": "In", "out": ["Out1", "Out2"]},
 		"ForkBr3":    {"type": "Fork", "x": 185, "y": 62, "size": 1, "in": "In", "out": ["Out1", "Out2"]},
+		"ForkBr4":    {"type": "Fork", "x": 170, "y": 62, "size": 1, "in": "In", "out": ["Out1", "Out2"]},
 		"OrFlush":    {"type": "Or", "x": 375, "y": 70, "in1": "In1", "in2": "In2", "out": "Out"},
 
 		"MEM/WB":     {"type": "PipelineRegister", "x": 680, "y": 110, "regs": {"Result": 32, "ReadData": 32, "RegBankDst": 5, "MemToReg": 1, "RegWrite": 1}, "desc": {"default": "Register that separates two pipeline stages.\nThe values that transition to the next stage are stored here temporarily.", "pt": "Registo que separa duas etapas do pipeline.\nOs valores que transitam para a próxima etapa são armazenados aqui temporariamente."}},
@@ -103,8 +105,9 @@
 		{"from": "ForkStall", "out": "Out1", "to": "OrFlush", "in": "In1", "points": [{"x": 382, "y": 5}], "end": {"x": 382, "y": 70}},
 		{"from": "OrFlush", "out": "Out", "to": "ID/EX", "in": "Flush", "start": {"x": 395, "y": 100}},
 		{"from": "ForkStall", "out": "Out2", "to": "NotStall", "in": "In", "end": {"x": 205, "y": 5}},
-		{"from": "NotStall", "out": "Out", "to": "ForkWrite", "in": "In", "start": {"x": 190, "y": 32}},
-		{"from": "ForkWrite", "out": "Out1", "to": "IF/ID", "in": "Write"},
+		{"from": "NotStall", "out": "Out", "to": "OrWrite", "in": "In1", "start": {"x": 175, "y": 12}, "end": {"x": 165, "y": 12}},
+		{"from": "OrWrite", "out": "Out", "to": "ForkWrite", "in": "In", "start": {"x": 150, "y": 32}},
+		{"from": "ForkWrite", "out": "Out1", "to": "IF/ID", "in": "Write", "points": [{"x": 190, "y": 50}]},
 		{"from": "ForkWrite", "out": "Out2", "to": "PC", "in": "Write", "points": [{"x": 55, "y": 50}]},
 
 		{"from": "ID/EX", "out": "ReadData1", "to": "MuxFwdA", "in": "0", "start": {"x": 405, "y": 248}, "end": {"x": 425, "y": 248}},
@@ -166,8 +169,10 @@
 		{"from": "ForkBr1", "out": "Out2", "to": "EX/MEM", "in": "Flush"},
 		{"from": "ForkBr2", "out": "Out1", "to": "ForkBr3", "in": "In"},
 		{"from": "ForkBr2", "out": "Out2", "to": "OrFlush", "in": "In2", "end": {"x": 397, "y": 70}},
-		{"from": "ForkBr3", "out": "Out1", "to": "MuxPC", "in": "PCSrc", "points": [{"x": 22, "y": 62}]},
+		{"from": "ForkBr3", "out": "Out1", "to": "ForkBr4", "in": "In"},
 		{"from": "ForkBr3", "out": "Out2", "to": "IF/ID", "in": "Flush"},
+		{"from": "ForkBr4", "out": "Out1", "to": "MuxPC", "in": "PCSrc", "points": [{"x": 22, "y": 62}]},
+		{"from": "ForkBr4", "out": "Out2", "to": "OrWrite", "in": "In2", "points": [{"x": 170, "y": 22}], "end": {"x": 165, "y": 22}},
 		{"from": "EX/MEM", "out": "MemRead", "to": "DataMem", "in": "MemRead", "start": {"x": 565, "y": 140}, "points": [{"x": 590, "y": 140}], "end": {"x": 590, "y": 242}},
 		{"from": "EX/MEM", "out": "MemWrite", "to": "DataMem", "in": "MemWrite", "start": {"x": 565, "y": 135}, "points": [{"x": 650, "y": 135}], "end": {"x": 650, "y": 242}},
 		{"from": "EX/MEM", "out": "MemToReg", "to": "MEM/WB", "in": "MemToReg", "start": {"x": 565, "y": 130}, "end": {"x": 680, "y": 130}},
