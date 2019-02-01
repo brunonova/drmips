@@ -119,6 +119,8 @@ public class CPU {
 	private int stalls = 0;
 	/** Whether the latencies and critical path should depend on the current instruction. */
 	private boolean performanceInstructionDependent = false;
+	/** Breakpoint addr . */
+	private int breakpointAddr = -1;
 
 	/**
 	 * Constructor that should by called by other constructors.
@@ -604,6 +606,7 @@ public class CPU {
 
 	/**
 	 * Executes the currently loaded program until the end.
+	 * Or until we hit the breakpoint
 	 * @throws InfiniteLoopException If the <tt>EXECUTE_ALL_LIMIT_CYCLES</tt> limit has been reached (possible infinite loop).
 	 */
 	public void executeAll() throws InfiniteLoopException {
@@ -612,7 +615,20 @@ public class CPU {
 			if(cycles++ > EXECUTE_ALL_LIMIT_CYCLES) // prevent possible infinite cycles
 				throw new InfiniteLoopException();
 			executeCycle();
+
+			// check if we have hit the breakpoint
+			if (getPC().getAddress().getValue() == breakpointAddr)
+			{
+				break;
+			}
 		}
+	}
+
+	/**
+	 * Sets the breakpoint address.
+	 */
+	public void setBreakpointAddr(int addr) {
+		breakpointAddr = addr;
 	}
 
 	/**
