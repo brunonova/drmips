@@ -337,6 +337,7 @@ public class FrmSimulator extends javax.swing.JFrame {
         mnuBackStep = new javax.swing.JMenuItem();
         mnuStep = new javax.swing.JMenuItem();
         mnuRun = new javax.swing.JMenuItem();
+        mnuBreak = new javax.swing.JMenuItem();
         jSeparator10 = new javax.swing.JPopupMenu.Separator();
         mnuResetDataBeforeAssembling = new javax.swing.JCheckBoxMenuItem();
         mnuCPU = new javax.swing.JMenu();
@@ -1236,6 +1237,15 @@ public class FrmSimulator extends javax.swing.JFrame {
             }
         });
         mnuExecute.add(mnuRun);
+
+        mnuBreak.setText("add breakpoint");
+        mnuBreak.setEnabled(false);
+        mnuBreak.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuBreakActionPerformed(evt);
+            }
+        });
+        mnuExecute.add(mnuBreak);
         mnuExecute.add(jSeparator10);
 
         mnuResetDataBeforeAssembling.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
@@ -1560,6 +1570,10 @@ public class FrmSimulator extends javax.swing.JFrame {
     private void mnuRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRunActionPerformed
 		run();
     }//GEN-LAST:event_mnuRunActionPerformed
+
+    private void mnuBreakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBreakActionPerformed
+        addBreakpoint();
+    }//GEN-LAST:event_mnuBreakActionPerformed
 
     private void mnuDocsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDocsActionPerformed
 		openDocDir();
@@ -2004,6 +2018,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		Lang.tButton(mnuBackStep, "back_step");
 		Lang.tButton(mnuStep, "step");
 		Lang.tButton(mnuRun, "run");
+		Lang.tButton(mnuBreak, "add breakpoint");
 		Lang.tButton(mnuZoomIn, "zoom_in");
 		Lang.tButton(mnuZoomOut, "zoom_out");
 		Lang.tButton(mnuZoomNormal, "normal");
@@ -2199,6 +2214,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 			mnuRestart.setEnabled(false);
 			mnuStep.setEnabled(false);
 			mnuRun.setEnabled(false);
+			mnuBreak.setEnabled(false);
 			cmdBackStep.setEnabled(false);
 			cmdRestart.setEnabled(false);
 			cmdStep.setEnabled(false);
@@ -2217,6 +2233,7 @@ public class FrmSimulator extends javax.swing.JFrame {
 		boolean enable = !cpu.isProgramFinished();
 		mnuStep.setEnabled(enable);
 		mnuRun.setEnabled(enable);
+		mnuBreak.setEnabled(enable);
 		cmdStep.setEnabled(enable);
 		cmdRun.setEnabled(enable);
 	}
@@ -2337,6 +2354,36 @@ public class FrmSimulator extends javax.swing.JFrame {
 			JOptionPane.showMessageDialog(this, Lang.t("possible_infinite_loop", CPU.EXECUTE_ALL_LIMIT_CYCLES), AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
 		}
 		refreshValues();
+	}
+
+	/**
+	 * Add a breakpoint.
+	 */
+	private void addBreakpoint() {
+
+		String inputValue = JOptionPane.showInputDialog(this, "Set breakpoint address (empty for disable)", AppInfo.NAME, JOptionPane.QUESTION_MESSAGE);
+		if (inputValue == "") {
+			cpu.setBreakpointAddr(-1);
+			return;
+		}
+
+		boolean err = false;
+
+		try {
+			int addr = Integer.parseInt(inputValue);
+			if ((addr < 0) || ((addr % 4) != 0)) {
+				err = true;
+			}
+			else {
+				cpu.setBreakpointAddr(addr);
+			}
+		}
+		catch(NumberFormatException ex) {
+			err = true;
+		}
+
+		if (err)
+			JOptionPane.showMessageDialog(this, "Breakpoint address must positive and a multiple of 4", AppInfo.NAME, JOptionPane.ERROR_MESSAGE);
 	}
 
 	/**
@@ -2914,6 +2961,7 @@ public class FrmSimulator extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuRestart;
     private javax.swing.JMenuItem mnuRestoreLatencies;
     private javax.swing.JMenuItem mnuRun;
+    private javax.swing.JMenuItem mnuBreak;
     private javax.swing.JMenuItem mnuSave;
     private javax.swing.JMenuItem mnuSaveAs;
     private javax.swing.JMenuItem mnuSelectAll;
