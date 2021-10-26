@@ -4,17 +4,13 @@ layout: default
 
 ## About DrMIPS
 
-DrMIPS is a graphical simulator of the [MIPS][MIPS] processor to support computer 
+DrMIPS is a graphical simulator of the [MIPS][MIPS] processor to support computer
 architecture teaching and learning. It is intuitive, versatile and configurable.
 
-The simulator is available not only for personal computers but also for Android 
+The simulator is available not only for personal computers but also for Android
 devices, especially tablets.
 
-DrMIPS was created under the Master's dissertation entitled 
-*Tool to Support Computer Architecture Teaching and Learning* at 
-[FEUP][FEUP].
-
-DrMIPS is open-source and licensed under the [GPLv3][gpl3], so you are free to 
+DrMIPS is open-source and licensed under the [GPLv3][gpl3], so you are free to
 use, redistribute, modify and improve it (under certain conditions). Feel free
 to [contribute][contribute]!
 
@@ -70,8 +66,8 @@ and shifts are not supported.
 ### Papers
 
 *   Bruno Nova, João C. Ferreira and António Araújo,
-    ["Tool to Support Computer Architecture Teaching and Learning"][paper_cispee], 
-    *1st International Conference of the Portuguese Society for Engineering Education (CISPEE)*, 
+    ["Tool to Support Computer Architecture Teaching and Learning"][paper_cispee],
+    *1st International Conference of the Portuguese Society for Engineering Education (CISPEE)*,
     2013.
 *   Bruno Nova, António Araújo and João C. Ferreira,
     ["Ferramenta de Apoio ao Ensino e Aprendizagem de Arquitectura de Computadores"][paper_ticai],
@@ -96,9 +92,6 @@ You can find the changelog and older releases in the project's
 Check [this page][install] for instructions on how to install and run the
 simulator.
 
-If you know what PGP is, you can find the signatures of the downloadable files
-in the [Releases page][releases], and you can download my PGP key [here][pgp].
-
 
 ### Be informed of new releases
 
@@ -120,7 +113,7 @@ You can also view it [online][documentation].
 ## License
 
     DrMIPS - Educational MIPS simulator
-    Copyright (C) 2013-2015 Bruno Nova <brunomb.nova@gmail.com>
+    Copyright (C) 2013-2015 Bruno Nova
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -141,14 +134,12 @@ You can read the full license text [here][gpl3].
 
 [paper_cispee]: papers/cispee13_24.pdf "Paper: Tool to Support Computer Architecture Teaching and Learning"
 [paper_ticai]: papers/ticai13-14_cap2.pdf "Paper: Ferramenta de Apoio ao Ensino e Aprendizagem de Arquitectura de Computadores"
-[pgp]: brunonova.asc "Bruno Nova's PGP key"
 [install]: install/ "Installation instructions"
 [releases]: {{ site.repourl }}/releases "DrMIPS releases"
 [rel_feed]: {{ site.repourl }}/releases.atom "DrMIPS releases feed"
 [issues]: {{ site.repourl }}/issues "DrMIPS issue tracker"
 [contribute]: {{ site.repourl }}/blob/master/CONTRIBUTING.md
 
-[FEUP]: http://www.fe.up.pt/ "Faculdade de Engenharia da Universidade do Porto"
 [MIPS]: http://en.wikipedia.org/wiki/MIPS_architecture "MIPS architecture - Wikipedia"
 [gpl3]: http://www.gnu.org/licenses/gpl-3.0.html "GNU General Public License v3"
 [documentation]: https://cdn.rawgit.com/brunonova/drmips/v2.0.3/doc/manuals/index.html "DrMIPS - Documentation"
