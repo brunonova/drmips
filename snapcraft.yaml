@@ -1,5 +1,5 @@
 name: drmips
-version: 2.0.2-1
+version: 2.0.4-1
 summary: Educational MIPS simulator
 description: |
   DrMIPS is a graphical simulator of the MIPS processor to support computer
@@ -22,7 +22,7 @@ apps:
 parts:
   drmips:
     plugin: cmake
-    source: https://github.com/brunonova/drmips/releases/download/v2.0.2/DrMIPS_v2.0.2.tar.xz
+    source: https://github.com/brunonova/drmips/releases/download/v2.0.4/DrMIPS_v2.0.4.tar.gz
     configflags:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DDRMIPS_BUILD_TESTS=Off
