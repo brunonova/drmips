@@ -65,7 +65,7 @@ public class ForwardingUnit extends Component {
 				getForwardA().setValue(2);
 			else if(getMemWbRegWrite().getValue() == 1 && // MEM hazard
 				!regbank.isRegisterConstant(getMemWbRd().getValue()) &&
-				getExMemRd().getValue() != getIdExRs().getValue() &&
+				//getExMemRd().getValue() != getIdExRs().getValue() &&
 				getMemWbRd().getValue() == getIdExRs().getValue())
 				getForwardA().setValue(1);
 			else
@@ -77,7 +77,7 @@ public class ForwardingUnit extends Component {
 				getForwardB().setValue(2);
 			else if(getMemWbRegWrite().getValue() == 1 && // MEM hazard
 				!regbank.isRegisterConstant(getMemWbRd().getValue()) &&
-				getExMemRd().getValue() != getIdExRt().getValue() &&
+				//getExMemRd().getValue() != getIdExRt().getValue() &&
 				getMemWbRd().getValue() == getIdExRt().getValue())
 				getForwardB().setValue(1);
 			else
